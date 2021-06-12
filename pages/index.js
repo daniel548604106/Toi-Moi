@@ -1,9 +1,10 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import Login from '../components/Login/Index'
-import Sidebar from '../components/Home/Sidebar'
-import Feed from '../components/Home/Feed/Index'
-import Contacts from '../components/Home/Contacts/Index'
+import Head from 'next/head';
+import Image from 'next/image';
+import Login from '../components/Login/Index';
+import Sidebar from '../components/Home/Sidebar';
+import Feed from '../components/Home/Feed/Index';
+import Contacts from '../components/Home/Contacts/Index';
+import { useSelector } from 'react-redux';
 export default function Home() {
   return (
     <div className="bg-gray-100">
@@ -13,10 +14,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-full flex justify-between p-3">
-        <Sidebar/>
-        <Feed/>
-        <Contacts/>
+        <Sidebar />
+        <Feed />
+        <Contacts />
       </main>
     </div>
-  )
+  );
 }

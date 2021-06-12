@@ -4,6 +4,9 @@ const app = express()
 const server = require('http').createServer(app)
 const dev = process.env.NODE_ENV !== 'production'
 
+
+
+
 //The custom server uses the following import to connect the server with the Next.js application:
 
 const next = require('next')

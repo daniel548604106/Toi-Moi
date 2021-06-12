@@ -8,7 +8,6 @@ const SearchResultList = ({username, name,profileImage,searchText,Icon}) => {
     <div className="flex items-center p-[10px] rounded-md hover:bg-gray-200 " onClick={() => router.push(`/${username}`) }>
       {
         name && (
-        
             profileImage ? (
               <Image className="rounded-full" layout="fixed" src={profileImage}  width={40} height={40} />
             )
