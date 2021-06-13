@@ -37,6 +37,8 @@ const Header = () => {
       <div className="w-full max-w-[300px] xl:max-w-[400px] xl:min-w-[300px]">
         <div className="flex items-center ">
           <Image
+            onClick={() => router.push('/')}
+            className="cursor-pointer"
             src="https://links.papareact.com/5me"
             width={40}
             height={40}

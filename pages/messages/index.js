@@ -8,12 +8,25 @@ import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomM
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
 import { useRouter } from 'next/router';
 import { apiGetChat } from '../../api/index';
+import { useSelector } from 'react-redux';
 const io = require('socket.io-client');
+
 const Index = (props) => {
-  const [chats, setChats] = useState(props.chats);
-  const [activeChatMessage, setActiveChatMessage] = useState();
   const router = useRouter();
   const socket = useRef();
+  const [chats, setChats] = useState(props.chats);
+  const [messages, setMessages] = useState([]);
+  const [connectedUsers, setConnectedUsers] = useState([]);
+  const [openChatUser, setOpenChatUser] = useState({
+    name: '',
+    profileImage: ''
+  });
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  // This ref is for persisting the state of query string in url through re-renders
+  // This ref is the query string inside url
+  // useRef 神奇的地方除了可以在不 re-render 的狀態下更新值
+  const openChatId = useRef();
 
   useEffect(() => {
     if (!socket.current) {
@@ -21,13 +34,19 @@ const Index = (props) => {
     }
 
     if (socket.current) {
-      socket.current.emit('sendMessage', {
-        name: 'hihi'
-      });
-      socket.current.on('dataReceived', (data) => {
-        console.log(data);
+      socket.current.emit('join', { userId: userInfo._id });
+      socket.current.on('connectedUsers', ({ users }) => {
+        console.log('connected', users);
+        users.length > 0 && setConnectedUsers(users);
       });
     }
+
+    return () => {
+      if (socket.current) {
+        socket.current.emit('disconnected');
+        socket.current.off();
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -39,15 +58,25 @@ const Index = (props) => {
   }, [chats]);
 
   useEffect(() => {
-    const getActiveMessage = () => {
-      try {
-        const { data } = apiGetChat(router.query.message);
-        console.log(data);
-      } catch (error) {
-        conosle.log(error);
-      }
+    const loadMessages = () => {
+      socket.current.emit('loadMessages', {
+        userId: userInfo._id,
+        messagesWith: router.query.message
+      });
+
+      socket.current.on('messagesLoaded', ({ chat }) => {
+        // setMessages(chat.messages);
+        setOpenChatUser({
+          name: chat.messagesWith.name,
+          profileImage: chat.messagesWith.profileImage
+        });
+        console.log(chat);
+      });
     };
-    getActiveMessage();
+
+    if (socket.current) {
+      loadMessages();
+    }
   }, [router.query.message]);
   return (
     <div className="flex h-100vh  ">
@@ -55,14 +84,18 @@ const Index = (props) => {
         <ChatroomSidebarHeader />
         <div className="flex-1">
           {chats.map((chat) => (
-            <ChatroomList key={chat.messagesWith} chat={chat} />
+            <ChatroomList
+              connectedUsers={connectedUsers}
+              key={chat.messagesWith}
+              chat={chat}
+            />
           ))}
         </div>
         <ChatroomSidebarFooter />
       </div>
       <div className="flex flex-col flex-1 min-h-[90vh]">
-        <ChatroomMainHeader />
-        <ChatroomMainRoom />
+        <ChatroomMainHeader openChatUser={openChatUser} />
+        <ChatroomMainRoom messages={messages} />
       </div>
     </div>
   );
