@@ -5,16 +5,43 @@ import {
   GiftIcon,
   ThumbUpIcon
 } from '@heroicons/react/solid';
-
-const ChatroomMainRoom = ({ messages }) => {
+import Image from 'next/image';
+const ChatroomMainRoom = ({
+  messages,
+  receiverProfileImage,
+  socket,
+  user,
+  messagesWith
+}) => {
   const [inputText, setInputText] = useState('');
+  const [loading, setLoading] = useState(false);
+
   return (
     <div className="">
-      <div className="flex-1 min-h-[80vh] overflow-y-auto shadow-md  flex-grow">
-        room
-        {messages}
+      <div className="flex-1 min-h-[80vh] overflow-y-auto shadow-md p-5 flex-grow">
+        {messages.map((message) => (
+          <div key={message._id} className="flex items-center mb-3">
+            {message.sender !== user._id && receiverProfileImage && (
+              <Image
+                width="40"
+                height="40"
+                className="rounded-full "
+                src={receiverProfileImage || ''}
+              />
+            )}
+            <span
+              className={`inline-block max-w-[250px]   p-2 rounded-lg  ml-2 border  ${
+                message.sender === user._id
+                  ? 'bg-blue-600 text-white ml-auto'
+                  : ''
+              }`}
+            >
+              {message.msg}
+            </span>
+          </div>
+        ))}
       </div>
-      <div className="p-2 flex items-center shadow-md">
+      <div className="p-2 flex items-center border">
         <div className="flex items-center space-x-2">
           <PlusIcon className="h-5 text-blue-600" />
           <PhotographIcon className="h-5 text-blue-600" />
@@ -25,7 +52,7 @@ const ChatroomMainRoom = ({ messages }) => {
             <input
               onChange={(e) => setInputText(e.target.value)}
               className="w-full rounded-full py-2  px-5 focus:outline-none bg-gray-100 text-gray-500"
-              placeholder="What's on your mind"
+              placeholder="Send new message"
             />
           </form>
         </div>
