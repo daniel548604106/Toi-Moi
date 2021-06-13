@@ -72,6 +72,7 @@ nextApp.prepare().then(() => {
   app.use('/api/signup', require('./routes/signup'));
   app.use('/api/search', require('./routes/search'));
   app.use('/api/chats', require('./routes/chats'));
+  app.use('/api/posts', require('./routes/posts'));
   app.all('*', (req, res) => handle(req, res));
 
   server.listen(PORT, (err) => {
