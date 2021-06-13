@@ -11,16 +11,21 @@ const ChatroomMainRoom = ({
   receiverProfileImage,
   socket,
   user,
+  sendMsg,
   messagesWith
 }) => {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
-
+  const handleSubmitMessage = (e, msg) => {
+    e.preventDefault();
+    sendMsg(msg);
+    setInputText('');
+  };
   return (
     <div className="">
       <div className="flex-1 min-h-[80vh] overflow-y-auto shadow-md p-5 flex-grow">
         {messages.map((message) => (
-          <div key={message._id} className="flex items-center mb-3">
+          <div key={message.date} className="flex items-center mb-3">
             {message.sender !== user._id && receiverProfileImage && (
               <Image
                 width="40"
@@ -48,8 +53,9 @@ const ChatroomMainRoom = ({
           <GiftIcon className="h-5 text-blue-600" />
         </div>
         <div className="rounded-xl  w-full ml-3">
-          <form>
+          <form onSubmit={(e) => handleSubmitMessage(e, inputText)}>
             <input
+              value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               className="w-full rounded-full py-2  px-5 focus:outline-none bg-gray-100 text-gray-500"
               placeholder="Send new message"

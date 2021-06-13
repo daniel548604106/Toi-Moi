@@ -28,6 +28,17 @@ const Index = (props) => {
   // useRef 可以在不 re-render 的狀態下更新值
   const openChatId = useRef();
 
+  const sendMsg = (msg) => {
+    if (socket.current) {
+      socket.current.emit('sendMessage', {
+        userId: userInfo._id,
+        messageSentTo: openChatId.current,
+        msg
+      });
+    }
+  };
+
+  // Connection
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(process.env.BASE_URL);
@@ -57,6 +68,8 @@ const Index = (props) => {
     }
   }, [chats]);
 
+  // Load Messages
+
   useEffect(() => {
     const loadMessages = () => {
       socket.current.emit('loadMessages', {
@@ -80,6 +93,18 @@ const Index = (props) => {
       loadMessages();
     }
   }, [router.query.message]);
+
+  // Confirming message has been sent and receiving messages
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on('messageSent', ({ newMessage }) => {
+        // We're doing this so that only the opened chat will push new messages so we don't air unopened chat
+        if (newMessage.receiver === openChatId.current) {
+          setMessages((messages) => [...messages, newMessage]);
+        }
+      });
+    }
+  }, []);
   return (
     <div className="flex h-100vh  ">
       <div className="w-full p-2 sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex flex-col min-h-full">
@@ -101,6 +126,7 @@ const Index = (props) => {
           openChatUser={openChatUser}
         />
         <ChatroomMainRoom
+          sendMsg={sendMsg}
           socket={socket.current}
           user={userInfo}
           receiverProfileImage={openChatUser.profileImage}
