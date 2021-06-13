@@ -16,10 +16,22 @@ import {
   ViewGridIcon
 } from '@heroicons/react/solid';
 import HeaderIcon from './HeaderIcon';
-import {useDispatch} from 'react-redux'
-import { setUserLogout} from '../../redux/slices/userSlice'
+import { useDispatch } from 'react-redux';
+import { setUserLogout } from '../../redux/slices/userSlice';
+import { useRouter } from 'next/router';
+import Cookie from 'js-cookie';
+import { useSelector } from 'react-redux';
 const Header = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const email = useSelector((state) => state.user.userInfo.email);
+  const handleUserLogout = (email) => {
+    // Set userEmail for autocomplete in login email field
+    Cookie.set('userEmail', email);
+    Cookie.remove('token');
+    dispatch(setUserLogout());
+    router.push('/');
+  };
   return (
     <div className="flex items-center sticky top-0 bg-white z-50 shadow-md p-2 sm:px-5 ">
       <div className="w-full max-w-[300px] xl:max-w-[400px] xl:min-w-[300px]">
@@ -52,10 +64,15 @@ const Header = () => {
       </div>
       <div className="flex justify-end items-center sm:space-x-2 w-full max-w-[350px]">
         {/* <Image onClick={() => signOut()} className="cursor-pointer mr-2 rounded-full" layout="fixed" src={session.user.image} width="40" height="40"/> */}
-        <p onClick={() => dispatch(setUserLogout())} className="pr-2 whitespace-nowrap hidden xl:block">Daniel Yeh</p>
+        <p
+          onClick={() => handleUserLogout(email)}
+          className="pr-2 whitespace-nowrap hidden xl:block"
+        >
+          Daniel Yeh
+        </p>
         <ViewGridIcon className="icon" />
         <BellIcon className="icon" />
-        <ChatIcon className="icon" />
+        <ChatIcon onClick={() => router.push('/messages')} className="icon" />
         <ChevronDownIcon className="icon" />
       </div>
     </div>
