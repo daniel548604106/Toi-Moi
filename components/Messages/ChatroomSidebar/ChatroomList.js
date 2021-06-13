@@ -24,18 +24,14 @@ const List = ({ chat, connectedUsers }) => {
         className="rounded-full "
         src={chat.profileImage}
       />
-      <div className="ml-3">
-        <div className="flex items-center">
+      <div className="ml-3 truncate overflow-hidden">
+        <div className="flex items-center ">
           <p className="mr-2">{chat.name}</p>
           {isOnline && (
             <div className="h-[5px] w-[5px] rounded-full bg-green-300"></div>
           )}
         </div>
-        <p>
-          {chat.lastMessage.length > 20
-            ? `${chat.lastMessage.substring(0, 20)}...`
-            : chat.lastMessage}
-        </p>
+        <p className="overflow-ellipsis">{chat.lastMessage}</p>
       </div>
     </div>
   );

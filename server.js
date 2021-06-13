@@ -24,7 +24,7 @@ app.use(express.json()); // this is the body parser
 // Socket.io
 
 const { addUser, removeUser } = require('./utilsServer/roomActions');
-const { loadMessages } = require('./utilsServer/messageActions');
+const { loadMessages, sendMessage } = require('./utilsServer/messageActions');
 // socket means the client user who is connected
 io.on('connection', (socket) => {
   socket.on('join', async ({ userId }) => {
@@ -46,6 +46,15 @@ io.on('connection', (socket) => {
     const { chat, error } = await loadMessages(userId, messagesWith);
     if (!error) {
       socket.emit('messagesLoaded', { chat });
+    } else {
+      console.log(error);
+    }
+  });
+
+  socket.on('sendMessage', async ({ userId, messageSentTo, msg }) => {
+    const { newMessage, error } = await sendMessage(userId, messageSentTo, msg);
+    if (!error) {
+      socket.emit('messageSent', { newMessage });
     } else {
       console.log(error);
     }

@@ -25,9 +25,20 @@ const Index = (props) => {
 
   // This ref is for persisting the state of query string in url through re-renders
   // This ref is the query string inside url
-  // useRef 神奇的地方除了可以在不 re-render 的狀態下更新值
+  // useRef 可以在不 re-render 的狀態下更新值
   const openChatId = useRef();
 
+  const sendMsg = (msg) => {
+    if (socket.current) {
+      socket.current.emit('sendMessage', {
+        userId: userInfo._id,
+        messageSentTo: openChatId.current,
+        msg
+      });
+    }
+  };
+
+  // Connection
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(process.env.BASE_URL);
@@ -57,6 +68,8 @@ const Index = (props) => {
     }
   }, [chats]);
 
+  // Load Messages
+
   useEffect(() => {
     const loadMessages = () => {
       socket.current.emit('loadMessages', {
@@ -65,11 +78,13 @@ const Index = (props) => {
       });
 
       socket.current.on('messagesLoaded', ({ chat }) => {
-        // setMessages(chat.messages);
+        setMessages(chat.messages);
         setOpenChatUser({
           name: chat.messagesWith.name,
           profileImage: chat.messagesWith.profileImage
         });
+        // tracking the query string in the url
+        openChatId.current = chat.messagesWith._id;
         console.log(chat);
       });
     };
@@ -78,9 +93,21 @@ const Index = (props) => {
       loadMessages();
     }
   }, [router.query.message]);
+
+  // Confirming message has been sent and receiving messages
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on('messageSent', ({ newMessage }) => {
+        // We're doing this so that only the opened chat will push new messages so we don't air unopened chat
+        if (newMessage.receiver === openChatId.current) {
+          setMessages((messages) => [...messages, newMessage]);
+        }
+      });
+    }
+  }, []);
   return (
     <div className="flex h-100vh  ">
-      <div className="w-full p-2 xl:w-[500px] border-r-2  flex flex-col min-h-full">
+      <div className="w-full p-2 sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex flex-col min-h-full">
         <ChatroomSidebarHeader />
         <div className="flex-1">
           {chats.map((chat) => (
@@ -94,8 +121,18 @@ const Index = (props) => {
         <ChatroomSidebarFooter />
       </div>
       <div className="flex flex-col flex-1 min-h-[90vh]">
-        <ChatroomMainHeader openChatUser={openChatUser} />
-        <ChatroomMainRoom messages={messages} />
+        <ChatroomMainHeader
+          connectedUsers={connectedUsers}
+          openChatUser={openChatUser}
+        />
+        <ChatroomMainRoom
+          sendMsg={sendMsg}
+          socket={socket.current}
+          user={userInfo}
+          receiverProfileImage={openChatUser.profileImage}
+          messagesWith={openChatId.current}
+          messages={messages}
+        />
       </div>
     </div>
   );
