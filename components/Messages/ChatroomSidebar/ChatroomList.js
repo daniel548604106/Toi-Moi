@@ -1,8 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-const List = ({ chat }) => {
+const List = ({ chat, connectedUsers }) => {
   const router = useRouter();
+  const isOnline =
+    connectedUsers.length > 0 &&
+    connectedUsers.filter((user) => user.userId === chat.messagesWith).length >
+      0;
   return (
     <div
       onClick={() =>
@@ -21,7 +25,12 @@ const List = ({ chat }) => {
         src={chat.profileImage}
       />
       <div className="ml-3">
-        <p>{chat.name}</p>
+        <div className="flex items-center">
+          <p className="mr-2">{chat.name}</p>
+          {isOnline && (
+            <div className="h-[5px] w-[5px] rounded-full bg-green-300"></div>
+          )}
+        </div>
         <p>
           {chat.lastMessage.length > 20
             ? `${chat.lastMessage.substring(0, 20)}...`
