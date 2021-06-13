@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 const Header = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const userInfo = useSelector((state) => state.user.userInfo);
   const email = useSelector((state) => state.user.userInfo.email);
   const handleUserLogout = (email) => {
     // Set userEmail for autocomplete in login email field
@@ -58,20 +59,29 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center justify-between flex-grow sm:px-5 sm:mx-0 xl:px-10 xl:mx-10">
-        <HeaderIcon active Icon={HomeIcon} />
+        <HeaderIcon onClick={() => router.push('/')} active Icon={HomeIcon} />
         <HeaderIcon Icon={FlagIcon} />
         <HeaderIcon Icon={PlayIcon} />
         <HeaderIcon Icon={ShoppingCartIcon} />
         <HeaderIcon Icon={UserGroupIcon} />
       </div>
       <div className="flex justify-end items-center sm:space-x-2 w-full max-w-[350px]">
-        {/* <Image onClick={() => signOut()} className="cursor-pointer mr-2 rounded-full" layout="fixed" src={session.user.image} width="40" height="40"/> */}
-        <p
-          onClick={() => handleUserLogout(email)}
-          className="pr-2 whitespace-nowrap hidden xl:block"
-        >
-          Daniel Yeh
-        </p>
+        <div className="flex items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer ">
+          <Image
+            onClick={() => signOut()}
+            className="cursor-pointer mr-2 rounded-full"
+            layout="fixed"
+            src={userInfo.profileImage}
+            width="40"
+            height="40"
+          />
+          <p
+            onClick={() => handleUserLogout(email)}
+            className="pr-2  whitespace-nowrap hidden xl:block"
+          >
+            {userInfo.name}
+          </p>
+        </div>
         <ViewGridIcon className="icon" />
         <BellIcon className="icon" />
         <ChatIcon onClick={() => router.push('/messages')} className="icon" />
