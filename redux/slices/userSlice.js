@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -14,7 +13,7 @@ export const userSlice = createSlice({
     setUserLogin: (state, { payload }) => {
       (state.isUserLoggedIn = true), (state.userInfo = payload);
     },
-    setUserLogout: (state) => {
+    setUserLogout: (state, { payload }) => {
       (state.isUserLoggedIn = false), (state.userInfo = {});
     }
   }
