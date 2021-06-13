@@ -85,7 +85,6 @@ const Index = (props) => {
         });
         // tracking the query string in the url
         openChatId.current = chat.messagesWith._id;
-        console.log(chat);
       });
     };
 
@@ -101,6 +100,15 @@ const Index = (props) => {
         // We're doing this so that only the opened chat will push new messages so we don't air unopened chat
         if (newMessage.receiver === openChatId.current) {
           setMessages((messages) => [...messages, newMessage]);
+          console.log(chats);
+          setChats((chats) => {
+            const previousChat = chats.find((chat) => {
+              return chat.messagesWith === newMessage.receiver;
+            });
+            previousChat.lastMessage = newMessage.msg;
+            previousChat.date = newMessage.date;
+            return [...chats];
+          });
         }
       });
     }
