@@ -154,7 +154,7 @@ export async function getServerSideProps({ req, res }) {
     const token = req.cookies.token;
     let chats = await axios.get('http://localhost:3000/api/chats', {
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     });
     if (!chats.data) {

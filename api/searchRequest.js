@@ -1,6 +1,5 @@
-import request from '../lib/axiosConfig'
+import request from '../lib/axiosConfig';
 
-
-export const searchRequest = (searchText)=>{
-  return request.get(`/api/search/${searchText}`)
-}
+export const searchRequest = (searchText) => {
+  return request.get(`/search/${searchText}`);
+};

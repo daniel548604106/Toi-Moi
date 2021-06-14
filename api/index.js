@@ -1,7 +1,17 @@
 import { searchRequest } from './searchRequest';
 import { postSignup, postLogin } from './authRequest';
 import { getChats, getChat } from './chatRequest';
-import { postNewPost, getPost, deletePost } from './postRequest';
+import {
+  postNewPost,
+  getPost,
+  deletePost,
+  getAllPosts,
+  commentPost,
+  likePost,
+  unlikePost,
+  likeComment,
+  unlikeComment
+} from './postRequest';
 // Search
 
 export const apiSearchRequest = searchRequest;
@@ -20,4 +30,10 @@ export const apiGetChat = getChat;
 
 export const apiPostNewPost = postNewPost;
 export const apiGetPost = getPost;
+export const apiGetAllPosts = getAllPosts;
 export const apiDeletePost = deletePost;
+export const apiCommentPost = commentPost;
+export const apiLikePost = likePost;
+export const apiUnlikePost = unlikePost;
+export const apiLikeComment = likeComment;
+export const apiUnlikeComment = unlikeComment;

@@ -4,21 +4,45 @@ import Cookie from 'js-cookie';
 const token = Cookie.get('token');
 
 export const postNewPost = ({ image, text, location }) => {
-  return request.post(
-    '/api/posts',
-    { image, text, location },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-  );
+  return request.post('/posts', { image, text, location });
+};
+
+export const getAllPosts = () => {
+  return request.get(`/posts`);
 };
 
 export const getPost = (id) => {
-  return request.get(`/api/posts/${id}`);
+  return request.get(`/posts/${id}`);
 };
 
+// Delete
 export const deletePost = (id) => {
-  return request.delete(`/api/posts${id}`);
+  return request.delete(`/posts/${id}`);
+};
+
+// Comment
+
+export const commentPost = (id, text) => {
+  return request.post(`/posts/comment/${id}`, { text });
+};
+
+// Like
+
+export const likePost = (id) => {
+  return request.post(`/posts/like/${id}`);
+};
+
+export const unlikePost = (id) => {
+  return request.post(`/posts/unlike/${id}`);
+};
+
+// Like a Comment
+
+export const likeComment = (postId, commentId) => {
+  return request.post(`/posts/like/${postId}/${commentId}`);
+};
+
+// Unlike a Comment
+export const unlikeComment = (postId, commentId) => {
+  return request.post(`/posts/unlike/${postId}/${commentId}`);
 };

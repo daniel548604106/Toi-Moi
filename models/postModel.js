@@ -40,7 +40,40 @@ const postSchema = new mongoose.Schema(
         _id: {
           type: String,
           required: true
-        }
+        },
+        likes: [
+          {
+            user: {
+              type: mongoose.Schema.Types.ObjectId
+            },
+            date: {
+              type: Date,
+              default: Date.now()
+            },
+            _id: {
+              type: String,
+              required: true
+            }
+          }
+        ],
+        replies: [
+          {
+            text: {
+              type: String
+            },
+            user: {
+              type: mongoose.Schema.Types.ObjectId
+            },
+            date: {
+              type: Date,
+              default: Date.now()
+            },
+            _id: {
+              type: String,
+              required: true
+            }
+          }
+        ]
       }
     ]
   },
