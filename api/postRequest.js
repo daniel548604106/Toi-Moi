@@ -15,6 +15,14 @@ export const postNewPost = ({ image, text, location }) => {
   );
 };
 
+export const getAllPosts = () => {
+  return request.get(`/api/posts`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+};
+
 export const getPost = (id) => {
   return request.get(`/api/posts/${id}`);
 };

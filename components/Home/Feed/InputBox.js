@@ -38,7 +38,7 @@ const InputBox = () => {
   };
 
   return (
-    <div className="p-3 shadow-md font-medium mt-6 rounded-xl bg-white">
+    <div className="p-3 shadow-md font-medium rounded-xl bg-white">
       <div className="flex items-center space-x-4 mb-3">
         {/* <Image className="rounded-full" src={session.user.image} height={40} width={40} layout="fixed"/> */}
         <form className="flex flex-1">

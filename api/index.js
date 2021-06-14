@@ -1,7 +1,7 @@
 import { searchRequest } from './searchRequest';
 import { postSignup, postLogin } from './authRequest';
 import { getChats, getChat } from './chatRequest';
-import { postNewPost, getPost, deletePost } from './postRequest';
+import { postNewPost, getPost, deletePost, getAllPosts } from './postRequest';
 // Search
 
 export const apiSearchRequest = searchRequest;
@@ -20,4 +20,5 @@ export const apiGetChat = getChat;
 
 export const apiPostNewPost = postNewPost;
 export const apiGetPost = getPost;
+export const apiGetAllPosts = getAllPosts;
 export const apiDeletePost = deletePost;
