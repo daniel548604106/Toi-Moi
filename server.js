@@ -18,8 +18,8 @@ const PORT = process.env.PORT || 3000;
 // The following dotenv config will have access to .env file , so make sure it's named as .env and not .env.local .etc
 require('dotenv').config();
 connectDB();
-
-app.use(express.json()); // this is the body parser
+app.use(express.json({ limit: '50mb' })); // this is the body parser
+app.use(express.urlencoded({ limit: '50mb' }));
 
 // Socket.io
 
@@ -72,6 +72,7 @@ nextApp.prepare().then(() => {
   app.use('/api/signup', require('./routes/signup'));
   app.use('/api/search', require('./routes/search'));
   app.use('/api/chats', require('./routes/chats'));
+  app.use('/api/posts', require('./routes/posts'));
   app.all('*', (req, res) => handle(req, res));
 
   server.listen(PORT, (err) => {

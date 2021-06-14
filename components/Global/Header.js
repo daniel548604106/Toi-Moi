@@ -66,19 +66,18 @@ const Header = () => {
         <HeaderIcon Icon={UserGroupIcon} />
       </div>
       <div className="flex justify-end items-center sm:space-x-2 w-full max-w-[350px]">
-        <div className="flex items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer ">
+        <div
+          onClick={() => handleUserLogout(email)}
+          className="flex items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer "
+        >
           <Image
-            onClick={() => signOut()}
             className="cursor-pointer mr-2 rounded-full"
             layout="fixed"
             src={userInfo.profileImage}
             width="40"
             height="40"
           />
-          <p
-            onClick={() => handleUserLogout(email)}
-            className="pr-2  whitespace-nowrap hidden xl:block"
-          >
+          <p className="pr-2  whitespace-nowrap hidden xl:block">
             {userInfo.name}
           </p>
         </div>

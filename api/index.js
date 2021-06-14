@@ -1,17 +1,31 @@
-import { searchRequest } from './searchRequest'
-import { postSignup, postLogin} from './authRequest'
-import { getChats, getChat} from './chatRequest'
+import { searchRequest } from './searchRequest';
+import { postSignup, postLogin } from './authRequest';
+import { getChats, getChat } from './chatRequest';
+import {
+  postNewPost,
+  getPost,
+  deletePost,
+  getAllPosts,
+  commentPost
+} from './postRequest';
 // Search
 
-export const apiSearchRequest = searchRequest
+export const apiSearchRequest = searchRequest;
 
 // Auth
 
-export const apiPostSignup = postSignup
-export const apiPostLogin = postLogin
+export const apiPostSignup = postSignup;
+export const apiPostLogin = postLogin;
 
+// Chats
 
-// Message
+export const apiGetChats = getChats;
+export const apiGetChat = getChat;
 
-export const apiGetChats = getChats
-export const apiGetChat = getChat
+// Posts
+
+export const apiPostNewPost = postNewPost;
+export const apiGetPost = getPost;
+export const apiGetAllPosts = getAllPosts;
+export const apiDeletePost = deletePost;
+export const apiCommentPost = commentPost;
