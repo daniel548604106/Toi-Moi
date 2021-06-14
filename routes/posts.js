@@ -163,6 +163,7 @@ router.post('/comment/:id', authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
     const postId = req.params.id;
+    console.log(req.body);
     const { text } = req.body;
     if (text.length < 1)
       return res.status(401).send('Should be at least 1 characters');

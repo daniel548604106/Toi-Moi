@@ -11,11 +11,12 @@ const Index = ({ posts }) => {
       <div className="mb-[30px]">
         <InputBox />
       </div>
-      {posts.map((post) => (
-        <div key={post._id} className="mb-[30px]">
-          <Post post={post} />
-        </div>
-      ))}
+      {posts &&
+        posts.map((post) => (
+          <div key={post._id} className="mb-[30px]">
+            <Post post={post} />
+          </div>
+        ))}
     </div>
   );
 };

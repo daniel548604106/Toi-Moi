@@ -30,3 +30,15 @@ export const getPost = (id) => {
 export const deletePost = (id) => {
   return request.delete(`/api/posts${id}`);
 };
+
+export const commentPost = (id, text) => {
+  return request.post(
+    `/api/posts/comment/${id}`,
+    { text },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  );
+};
