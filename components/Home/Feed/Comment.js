@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { dateDiff } from '../../../lib/dayjs';
 const Comment = ({ comment }) => {
   const router = useRouter();
   return (
@@ -26,8 +27,8 @@ const Comment = ({ comment }) => {
         <div className="flex text-xs items-center py-1 text-gray-700">
           <span className="cursor-pointer">like</span>
           <span className="cursor-pointer ml-[5px]">reply</span>
-          <span className="ml-[5px] text-xs text-gray-600 ml-[5px]">
-            {comment.date}
+          <span className="text-xs text-gray-600 ml-[5px]">
+            {dateDiff(comment.date)}
           </span>
         </div>
       </div>
