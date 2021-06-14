@@ -9,7 +9,7 @@ export const postNewPost = ({ image, text, location }) => {
     { image, text, location },
     {
       headers: {
-        Authorization: token
+        Authorization: `Bearer ${token}`
       }
     }
   );
