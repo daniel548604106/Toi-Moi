@@ -171,17 +171,20 @@ router.post('/comment/:id', authMiddleware, async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).send('Post not found');
 
+    const user = await User.findById(userId);
     const newComment = {
       _id: uuid(),
       text,
-      user: userId,
-      date: Date.now()
+      user,
+      date: Date.now(),
+      likes: [],
+      replies: []
     };
 
     await post.comments.unshift(newComment);
 
     await post.save();
-    return res.status(200).json(newComment._id);
+    return res.status(200).json(newComment);
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');

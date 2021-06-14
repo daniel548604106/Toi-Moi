@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { dateDiff } from '../../../lib/dayjs';
 const List = ({ chat, connectedUsers }) => {
   const router = useRouter();
   const isOnline =
@@ -18,18 +19,21 @@ const List = ({ chat, connectedUsers }) => {
         router.query.message === chat.messagesWith ? 'bg-blue-100' : ''
       }`}
     >
-      <Image
-        width="40"
-        height="40"
-        className="rounded-full "
-        src={chat.profileImage}
-      />
-      <div className="ml-3 truncate overflow-hidden">
-        <div className="flex items-center ">
+      <div className="relative ">
+        <Image
+          width="40"
+          height="40"
+          className="rounded-full "
+          src={chat.profileImage}
+        />
+        {isOnline && (
+          <div className="absolute bottom-0 right-0 h-[5px] w-[5px] rounded-full bg-green-300"></div>
+        )}
+      </div>
+      <div className="ml-3 flex-1 truncate overflow-hidden">
+        <div className="flex items-center justify-between w-full">
           <p className="mr-2">{chat.name}</p>
-          {isOnline && (
-            <div className="h-[5px] w-[5px] rounded-full bg-green-300"></div>
-          )}
+          <p className="text-xs text-gray-600">{dateDiff(chat.date)}</p>
         </div>
         <p className="overflow-ellipsis">{chat.lastMessage}</p>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AnnotationIcon,
   ThumbUpIcon,
@@ -19,12 +19,16 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
+  useEffect(() => {
+    console.log(comments);
+  }, [comments]);
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     if (text === '') return;
     try {
-      const res = await apiCommentPost(post._id, text);
-      console.log(res);
+      const { data } = await apiCommentPost(post._id, text);
+      const newComment = data;
+      setComments((comments) => [newComment, ...comments]);
       setText('');
     } catch (error) {
       console.log(error);
@@ -64,26 +68,26 @@ const Post = ({ post }) => {
             />
             <span className="ml-[10px] font-semibold">{post.user.name}</span>
           </div>
-          <span className="p-2 relative rounded-full  hover:bg-gray-100">
+          <span className="group p-2 relative rounded-full  hover:bg-gray-100">
             <DotsHorizontalIcon className="h-5 cursor-pointer text-gray-700 " />
-            <div className="group-hover:bg-red-400 z-40  absolute bottom-0 transform translate-y-full right-0 ">
+            <div className="  hidden group-hover:block  z-40  absolute bottom-0 transform translate-y-full right-0 ">
               <Popup postId={post._id} />
             </div>
           </span>
         </div>
         <p className="text-sm">{post.text}</p>
-        {likes.length > 0 && (
-          <p className=" hover:underline cursor-pointer text-sm text-blue-600 my-[10px]">
-            <span className="">
-              {likes.length} {likes.length > 1 ? 'likes' : 'like'}
-            </span>
-          </p>
-        )}
       </div>
       {post.picUrl && (
         <div className="cursor-pointer relative h-56 md:h-96 bg-white">
           <Image src={post.picUrl} layout="fill" objectFit="cover" />
         </div>
+      )}
+      {likes.length > 0 && (
+        <p className=" hover:underline cursor-pointer text-sm text-blue-600 my-[10px]">
+          <span className="">
+            {likes.length} {likes.length > 1 ? 'likes' : 'like'}
+          </span>
+        </p>
       )}
       <div className="flex items-center  border-t p-3">
         {isLiked ? (
@@ -128,7 +132,12 @@ const Post = ({ post }) => {
       {comments.length > 0 &&
         comments.slice(0, 2).map((comment) => (
           <div key={comment._id} className=" p-1 w-full">
-            <Comment postId={post._id} comment={comment} />
+            <Comment
+              comments={comments}
+              setComments={setComments}
+              postId={post._id}
+              comment={comment}
+            />
           </div>
         ))}
       {comments.length > 2 && (

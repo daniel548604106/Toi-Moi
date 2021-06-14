@@ -46,3 +46,8 @@ export const likeComment = (postId, commentId) => {
 export const unlikeComment = (postId, commentId) => {
   return request.post(`/posts/unlike/${postId}/${commentId}`);
 };
+
+// Delete a Comment
+export const deleteComment = (postId, commentId) => {
+  return request.delete(`/posts/${postId}/${commentId}`);
+};
