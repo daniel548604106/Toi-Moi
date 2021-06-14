@@ -20,11 +20,11 @@ const Post = ({ post }) => {
         </div>
         <p className="text-sm">{post.text}</p>
       </div>
-      <div className="relative h-56 md:h-96 bg-white">
-        {post.picUrl && (
+      {post.picUrl && (
+        <div className="relative h-56 md:h-96 bg-white">
           <Image src={post.picUrl} layout="fill" objectFit="cover" />
-        )}
-      </div>
+        </div>
+      )}
       <div className="flex items-center justify-evenly border-t p-3">
         <ThumbUpIcon className="h-6 cursor-pointer text-gray-400" />
         <AnnotationIcon className="h-6 cursor-pointer text-gray-400" />
