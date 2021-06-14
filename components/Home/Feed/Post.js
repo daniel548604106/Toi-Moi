@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   AnnotationIcon,
-  ThumbUpIcon,
+  ThumbUpIcon as OutlineThumbUpIcon,
   ShareIcon
 } from '@heroicons/react/outline';
 import {
@@ -19,9 +19,7 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
-  useEffect(() => {
-    console.log(comments);
-  }, [comments]);
+
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     if (text === '') return;
@@ -83,33 +81,48 @@ const Post = ({ post }) => {
         </div>
       )}
       {likes.length > 0 && (
-        <p className=" hover:underline cursor-pointer text-sm text-blue-600 my-[10px]">
-          <span className="">
-            {likes.length} {likes.length > 1 ? 'likes' : 'like'}
-          </span>
-        </p>
+        <div className="flex items-center justify-between  text-sm my-[10px]">
+          <div className="flex items-center cursor-pointer hover:underline">
+            <span className="rounded-full p-1 bg-blue-600 text-white">
+              <SolidThumbUpIcon className="h-2 " />
+            </span>
+            <span className="text-gray-600 ml-[3px] ">{likes.length}</span>
+          </div>
+          <div>
+            {comments.length > 0 && (
+              <span className="text-gray-600 cursor-pointer hover:underline">
+                {comments.length}
+                {comments.length === 1 ? ' comment' : ' comments'}
+              </span>
+            )}
+          </div>
+        </div>
       )}
       <div className="flex items-center  border-t p-3">
         {isLiked ? (
-          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
+          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-400">
             <SolidThumbUpIcon
               onClick={() => handleUnlikePost(post._id)}
-              className="h-6 rounded-md hover:bg-gray-100 flex-1  text-blue-600 cursor-pointer"
+              className="h-4 "
             />
+            <span className="ml-[10px]">Like</span>
           </div>
         ) : (
           <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-            <ThumbUpIcon
+            <OutlineThumbUpIcon
               onClick={() => handleLikePost(post._id)}
-              className="h-6  rounded-md hover:bg-gray-100 flex-1 cursor-pointer text-gray-400"
+              className="h-4  "
             />
+            <span className="ml-[10px]"> Like</span>
           </div>
         )}
         <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-          <AnnotationIcon className="h-6  " />
+          <AnnotationIcon className="h-4  " />
+          <span className="ml-[10px]">Comment</span>
         </div>
         <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-          <ShareIcon className="h-6  rounded-md hover:bg-gray-100 flex-1  cursor-pointer text-gray-400" />
+          <ShareIcon className="h-4 " />
+          <span className="ml-[10px]">Share</span>
         </div>
       </div>
       <div className="p-1 flex items-center">
