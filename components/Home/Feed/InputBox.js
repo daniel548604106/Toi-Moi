@@ -16,6 +16,7 @@ const InputBox = () => {
       if (text === '') return;
       const { data } = await apiPostNewPost({ image, text, location });
       setText('');
+      setImage(null);
       console.log('hi', inputRef.current.value, data);
     } catch (error) {
       console.log(error);
@@ -53,13 +54,13 @@ const InputBox = () => {
           <button hidden type="submit" onClick={(e) => sendPost(e)}>
             Submit
           </button>
-          {image && (
-            <div>
-              <img className="h-10 object-contain" src={image} alt="image" />
-            </div>
-          )}
         </form>
       </div>
+      {image && (
+        <div className="relative h-56 md:h-96">
+          <Image layout="fill" objectFit="cover" src={image} alt="image" />
+        </div>
+      )}
       <div className="flex justify-evenly p-3 border-t">
         <div className="inputIcon">
           <VideoCameraIcon className="h-6 text-red-500" />

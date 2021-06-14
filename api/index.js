@@ -6,7 +6,11 @@ import {
   getPost,
   deletePost,
   getAllPosts,
-  commentPost
+  commentPost,
+  likePost,
+  unlikePost,
+  likeComment,
+  unlikeComment
 } from './postRequest';
 // Search
 
@@ -29,3 +33,7 @@ export const apiGetPost = getPost;
 export const apiGetAllPosts = getAllPosts;
 export const apiDeletePost = deletePost;
 export const apiCommentPost = commentPost;
+export const apiLikePost = likePost;
+export const apiUnlikePost = unlikePost;
+export const apiLikeComment = likeComment;
+export const apiUnlikeComment = unlikeComment;
