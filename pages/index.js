@@ -83,7 +83,7 @@ export async function getServerSideProps({ req, res }) {
   try {
     // get server side cookies
     const token = req.cookies.token;
-    let posts = await axios.get('http://localhost:3000/api/posts', {
+    let posts = await axios.get('http://localhost:3000/api/posts?page=1', {
       headers: {
         Authorization: `Bearer ${token}`
       }
