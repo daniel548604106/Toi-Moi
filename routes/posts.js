@@ -49,7 +49,7 @@ router.post('/', authMiddleware, uploadPostImage, async (req, res) => {
     const { text, location, picUrl } = req.body;
     if (text.length < 1)
       return res.status(401).send('Text must be at least on characters');
-
+    console.log(req.userId);
     const newPost = {
       user: req.userId,
       text,

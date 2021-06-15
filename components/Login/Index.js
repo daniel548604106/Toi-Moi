@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { apiPostLogin } from '../../api/index';
 import { useDispatch } from 'react-redux';
 import { setUserLogin } from '../../redux/slices/userSlice';
-import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import catchErrors from '../../utils/catchErrors';
 import Cookie from 'js-cookie';
@@ -26,7 +25,7 @@ const Login = () => {
     try {
       const { data } = await apiPostLogin(loginInput);
       dispatch(setUserLogin(data.user));
-      Cookies.set('token', data.token);
+      Cookie.set('token', data.token);
       router.push('/');
     } catch (error) {
       const errMsg = catchErrors(error);
