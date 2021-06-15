@@ -1,23 +1,26 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const FollowerSchema = new mongoose.Schema({
-  user:{
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  followers:[
+  followers: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
     }
   ],
-  following:[
+  following: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+      }
     }
   ]
-})
+});
 
-
-module.exports = mongoose.model('Follower',FollowerSchema)
+module.exports = mongoose.model('Follower', FollowerSchema);

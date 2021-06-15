@@ -3,10 +3,12 @@ import { XIcon, ThumbUpIcon, UserAddIcon } from '@heroicons/react/solid';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/image';
 import { setLikesListOpen } from '../../../redux/slices/postSlice';
+import { useRouter } from 'next/router';
 const LikesListModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const likesList = useSelector((state) => state.post.likesList);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   return (
     <div className="rounded-lg relative bg-white w-full max-w-[600px]   p-5">
@@ -32,21 +34,28 @@ const LikesListModal = () => {
               className="flex items-center justify-between p-2"
             >
               <div className="flex items-center">
-                <Image
-                  src={like.user.profileImage}
-                  width={50}
-                  height={50}
-                  layout="fixed"
-                  className="rounded-full cursor-pointer "
-                />
+                <span className="relative">
+                  <Image
+                    src={like.user.profileImage}
+                    width={50}
+                    height={50}
+                    layout="fixed"
+                    className="rounded-full cursor-pointer "
+                  />
+                  <span className="absolute bottom-[5px] right-0 p-1 rounded-full bg-blue-600">
+                    <ThumbUpIcon className="h-2 text-white " />
+                  </span>
+                </span>
                 <span className="ml-[15px] cursor-pointer hover:underline">
                   {like.user.name}
                 </span>
               </div>
-              <button className="rounded-md p-2 px-3 flex items-center bg-gray-200">
-                <UserAddIcon className="h-6" />
-                <span className="ml-[5px]">Add friend</span>
-              </button>
+              {like.user._id !== userInfo._id && (
+                <button className="rounded-md p-2 px-3 flex items-center bg-gray-200">
+                  <UserAddIcon className="h-6" />
+                  <span className="ml-[5px]">Add friend</span>
+                </button>
+              )}
             </div>
           ))}
       </div>

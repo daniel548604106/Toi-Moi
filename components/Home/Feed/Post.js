@@ -122,7 +122,7 @@ const Post = ({ post }) => {
 
       <div className="flex items-center  border-t p-3">
         {isLiked ? (
-          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-400">
+          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600">
             <SolidThumbUpIcon
               onClick={() => handleUnlikePost(post._id)}
               className="h-4 "
