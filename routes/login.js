@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
 const Follower = require('../models/followerModel');
+const Profile = require('../models/profileModel');
 const Chat = require('../models/chatModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -34,6 +35,28 @@ router.post('/', async (req, res) => {
       await new Chat({
         user: user._id,
         chats: []
+      }).save();
+    }
+
+    // Follower Model
+    const followStats = await Follower.findOne({ user: user._id });
+    if (!followStats) {
+      await new Follower({
+        user: user._id,
+        followers: [],
+        following: []
+      }).save();
+    }
+
+    const profileStats = await Profile.findOne({ user: user._id });
+    if (!profileStats) {
+      await new Profile({
+        user: user._id,
+        bio: '',
+        social: {
+          facebook: '',
+          twitter: ''
+        }
       }).save();
     }
 

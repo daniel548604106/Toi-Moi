@@ -68,6 +68,7 @@ io.on('connection', (socket) => {
 
 nextApp.prepare().then(() => {
   //routes
+  app.use('/api/profile', require('./routes/profile'));
   app.use('/api/login', require('./routes/login'));
   app.use('/api/signup', require('./routes/signup'));
   app.use('/api/search', require('./routes/search'));
