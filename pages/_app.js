@@ -8,12 +8,19 @@ import Login from '../components/Login/Index';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 let persistor = persistStore(store);
-
+import Overlay from '../components/Global/Overlay';
+import LikesListModal from '../components/Home/Feed/LikesListModal';
 const App = ({ Component, pageProps }) => {
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
+  const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
   if (!isUserLoggedIn) return <Login />;
   return (
     <>
+      {isLikesListOpen && (
+        <Overlay>
+          <LikesListModal />
+        </Overlay>
+      )}
       <Header />
       <Search />
       <main>

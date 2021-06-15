@@ -24,7 +24,7 @@ const Header = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center sticky top-0 bg-white z-50 shadow-md p-2 sm:px-5 ">
+    <div className="flex items-center sticky top-0 bg-white z-40 shadow-md p-2 sm:px-5 ">
       <div className="w-full max-w-[300px] xl:max-w-[400px] xl:min-w-[300px]">
         <div className="flex items-center ">
           <Image
@@ -49,7 +49,11 @@ const Header = () => {
         </div>
       </div>
       <div className="flex items-center justify-between flex-grow sm:px-5 sm:mx-0 xl:px-10 xl:mx-10">
-        <HeaderIcon onClick={() => router.push('/')} active Icon={HomeIcon} />
+        <HeaderIcon
+          onClick={() => router.push('/')}
+          active={router.pathname === '/'}
+          Icon={HomeIcon}
+        />
         <HeaderIcon Icon={FlagIcon} />
         <HeaderIcon Icon={PlayIcon} />
         <HeaderIcon Icon={ShoppingCartIcon} />

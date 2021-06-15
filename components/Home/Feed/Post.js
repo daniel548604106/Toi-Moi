@@ -10,8 +10,12 @@ import {
 } from '@heroicons/react/solid';
 import Image from 'next/image';
 import Popup from './Popup';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
+import {
+  setLikesListOpen,
+  apiGetLikesList
+} from '../../../redux/slices/postSlice';
 import Comment from './Comment';
 const Post = ({ post }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -19,6 +23,7 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
+  const dispatch = useDispatch();
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -50,6 +55,13 @@ const Post = ({ post }) => {
       console.log(error);
     }
   };
+
+  const handleLikesListOpen = (postId) => {
+    dispatch(setLikesListOpen(true));
+    dispatch(apiGetLikesList(postId)).then((res) => {
+      console.log(res);
+    });
+  };
   const isLiked =
     likes.length > 0 &&
     likes.filter((like) => like.user._id === userInfo._id).length > 0;
@@ -80,24 +92,29 @@ const Post = ({ post }) => {
           <Image src={post.picUrl} layout="fill" objectFit="cover" />
         </div>
       )}
-      {likes.length > 0 && (
-        <div className="flex items-center justify-between  text-sm my-[10px]">
-          <div className="flex items-center cursor-pointer hover:underline">
+
+      <div className="flex items-center justify-between  text-sm my-[10px]">
+        {likes.length > 0 && (
+          <div
+            onClick={() => handleLikesListOpen(post._id)}
+            className="flex items-center cursor-pointer hover:underline"
+          >
             <span className="rounded-full p-1 bg-blue-600 text-white">
               <SolidThumbUpIcon className="h-2 " />
             </span>
             <span className="text-gray-600 ml-[3px] ">{likes.length}</span>
           </div>
-          <div>
-            {comments.length > 0 && (
-              <span className="text-gray-600 cursor-pointer hover:underline">
-                {comments.length}
-                {comments.length === 1 ? ' comment' : ' comments'}
-              </span>
-            )}
-          </div>
+        )}
+        <div>
+          {comments.length > 0 && (
+            <span className="text-gray-600 cursor-pointer hover:underline">
+              {comments.length}
+              {comments.length === 1 ? ' comment' : ' comments'}
+            </span>
+          )}
         </div>
-      )}
+      </div>
+
       <div className="flex items-center  border-t p-3">
         {isLiked ? (
           <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-400">
