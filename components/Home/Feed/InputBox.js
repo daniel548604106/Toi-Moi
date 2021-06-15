@@ -3,19 +3,23 @@ import Image from 'next/image';
 import { VideoCameraIcon, CameraIcon } from '@heroicons/react/solid';
 import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { apiPostNewPost } from '../../../api/index';
-
+import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 const InputBox = () => {
   const inputRef = useRef(null);
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
   const [location, setLocation] = useState('');
+  const router = useRouter();
   const filePickerRef = useRef(null);
+  const userInfo = useSelector((state) => state.user.userInfo);
   const sendPost = async (e) => {
     try {
       e.preventDefault();
       if (text === '') return;
       const { data } = await apiPostNewPost({ image, text, location });
       setText('');
+      setImage(null);
       console.log('hi', inputRef.current.value, data);
     } catch (error) {
       console.log(error);
@@ -39,13 +43,20 @@ const InputBox = () => {
 
   return (
     <div className="p-3 shadow-md font-medium rounded-xl bg-white">
-      <div className="flex items-center space-x-4 mb-3">
-        {/* <Image className="rounded-full" src={session.user.image} height={40} width={40} layout="fixed"/> */}
+      <div className="flex items-center space-x-2 mb-3">
+        <Image
+          onClick={() => router.push(`/${userInfo.username}`)}
+          className="rounded-full cursor-pointer"
+          src={userInfo.profileImage}
+          height={40}
+          width={40}
+          layout="fixed"
+        />
         <form className="flex flex-1">
           <input
             onChange={(e) => setText(e.target.value)}
             ref={inputRef}
-            className="rounded-md px-5 h-12 bg-gray-100 flex-grow focus:outline-none"
+            className="rounded-xl px-5 h-12 bg-gray-100 flex-grow focus:outline-none"
             type="text"
             value={text}
             placeholder="What's on your mind"
@@ -53,13 +64,13 @@ const InputBox = () => {
           <button hidden type="submit" onClick={(e) => sendPost(e)}>
             Submit
           </button>
-          {image && (
-            <div>
-              <img className="h-10 object-contain" src={image} alt="image" />
-            </div>
-          )}
         </form>
       </div>
+      {image && (
+        <div className="relative h-56 md:h-96">
+          <Image layout="fill" objectFit="cover" src={image} alt="image" />
+        </div>
+      )}
       <div className="flex justify-evenly p-3 border-t">
         <div className="inputIcon">
           <VideoCameraIcon className="h-6 text-red-500" />

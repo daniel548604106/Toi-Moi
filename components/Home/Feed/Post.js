@@ -1,75 +1,150 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   AnnotationIcon,
-  ThumbUpIcon,
+  ThumbUpIcon as OutlineThumbUpIcon,
   ShareIcon
 } from '@heroicons/react/outline';
-import { ThumbUpIcon as SolidThumbUpIcon } from '@heroicons/react/solid';
+import {
+  ThumbUpIcon as SolidThumbUpIcon,
+  DotsHorizontalIcon
+} from '@heroicons/react/solid';
 import Image from 'next/image';
-import { useSelector } from 'react-redux';
-import { apiCommentPost } from '../../../api/index';
+import Popup from './Popup';
+import { useSelector, useDispatch } from 'react-redux';
+import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
+import {
+  setLikesListOpen,
+  apiGetLikesList
+} from '../../../redux/slices/postSlice';
 import Comment from './Comment';
 const Post = ({ post }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
   const [text, setText] = useState('');
+  const dispatch = useDispatch();
+
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     if (text === '') return;
     try {
-      const res = await apiCommentPost(post._id, text);
-      console.log(res);
+      const { data } = await apiCommentPost(post._id, text);
+      const newComment = data;
+      setComments((comments) => [newComment, ...comments]);
       setText('');
     } catch (error) {
       console.log(error);
     }
   };
-  const isLiked =
-    likes.length > 0 &&
-    likes.filter((like) => like.user._id === userInfo._id).length > 0;
+
+  const handleLikePost = async (id) => {
+    try {
+      const { data } = await apiLikePost(id);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleUnlikePost = async (id) => {
+    try {
+      const { data } = await apiUnlikePost(id);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleLikesListOpen = (postId) => {
+    dispatch(setLikesListOpen(true));
+    dispatch(apiGetLikesList(postId)).then((res) => {
+      console.log(res);
+    });
+  };
+  useEffect(() => {
+    setIsLiked(
+      likes.length > 0 &&
+        likes.filter((like) => like.user._id === userInfo._id).length > 0
+    );
+  }, []);
+
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
       <div className="p-3">
-        <div className="flex cursor-pointer items-center mb-[10px]">
-          <Image
-            className="rounded-full"
-            src={post.user.profileImage}
-            width="30"
-            height="30"
-          />
-          <span className="ml-[10px] font-semibold">{post.user.name}</span>
+        <div className="flex justify-between cursor-pointer items-center mb-[10px]">
+          <div className="flex items-center">
+            <Image
+              className="rounded-full"
+              src={post.user.profileImage}
+              width="30"
+              height="30"
+            />
+            <span className="ml-[10px] font-semibold">{post.user.name}</span>
+          </div>
+          <span className="group p-2 relative rounded-full  hover:bg-gray-100">
+            <DotsHorizontalIcon className="h-5 cursor-pointer text-gray-700 " />
+            <div className="  hidden group-hover:block  z-40  absolute bottom-0 transform translate-y-full right-0 ">
+              <Popup postId={post._id} />
+            </div>
+          </span>
         </div>
         <p className="text-sm">{post.text}</p>
-        {likes.length > 0 && (
-          <p className=" hover:underline cursor-pointer text-sm text-blue-600 my-[10px]">
-            <span className="">
-              {likes.length} {likes.length > 1 ? 'likes' : 'like'}
-            </span>
-          </p>
-        )}
       </div>
       {post.picUrl && (
         <div className="cursor-pointer relative h-56 md:h-96 bg-white">
           <Image src={post.picUrl} layout="fill" objectFit="cover" />
         </div>
       )}
+
+      <div className="flex items-center justify-between  text-sm my-[10px]">
+        {likes.length > 0 && (
+          <div
+            onClick={() => handleLikesListOpen(post._id)}
+            className="flex items-center cursor-pointer hover:underline"
+          >
+            <span className="rounded-full p-1 bg-blue-600 text-white">
+              <SolidThumbUpIcon className="h-2 " />
+            </span>
+            <span className="text-gray-600 ml-[3px] ">{likes.length}</span>
+          </div>
+        )}
+        <div>
+          {comments.length > 0 && (
+            <span className="text-gray-600 cursor-pointer hover:underline">
+              {comments.length}
+              {comments.length === 1 ? ' comment' : ' comments'}
+            </span>
+          )}
+        </div>
+      </div>
+
       <div className="flex items-center  border-t p-3">
         {isLiked ? (
-          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-            <SolidThumbUpIcon className="h-6 rounded-md hover:bg-gray-100 flex-1  text-blue-600 cursor-pointer" />
+          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-400">
+            <SolidThumbUpIcon
+              onClick={() => handleUnlikePost(post._id)}
+              className="h-4 "
+            />
+            <span className="ml-[10px]">Like</span>
           </div>
         ) : (
           <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-            <ThumbUpIcon className="h-6  rounded-md hover:bg-gray-100 flex-1 cursor-pointer text-gray-400" />
+            <OutlineThumbUpIcon
+              onClick={() => handleLikePost(post._id)}
+              className="h-4  "
+            />
+            <span className="ml-[10px]"> Like</span>
           </div>
         )}
         <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-          <AnnotationIcon className="h-6  " />
+          <AnnotationIcon className="h-4  " />
+          <span className="ml-[10px]">Comment</span>
         </div>
         <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-          <ShareIcon className="h-6  rounded-md hover:bg-gray-100 flex-1  cursor-pointer text-gray-400" />
+          <ShareIcon className="h-4 " />
+          <span className="ml-[10px]">Share</span>
         </div>
       </div>
       <div className="p-1 flex items-center">
@@ -92,7 +167,12 @@ const Post = ({ post }) => {
       {comments.length > 0 &&
         comments.slice(0, 2).map((comment) => (
           <div key={comment._id} className=" p-1 w-full">
-            <Comment comment={comment} />
+            <Comment
+              comments={comments}
+              setComments={setComments}
+              postId={post._id}
+              comment={comment}
+            />
           </div>
         ))}
       {comments.length > 2 && (

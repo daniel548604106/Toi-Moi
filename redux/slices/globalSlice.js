@@ -17,6 +17,6 @@ export const globalSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleSearchBar } = globalSlice.actions;
+export const { toggleSearchBar, setLikesListOpen } = globalSlice.actions;
 
 export default globalSlice.reducer;

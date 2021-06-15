@@ -14,11 +14,13 @@ import {
   REGISTER
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-
+import globalReducer from './slices/globalSlice';
 import userReducer from './slices/userSlice';
-
+import postReducer from './slices/postSlice';
 const reducers = combineReducers({
-  user: userReducer
+  user: userReducer,
+  global: globalReducer,
+  post: postReducer
 });
 
 const persistConfig = {

@@ -10,7 +10,12 @@ const uuid = require('uuid').v4;
 
 router.get('/', authMiddleware, async (req, res) => {
   try {
+    const size = 5;
+    const page = req.query.page || 1;
+    console.log(req.query, req.params);
     const posts = await Post.find()
+      .limit(size)
+      .skip(size * (Number(page) - 1))
       .sort({ createdAt: -1 })
       .populate('user')
       .populate('comments.user')
@@ -136,7 +141,7 @@ router.post('/unlike/:id', authMiddleware, async (req, res) => {
     await post.likes.splice(index, 1);
 
     await post.save();
-    res.status(200).send('Post liked');
+    res.status(200).send('Post unliked');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
@@ -171,17 +176,20 @@ router.post('/comment/:id', authMiddleware, async (req, res) => {
     const post = await Post.findById(postId);
     if (!post) return res.status(404).send('Post not found');
 
+    const user = await User.findById(userId);
     const newComment = {
       _id: uuid(),
       text,
-      user: userId,
-      date: Date.now()
+      user,
+      date: Date.now(),
+      likes: [],
+      replies: []
     };
 
     await post.comments.unshift(newComment);
 
     await post.save();
-    return res.status(200).json(newComment._id);
+    return res.status(200).json(newComment);
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
@@ -226,4 +234,62 @@ router.delete('/:postId/:commentId', authMiddleware, async (req, res) => {
   }
 });
 
+// Like a comment
+router.post('/like/:postId/:commentId/', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { postId, commentId } = req.params;
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).send('Post not found');
+
+    const comment = post.comments.find((comment) => comment._id === commentId);
+
+    if (!comment) return res.status(404).send('Comment not found');
+
+    const newLike = {
+      user: userId,
+      date: Date.now(),
+      _id: uuid()
+    };
+    comment.likes.unshift(newLike);
+    await post.save();
+    return res.status(200).send('Comment Liked');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Unlike a comment
+router.post('/unlike/:postId/:commentId/', authMiddleware, async (req, res) => {
+  try {
+    const userId = req.userId;
+    const { postId, commentId } = req.params;
+    const post = await Post.findById(postId);
+    if (!post) return res.status(404).send('Post not found');
+
+    const comment = post.comments.find((comment) => comment._id === commentId);
+
+    if (!comment) return res.status(404).send('Comment not found');
+
+    const isLiked =
+      comment.likes.filter((like) => like.user.toString() === userId).length ===
+      0;
+    if (isLiked) {
+      res.status(401).send('Comment not liked before');
+    }
+
+    const index = comment.likes.map((like) => like.user).indexOf(userId);
+
+    // Remove like
+    await post.comments
+      .find((comment) => comment._id === commentId)
+      .likes.splice(index, 1);
+    await post.save();
+    return res.status(200).send('Unliked comment successfully');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
 module.exports = router;
