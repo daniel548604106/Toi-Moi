@@ -10,7 +10,12 @@ const uuid = require('uuid').v4;
 
 router.get('/', authMiddleware, async (req, res) => {
   try {
+    const size = 5;
+    const page = req.query.page || 1;
+    console.log(req.query, req.params);
     const posts = await Post.find()
+      .limit(size)
+      .skip(size * (Number(page) - 1))
       .sort({ createdAt: -1 })
       .populate('user')
       .populate('comments.user')

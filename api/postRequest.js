@@ -7,8 +7,8 @@ export const postNewPost = ({ image, text, location }) => {
   return request.post('/posts', { image, text, location });
 };
 
-export const getAllPosts = () => {
-  return request.get(`/posts`);
+export const getAllPosts = (currentPage) => {
+  return request.get(`/posts?page=${currentPage}`);
 };
 
 export const getPost = (id) => {

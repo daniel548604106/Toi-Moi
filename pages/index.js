@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Login from '../components/Login/Index';
@@ -6,11 +7,29 @@ import Feed from '../components/Home/Feed/Index';
 import Contacts from '../components/Home/Contacts/Index';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { apiGetAllPosts } from '../api';
 import axios from 'axios';
 export default function Home({ posts }) {
   useEffect(() => {
     console.log(posts);
   }, []);
+  const [hasMore, setHasMore] = useState(true);
+  const [currentPosts, setCurrentPosts] = useState(posts);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const getMorePosts = async () => {
+    try {
+      console.log(currentPage);
+      const posts = await apiGetAllPosts(currentPage);
+      setCurrentPosts((prev) => [...prev, ...posts.data]);
+      setCurrentPage(currentPage + 1);
+
+      console.log(currentPosts);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="bg-gray-100">
       <Head>
@@ -22,7 +41,31 @@ export default function Home({ posts }) {
         <div className="">
           <Sidebar />
         </div>
-        <Feed posts={posts} />
+        <InfiniteScroll
+          dataLength={posts.length} //This is important field to render the next data
+          next={getMorePosts}
+          hasMore={hasMore}
+          loader={<h4>Loading...</h4>}
+          endMessage={
+            <p style={{ textAlign: 'center' }}>
+              <b>Yay! You have seen it all</b>
+            </p>
+          }
+          // below props only if you need pull down functionality
+          // refreshFunction={this.refresh}
+          // pullDownToRefresh
+          // pullDownToRefreshThreshold={50}
+          // pullDownToRefreshContent={
+          //   <h3 style={{ textAlign: 'center' }}>
+          //     &#8595; Pull down to refresh
+          //   </h3>
+          // }
+          // releaseToRefreshContent={
+          //   <h3 style={{ textAlign: 'center' }}>&#8593; Release to refresh</h3>
+          // }
+        >
+          <Feed posts={currentPosts} />
+        </InfiniteScroll>
         <Contacts />
       </main>
     </div>

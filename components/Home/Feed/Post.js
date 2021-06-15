@@ -22,6 +22,7 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
+  const [isLiked, setIsLiked] = useState(false);
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
@@ -62,9 +63,13 @@ const Post = ({ post }) => {
       console.log(res);
     });
   };
-  const isLiked =
-    likes.length > 0 &&
-    likes.filter((like) => like.user._id === userInfo._id).length > 0;
+  useEffect(() => {
+    setIsLiked(
+      likes.length > 0 &&
+        likes.filter((like) => like.user._id === userInfo._id).length > 0
+    );
+  }, []);
+
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
       <div className="p-3">
