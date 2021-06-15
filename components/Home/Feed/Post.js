@@ -22,7 +22,6 @@ const Post = ({ post }) => {
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
@@ -41,6 +40,7 @@ const Post = ({ post }) => {
 
   const handleLikePost = async (id) => {
     try {
+      console.log('clicked');
       const { data } = await apiLikePost(id);
       console.log(data);
     } catch (error) {
@@ -63,13 +63,13 @@ const Post = ({ post }) => {
       console.log(res);
     });
   };
-  useEffect(() => {
-    setIsLiked(
-      likes.length > 0 &&
-        likes.filter((like) => like.user._id === userInfo._id).length > 0
-    );
-  }, []);
+  const isLiked =
+    likes.length > 0 &&
+    likes.filter((like) => like.user._id === userInfo._id).length > 0;
 
+  useEffect(() => {
+    console.log(likes, isLiked);
+  }, [likes]);
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
       <div className="p-3">
@@ -130,11 +130,11 @@ const Post = ({ post }) => {
             <span className="ml-[10px]">Like</span>
           </div>
         ) : (
-          <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-            <OutlineThumbUpIcon
-              onClick={() => handleLikePost(post._id)}
-              className="h-4  "
-            />
+          <div
+            onClick={() => handleLikePost(post._id)}
+            className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400"
+          >
+            <OutlineThumbUpIcon className="h-4  " />
             <span className="ml-[10px]"> Like</span>
           </div>
         )}

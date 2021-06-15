@@ -4,7 +4,6 @@ import {
   SearchIcon,
   PlayIcon,
   FlagIcon,
-  ShoppingBagIcon,
   ShoppingCartIcon
 } from '@heroicons/react/outline';
 import {
@@ -13,12 +12,18 @@ import {
   ChevronDownIcon,
   HomeIcon,
   UserGroupIcon,
+  PlusIcon,
   ViewGridIcon
 } from '@heroicons/react/solid';
 import HeaderIcon from './HeaderIcon';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import AccountPopup from './AccountPopup';
+import AccountDropDown from './AccountDropDown';
+import DropDownMenu from './DropDownMenu';
+import DropDownMenuIcon from './DropDownMenuIcon';
+import MessageDropDown from './MessageDropDown';
+import CreateDropDown from './CreateDropDown';
+import NotificationDropDown from './NotificationDropDown';
 const Header = () => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -59,7 +64,7 @@ const Header = () => {
         <HeaderIcon Icon={ShoppingCartIcon} />
         <HeaderIcon Icon={UserGroupIcon} />
       </div>
-      <div className="flex justify-end items-center sm:space-x-2 w-full max-w-[350px]">
+      <div className="relative flex justify-end items-center sm:space-x-2 w-full max-w-[350px]">
         <div
           onClick={() => router.push(`/${userInfo.username}`)}
           className="flex items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer "
@@ -75,15 +80,26 @@ const Header = () => {
             {userInfo.name}
           </p>
         </div>
-        <ViewGridIcon className="icon" />
-        <BellIcon className="icon" />
-        <ChatIcon onClick={() => router.push('/messages')} className="icon" />
-        <div className="relative group">
-          <ChevronDownIcon className="icon" />
-          <div className="absolute bottom-0 hidden group-hover:block right-0 transform translate-y-full">
-            <AccountPopup />
-          </div>
-        </div>
+        <DropDownMenuIcon Icon={PlusIcon}>
+          <DropDownMenu>
+            <CreateDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
+        <DropDownMenuIcon Icon={BellIcon}>
+          <DropDownMenu>
+            <NotificationDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
+        <DropDownMenuIcon Icon={ChatIcon}>
+          <DropDownMenu>
+            <MessageDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
+        <DropDownMenuIcon Icon={ChevronDownIcon}>
+          <DropDownMenu>
+            <AccountDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
       </div>
     </div>
   );

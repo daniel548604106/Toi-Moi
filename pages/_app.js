@@ -10,15 +10,20 @@ import { persistStore } from 'redux-persist';
 let persistor = persistStore(store);
 import Overlay from '../components/Global/Overlay';
 import LikesListModal from '../components/Home/Feed/LikesListModal';
+import InputBoxModal from '../components/Home/Feed/InputBoxModal';
 const App = ({ Component, pageProps }) => {
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
   const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
+  const isPostInputBoxOpen = useSelector(
+    (state) => state.post.isPostInputBoxOpen
+  );
   if (!isUserLoggedIn) return <Login />;
   return (
     <>
-      {isLikesListOpen && (
+      {(isLikesListOpen || isPostInputBoxOpen) && (
         <Overlay>
-          <LikesListModal />
+          {isLikesListOpen && <LikesListModal />}
+          {isPostInputBoxOpen && <InputBoxModal />}
         </Overlay>
       )}
       <Header />
