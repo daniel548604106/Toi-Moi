@@ -10,7 +10,8 @@ import {
   likePost,
   unlikePost,
   likeComment,
-  unlikeComment
+  unlikeComment,
+  deleteComment
 } from './postRequest';
 // Search
 
@@ -37,3 +38,4 @@ export const apiLikePost = likePost;
 export const apiUnlikePost = unlikePost;
 export const apiLikeComment = likeComment;
 export const apiUnlikeComment = unlikeComment;
+export const apiDeleteComment = deleteComment;
