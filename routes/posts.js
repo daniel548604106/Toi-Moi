@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
+const Follower = require('../models/followerModel');
 const authMiddleware = require('../middleware/authMiddleware');
 const { uploadPostImage } = require('../middleware/uploadMiddleware');
 const uuid = require('uuid').v4;
@@ -9,17 +10,76 @@ const uuid = require('uuid').v4;
 // Get All Posts
 
 router.get('/', authMiddleware, async (req, res) => {
+  const page = req.query.page || 1;
+
   try {
+    const currentPage = Number(page);
     const size = 5;
-    const page = req.query.page || 1;
-    console.log(req.query, req.params);
-    const posts = await Post.find()
-      .limit(size)
-      .skip(size * (Number(page) - 1))
-      .sort({ createdAt: -1 })
-      .populate('user')
-      .populate('comments.user')
-      .populate('likes.user');
+    const skips = size * (page - 1);
+    const { userId } = req;
+    // Since we only need the users we are following , deselect followers
+    const loggedUser = await Follower.findOne({ user: userId }).select(
+      '-followers'
+    );
+
+    let posts = [];
+    if (currentPage === 1) {
+      if (loggedUser.following.length > 0) {
+        posts = await Post.find({
+          //The $in operator selects the documents where the value of a field equals any value in the specified array.
+          user: {
+            $in: [
+              userId,
+              ...loggedUser.following.map((following) => following.user)
+            ]
+          }
+        })
+          .limit(size)
+          .sort({ createdAt: -1 })
+          .populate('user')
+          .populate('comments.user');
+      } else {
+        posts = await Post.find({ user: userId })
+          .limit(size)
+          .sort({ createdAt: -1 })
+          .populate('user')
+          .populate('comments.user');
+      }
+    } else {
+      if (loggedUser.following.length > 0) {
+        posts = await Post.find({
+          user: {
+            $in: [
+              userId,
+              ...loggedUser.following.map((following) => following.user)
+            ]
+          }
+        })
+          .skip(skips)
+          .limit(size)
+          .sort({ createdAt: -1 })
+          .populate('user')
+          .populate('comments.user');
+      } else {
+        posts = await Post.find({ user: userId })
+          .skip(skips)
+          .limit(size)
+          .sort({ createdAt: -1 })
+          .populate('user')
+          .populate('comments.user');
+      }
+    }
+
+    //   // Loop through every user that the loggedIn user is following and see if there's any posts made by them
+    //   for (let i = 0; i < loggedInUser.following.length; i++) {
+    //     const postsFound = posts.filter(
+    //       (post) =>
+    //         post.user.toString()._id === loggedInUser.following[i].user ||
+    //         post.user._id.toString() === userId
+    //     );
+    //     if (postsFound.length > 0) postsToBeSent.push(...foundPosts);
+    //   }
+    // }
 
     res.status(200).json(posts);
   } catch (error) {
@@ -49,7 +109,7 @@ router.post('/', authMiddleware, uploadPostImage, async (req, res) => {
     const { text, location, picUrl } = req.body;
     if (text.length < 1)
       return res.status(401).send('Text must be at least on characters');
-
+    console.log(req.userId);
     const newPost = {
       user: req.userId,
       text,
