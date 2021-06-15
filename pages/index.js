@@ -16,14 +16,15 @@ export default function Home({ posts }) {
   }, []);
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts);
-  const [currentPage, setCurrentPage] = useState(1);
-
+  const [currentPage, setCurrentPage] = useState(2);
   const getMorePosts = async () => {
     try {
-      console.log(currentPage);
+      console.log('get');
       const posts = await apiGetAllPosts(currentPage);
       setCurrentPosts((prev) => [...prev, ...posts.data]);
-      setCurrentPage(currentPage + 1);
+      console.log('new', posts.data);
+      if (posts.data.length === 0) setHasMore(false);
+      setCurrentPage((currentPage) => currentPage + 1);
 
       console.log(currentPosts);
     } catch (error) {
@@ -42,7 +43,7 @@ export default function Home({ posts }) {
           <Sidebar />
         </div>
         <InfiniteScroll
-          dataLength={posts.length} //This is important field to render the next data
+          dataLength={currentPosts.length} //This is important field to render the next data, only when the length is changed then will trigger next function
           next={getMorePosts}
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
