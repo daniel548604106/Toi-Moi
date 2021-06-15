@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 @layer components {
-  .icon{
-    @apply inline-flex hover:bg-gray-200  p-2 cursor-pointer bg-gray-100 w-10 h-10 rounded-full items-center justify-center
+  .icon {
+    @apply inline-flex hover:bg-gray-200  p-2 cursor-pointer bg-gray-100 w-10 h-10 rounded-full items-center justify-center;
   }
-  .inputIcon{
-    @apply flex items-center space-x-1 hover:bg-gray-100 flex-grow justify-center p-2 rounded-md cursor-pointer
+  .inputIcon {
+    @apply flex-col text-center sm:flex-row items-center space-x-1 hover:bg-gray-100 flex-grow justify-center p-2 rounded-md cursor-pointer;
   }
 }

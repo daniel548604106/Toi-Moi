@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { dateDiff } from '../../../lib/dayjs';
+import { timeDiff } from '../../../lib/dayjs';
 import {
   apiLikeComment,
   apiUnlikeComment,
@@ -63,11 +63,11 @@ const Comment = ({ setComments, comments, postId, comment }) => {
             </span>
             <p className="text-sm  ">{comment.text}</p>
             {comment.likes.length > 0 && (
-              <div className="absolute flex items-center text-xs transform shadow-md translate-y-1/2 text-gray-400 bottom-0 right-0 rounded-full bg-white py-1 px-2">
+              <div className="absolute flex items-center text-xs transform cursor-pointer shadow-md translate-y-1/2 text-gray-400 bottom-2 right-1 translate-x-full rounded-full bg-white p-1">
                 <span className="p-1 rounded-full bg-blue-600">
-                  <ThumbUpIcon className="h-3 text-white" />
+                  <ThumbUpIcon className="h-2 text-white" />
                 </span>
-                <span className="ml-[3px]">{comment.likes.length}</span>
+                <span className="ml-[5px]">{comment.likes.length}</span>
               </div>
             )}
           </div>
@@ -98,7 +98,7 @@ const Comment = ({ setComments, comments, postId, comment }) => {
           )}
           <span className="cursor-pointer ml-[5px]">reply</span>
           <span className="text-xs text-gray-600 ml-[5px]">
-            {dateDiff(comment.date)}
+            {timeDiff(comment.date)}
           </span>
         </div>
       </div>
