@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Index = ({ posts }) => {
   return (
-    <div className="flex-grow sm:px-5 sm:mx-0 xl:px-10 xl:mx-10">
+    <div className=" w-full max-w-[600px] sm:px-5 sm:mx-0 xl:px-10">
       {/* <div className="mb-[30px]">
         <Stories />
       </div> */}

@@ -14,7 +14,9 @@ export const postSlice = createSlice({
   name: 'post',
   initialState: {
     isLikesListOpen: false,
-    likesList: []
+    likesList: [],
+    isPostInputBoxOpen: false,
+    imageToPost: ''
   },
   reducers: {
     setLikesListOpen: (state, { payload }) => {
@@ -22,6 +24,12 @@ export const postSlice = createSlice({
         state.likesList = [];
       }
       state.isLikesListOpen = payload;
+    },
+    setPostInputBoxOpen: (state, { payload }) => {
+      state.isPostInputBoxOpen = payload;
+    },
+    setImageToPost: (state, { payload }) => {
+      state.imageToPost = payload;
     }
   },
   extraReducers: {
@@ -34,6 +42,7 @@ export const postSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setLikesListOpen } = postSlice.actions;
+export const { setLikesListOpen, setPostInputBoxOpen, setImageToPost } =
+  postSlice.actions;
 
 export default postSlice.reducer;

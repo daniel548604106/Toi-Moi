@@ -37,12 +37,14 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    role: {
-      type: String,
-      default: 'user',
-      enum: ['user', 'root']
-      // enum is saying that only the fields specified are allowed
-    },
+    role: [
+      {
+        type: String,
+        default: 'user',
+        enum: ['user', 'root']
+        // enum is saying that only the fields specified are allowed
+      }
+    ],
     resetToken: {
       type: String
     },

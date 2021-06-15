@@ -6,7 +6,12 @@ const Follower = require('../models/followerModel');
 const authMiddleware = require('../middleware/authMiddleware');
 const { uploadPostImage } = require('../middleware/uploadMiddleware');
 const uuid = require('uuid').v4;
-('uuid');
+
+const {
+  removeLikeNotification,
+  newLikeNotification
+} = require('../utilsServer/notificationActions');
+
 // Get All Posts
 
 router.get('/', authMiddleware, async (req, res) => {
@@ -164,6 +169,8 @@ router.post('/like/:id', authMiddleware, async (req, res) => {
     const postId = req.params.id;
     const post = await Post.findById(postId);
     if (!post) return res.status(404).send('No post found');
+    const userToNotifyId = post.user;
+    newLikeNotification(userId, postId, userToNotifyId);
 
     const isLiked =
       post.likes.filter((like) => like.user.toString() === userId).length > 0;

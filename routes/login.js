@@ -4,6 +4,7 @@ const User = require('../models/userModel');
 const Follower = require('../models/followerModel');
 const Profile = require('../models/profileModel');
 const Chat = require('../models/chatModel');
+const Notification = require('../models/notificationModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isEmail = require('validator/lib/isEmail');
@@ -48,6 +49,8 @@ router.post('/', async (req, res) => {
       }).save();
     }
 
+    // Profile Model
+
     const profileStats = await Profile.findOne({ user: user._id });
     if (!profileStats) {
       await new Profile({
@@ -57,6 +60,15 @@ router.post('/', async (req, res) => {
           facebook: '',
           twitter: ''
         }
+      }).save();
+    }
+
+    // Notification Model
+    const notifications = await Notification.findOne({ user: user._id });
+    if (!notifications) {
+      await new Notification({
+        user: user._id,
+        notifications: []
       }).save();
     }
 
