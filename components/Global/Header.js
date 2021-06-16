@@ -30,7 +30,7 @@ const Header = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center sticky top-0 bg-white z-40 shadow-md p-2 sm:px-5 ">
+    <div className="flex items-center sticky top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <Image
@@ -86,23 +86,23 @@ const Header = () => {
           </p>
         </div>
         <div className="hidden md:block">
-          <DropDownMenuIcon Icon={PlusIcon}>
+          <DropDownMenuIcon title="Create" Icon={PlusIcon}>
             <DropDownMenu>
               <CreateDropDown />
             </DropDownMenu>
           </DropDownMenuIcon>
         </div>
-        <DropDownMenuIcon Icon={BellIcon}>
+        <DropDownMenuIcon title="Notification" Icon={BellIcon}>
           <DropDownMenu>
             <NotificationDropDown />
           </DropDownMenu>
         </DropDownMenuIcon>
-        <DropDownMenuIcon Icon={ChatIcon}>
+        <DropDownMenuIcon title="Messenger" Icon={ChatIcon}>
           <DropDownMenu>
             <MessageDropDown />
           </DropDownMenu>
         </DropDownMenuIcon>
-        <DropDownMenuIcon Icon={ChevronDownIcon}>
+        <DropDownMenuIcon title="Account" Icon={ChevronDownIcon}>
           <DropDownMenu>
             <AccountDropDown />
           </DropDownMenu>

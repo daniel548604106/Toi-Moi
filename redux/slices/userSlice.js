@@ -3,7 +3,8 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     isUserLoggedIn: false,
-    userInfo: {}
+    userInfo: {},
+    notifications: []
   },
   reducers: {
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
