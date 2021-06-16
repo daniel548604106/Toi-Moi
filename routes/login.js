@@ -56,6 +56,7 @@ router.post('/', async (req, res) => {
       await new Profile({
         user: user._id,
         bio: '',
+        profileCoverImage: '',
         social: {
           facebook: '',
           twitter: ''

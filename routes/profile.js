@@ -1,10 +1,15 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
+const uploadMiddleware = require('../middleware/uploadMiddleware');
 const router = express.Router();
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 const Follower = require('../models/followerModel');
 const Post = require('../models/postModel');
+const {
+  newFollowerNotification,
+  removeFollowerNotification
+} = require('../utilsServer/notificationActions');
 // Get Profile info
 
 router.get('/:username', authMiddleware, async (req, res) => {
@@ -109,6 +114,8 @@ router.post('/follow/:userToFollowId', authMiddleware, async (req, res) => {
     await userToFollow.save();
     user.following.unshift({ user: userToFollowId });
     await user.save();
+
+    await newFollowerNotification(userId, userToFollowId);
     res.status(200).send('Success');
   } catch (error) {
     console.log(error);
@@ -154,11 +161,43 @@ router.post('/unfollow/:userToUnfollowId', authMiddleware, async (req, res) => {
 
     await user.save();
     await userToUnfollow.save();
+
+    await removeFollowerNotification(userId, userToUnfollowId);
     res.status(200).send('Unfollow successfully');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
   }
 });
+
+// Update Profile
+
+router.patch(
+  '/:username',
+  authMiddleware,
+  uploadMiddleware,
+  async (req, res) => {
+    try {
+      const { userId } = req;
+      const { username } = req.params;
+      const { bio, profileCoverImage } = req.body;
+      const user = await Profile.findOne({ user: userId }).populate('user');
+      if (user.user.username !== username)
+        return res.status(401).send('Invalid Credentials');
+
+      let newResult;
+      if (profileCoverImage) {
+        newResult = await Profile.findOneAndUpdate({ bio, profileCoverImage });
+      } else {
+        newResult = await Profile.findByIdAndUpdate({ bio });
+      }
+      console.log(newResult);
+      return res.status(201).json(newResult);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Server error');
+    }
+  }
+);
 
 module.exports = router;

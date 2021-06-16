@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { dateDiff } from '../../../lib/dayjs';
+import { timeDiff } from '../../../lib/dayjs';
 const List = ({ chat, connectedUsers }) => {
   const router = useRouter();
   const isOnline =
@@ -33,7 +33,7 @@ const List = ({ chat, connectedUsers }) => {
       <div className="ml-3 flex-1 truncate overflow-hidden">
         <div className="flex items-center justify-between w-full">
           <p className="mr-2">{chat.name}</p>
-          <p className="text-xs text-gray-600">{dateDiff(chat.date)}</p>
+          <p className="text-xs text-gray-600">{timeDiff(chat.date)}</p>
         </div>
         <p className="overflow-ellipsis">{chat.lastMessage}</p>
       </div>

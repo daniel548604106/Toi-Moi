@@ -10,3 +10,7 @@
     @apply flex-col text-center sm:flex-row items-center space-x-1 hover:bg-gray-100 flex-grow justify-center p-2 rounded-md cursor-pointer;
   }
 }
+
+body {
+  background-color: #fafafa;
+}

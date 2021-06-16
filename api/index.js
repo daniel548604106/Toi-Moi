@@ -13,6 +13,7 @@ import {
   unlikeComment,
   deleteComment
 } from './postRequest';
+import { getNotifications } from './notificationRequest';
 // Search
 
 export const apiSearchRequest = searchRequest;
@@ -39,3 +40,13 @@ export const apiUnlikePost = unlikePost;
 export const apiLikeComment = likeComment;
 export const apiUnlikeComment = unlikeComment;
 export const apiDeleteComment = deleteComment;
+
+// Notifications
+
+export const apiGetNotifications = getNotifications;
+
+// Profile
+import { getProfilePosts, getProfile } from './profileRequest';
+
+export const apiGetProfilePosts = getProfilePosts;
+export const apiGetProfile = getProfile;
