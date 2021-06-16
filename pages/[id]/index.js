@@ -45,8 +45,10 @@ const Index = ({ profileData, postsData }) => {
 
   return (
     <div>
-      <ProfileCover profile={profile} user={user} />
-      <main className="p-4 bg-[#fafafa] flex-col md:flex-row  flex justify-center">
+      <div className="bg-gradient-to-b from-gray-400 via-white to-white">
+        <ProfileCover profile={profile} user={user} />
+      </div>
+      <main className="max-w-7xl mx-auto p-4 bg-[#fafafa] flex-col md:flex-row  flex justify-center">
         <div className="w-full mr-[10px] md:sticky top-[100px] self-start">
           <Summary />
           <Photos />

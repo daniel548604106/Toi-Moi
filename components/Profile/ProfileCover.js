@@ -1,57 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import {
-  DotsHorizontalIcon,
-  PencilAltIcon,
-  CameraIcon
-} from '@heroicons/react/outline';
-import { PlusCircleIcon } from '@heroicons/react/solid';
+import { CameraIcon, GlobeIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-const tabs = [
-  {
-    title: 'posts',
-    link: '/'
-  },
-  {
-    title: 'friends',
-    link: 'friends'
-  },
-  {
-    title: 'photos',
-    link: 'photos'
-  },
-  {
-    title: 'about',
-    link: 'about'
-  },
-  {
-    title: 'stories',
-    link: 'stories'
-  }
-];
+import BioInput from './BioInput';
+import TabsList from './TabsList';
+import { apiPatchProfile } from '../../api';
 const ProfileCover = ({ user, profile }) => {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState(router.query.tab);
+  const [isCoverImageEditable, setCoverImageEditable] = useState(false);
+  const [coverImage, setCoverImage] = useState(profile.profileCoverImage);
+  const [bio, setBio] = useState(profile.bio);
+
+  const inputRef = useRef(null);
   const userInfo = useSelector((state) => state.user.userInfo);
 
+  const handleCancelImageUpdate = () => {
+    setCoverImageEditable(false);
+    setCoverImage(profile.profileCoverImage || '');
+  };
+
+  const addImageToPost = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+    console.log('triggered');
+    setCoverImageEditable(true);
+    reader.onload = (readerEvent) => {
+      console.log('reader', readerEvent);
+      setCoverImage(readerEvent.target.result);
+    };
+  };
+  const handleSaveImageChanges = () => {
+    setCoverImageEditable(false);
+    sendUpdates(bio, coverImage);
+  };
+  const isEditable = userInfo.username === router.query.id;
+
+  const sendUpdates = async (bio, profileCoverImage) => {
+    try {
+      const res = await apiPatchProfile(
+        router.query.id,
+        bio,
+        profileCoverImage
+      );
+
+      console.log('hi', res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    setActiveTab(router.query.tab);
-    console.log(router.query);
-  }, [router.query.tab]);
+    setCoverImage(profile.profileCoverImage);
+    setBio(profile.bio);
+  }, [profile]);
 
   return (
-    <div className=" bg-white border">
-      <div className=" relative bg-gray-100 w-screen  rounded-xl">
+    <div className="relative bg-white max-w-7xl mx-auto">
+      {isCoverImageEditable && (
+        <div className="absolute top-0 w-full left-0 z-30 flex items-center justify-between p-3 bg-black bg-opacity-10">
+          <div className="flex items-center text-white">
+            <GlobeIcon className="h-6" />
+            <p className="text-sm ml-[5px]">
+              Your Cover Photo Will Be Visible To Everyone
+            </p>
+          </div>
+          <div>
+            <button
+              onClick={() => handleCancelImageUpdate()}
+              className=" text-gray-600 hover:opacity-80 bg-gray-100 bg-opacity-20 rounded-md py-2 px-4"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleSaveImageChanges()}
+              className="ml-[10px] text-white bg-blue-600  rounded-md py-2 px-4"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      )}
+      <div
+        className={`${
+          isCoverImageEditable && 'cursor-move'
+        } relative  bg-gray-100 w-full  rounded-xl`}
+      >
         <Image
           width={1000}
-          height={500}
+          height={350}
+          className="object-cover rounded-b-2xl"
           layout="responsive"
-          src={profile.profileCoverImage || `/images/profileCoverDefault.png`}
+          src={coverImage || `/images/profileCoverDefault.png`}
         />
-        {userInfo.username === router.query.id && (
-          <span className="px-4 py-2 absolute bottom-5 hover:shadow-xl cursor-pointer rounded-md right-5 bg-white">
+        {isEditable && (
+          <span
+            onClick={() => inputRef.current.click()}
+            className="px-4 py-2 absolute bottom-5 hover:shadow-xl cursor-pointer rounded-md right-5 bg-white"
+          >
             <CameraIcon className="h-6 " />
+            <input
+              onChange={(e) => addImageToPost(e)}
+              ref={inputRef}
+              type="file"
+              hidden
+            />
           </span>
         )}
         <div className="absolute translate-y-[10px] bottom-0 border w-[160px] h-[160px] rounded-full border-white transform left-1/2 -translate-x-1/2">
@@ -65,40 +120,17 @@ const ProfileCover = ({ user, profile }) => {
 
       <div className=" p-5 space-x-2  flex flex-col items-center justify-center">
         <h2 className="text-2xl font-semibold">{user.name}</h2>
-        <span>{profile.bio}</span>
-        <span className="text-blue-600 cursor-pointer">Edit</span>
+        <BioInput
+          isEditable={isEditable}
+          originalBio={profile.bio}
+          bio={bio}
+          setBio={setBio}
+          sendUpdates={sendUpdates}
+        />
         <hr className="my-2" />
       </div>
-      <div className="p-3 border-t  flex items-center justify-between">
-        <div>
-          {tabs.map((tab) => (
-            <span
-              key={tab.title}
-              className={`p-3 capitalize font-semibold cursor-pointer text-gray-600 rounded-lg hover:bg-gray-100 ${
-                (activeTab === tab.title ||
-                  (tab.title === 'posts' && !router.query.tab)) &&
-                'text-blue-600 border-b hover:bg-opacity-0 rounded-none border-blue-600'
-              }`}
-              onClick={() => router.push(`/${user.username}/${tab.link}`)}
-            >
-              {tab.title}
-            </span>
-          ))}
-        </div>
-
-        <div className="flex items-center  space-x-3">
-          <button className="flex items-center  bg-blue-600 text-white rounded-md px-3 py-2">
-            <PlusCircleIcon className="h-6 mr-2" />
-            <span> Add New Stories</span>
-          </button>
-          <button className="flex items-center  bg-gray-100 rounded-md py-2 px-3">
-            <PencilAltIcon className="h-6 mr-2" />
-            <span> Edit Profile</span>
-          </button>
-          <button className="py-2 px-3 rounded-md  bg-gray-100">
-            <DotsHorizontalIcon className="h-6" />
-          </button>
-        </div>
+      <div>
+        <TabsList user={user} />
       </div>
     </div>
   );

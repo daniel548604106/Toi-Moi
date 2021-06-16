@@ -17,8 +17,10 @@ import {
   setLikesListOpen,
   apiGetLikesList
 } from '../../../redux/slices/postSlice';
+import { useRouter } from 'next/router';
 import Comment from './Comment';
 const Post = ({ post }) => {
+  const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
@@ -64,6 +66,9 @@ const Post = ({ post }) => {
       console.log(res);
     });
   };
+  const handleDirectToProfile = () => {
+    router.push(`/${post.user.username}`);
+  };
   const isLiked =
     likes.length > 0 &&
     likes.filter((like) => like.user._id === userInfo._id).length > 0;
@@ -77,13 +82,17 @@ const Post = ({ post }) => {
         <div className="flex justify-between cursor-pointer  mb-[10px]">
           <div className="flex items-center">
             <Image
+              onClick={() => handleDirectToProfile()}
               className="rounded-full"
               src={post.user.profileImage}
               width="40"
               height="40"
             />
             <div className="ml-[10px]">
-              <p className=" font-semibold hover:underline cursor-pointer">
+              <p
+                onClick={() => handleDirectToProfile()}
+                className=" font-semibold hover:underline cursor-pointer"
+              >
                 {post.user.name}
               </p>
               <p className="text-xs text-gray-600 hover:underline cursor-pointer">

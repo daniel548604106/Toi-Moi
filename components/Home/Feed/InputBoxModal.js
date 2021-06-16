@@ -37,6 +37,7 @@ const InputBoxModal = () => {
     try {
       e.preventDefault();
       if (text === '') return;
+      dispatch(setPostInputBoxOpen(false));
       const { data } = await apiPostNewPost({ image, text, location });
       setText('');
       setImage(null);
@@ -107,6 +108,7 @@ const InputBoxModal = () => {
           </div>
         </div>
         <button
+          onClick={(e) => sendPost(e)}
           className={`mt-[10px]  text-sm rounded-lg w-full py-3 bg-gray-100 ${
             text && 'bg-blue-600 text-white'
           } `}
