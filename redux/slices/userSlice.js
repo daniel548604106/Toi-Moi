@@ -4,7 +4,9 @@ export const userSlice = createSlice({
   initialState: {
     isUserLoggedIn: false,
     userInfo: {},
-    notifications: []
+    notifications: [],
+    isEditProfileImageOpen: false,
+    profileImageToUpdate: ''
   },
   reducers: {
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -16,11 +18,25 @@ export const userSlice = createSlice({
     },
     setUserLogout: (state, { payload }) => {
       (state.isUserLoggedIn = false), (state.userInfo = {});
+    },
+    setEditProfileImageOpen: (state, { payload }) => {
+      state.isEditProfileImageOpen = payload;
+    },
+    setProfileImageToUpdate: (state, { payload }) => {
+      if (payload === false) {
+        state.profileImageToUpdate = '';
+      }
+      state.profileImageToUpdate = payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setUserLogin, setUserLogout } = userSlice.actions;
+export const {
+  setUserLogin,
+  setUserLogout,
+  setEditProfileImageOpen,
+  setProfileImageToUpdate
+} = userSlice.actions;
 
 export default userSlice.reducer;

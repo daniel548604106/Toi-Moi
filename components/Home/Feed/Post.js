@@ -73,10 +73,10 @@ const Post = ({ post }) => {
   };
 
   const handleViewPost = (postId) => {
-    dispatch(setViewPostModalOpen(true));
     dispatch(apiGetCurrentPost(postId)).then((res) => {
       console.log('currentPost', res);
     });
+    dispatch(setViewPostModalOpen(true));
   };
 
   const handleDirectToProfile = () => {
@@ -132,10 +132,10 @@ const Post = ({ post }) => {
       {!isViewPostModalOpen && post.picUrl && (
         <div
           onClick={() => handleViewPost(post._id)}
-          className="cursor-pointer relative  w-full h-full bg-white"
+          className="cursor-pointer relative  w-full rounded-md  bg-black"
         >
           <Image
-            className="w-full h-auto object-cover"
+            className="w-full object-scale-down"
             src={post.picUrl}
             width="100%"
             height="auto"

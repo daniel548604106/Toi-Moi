@@ -33,7 +33,7 @@ const TabsList = ({ user }) => {
     setActiveTab(router.query.tab);
   }, [router.query.tab]);
   return (
-    <div className="p-3 border-t  flex items-center justify-between">
+    <div className="p-3 border-t bg-white  flex items-center justify-between">
       <div>
         {tabs.map((tab) => (
           <span

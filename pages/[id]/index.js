@@ -4,14 +4,15 @@ import ProfileCover from '../../components/Profile/ProfileCover';
 import Summary from '../../components/Profile/Summary';
 import Friends from '../../components/Profile/Friends';
 import Photos from '../../components/Profile/Photos';
+import TabsList from '../../components/Profile/TabsList';
 import Post from '../../components/Home/Feed/Post';
 import { apiGetProfile, apiGetProfilePosts } from '../../api/index';
 import { useRouter } from 'next/router';
 import InputBox from '../../components/Home/Feed/InputBox';
-const Index = ({ profileData, postsData }) => {
+const Index = ({ profileData, postsData, friends }) => {
   const router = useRouter();
   useEffect(() => {
-    console.log('posts', postsData);
+    console.log('posts', postsData, friends);
   }, []);
   const [profile, setProfile] = useState(profileData.profile);
   const [user, setUser] = useState(profileData.profile.user);
@@ -49,13 +50,16 @@ const Index = ({ profileData, postsData }) => {
       <div className="bg-gradient-to-b from-gray-400 via-white to-white">
         <ProfileCover profile={profile} user={user} />
       </div>
-      <main className="max-w-7xl mx-auto p-4 bg-[#fafafa] flex-col md:flex-row  flex justify-center">
-        <div className="w-full mr-[10px] md:sticky top-[100px] self-start">
+      <div className="sticky top-[60px] z-40  self-start ">
+        <TabsList user={user} />
+      </div>
+      <main className="max-w-7xl mx-auto p-4 bg-[#fafafa] flex-col lg:flex-row  flex justify-center">
+        <div className="w-full mr-[10px] sticky bottom-0  self-end">
           <Summary />
           <Photos />
-          <Friends />
+          <Friends friends={friends} />
         </div>
-        <div className="w-full">
+        <div className="w-full lg:w-[150%]">
           <div className="mb-[30px]">
             <InputBox />
           </div>
@@ -92,10 +96,19 @@ export async function getServerSideProps({ req, params, res }) {
         }
       }
     );
+    const friends = await axios.get(
+      `${process.env.BASE_URL}/api/profile/friends_preview/${username}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     return {
       props: {
         profileData: profile.data,
-        postsData: posts.data
+        postsData: posts.data,
+        friends: friends.data
       }
     };
   } catch (error) {

@@ -43,6 +43,9 @@ export const postSlice = createSlice({
       state.imageToPost = payload;
     },
     setViewPostModalOpen: (state, { payload }) => {
+      if (payload === false) {
+        setImageToPost('');
+      }
       state.isViewPostModalOpen = payload;
     }
   },
