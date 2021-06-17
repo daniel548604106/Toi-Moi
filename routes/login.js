@@ -5,6 +5,7 @@ const Follower = require('../models/followerModel');
 const Profile = require('../models/profileModel');
 const Chat = require('../models/chatModel');
 const Notification = require('../models/notificationModel');
+const Friend = require('../models/friendModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isEmail = require('validator/lib/isEmail');
@@ -64,6 +65,16 @@ router.post('/', async (req, res) => {
       }).save();
     }
 
+    // Friend Model
+    const friends = await Friend.findOne({ user: user._id });
+    if (!friends) {
+      await new Friend({
+        user: user._id,
+        requestsSent: [],
+        requestsReceived: [],
+        friends: []
+      }).save();
+    }
     // Notification Model
     const notifications = await Notification.findOne({ user: user._id });
     if (!notifications) {

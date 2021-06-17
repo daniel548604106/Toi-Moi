@@ -5,7 +5,9 @@ const router = express.Router();
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 const Follower = require('../models/followerModel');
+const Friend = require('../models/friendModel');
 const Post = require('../models/postModel');
+const { checkFriendStatus } = require('../utilsServer/friendsAction');
 const {
   newFollowerNotification,
   removeFollowerNotification
@@ -167,6 +169,130 @@ router.post('/unfollow/:userToUnfollowId', authMiddleware, async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
+  }
+});
+
+// Get Friends
+router.get('/friends/:username', authMiddleware, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username: username.toLowerCase() });
+    if (!user) return res.status(404).send('User not found');
+    const { friends } = await Friend.findOne({ user: user._id }).populate(
+      'friends.user'
+    );
+    res.status(200).json(friends);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Send friend request
+router.post('/friend/:username', authMiddleware, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { userId } = req;
+    const user = await User.findOne({ username: username.toLowerCase() });
+    if (!user) res.status(404).send('User not found');
+    const userToReceiveRequest = await Friend.findOne({
+      user: user._id.toString()
+    });
+    const userToSendRequest = await Friend.findOne({
+      user: userId
+    });
+
+    // Check if request has already been sent
+    if (
+      userToSendRequest.requestsSent.find(
+        (request) => request.user.toString() === user._id
+      )
+    )
+      return res.status(401).send('Request already sent');
+
+    // Receive
+    userToReceiveRequest.requestsReceived.unshift({ user: userId });
+    await userToReceiveRequest.save();
+
+    // Request
+    userToSendRequest.requestsSent.unshift({ user: userId });
+    await userToSendRequest.save();
+
+    console.log(1, 'saved');
+    await checkFriendStatus({ userId: userId, recipientId: user._id });
+    res.status(200).send('Request Sent');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Remove friend request
+router.post('/unfriend/:username', authMiddleware, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { userId } = req;
+    const user = await User.findOne({ username: username.toLowerCase() });
+    if (!user) res.status(404).send('User not found');
+    const userToRemoveReceived = await Friend.findOne({
+      user: user._id.toString()
+    });
+    const userToRemoveRequest = await Friend.findOne({
+      user: userId
+    });
+
+    // Check if request has already been sent
+
+    const isRequestSent =
+      userToRemoveReceived.requestsReceived.length > 0 &&
+      userToRemoveReceived.requestsReceived.filter(
+        (request) => request.user.toString() === user._id
+      );
+    if (!isRequestSent) return res.status(401).send('Request not sent before');
+
+    // Receive
+    const index = userToRemoveReceived.requestsReceived
+      .map((received) => received.user.toString())
+      .indexOf(userId.toString);
+    userToRemoveReceived.requestsReceived.splice(index, 1);
+    await userToRemoveReceived.save();
+
+    // Request
+    const indexOfRequestToRemove = userToRemoveRequest.requestsSent
+      .map((sent) => sent.user.toString())
+      .indexOf(user._id);
+
+    userToRemoveRequest.requestsSent.splice(indexOfRequestToRemove, 1);
+    await userToRemoveRequest.save();
+    res.status(200).send('Request removed');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Get friends List Preview
+
+router.get('/friends_preview/:username', authMiddleware, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { userId } = req;
+
+    const user = await User.findOne({ username: username.toLowerCase() });
+    const friends = await Friend.findOne({ user: user._id }).populate(
+      'friends.user'
+    );
+    console.log(friends);
+
+    const list = {
+      friends_total: friends.friends.length,
+      friends_preview: friends.friends.slice(0, 9),
+      friend_status: '' // friended, requested,received,unfriend
+    };
+
+    return res.status(200).json(list);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Serve error');
   }
 });
 

@@ -22,3 +22,7 @@ export const patchProfile = ({
     profileCoverImage
   });
 };
+
+export const getProfileFriends = (username) => {
+  return request.get(`/friends_preview/${username}`);
+};

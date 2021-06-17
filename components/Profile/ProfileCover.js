@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import BioInput from './BioInput';
 import TabsList from './TabsList';
+import ProfileImage from './ProfileImage';
 import { apiPatchProfile, apiPostNewPost } from '../../api';
 import {
   setViewPostModalOpen,
@@ -19,6 +20,7 @@ const ProfileCover = ({ user, profile }) => {
   const [coverDescription, setCoverDescription] = useState(
     profile.profileCoverDescription
   );
+  const [profileImage, setProfileImage] = useState(user.profileImage);
   const [bio, setBio] = useState(profile.bio);
 
   const inputRef = useRef(null);
@@ -41,6 +43,7 @@ const ProfileCover = ({ user, profile }) => {
       setCoverImage(readerEvent.target.result);
     };
   };
+
   const handleSaveImageChanges = () => {
     setCoverImageEditable(false);
     sendUpdates(bio, coverDescription, coverImage);
@@ -139,11 +142,10 @@ const ProfileCover = ({ user, profile }) => {
             />
           </span>
         )}
-        <div className="absolute translate-y-[10px] bottom-0 border w-[160px] h-[160px] rounded-full border-white transform left-1/2 -translate-x-1/2">
-          <Image
-            className="cursor-pointer object-cover h-[60px] w-[60px] sm:w-[100px] sm:h-[100px]   rounded-full"
-            src={user.profileImage}
-            layout="fill"
+        <div className="absolute translate-y-[10px] bottom-0 transform left-1/2 -translate-x-1/2">
+          <ProfileImage
+            profileImage={profileImage}
+            setProfileImage={setProfileImage}
           />
         </div>
       </div>
@@ -158,9 +160,6 @@ const ProfileCover = ({ user, profile }) => {
           sendUpdates={sendUpdates}
         />
         <hr className="my-2" />
-      </div>
-      <div>
-        <TabsList user={user} />
       </div>
     </div>
   );
