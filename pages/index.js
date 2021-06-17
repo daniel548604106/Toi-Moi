@@ -20,6 +20,7 @@ export default function Home({ posts }) {
 
   useEffect(() => {
     setCurrentPosts(posts);
+    console.log(posts);
   }, [posts]);
   const getMorePosts = async () => {
     try {

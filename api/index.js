@@ -46,7 +46,8 @@ export const apiDeleteComment = deleteComment;
 export const apiGetNotifications = getNotifications;
 
 // Profile
-import { getProfilePosts, getProfile } from './profileRequest';
+import { getProfilePosts, getProfile, patchProfile } from './profileRequest';
 
 export const apiGetProfilePosts = getProfilePosts;
 export const apiGetProfile = getProfile;
+export const apiPatchProfile = patchProfile;

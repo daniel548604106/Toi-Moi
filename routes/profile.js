@@ -1,6 +1,6 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
-const uploadMiddleware = require('../middleware/uploadMiddleware');
+const { uploadProfileCoverImage } = require('../middleware/uploadMiddleware');
 const router = express.Router();
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
@@ -175,24 +175,39 @@ router.post('/unfollow/:userToUnfollowId', authMiddleware, async (req, res) => {
 router.patch(
   '/:username',
   authMiddleware,
-  uploadMiddleware,
+  uploadProfileCoverImage,
   async (req, res) => {
     try {
       const { userId } = req;
       const { username } = req.params;
-      const { bio, profileCoverImage } = req.body;
+      const {
+        bio,
+        profileCoverDescription,
+        profileCoverPostId,
+        profileCoverImage
+      } = req.body;
+      console.log('body', req.body);
       const user = await Profile.findOne({ user: userId }).populate('user');
+      console.log('user', user);
       if (user.user.username !== username)
         return res.status(401).send('Invalid Credentials');
-
-      let newResult;
       if (profileCoverImage) {
-        newResult = await Profile.findOneAndUpdate({ bio, profileCoverImage });
+        user.bio = bio;
+        console.log('should', profileCoverImage);
+        user.profileCoverDescription = profileCoverDescription;
+        user.profileCoverImage = profileCoverImage;
+        user.profileCoverPostId = profileCoverPostId;
+        console.log('before save', user);
       } else {
-        newResult = await Profile.findByIdAndUpdate({ bio });
+        user.bio = bio;
       }
-      console.log(newResult);
-      return res.status(201).json(newResult);
+
+      await user.save();
+
+      // Send as a post
+
+      console.log('after save', user);
+      return res.status(201).json(user);
     } catch (error) {
       console.log(error);
       res.status(500).send('Server error');

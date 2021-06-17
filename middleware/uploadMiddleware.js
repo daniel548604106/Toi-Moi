@@ -27,11 +27,20 @@ const uploadProfileCoverImage = async (req, res, next) => {
     if (!req.body.profileCoverImage) return next();
     const uploaded = await imageKit.upload({
       file: req.body.profileCoverImage, //required
-      fileName: `user-${req.params._id}-cover-${Date.now()}`, //required
+      fileName: `user-${req.params.username}-cover-${Date.now()}`, //required
       folder: `/images/users/`
     });
     req.body.profileCoverImage = uploaded.url;
-    console.log('name', uploaded.name, 'filedId', uploaded.fileId);
+    console.log(
+      'name',
+      uploaded.name,
+      'filedId',
+      uploaded.fileId,
+      uploaded.url,
+      req.body.profileCoverImage,
+      'nonono1'
+    );
+
     next();
   } catch (error) {
     console.log(error);

@@ -3,7 +3,6 @@ import NotificationDropDownList from './NotificationDropDownList';
 import { useRouter } from 'next/router';
 const NotificationDropDown = () => {
   const router = useRouter();
-  const notificationLists = Array.from({ length: 12 });
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -15,9 +14,7 @@ const NotificationDropDown = () => {
           See All
         </span>
       </div>
-      {notificationLists.map((list) => (
-        <NotificationDropDownList key={list} />
-      ))}
+      <NotificationDropDownList />
     </div>
   );
 };
