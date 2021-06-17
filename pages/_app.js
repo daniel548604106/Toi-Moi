@@ -12,9 +12,13 @@ import ViewPostModal from '../components/Global/ViewPostModal';
 import Overlay from '../components/Global/Overlay';
 import LikesListModal from '../components/Home/Feed/LikesListModal';
 import InputBoxModal from '../components/Home/Feed/InputBoxModal';
+import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 const App = ({ Component, pageProps }) => {
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
   const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
+  const isEditProfileImageOpen = useSelector(
+    (state) => state.user.isEditProfileImageOpen
+  );
   const isViewPostModalOpen = useSelector(
     (state) => state.post.isViewPostModalOpen
   );
@@ -24,11 +28,15 @@ const App = ({ Component, pageProps }) => {
   if (!isUserLoggedIn) return <Login />;
   return (
     <>
-      {(isLikesListOpen || isPostInputBoxOpen || isViewPostModalOpen) && (
+      {(isLikesListOpen ||
+        isPostInputBoxOpen ||
+        isViewPostModalOpen ||
+        isEditProfileImageOpen) && (
         <Overlay>
           {isLikesListOpen && <LikesListModal />}
           {isPostInputBoxOpen && <InputBoxModal />}
           {isViewPostModalOpen && <ViewPostModal />}
+          {isEditProfileImageOpen && <EditProfileImageModal />}
         </Overlay>
       )}
       <Header />
