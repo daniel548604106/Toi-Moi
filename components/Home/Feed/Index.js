@@ -6,16 +6,16 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Index = ({ posts }) => {
   return (
-    <div className="flex-grow sm:px-5 sm:mx-0 xl:px-10 xl:mx-10">
-      {/* <div className="mb-[30px]">
+    <div className=" w-full  sm:px-5 sm:mx-0 xl:px-16">
+      <div className="mb-[15px] sm:mb-[30px]">
         <Stories />
-      </div> */}
-      <div className="mb-[30px]">
+      </div>
+      <div className="mb-[15px] sm:mb-[20px]">
         <InputBox />
       </div>
       {posts &&
         posts.map((post) => (
-          <div key={post._id} className="mb-[30px]">
+          <div key={post._id} className="mb-[15px] ">
             <Post post={post} />
           </div>
         ))}

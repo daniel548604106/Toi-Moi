@@ -17,10 +17,13 @@ import storage from 'redux-persist/lib/storage';
 import globalReducer from './slices/globalSlice';
 import userReducer from './slices/userSlice';
 import postReducer from './slices/postSlice';
+import messageReducer from './slices/messageSlice';
+
 const reducers = combineReducers({
   user: userReducer,
   global: globalReducer,
-  post: postReducer
+  post: postReducer,
+  message: messageReducer
 });
 
 const persistConfig = {

@@ -11,18 +11,25 @@ import {
 import Image from 'next/image';
 import Popup from './Popup';
 import { useSelector, useDispatch } from 'react-redux';
+import { timeDiff } from '../../../lib/dayjs';
 import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
 import {
   setLikesListOpen,
-  apiGetLikesList
+  apiGetLikesList,
+  setViewPostModalOpen,
+  apiGetCurrentPost
 } from '../../../redux/slices/postSlice';
+import { useRouter } from 'next/router';
 import Comment from './Comment';
 const Post = ({ post }) => {
+  const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
+  const isViewPostModalOpen = useSelector(
+    (state) => state.post.isViewPostModalOpen
+  );
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
-  const [isLiked, setIsLiked] = useState(false);
   const [text, setText] = useState('');
   const dispatch = useDispatch();
 
@@ -41,6 +48,7 @@ const Post = ({ post }) => {
 
   const handleLikePost = async (id) => {
     try {
+      console.log('clicked');
       const { data } = await apiLikePost(id);
       console.log(data);
     } catch (error) {
@@ -63,25 +71,54 @@ const Post = ({ post }) => {
       console.log(res);
     });
   };
-  useEffect(() => {
-    setIsLiked(
-      likes.length > 0 &&
-        likes.filter((like) => like.user._id === userInfo._id).length > 0
-    );
-  }, []);
 
+  const handleViewPost = (postId) => {
+    dispatch(setViewPostModalOpen(true));
+    dispatch(apiGetCurrentPost(postId)).then((res) => {
+      console.log('currentPost', res);
+    });
+  };
+
+  const handleDirectToProfile = () => {
+    router.push(`/${post.user.username}`);
+  };
+  const isLiked =
+    likes.length > 0 &&
+    likes.filter((like) => like.user._id === userInfo._id).length > 0;
+
+  useEffect(() => {
+    console.log(likes, isLiked);
+  }, [likes]);
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
-      <div className="p-3">
-        <div className="flex justify-between cursor-pointer items-center mb-[10px]">
+      <div className=" sm:p-3">
+        <div className="flex justify-between  mb-[10px]">
           <div className="flex items-center">
             <Image
-              className="rounded-full"
+              onClick={() => handleDirectToProfile()}
+              className="rounded-full  cursor-pointer"
               src={post.user.profileImage}
-              width="30"
-              height="30"
+              width="40"
+              height="40"
             />
-            <span className="ml-[10px] font-semibold">{post.user.name}</span>
+            <div className="ml-[10px]">
+              <p
+                onClick={() => handleDirectToProfile()}
+                className="flex items-center "
+              >
+                <span className="font-semibold hover:underline cursor-pointer">
+                  {post.user.name}
+                </span>
+                {post.type === 'profileCover' && (
+                  <span className=" ml-[5px] text-xs text-gray-600">
+                    Changed profile cover
+                  </span>
+                )}
+              </p>
+              <p className="text-xs text-gray-600 hover:underline cursor-pointer">
+                {timeDiff(post.updatedAt)}
+              </p>
+            </div>
           </div>
           <span className="group p-2 relative rounded-full  hover:bg-gray-100">
             <DotsHorizontalIcon className="h-5 cursor-pointer text-gray-700 " />
@@ -92,9 +129,18 @@ const Post = ({ post }) => {
         </div>
         <p className="text-sm">{post.text}</p>
       </div>
-      {post.picUrl && (
-        <div className="cursor-pointer relative h-56 md:h-96 bg-white">
-          <Image src={post.picUrl} layout="fill" objectFit="cover" />
+      {!isViewPostModalOpen && post.picUrl && (
+        <div
+          onClick={() => handleViewPost(post._id)}
+          className="cursor-pointer relative  w-full h-full bg-white"
+        >
+          <Image
+            className="w-full h-auto object-cover"
+            src={post.picUrl}
+            width="100%"
+            height="auto"
+            layout="responsive"
+          />
         </div>
       )}
 
@@ -120,31 +166,31 @@ const Post = ({ post }) => {
         </div>
       </div>
 
-      <div className="flex items-center  border-t p-3">
+      <div className="flex items-center  border-t p-1 sm:p-3">
         {isLiked ? (
           <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600">
             <SolidThumbUpIcon
               onClick={() => handleUnlikePost(post._id)}
               className="h-4 "
             />
-            <span className="ml-[10px]">Like</span>
+            <span className="text-sm sm:text-md ml-[10px]">Like</span>
           </div>
         ) : (
-          <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
-            <OutlineThumbUpIcon
-              onClick={() => handleLikePost(post._id)}
-              className="h-4  "
-            />
-            <span className="ml-[10px]"> Like</span>
+          <div
+            onClick={() => handleLikePost(post._id)}
+            className="rounded-md flex items-center justify-center  p-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400"
+          >
+            <OutlineThumbUpIcon className="h-4  " />
+            <span className="text-sm sm:text-md ml-[10px]"> Like</span>
           </div>
         )}
-        <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
+        <div className="rounded-md  flex items-center justify-center p-2  hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
           <AnnotationIcon className="h-4  " />
-          <span className="ml-[10px]">Comment</span>
+          <span className="text-sm sm:text-md ml-[10px]">Comment</span>
         </div>
-        <div className="rounded-md flex items-center justify-center  py-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
+        <div className="rounded-md flex items-center justify-center  p-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
           <ShareIcon className="h-4 " />
-          <span className="ml-[10px]">Share</span>
+          <span className="text-sm sm:text-md ml-[10px]">Share</span>
         </div>
       </div>
       <div className="p-1 flex items-center">

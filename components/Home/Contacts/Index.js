@@ -18,7 +18,7 @@ const Index = () => {
     }
   ];
   return (
-    <div className="sticky top-24 hidden md:block w-full max-w-[350px] p-2">
+    <div className="sticky top-24  p-2">
       <div className="flex justify-between items-center mb-5 text-gray-500">
         <h2>Contact</h2>
         <div className="flex items-center space-x-2">

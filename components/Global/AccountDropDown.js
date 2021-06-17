@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { LogoutIcon } from '@heroicons/react/solid';
+import { LogoutIcon, CogIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { setUserLogout } from '../../redux/slices/userSlice';
 import Image from 'next/image';
 import Cookie from 'js-cookie';
@@ -19,7 +19,7 @@ const AccountPopup = () => {
     router.push('/');
   };
   return (
-    <div className="w-[300px] bg-white shadow-lg rounded-md p-2">
+    <div>
       <div
         onClick={() => router.push(`/${userInfo.username}`)}
         className="cursor-pointer flex items-center rounded-md hover:bg-gray-100  p-2"
@@ -36,6 +36,15 @@ const AccountPopup = () => {
         </div>
       </div>
       <hr className="my-[10px]" />
+      <div className="cursor-pointer flex justify-between items-center hover:bg-gray-100 rounded-md p-2">
+        <div className="flex items-center">
+          <span className="p-2 rounded-full bg-gray-100">
+            <CogIcon className="h-6" />
+          </span>
+          <span className="ml-[10px]">Settings and Privacy</span>
+        </div>
+        <ChevronRightIcon className="h-6 text-gray-600" />
+      </div>
       <div
         onClick={() => handleUserLogout(email)}
         className="cursor-pointer flex items-center hover:bg-gray-100 rounded-md p-2"

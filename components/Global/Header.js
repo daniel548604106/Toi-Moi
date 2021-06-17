@@ -4,8 +4,8 @@ import {
   SearchIcon,
   PlayIcon,
   FlagIcon,
-  ShoppingBagIcon,
-  ShoppingCartIcon
+  ShoppingCartIcon,
+  MenuIcon
 } from '@heroicons/react/outline';
 import {
   BellIcon,
@@ -13,20 +13,26 @@ import {
   ChevronDownIcon,
   HomeIcon,
   UserGroupIcon,
+  PlusIcon,
   ViewGridIcon
 } from '@heroicons/react/solid';
 import HeaderIcon from './HeaderIcon';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import AccountPopup from './AccountPopup';
+import AccountDropDown from './AccountDropDown';
+import DropDownMenu from './DropDownMenu';
+import DropDownMenuIcon from './DropDownMenuIcon';
+import MessageDropDown from './MessageDropDown';
+import CreateDropDown from './CreateDropDown';
+import NotificationDropDown from './NotificationDropDown';
 const Header = () => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center sticky top-0 bg-white z-40 shadow-md p-2 sm:px-5 ">
-      <div className="w-full max-w-[300px] xl:max-w-[400px] xl:min-w-[300px]">
-        <div className="flex items-center ">
+    <div className="flex items-center sticky top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
+      <div className="w-1/2">
+        <div className="flex space-x-2 items-center ">
           <Image
             onClick={() => router.push('/')}
             className="cursor-pointer"
@@ -37,7 +43,7 @@ const Header = () => {
           />
           <form
             action=""
-            className="flex items-center ml-[10px] border rounded-full p-[5px] bg-gray-100"
+            className=" flex items-center  border rounded-full p-2 bg-gray-100"
           >
             <SearchIcon className="h-5 w-5 text-gray-600" />
             <input
@@ -46,9 +52,13 @@ const Header = () => {
               placeholder="search"
             />
           </form>
+          <div className="block md:hidden">
+            <HeaderIcon Icon={MenuIcon} />
+          </div>
         </div>
       </div>
-      <div className="flex items-center justify-between flex-grow sm:px-5 sm:mx-0 xl:px-10 xl:mx-10">
+
+      <div className="hidden w-full md:flex items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           onClick={() => router.push('/')}
           active={router.pathname === '/'}
@@ -59,7 +69,7 @@ const Header = () => {
         <HeaderIcon Icon={ShoppingCartIcon} />
         <HeaderIcon Icon={UserGroupIcon} />
       </div>
-      <div className="flex justify-end items-center sm:space-x-2 w-full max-w-[350px]">
+      <div className="w-1/2 relative flex justify-end items-center space-x-1 sm:space-x-2 ">
         <div
           onClick={() => router.push(`/${userInfo.username}`)}
           className="flex items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer "
@@ -75,15 +85,28 @@ const Header = () => {
             {userInfo.name}
           </p>
         </div>
-        <ViewGridIcon className="icon" />
-        <BellIcon className="icon" />
-        <ChatIcon onClick={() => router.push('/messages')} className="icon" />
-        <div className="relative group">
-          <ChevronDownIcon className="icon" />
-          <div className="absolute bottom-0 hidden group-hover:block right-0 transform translate-y-full">
-            <AccountPopup />
-          </div>
+        <div className="hidden md:block">
+          <DropDownMenuIcon title="Create" Icon={PlusIcon}>
+            <DropDownMenu>
+              <CreateDropDown />
+            </DropDownMenu>
+          </DropDownMenuIcon>
         </div>
+        <DropDownMenuIcon title="Notification" Icon={BellIcon}>
+          <DropDownMenu>
+            <NotificationDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
+        <DropDownMenuIcon title="Messenger" Icon={ChatIcon}>
+          <DropDownMenu>
+            <MessageDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
+        <DropDownMenuIcon title="Account" Icon={ChevronDownIcon}>
+          <DropDownMenu>
+            <AccountDropDown />
+          </DropDownMenu>
+        </DropDownMenuIcon>
       </div>
     </div>
   );

@@ -10,11 +10,24 @@ export const apiGetLikesList = createAsyncThunk(
   }
 );
 
+export const apiGetCurrentPost = createAsyncThunk(
+  'post/getLikesList',
+  async (id, thunkAPI) => {
+    const response = await request.get(`/posts/${id}`);
+    console.log(response);
+    return response.data;
+  }
+);
+
 export const postSlice = createSlice({
   name: 'post',
   initialState: {
     isLikesListOpen: false,
-    likesList: []
+    likesList: [],
+    currentPost: null,
+    isPostInputBoxOpen: false,
+    isViewPostModalOpen: false,
+    imageToPost: ''
   },
   reducers: {
     setLikesListOpen: (state, { payload }) => {
@@ -22,6 +35,15 @@ export const postSlice = createSlice({
         state.likesList = [];
       }
       state.isLikesListOpen = payload;
+    },
+    setPostInputBoxOpen: (state, { payload }) => {
+      state.isPostInputBoxOpen = payload;
+    },
+    setImageToPost: (state, { payload }) => {
+      state.imageToPost = payload;
+    },
+    setViewPostModalOpen: (state, { payload }) => {
+      state.isViewPostModalOpen = payload;
     }
   },
   extraReducers: {
@@ -29,11 +51,19 @@ export const postSlice = createSlice({
     [apiGetLikesList.fulfilled]: (state, action) => {
       // Add likes to the state array
       state.likesList = action.payload;
+    },
+    [apiGetCurrentPost.fulfilled]: (state, action) => {
+      state.currentPost = action.payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setLikesListOpen } = postSlice.actions;
+export const {
+  setLikesListOpen,
+  setPostInputBoxOpen,
+  setViewPostModalOpen,
+  setImageToPost
+} = postSlice.actions;
 
 export default postSlice.reducer;

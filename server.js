@@ -17,7 +17,25 @@ const PORT = process.env.PORT || 3000;
 // Because of our setting , the server and client will both run on port 3000
 // The following dotenv config will have access to .env file , so make sure it's named as .env and not .env.local .etc
 require('dotenv').config();
-connectDB();
+
+connectDB().then(() => {
+  nextApp.prepare().then(() => {
+    //routes
+    app.use('/api/profile', require('./routes/profile'));
+    app.use('/api/notifications', require('./routes/notifications'));
+    app.use('/api/login', require('./routes/login'));
+    app.use('/api/signup', require('./routes/signup'));
+    app.use('/api/search', require('./routes/search'));
+    app.use('/api/chats', require('./routes/chats'));
+    app.use('/api/posts', require('./routes/posts'));
+    app.all('*', (req, res) => handle(req, res));
+
+    server.listen(PORT, (err) => {
+      if (err) throw err;
+      console.log(`express server running on ${PORT}`);
+    });
+  });
+});
 app.use(express.json({ limit: '50mb' })); // this is the body parser
 app.use(express.urlencoded({ limit: '50mb' }));
 
@@ -63,21 +81,5 @@ io.on('connection', (socket) => {
   socket.on('disconnected', () => {
     removeUser(socket.id);
     console.log('user disconnected');
-  });
-});
-
-nextApp.prepare().then(() => {
-  //routes
-  app.use('/api/profile', require('./routes/profile'));
-  app.use('/api/login', require('./routes/login'));
-  app.use('/api/signup', require('./routes/signup'));
-  app.use('/api/search', require('./routes/search'));
-  app.use('/api/chats', require('./routes/chats'));
-  app.use('/api/posts', require('./routes/posts'));
-  app.all('*', (req, res) => handle(req, res));
-
-  server.listen(PORT, (err) => {
-    if (err) throw err;
-    console.log(`express server running on ${PORT}`);
   });
 });

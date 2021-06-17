@@ -22,6 +22,31 @@ const uploadProfileImage = async (req, res, next) => {
   }
 };
 
+const uploadProfileCoverImage = async (req, res, next) => {
+  try {
+    if (!req.body.profileCoverImage) return next();
+    const uploaded = await imageKit.upload({
+      file: req.body.profileCoverImage, //required
+      fileName: `user-${req.params.username}-cover-${Date.now()}`, //required
+      folder: `/images/users/`
+    });
+    req.body.profileCoverImage = uploaded.url;
+    console.log(
+      'name',
+      uploaded.name,
+      'filedId',
+      uploaded.fileId,
+      uploaded.url,
+      req.body.profileCoverImage,
+      'nonono1'
+    );
+
+    next();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const uploadPostImage = async (req, res, next) => {
   try {
     if (!req.body.image) return next();
@@ -39,4 +64,8 @@ const uploadPostImage = async (req, res, next) => {
   }
 };
 
-module.exports = { uploadProfileImage, uploadPostImage };
+module.exports = {
+  uploadProfileImage,
+  uploadPostImage,
+  uploadProfileCoverImage
+};
