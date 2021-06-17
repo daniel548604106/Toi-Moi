@@ -41,7 +41,6 @@ const InputBoxModal = () => {
       const { data } = await apiPostNewPost({ image, text, location });
       setText('');
       setImage(null);
-      console.log('hi', inputRef.current.value, data);
     } catch (error) {
       console.log(error);
     }

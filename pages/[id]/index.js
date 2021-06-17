@@ -7,6 +7,7 @@ import Photos from '../../components/Profile/Photos';
 import Post from '../../components/Home/Feed/Post';
 import { apiGetProfile, apiGetProfilePosts } from '../../api/index';
 import { useRouter } from 'next/router';
+import InputBox from '../../components/Home/Feed/InputBox';
 const Index = ({ profileData, postsData }) => {
   const router = useRouter();
   useEffect(() => {
@@ -55,9 +56,12 @@ const Index = ({ profileData, postsData }) => {
           <Friends />
         </div>
         <div className="w-full">
+          <div className="mb-[30px]">
+            <InputBox />
+          </div>
           {posts.map((post) => (
-            <div className="mb-[15px]">
-              <Post key={post._id} post={post} />
+            <div key={post._id} className="mb-[15px]">
+              <Post post={post} />
             </div>
           ))}
         </div>

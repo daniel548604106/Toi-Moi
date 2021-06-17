@@ -3,8 +3,8 @@ import Cookie from 'js-cookie';
 
 const token = Cookie.get('token');
 
-export const postNewPost = ({ image, text, location }) => {
-  return request.post('/posts', { image, text, location });
+export const postNewPost = ({ image, text, location, type }) => {
+  return request.post('/posts', { image, text, location, type });
 };
 
 export const getAllPosts = (currentPage) => {

@@ -59,7 +59,7 @@ const MessageDropDown = () => {
       </div>
       {messages &&
         messages.map((message) => (
-          <MessageDropDownList key={message.messageWith} message={message} />
+          <MessageDropDownList key={message.messagesWith} message={message} />
         ))}
 
       <div

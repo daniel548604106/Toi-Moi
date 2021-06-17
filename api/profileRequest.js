@@ -8,6 +8,17 @@ export const getProfilePosts = (username) => {
   return request.get(`/profile/posts/${username}`);
 };
 
-export const patchProfile = (username, bio, profileCoverImage) => {
-  return request.patch(`/profile/${username}`, { bio, profileCoverImage });
+export const patchProfile = ({
+  username,
+  bio,
+  profileCoverPostId,
+  profileCoverDescription,
+  profileCoverImage
+}) => {
+  return request.patch(`/profile/${username}`, {
+    bio,
+    profileCoverPostId,
+    profileCoverDescription,
+    profileCoverImage
+  });
 };

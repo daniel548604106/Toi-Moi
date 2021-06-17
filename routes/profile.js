@@ -178,27 +178,33 @@ router.patch(
   uploadProfileCoverImage,
   async (req, res) => {
     try {
-      console.log('herehererh');
       const { userId } = req;
       const { username } = req.params;
-      const { bio, profileCoverImage } = req.body;
+      const {
+        bio,
+        profileCoverDescription,
+        profileCoverPostId,
+        profileCoverImage
+      } = req.body;
       console.log('body', req.body);
       const user = await Profile.findOne({ user: userId }).populate('user');
       console.log('user', user);
       if (user.user.username !== username)
         return res.status(401).send('Invalid Credentials');
       if (profileCoverImage) {
-        console.log('2nono');
         user.bio = bio;
         console.log('should', profileCoverImage);
+        user.profileCoverDescription = profileCoverDescription;
         user.profileCoverImage = profileCoverImage;
+        user.profileCoverPostId = profileCoverPostId;
         console.log('before save', user);
       } else {
         user.bio = bio;
-        console.log('3should not');
       }
 
       await user.save();
+
+      // Send as a post
 
       console.log('after save', user);
       return res.status(201).json(user);

@@ -2,14 +2,23 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { CameraIcon, GlobeIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import BioInput from './BioInput';
 import TabsList from './TabsList';
-import { apiPatchProfile } from '../../api';
+import { apiPatchProfile, apiPostNewPost } from '../../api';
+import {
+  setViewPostModalOpen,
+  apiGetCurrentPost
+} from '../../redux/slices/postSlice';
+
 const ProfileCover = ({ user, profile }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isCoverImageEditable, setCoverImageEditable] = useState(false);
   const [coverImage, setCoverImage] = useState(profile.profileCoverImage);
+  const [coverDescription, setCoverDescription] = useState(
+    profile.profileCoverDescription
+  );
   const [bio, setBio] = useState(profile.bio);
 
   const inputRef = useRef(null);
@@ -34,25 +43,45 @@ const ProfileCover = ({ user, profile }) => {
   };
   const handleSaveImageChanges = () => {
     setCoverImageEditable(false);
-    sendUpdates(bio, coverImage);
+    sendUpdates(bio, coverDescription, coverImage);
   };
+
+  const handleViewCoverPost = () => {
+    dispatch(apiGetCurrentPost(profile.profileCoverPostId));
+    dispatch(setViewPostModalOpen(true));
+  };
+
   const isEditable = userInfo.username === router.query.id;
 
-  const sendUpdates = async (bio, profileCoverImage) => {
+  const sendUpdates = async (
+    bio,
+    profileCoverDescription,
+    profileCoverImage
+  ) => {
     try {
-      const res = await apiPatchProfile(
-        router.query.id,
+      const { data } = await apiPostNewPost({
+        image: profileCoverImage,
+        text: profileCoverDescription,
+        location: '',
+        type: 'profileCover'
+      });
+      console.log('post created', data);
+      const res = await apiPatchProfile({
+        username: router.query.id,
         bio,
+        profileCoverPostId: data,
+        profileCoverDescription,
         profileCoverImage
-      );
+      });
 
-      console.log('hi', res);
+      console.log('profile cover changed', res);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
+    setCoverDescription(profile.profileCoverDescription);
     setCoverImage(profile.profileCoverImage);
     setBio(profile.bio);
   }, [profile]);
@@ -84,9 +113,10 @@ const ProfileCover = ({ user, profile }) => {
         </div>
       )}
       <div
+        onClick={() => handleViewCoverPost()}
         className={`${
           isCoverImageEditable && 'cursor-move'
-        } relative  bg-gray-100 w-full  rounded-xl`}
+        } relative cursor-pointer bg-gray-100 w-full  rounded-xl`}
       >
         <Image
           width={1000}

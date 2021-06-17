@@ -7,11 +7,15 @@ const postSchema = new mongoose.Schema(
       ref: 'User'
     },
     text: {
-      type: String,
-      required: true
+      type: String
     },
     location: {
       type: String
+    },
+    type: {
+      type: String,
+      enum: ['post', 'profileImage', 'profileCover'],
+      default: 'post'
     },
     picUrl: {
       type: String

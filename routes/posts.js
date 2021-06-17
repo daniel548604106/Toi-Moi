@@ -99,7 +99,7 @@ router.get('/', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const postId = req.params.id;
-    const post = await Post.findById(postId);
+    const post = await Post.findById(postId).populate('user');
     if (!post) return res.status(404).send('Post not found');
 
     return res.status(200).json(post);
@@ -113,20 +113,23 @@ router.get('/:id', authMiddleware, async (req, res) => {
 
 router.post('/', authMiddleware, uploadPostImage, async (req, res) => {
   try {
-    const { text, location, picUrl } = req.body;
-    if (text.length < 1)
+    const { text, location, picUrl, type } = req.body;
+    if (!type && !picUrl && text.length < 1)
       return res.status(401).send('Text must be at least on characters');
     console.log(req.userId);
     const newPost = {
       user: req.userId,
-      text,
+      text: '',
       likes: [],
       comments: []
     };
+    if (text) newPost.text = text;
     if (location) newPost.location = location;
     if (picUrl) newPost.picUrl = picUrl;
+    if (type) newPost.type = type;
 
     const post = await new Post(newPost).save();
+    console.log(newPost, post);
 
     return res.status(200).json(post._id);
   } catch (error) {

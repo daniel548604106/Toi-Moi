@@ -17,7 +17,7 @@ const Stories = () => {
       profile: 'https://links.papareact.com/snf'
     },
     {
-      name: 'Kate',
+      name: 'newsdfoi',
       src: 'https://links.papareact.com/xql',
       profile: 'https://links.papareact.com/snf'
     },

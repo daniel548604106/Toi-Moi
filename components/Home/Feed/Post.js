@@ -15,13 +15,18 @@ import { timeDiff } from '../../../lib/dayjs';
 import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
 import {
   setLikesListOpen,
-  apiGetLikesList
+  apiGetLikesList,
+  setViewPostModalOpen,
+  apiGetCurrentPost
 } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
 import Comment from './Comment';
 const Post = ({ post }) => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
+  const isViewPostModalOpen = useSelector(
+    (state) => state.post.isViewPostModalOpen
+  );
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
@@ -66,6 +71,14 @@ const Post = ({ post }) => {
       console.log(res);
     });
   };
+
+  const handleViewPost = (postId) => {
+    dispatch(setViewPostModalOpen(true));
+    dispatch(apiGetCurrentPost(postId)).then((res) => {
+      console.log('currentPost', res);
+    });
+  };
+
   const handleDirectToProfile = () => {
     router.push(`/${post.user.username}`);
   };
@@ -79,11 +92,11 @@ const Post = ({ post }) => {
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
       <div className=" sm:p-3">
-        <div className="flex justify-between cursor-pointer  mb-[10px]">
+        <div className="flex justify-between  mb-[10px]">
           <div className="flex items-center">
             <Image
               onClick={() => handleDirectToProfile()}
-              className="rounded-full"
+              className="rounded-full  cursor-pointer"
               src={post.user.profileImage}
               width="40"
               height="40"
@@ -91,9 +104,16 @@ const Post = ({ post }) => {
             <div className="ml-[10px]">
               <p
                 onClick={() => handleDirectToProfile()}
-                className=" font-semibold hover:underline cursor-pointer"
+                className="flex items-center "
               >
-                {post.user.name}
+                <span className="font-semibold hover:underline cursor-pointer">
+                  {post.user.name}
+                </span>
+                {post.type === 'profileCover' && (
+                  <span className=" ml-[5px] text-xs text-gray-600">
+                    Changed profile cover
+                  </span>
+                )}
               </p>
               <p className="text-xs text-gray-600 hover:underline cursor-pointer">
                 {timeDiff(post.updatedAt)}
@@ -109,8 +129,11 @@ const Post = ({ post }) => {
         </div>
         <p className="text-sm">{post.text}</p>
       </div>
-      {post.picUrl && (
-        <div className="cursor-pointer relative  w-full h-full bg-white">
+      {!isViewPostModalOpen && post.picUrl && (
+        <div
+          onClick={() => handleViewPost(post._id)}
+          className="cursor-pointer relative  w-full h-full bg-white"
+        >
           <Image
             className="w-full h-auto object-cover"
             src={post.picUrl}
