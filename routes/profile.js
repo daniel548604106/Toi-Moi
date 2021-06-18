@@ -1,6 +1,9 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
-const { uploadProfileCoverImage } = require('../middleware/uploadMiddleware');
+const {
+  uploadProfileCoverImage,
+  uploadProfileImage
+} = require('../middleware/uploadMiddleware');
 const router = express.Router();
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
@@ -10,7 +13,9 @@ const Post = require('../models/postModel');
 const { checkFriendStatus } = require('../utilsServer/friendsAction');
 const {
   newFollowerNotification,
-  removeFollowerNotification
+  removeFollowerNotification,
+  newFriendNotification,
+  removeFriendNotification
 } = require('../utilsServer/notificationActions');
 // Get Profile info
 
@@ -209,6 +214,14 @@ router.post('/friend/:username', authMiddleware, async (req, res) => {
     )
       return res.status(401).send('Request already sent');
 
+    // Check if the user himself has already received request from the userToReceiveRequest
+
+    let hasBeenInvited;
+    hasBeenInvited =
+      userToSendRequest.requestsReceived.filter(
+        (received) => received.user.toString() === user._id.toString()
+      ).length > 0;
+
     // Receive
     userToReceiveRequest.requestsReceived.unshift({ user: userId });
     await userToReceiveRequest.save();
@@ -219,6 +232,11 @@ router.post('/friend/:username', authMiddleware, async (req, res) => {
 
     console.log(1, 'saved');
     await checkFriendStatus({ userId: userId, recipientId: user._id });
+    await newFriendNotification({
+      userId,
+      userToNotifyId: user._id,
+      hasBeenInvited
+    });
     res.status(200).send('Request Sent');
   } catch (error) {
     console.log(error);
@@ -249,20 +267,39 @@ router.post('/unfriend/:username', authMiddleware, async (req, res) => {
       );
     if (!isRequestSent) return res.status(401).send('Request not sent before');
 
+    // Check if the user himself has already received request from the userToReceiveRequest
+
     // Receive
     const index = userToRemoveReceived.requestsReceived
       .map((received) => received.user.toString())
-      .indexOf(userId.toString);
+      .indexOf(userId.toString());
     userToRemoveReceived.requestsReceived.splice(index, 1);
+    // Remove from friend list
+    const indexOfFriends = userToRemoveReceived.friends
+      .map((friend) => friend.user.toString())
+      .indexOf(userId.toString());
+    userToRemoveReceived.friends.splice(indexOfFriends, 1);
     await userToRemoveReceived.save();
 
     // Request
     const indexOfRequestToRemove = userToRemoveRequest.requestsSent
       .map((sent) => sent.user.toString())
-      .indexOf(user._id);
+      .indexOf(user._id.toString());
 
     userToRemoveRequest.requestsSent.splice(indexOfRequestToRemove, 1);
+
+    // Remove from friend list
+    const indexOfFriendsFromRequestedUser = userToRemoveRequest.friends
+      .map((friend) => friend.user.toString())
+      .indexOf(user._id.toString());
+    userToRemoveReceived.friends.splice(indexOfFriendsFromRequestedUser, 1);
+
+    await userToRemoveReceived.save();
     await userToRemoveRequest.save();
+    await removeFriendNotification({
+      userId,
+      userToRemoveNotificationId: user._id
+    });
     res.status(200).send('Request removed');
   } catch (error) {
     console.log(error);
@@ -296,7 +333,7 @@ router.get('/friends_preview/:username', authMiddleware, async (req, res) => {
   }
 });
 
-// Update Profile
+// Update Cover Image
 
 router.patch(
   '/:username',
@@ -317,6 +354,8 @@ router.patch(
       console.log('user', user);
       if (user.user.username !== username)
         return res.status(401).send('Invalid Credentials');
+
+      // Updating Cover Image
       if (profileCoverImage) {
         user.bio = bio;
         console.log('should', profileCoverImage);
@@ -341,4 +380,47 @@ router.patch(
   }
 );
 
+// Update Profile Image
+
+router.patch(
+  '/:username/profile_image',
+  authMiddleware,
+  uploadProfileImage,
+  async (req, res) => {
+    try {
+      const { userId } = req;
+      const { username } = req.params;
+      const { profileImageDescription, profileImagePostId, profileImage } =
+        req.body;
+      console.log('body', req.body);
+      const userProfile = await Profile.findOne({ user: userId }).populate(
+        'user'
+      );
+      console.log('userProfile', userProfile);
+      if (userProfile.user.username !== username)
+        return res.status(401).send('Invalid Credentials');
+
+      // Updating Profile
+      userProfile.profileImage = {
+        picUrl: profileImage,
+        postId: profileImagePostId,
+        description: profileImageDescription
+      };
+      await userProfile.save();
+      console.log('profile saved');
+
+      // Updating User
+
+      const user = await User.findOne({ username: username.toLowerCase() });
+      user.profileImage = profileImage;
+
+      await user.save();
+      console.log('user saved', user);
+      return res.status(201).json(userProfile);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send('Server error');
+    }
+  }
+);
 module.exports = router;

@@ -1,5 +1,5 @@
 import React from 'react';
-import NotificationDropDownList from './NotificationDropDownList';
+import NotificationListItem from './NotificationListItem';
 import { useRouter } from 'next/router';
 const NotificationDropDown = () => {
   const router = useRouter();
@@ -14,7 +14,7 @@ const NotificationDropDown = () => {
           See All
         </span>
       </div>
-      <NotificationDropDownList />
+      <NotificationListItem />
     </div>
   );
 };

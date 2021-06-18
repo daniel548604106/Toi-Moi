@@ -1,14 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/image';
 import { XIcon } from '@heroicons/react/outline';
 import { setEditProfileImageOpen } from '../../redux/slices/userSlice';
+import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
+import { useRouter } from 'next/router';
+import { apiPatchProfileImage, apiPostNewPost } from '../../api/index';
 const EditProfileImageModal = () => {
   const dispatch = useDispatch();
+  const router = useRouter();
   const [text, setText] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   const profileImageToUpdate = useSelector(
     (state) => state.user.profileImageToUpdate
   );
+
+  const sendUpdates = async (profileImage) => {
+    try {
+      const { data } = await apiPostNewPost({
+        image: profileImage,
+        text,
+        location: '',
+        type: 'profileImage'
+      });
+      const res = await apiPatchProfileImage({
+        username: router.query.id,
+        profileImageDescription: text,
+        profileImagePostId: data,
+        profileImage
+      });
+
+      console.log('profile cover changed', res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSubmitUpdate = () => {
+    sendUpdates(profileImage);
+  };
+  const cropperRef = useRef(null);
+  const onCrop = () => {
+    const imageElement = cropperRef?.current;
+    const cropper = imageElement?.cropper;
+    setProfileImage(cropper.getCroppedCanvas().toDataURL());
+    // sendUpdates(cropper.getCroppedCanvas().toDataURL());
+    // console.log(cropper.getCroppedCanvas().toDataURL());
+  };
 
   return (
     <div className="rounded-lg relative max-w-[600px] w-full bg-white shadow-xl">
@@ -30,10 +67,14 @@ const EditProfileImageModal = () => {
         ></textarea>
         <div className="p-3 relative w-full h-[500px] ">
           {profileImageToUpdate && (
-            <Image
-              className="object-scale-down bg-gray-100 rounded-md"
+            <Cropper
               src={profileImageToUpdate}
-              layout="fill"
+              style={{ height: 400, width: '100%' }}
+              // Cropper.js options
+              initialAspectRatio={16 / 9}
+              guides={false}
+              crop={onCrop}
+              ref={cropperRef}
             />
           )}
         </div>
@@ -45,7 +86,10 @@ const EditProfileImageModal = () => {
         >
           Cancel
         </button>
-        <button className="rounded-md p-2 text-sm px-4 bg-blue-600 text-white ml-[10px]">
+        <button
+          onClick={() => handleSubmitUpdate()}
+          className="rounded-md p-2 text-sm px-4 bg-blue-600 text-white ml-[10px]"
+        >
           Save
         </button>
       </div>

@@ -24,13 +24,14 @@ import DropDownMenu from './DropDownMenu';
 import DropDownMenuIcon from './DropDownMenuIcon';
 import MessageDropDown from './MessageDropDown';
 import CreateDropDown from './CreateDropDown';
+import Search from './Search';
 import NotificationDropDown from './NotificationDropDown';
 const Header = () => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center sticky top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
+    <div className="flex items-center fixed left-0 right-0 top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <Image
@@ -41,33 +42,28 @@ const Header = () => {
             height={40}
             layout="fixed"
           />
-          <form
-            action=""
-            className=" flex items-center  border rounded-full p-2 bg-gray-100"
-          >
-            <SearchIcon className="h-5 w-5 text-gray-600" />
-            <input
-              className="hidden lg:inline-flex outline-none bg-gray-100 ml-[5px]"
-              type="search"
-              placeholder="search"
-            />
-          </form>
+          <Search />
           <div className="block md:hidden">
             <HeaderIcon Icon={MenuIcon} />
           </div>
         </div>
       </div>
 
-      <div className="hidden w-full md:flex items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed top-[60px] left-0 flex bg-white  w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
-          onClick={() => router.push('/')}
+          title="home"
+          href="/"
           active={router.pathname === '/'}
           Icon={HomeIcon}
         />
-        <HeaderIcon Icon={FlagIcon} />
-        <HeaderIcon Icon={PlayIcon} />
-        <HeaderIcon Icon={ShoppingCartIcon} />
-        <HeaderIcon Icon={UserGroupIcon} />
+        <HeaderIcon title="flag" Icon={FlagIcon} />
+        <HeaderIcon title="watch" href="/watch/view/all" Icon={PlayIcon} />
+        <HeaderIcon
+          title="marketplace"
+          href="/marketplace/browse/all"
+          Icon={ShoppingCartIcon}
+        />
+        <HeaderIcon title="groups" href="/groups/feed" Icon={UserGroupIcon} />
       </div>
       <div className="w-1/2 relative flex justify-end items-center space-x-1 sm:space-x-2 ">
         <div

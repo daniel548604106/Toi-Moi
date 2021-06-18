@@ -16,7 +16,7 @@ import { useSelector } from 'react-redux';
 const Sidebar = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   return (
-    <div className="sticky top-24  max-w-[400px] ">
+    <div className="max-w-[400px] sticky top-[80px] ">
       <SidebarRow src={userInfo.profileImage} title={userInfo.name} />
       <SidebarRow Icon={UsersIcon} title="Friends" />
       <SidebarRow Icon={UserGroupIcon} title="Groups" />

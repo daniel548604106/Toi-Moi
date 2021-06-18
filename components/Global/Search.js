@@ -1,11 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { SearchIcon } from '@heroicons/react/outline';
+import React, { useState, useEffect, useRef } from 'react';
 import { apiSearchRequest } from '../../api/index';
-import { ChevronLeftIcon } from '@heroicons/react/outline';
-import SearchResultList from './SearchResultList';
+import { ChevronLeftIcon, SearchIcon } from '@heroicons/react/outline';
+import SearchListItem from './SearchListItem';
 const Search = () => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
+  const [isSearchResultShow, setSearchResultShow] = useState(false);
+  const searchInputRef = useRef(null);
+
+  const handleInputFocus = () => {
+    setSearchResultShow(true);
+  };
+
   const search = async () => {
     try {
       console.log(searchText);
@@ -17,6 +23,12 @@ const Search = () => {
     }
   };
   useEffect(() => {
+    if (isSearchResultShow) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchResultShow]);
+
+  useEffect(() => {
     if (searchText === '') {
       setSearchResult(null);
     } else {
@@ -24,34 +36,56 @@ const Search = () => {
     }
   }, [searchText]);
   return (
-    <div className="hidden fixed top-0 rounded-md left-0 z-50 bg-white shadow-md p-5 pb-2 max-w-[350px]">
-      <div className="flex items-center ">
-        <ChevronLeftIcon className="mr-[30px] h-5 cursor-pointer" />
-        <form
-          action=""
-          className="flex items-center ml-[10px] border rounded-full p-[5px] bg-gray-100"
-        >
-          <SearchIcon className="h-5 w-5 text-gray-600" />
-          <input
-            onChange={(e) => setSearchText(e.target.value)}
-            className="hidden lg:inline-flex outline-none bg-gray-100 ml-[5px]"
-            type="search"
-            placeholder="search"
-          />
-        </form>
+    <div className=" max-w-[350px]">
+      <div className="flex items-center rounded-full bg-gray-100 pl-2">
+        <SearchIcon className="h-5 ml-[10px]" />
+        <input
+          type="text"
+          onFocus={() => handleInputFocus()}
+          placeholder="Search"
+          className="text-sm bg-gray-100 rounded-full p-3 pl-2 outline-none"
+        />
       </div>
-      <div className="max-h-[500px] overflow-y-auto py-[10px]">
-        {searchResult &&
-          searchResult.map((result) => (
-            <SearchResultList
-              key={result.username}
-              username={result.username}
-              name={result.name}
-              profileImage={result.profileImage}
-            />
-          ))}
-        <SearchResultList Icon={SearchIcon} searchText={searchText} />
-      </div>
+      {isSearchResultShow && (
+        <div className="fixed top-0 left-0 w-[350px] rounded-md bg-white p-3 shadow-xl">
+          <div className="flex items-center w-full">
+            <span
+              onClick={() => setSearchResultShow(false)}
+              className="p-3 rounded-full cursor-pointer bg-gray-100"
+            >
+              <ChevronLeftIcon className="h-6 " />
+            </span>
+            <div className="flex flex-1 ml-[20px] items-center rounded-full bg-gray-100 pl-2">
+              <SearchIcon className="h-5 ml-[10px]" />
+              <input
+                type="text"
+                value={searchText}
+                ref={searchInputRef}
+                onChange={(e) => setSearchText(e.target.value)}
+                placeholder="Search"
+                className="text-sm w-full bg-gray-100 rounded-full p-3 pl-2 outline-none"
+              />
+            </div>
+          </div>
+          <div className=" max-h-[500px] overflow-y-auto py-[10px]">
+            {searchResult &&
+              searchResult.map((result) => (
+                <SearchListItem
+                  key={result.username}
+                  username={result.username}
+                  name={result.name}
+                  profileImage={result.profileImage}
+                />
+              ))}
+          </div>
+          <div className="flex hover:bg-gray-100 rounded-md cursor-pointer items-center p-[10px]">
+            <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2 bg-blue-600 text-white" />
+            <p className="ml-[10px] font-medium text-blue-600">
+              搜尋 {searchText}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

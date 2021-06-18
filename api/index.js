@@ -13,7 +13,11 @@ import {
   unlikeComment,
   deleteComment
 } from './postRequest';
-import { getNotifications } from './notificationRequest';
+import {
+  getNotifications,
+  postReadNotifications,
+  postReadSingleNotification
+} from './notificationRequest';
 // Search
 
 export const apiSearchRequest = searchRequest;
@@ -44,12 +48,14 @@ export const apiDeleteComment = deleteComment;
 // Notifications
 
 export const apiGetNotifications = getNotifications;
-
+export const apiPostReadNotifications = postReadNotifications;
+export const apiPostReadSingleNotification = postReadSingleNotification;
 // Profile
 import {
   getProfilePosts,
   getProfile,
   patchProfile,
+  patchProfileImage,
   getProfileFriends
 } from './profileRequest';
 
@@ -57,3 +63,9 @@ export const apiGetProfilePosts = getProfilePosts;
 export const apiGetProfile = getProfile;
 export const apiPatchProfile = patchProfile;
 export const apiGetProfileFriends = getProfileFriends;
+export const apiPatchProfileImage = patchProfileImage;
+
+// Friend
+
+import { postFriendRequest } from './friendRequest';
+export const apiPostFriendRequest = postFriendRequest;
