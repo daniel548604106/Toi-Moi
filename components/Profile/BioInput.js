@@ -18,7 +18,7 @@ const BioInput = ({ isEditable, bio, originalBio, setBio, sendUpdates }) => {
   };
 
   useEffect(() => {
-    if (bio !== '') {
+    if (bio && bio !== '') {
       setBioLengthLeft(80 - bio.length);
     }
     if (bioLengthLeft < 0) {

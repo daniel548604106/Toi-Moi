@@ -1,7 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { timeDiff } from '../../lib/dayjs';
-import { DotsHorizontalIcon } from '@heroicons/react/outline';
+import { DotsHorizontalIcon, ChatAlt2Icon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
@@ -26,12 +26,17 @@ const CommentNotification = ({ notification }) => {
       className="group relative w-full  p-2 rounded-lg hover:bg-gray-100 justify-between cursor-pointer mb-2 flex items-center"
     >
       <div className="flex items-center">
-        <Image
-          className="rounded-full cursor-pointer"
-          width={50}
-          height={50}
-          src={notification.user.profileImage}
-        />
+        <span className="relative">
+          <Image
+            className="rounded-full object-cover cursor-pointer"
+            width={60}
+            height={60}
+            src={notification.user.profileImage}
+          />
+          <span className="absolute bottom-1 right-0 rounded-full bg-green-400 text-white p-1">
+            <ChatAlt2Icon className="h-4" />
+          </span>
+        </span>
         <div className=" ml-[10px]">
           <p className="text-sm text-gray-600">
             <span className="text-black font-semibold">

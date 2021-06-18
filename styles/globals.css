@@ -9,6 +9,9 @@
   .inputIcon {
     @apply flex-col text-center flex sm:flex-row items-center space-x-1 hover:bg-gray-100 w-full  justify-center p-3 px-4 rounded-md cursor-pointer;
   }
+  .fullBodyHeight {
+    height: calc(100vh - 64px);
+  }
 }
 
 body {

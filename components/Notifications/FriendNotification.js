@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { timeDiff } from '../../lib/dayjs';
-import { DotsHorizontalIcon } from '@heroicons/react/outline';
+import { UsersIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification, apiPostFriendRequest } from '../../api';
@@ -35,21 +35,32 @@ const FriendNotification = ({ notification }) => {
       onClick={() => handleReadNotification(notification._id)}
       className="group relative w-full  p-2 rounded-lg hover:bg-gray-100  cursor-pointer mb-2 flex items-center"
     >
-      <div className="flex items-center flex-1">
-        <Image
-          className="rounded-full cursor-pointer"
-          width={50}
-          height={50}
-          src={notification.user.profileImage}
-        />
+      <div className=" flex items-center flex-1">
+        <span className="relative">
+          <Image
+            className="rounded-full object-cover cursor-pointer"
+            width={60}
+            height={60}
+            src={notification.user.profileImage}
+          />
+          <span className="absolute bottom-1 right-0 bg-gray-800 rounded-full p-1">
+            <UsersIcon className="h-4 text-white" />
+          </span>
+        </span>
+
         <div className=" ml-[10px]">
           <p className="text-sm text-gray-600">
             <span className="text-black font-semibold">
               {notification.user.name}
             </span>{' '}
-            {notification.type === 'newFriendInvitation'
-              ? 'sent you a friend request'
-              : 'accepted your friend request'}
+            {notification.type === 'newFriendInvitation' && isAccepted && (
+              <span>{`You are now friend with  ${notification.user.name}`}</span>
+            )}
+            {notification.type === 'newFriendInvitation' && !isAccepted && (
+              <span>sent you a friend request</span>
+            )}
+            {notification.type === 'newFriendAccepted' &&
+              'accepted your friend request'}
           </p>
           <p
             className={`text-xs text-gray-500 ${
