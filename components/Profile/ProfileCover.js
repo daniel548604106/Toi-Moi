@@ -20,7 +20,6 @@ const ProfileCover = ({ user, profile }) => {
   const [coverDescription, setCoverDescription] = useState(
     profile.profileCoverDescription
   );
-  const [profileImage, setProfileImage] = useState(user.profileImage);
   const [bio, setBio] = useState(profile.bio);
 
   const inputRef = useRef(null);
@@ -49,8 +48,8 @@ const ProfileCover = ({ user, profile }) => {
     sendUpdates(bio, coverDescription, coverImage);
   };
 
-  const handleViewCoverPost = () => {
-    dispatch(apiGetCurrentPost(profile.profileCoverPostId));
+  const handleViewCoverPost = async () => {
+    await dispatch(apiGetCurrentPost(profile.profileCoverPostId));
     dispatch(setViewPostModalOpen(true));
   };
 
@@ -143,10 +142,7 @@ const ProfileCover = ({ user, profile }) => {
           </span>
         )}
         <div className="absolute translate-y-[10px] bottom-0 transform left-1/2 -translate-x-1/2">
-          <ProfileImage
-            profileImage={profileImage}
-            setProfileImage={setProfileImage}
-          />
+          <ProfileImage profileImage={user.profileImage} />
         </div>
       </div>
 

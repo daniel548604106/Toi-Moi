@@ -9,6 +9,17 @@ const ProfileSchema = new mongoose.Schema(
     bio: {
       type: String
     },
+    profileImage: {
+      picUrl: {
+        type: String
+      },
+      postId: {
+        type: String
+      },
+      description: {
+        type: String
+      }
+    },
     profileCoverDescription: {
       type: String
     },

@@ -4,7 +4,7 @@ import { timeDiff } from '../../lib/dayjs';
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-const NotificationListItem = ({ notification }) => {
+const LikeNotification = ({ notification }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
   const directToNotificationOrigin = (type) => {
@@ -32,8 +32,7 @@ const NotificationListItem = ({ notification }) => {
             <span className="text-black font-semibold">
               {notification.user.name}
             </span>{' '}
-            {notification.type === 'newComment' && 'replied to your post'}
-            {notification.type === 'newLike' && 'likes your post'}
+            likes your post
           </p>
           <p className="text-xs text-gray-500">{timeDiff(notification.date)}</p>
         </div>
@@ -48,4 +47,4 @@ const NotificationListItem = ({ notification }) => {
   );
 };
 
-export default NotificationListItem;
+export default LikeNotification;

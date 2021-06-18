@@ -9,7 +9,13 @@ const notificationSchema = new mongoose.Schema({
     {
       type: {
         type: String,
-        enum: ['newLike', 'newComment', 'newFollower']
+        enum: [
+          'newLike',
+          'newComment',
+          'newFollower',
+          'newFriendInvitation',
+          'newFriendAccepted'
+        ]
       },
       // The user which this notification has relation to
       user: {

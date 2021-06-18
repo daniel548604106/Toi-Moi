@@ -13,7 +13,7 @@ const setNotificationToUnread = async (userId) => {
     res.status(500).send('Server Error');
   }
 };
-
+// Like Notification
 const newLikeNotification = async (userId, postId, userToNotifyId) => {
   try {
     const userToNotify = await Notification.findOne({ user: userToNotifyId });
@@ -53,7 +53,7 @@ const removeLikeNotification = async (userId, postId, userToNotifyId) => {
     console.log(error);
   }
 };
-
+// Comment Notification
 const newCommentNotification = async (
   postId,
   commentId,
@@ -109,6 +109,7 @@ const removeCommentNotification = async ({
     console.log(error);
   }
 };
+// Follower Notification
 
 const newFollowerNotification = async ({ userId, userToNotifyId }) => {
   try {
@@ -152,9 +153,64 @@ const removeFollowerNotification = async ({
   }
 };
 
+// Friend Notification
+const newFriendNotification = async ({
+  userId,
+  userToNotifyId,
+  hasBeenInvited
+}) => {
+  try {
+    const user = await Notification.findOne({ user: userToNotifyId });
+    const newNotification = {
+      type: 'newFriendInvitation',
+      user: userId,
+      date: Date.now()
+    };
+    if (hasBeenInvited) {
+      newNotification.type = 'newFriendAccepted';
+    }
+
+    await user.notifications.unshift(newNotification);
+    await user.save();
+    await setNotificationToUnread(userToNotifyId);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Server error');
+  }
+};
+
+const removeFriendNotification = async ({
+  userId,
+  userToRemoveNotificationId
+}) => {
+  try {
+    const user = await Notification.findOne({
+      user: userToRemoveNotificationId
+    });
+
+    const notificationToRemove = user.notifications.find(
+      (notification) =>
+        (notification.type === 'newFriendInvitation' ||
+          notification.type === 'newFriendAccepted') &&
+        notification.user.toString() === userId
+    );
+    console.log(notificationToRemove, 'remove');
+    const indexOf = user.notifications
+      .map((notification) => notification._id.toString())
+      .indexOf(notificationToRemove._id.toString());
+    await user.notifications.splice(indexOf, 1);
+    await user.save();
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 module.exports = {
   newLikeNotification,
   removeLikeNotification,
+  newFriendNotification,
+  removeFriendNotification,
   newCommentNotification,
   removeCommentNotification,
   newFollowerNotification

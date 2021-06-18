@@ -72,10 +72,8 @@ const Post = ({ post }) => {
     });
   };
 
-  const handleViewPost = (postId) => {
-    dispatch(apiGetCurrentPost(postId)).then((res) => {
-      console.log('currentPost', res);
-    });
+  const handleViewPost = async (postId) => {
+    await dispatch(apiGetCurrentPost(postId));
     dispatch(setViewPostModalOpen(true));
   };
 

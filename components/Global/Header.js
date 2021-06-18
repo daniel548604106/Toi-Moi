@@ -58,7 +58,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="hidden w-full md:flex items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed top-[60px] left-0 flex bg-white  w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           onClick={() => router.push('/')}
           active={router.pathname === '/'}
