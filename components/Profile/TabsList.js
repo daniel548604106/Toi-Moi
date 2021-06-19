@@ -39,7 +39,7 @@ const hiddenTabs = [
   }
 ];
 
-const TabsList = ({ user }) => {
+const TabsList = ({ user, friends_total }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(router.query.tab);
   const [visibleTabs, setVisibleTabs] = useState(tabs);
@@ -81,7 +81,7 @@ const TabsList = ({ user }) => {
             }`}
             onClick={() => router.push(`/${router.query.id}/${tab.link}`)}
           >
-            {tab.title}
+            {tab.title} {tab.title === 'friends' && friends_total}
           </span>
         ))}
         <span className="hidden text-xs sm:text-sm relative sm:flex cursor-pointer items-center p-3  rounded-lg hover:bg-gray-100">

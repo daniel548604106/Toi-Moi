@@ -64,9 +64,24 @@ router.post('/', async (req, res) => {
           description: ''
         },
         profileCoverImage: '',
-        social: {
-          facebook: '',
-          twitter: ''
+        summary: {
+          work_experience: [],
+          education: [],
+          current_city: {
+            city: '',
+            country: '',
+            still_living: '',
+            set_public: ''
+          },
+          hometown: {
+            country: '',
+            city: '',
+            set_public: ''
+          },
+          relationship: {
+            status: '',
+            set_public: ''
+          }
         }
       }).save();
     }

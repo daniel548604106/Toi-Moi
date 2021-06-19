@@ -52,7 +52,7 @@ const Index = ({ profileData, postsData, friends }) => {
       </div>
       <div className="bg-white sticky top-[60px] border-b z-30">
         <div className=" max-w-7xl mx-auto bg-white self-start ">
-          <TabsList user={user} />
+          <TabsList friends_total={friends.friends_total} user={user} />
         </div>
       </div>
       <main className="max-w-7xl mx-auto p-4 bg-[#fafafa] flex-col lg:flex-row  flex justify-center">

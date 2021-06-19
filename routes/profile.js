@@ -27,12 +27,13 @@ router.get('/:username', authMiddleware, async (req, res) => {
     console.log(user);
 
     const profile = await Profile.findOne({ user: user._id }).populate('user');
-
+    const friends = await Friend.findOne({ user: user._id });
     console.log(profile);
     const profileFollowStats = await Follower.findOne({ user: user._id });
     console.log(profileFollowStats);
     res.status(200).json({
       profile,
+      total_friends: friends.friends.length,
       followersLength:
         profileFollowStats.followers.length > 0
           ? profileFollowStats.followers.length

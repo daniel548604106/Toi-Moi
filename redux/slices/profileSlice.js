@@ -12,9 +12,14 @@ export const getProfileData = createAsyncThunk(
 export const profileSlice = createSlice({
   name: 'post',
   initialState: {
-    profileData: null
+    profileData: null,
+    isEditSummaryModalOpen: false
   },
-  reducers: {},
+  reducers: {
+    setSummaryModalShow: (state, { payload }) => {
+      state.isEditSummaryModalOpen = payload;
+    }
+  },
   extraReducers: {
     // Add reducers for additional action types here, and handle loading state as needed
     [getProfileData.fulfilled]: (state, action) => {
@@ -25,6 +30,6 @@ export const profileSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {} = profileSlice.actions;
+export const { setSummaryModalShow } = profileSlice.actions;
 
 export default profileSlice.reducer;
