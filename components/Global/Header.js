@@ -31,7 +31,7 @@ const Header = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center fixed left-0 right-0 top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
+    <div className="flex items-center sticky left-0 right-0 top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <Image

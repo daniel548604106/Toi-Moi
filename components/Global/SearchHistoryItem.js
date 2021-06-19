@@ -2,7 +2,12 @@ import React from 'react';
 import { SearchIcon, XIcon } from '@heroicons/react/outline';
 import { apiDeleteHistory } from '../../api';
 import { useRouter } from 'next/router';
-const SearchHistoryItem = ({ history, searchHistory, setSearchHistory }) => {
+const SearchHistoryItem = ({
+  setSearchResultShow,
+  history,
+  searchHistory,
+  setSearchHistory
+}) => {
   const router = useRouter();
   const handleDirectToHistory = () => {
     if (history.type === 'keyword') {
@@ -10,6 +15,7 @@ const SearchHistoryItem = ({ history, searchHistory, setSearchHistory }) => {
     } else {
       router.push(`/${history.user.username}`);
     }
+    setSearchResultShow(false);
   };
 
   const handleDelete = async (e) => {

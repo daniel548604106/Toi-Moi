@@ -120,6 +120,7 @@ const Search = () => {
                 ))
               : searchHistory.map((history) => (
                   <SearchHistoryItem
+                    setSearchResultShow={setSearchResultShow}
                     searchHistory={searchHistory}
                     setSearchHistory={setSearchHistory}
                     key={history._id}

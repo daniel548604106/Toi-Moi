@@ -40,8 +40,7 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       <Header />
-      <Search />
-      <main>
+      <main className="pt-[56px] md:pt-0">
         <Component {...pageProps} />
       </main>
     </>
