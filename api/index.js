@@ -1,3 +1,6 @@
+// Me
+import { getMyInfo } from './meRequest';
+export const apiGetMyInfo = getMyInfo;
 // Search
 
 import {

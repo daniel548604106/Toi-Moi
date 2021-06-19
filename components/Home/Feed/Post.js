@@ -94,7 +94,7 @@ const Post = ({ post }) => {
           <div className="flex items-center">
             <Image
               onClick={() => handleDirectToProfile()}
-              className="rounded-full  cursor-pointer"
+              className="rounded-full object-cover  cursor-pointer"
               src={post.user.profileImage}
               width="40"
               height="40"

@@ -68,16 +68,16 @@ const Header = () => {
       <div className="w-1/2 relative flex justify-end items-center space-x-1 sm:space-x-2 ">
         <div
           onClick={() => router.push(`/${userInfo.username}`)}
-          className="flex items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer "
+          className="flex border items-center rounded-full space-x-2 hover:bg-gray-100  p-1 cursor-pointer "
         >
           <Image
-            className="cursor-pointer mr-2 rounded-full"
+            className="cursor-pointer object-cover mr-2 rounded-full"
             layout="fixed"
             src={userInfo.profileImage}
             width="40"
             height="40"
           />
-          <p className="pr-2  whitespace-nowrap hidden xl:block">
+          <p className="pr-2 text-sm text-gray-600 whitespace-nowrap hidden xl:block">
             {userInfo.name}
           </p>
         </div>

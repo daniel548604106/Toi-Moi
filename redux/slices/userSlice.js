@@ -1,4 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { apiGetMyInfo } from '../../api/index';
+export const getMyInfo = createAsyncThunk(
+  'get/getMyInfo',
+  async (id, thunkAPI) => {
+    const response = await apiGetMyInfo();
+    console.log(response);
+    return response.data;
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -8,6 +18,7 @@ export const userSlice = createSlice({
     isEditProfileImageOpen: false,
     profileImageToUpdate: ''
   },
+
   reducers: {
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
     // doesn't actually mutate the state because it uses the Immer library,
@@ -27,6 +38,13 @@ export const userSlice = createSlice({
         state.profileImageToUpdate = '';
       }
       state.profileImageToUpdate = payload;
+    }
+  },
+  extraReducers: {
+    // Add reducers for additional action types here, and handle loading state as needed
+    [getMyInfo.fulfilled]: (state, action) => {
+      // Add likes to the state array
+      state.userInfo = action.payload;
     }
   }
 });

@@ -6,8 +6,12 @@ import {
   setEditProfileImageOpen,
   setProfileImageToUpdate
 } from '../../redux/slices/userSlice';
+import {
+  apiGetCurrentPost,
+  setViewPostModalOpen
+} from '../../redux/slices/postSlice';
 import router from 'next/router';
-const ProfileImage = ({ profileImage }) => {
+const ProfileImage = ({ postId, profileImage }) => {
   const dispatch = useDispatch();
   const profileImageRef = useRef(null);
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -17,8 +21,10 @@ const ProfileImage = ({ profileImage }) => {
     profileImageRef.current.click();
   };
 
-  const handleViewCurrentProfile = (e) => {
+  const handleViewCurrentProfile = async (e) => {
     e.stopPropagation();
+    await dispatch(apiGetCurrentPost(postId));
+    dispatch(setViewPostModalOpen(true));
   };
   const addProfileImageToPost = (e) => {
     const reader = new FileReader();

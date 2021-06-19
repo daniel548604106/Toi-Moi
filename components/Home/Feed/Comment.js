@@ -45,12 +45,12 @@ const Comment = ({ setComments, comments, postId, comment }) => {
     }
   };
   return (
-    <div className="flex items-center">
+    <div className="flex  items-center">
       <Image
         src={comment.user.profileImage}
         width={30}
         height={30}
-        className="rounded-full cursor-pointer "
+        className="rounded-full object-cover cursor-pointer "
       />
       <div className=" ml-[10px]">
         <div className="flex items-center group">
