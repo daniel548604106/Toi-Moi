@@ -2,6 +2,8 @@ import React from 'react';
 import { SearchIcon, XIcon } from '@heroicons/react/outline';
 import { apiDeleteHistory } from '../../api';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
+import genderAvatar from '../../utils/genderAvatar';
 const SearchHistoryItem = ({
   setSearchResultShow,
   history,
@@ -39,18 +41,22 @@ const SearchHistoryItem = ({
       className="flex justify-between items-center rounded-md hover:bg-gray-100 cursor-pointer p-2 py-1"
     >
       <div className="flex items-center">
-        <span className="p-2 rounded-full bg-gray-100">
-          {history.type === 'keyword' && <SearchIcon className="h-6" />}
-          {history.type === 'user' && (
-            <Image
-              className="rounded-full cursor-pointer"
-              width={30}
-              height={30}
-              src={history.user.profileImage}
-            />
-          )}
+        {history.type === 'user' ? (
+          <Image
+            className="rounded-full object-cover cursor-pointer"
+            width={40}
+            height={40}
+            src={history.user.profileImage || genderAvatar(history.user.gender)}
+          />
+        ) : (
+          <span className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-gray-100">
+            {history.type === 'keyword' && <SearchIcon className="h-6" />}
+          </span>
+        )}
+
+        <span className="ml-[15px]">
+          {history.type === 'user' ? history.user.name : history.keyword}
         </span>
-        <span className="ml-[15px]">{history.keyword}</span>
       </div>
       <span
         onClick={(e) => handleDelete(e)}

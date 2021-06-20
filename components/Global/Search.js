@@ -37,6 +37,7 @@ const Search = () => {
   const handleKeywordSearch = async (e) => {
     if (e.target.name === 'search' && e.key !== 'Enter') return;
     router.push(`/search/top?q=${searchText}`);
+    setSearchText('');
     setSearchResultShow(false);
     try {
       const res = await apiPostKeywordSearch(searchText);
@@ -65,7 +66,7 @@ const Search = () => {
     }
   }, [searchText]);
   return (
-    <div className=" max-w-[350px]">
+    <div className="group max-w-[350px]">
       <div className="flex items-center rounded-full bg-gray-100 ">
         <span onClick={() => handleInputFocus()} className="p-1 rounded-full ">
           <SearchIcon className="h-5" />
@@ -110,6 +111,8 @@ const Search = () => {
             {searchResult
               ? searchResult.map((result) => (
                   <SearchListItem
+                    setSearchResultShow={setSearchResultShow}
+                    gender={result.gender}
                     key={result.username}
                     username={result.username}
                     name={result.name}

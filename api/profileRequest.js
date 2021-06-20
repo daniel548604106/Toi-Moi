@@ -23,6 +23,14 @@ export const patchProfile = ({
   });
 };
 
+export const patchProfileSummary = (username) => {
+  return request.patch(`/profile/${username}/summary`);
+};
+
+export const postWorkExperienceSummary = (username, experience) => {
+  return request.post(`/profile/${username}/work_experience`, { experience });
+};
+
 export const getProfileFriends = (username) => {
   return request.get(`/friends_preview/${username}`);
 };

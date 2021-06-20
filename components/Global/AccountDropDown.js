@@ -5,6 +5,7 @@ import { setUserLogout } from '../../redux/slices/userSlice';
 import Image from 'next/image';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
+import genderAvatar from '../../utils/genderAvatar';
 const AccountPopup = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const email = useSelector((state) => state.user.userInfo.email);
@@ -25,7 +26,7 @@ const AccountPopup = () => {
         className="cursor-pointer flex items-center rounded-md hover:bg-gray-100  p-2"
       >
         <Image
-          src={userInfo.profileImage}
+          src={userInfo.profileImage || genderAvatar(userInfo.gender)}
           width={60}
           height={60}
           className="rounded-full"

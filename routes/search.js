@@ -48,7 +48,9 @@ router.post('/keyword', authMiddleware, async (req, res) => {
 router.get('/history/recent', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
-    const user = await Search.findOne({ user: userId });
+    const user = await Search.findOne({ user: userId }).populate(
+      'history.user'
+    );
     const history = user.history.slice(0, 8);
     res.status(200).json(history);
   } catch (error) {
@@ -74,17 +76,17 @@ router.post('/user', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
     const { username } = req.body;
-    const user = await User.findOne({ username });
-    const searched = await Search.findOne({ user: user._id });
+    const searchedUser = await User.findOne({ username });
+    const user = await Search.findOne({ user: userId });
 
     const newSearch = {
       type: 'user',
-      user: user._id,
+      user: searchedUser._id,
       _id: uuid()
     };
 
-    searched.unshift(newSearch);
-    await searched.save();
+    user.history.unshift(newSearch);
+    await user.save();
     res.status(200).send('Searched User saved');
   } catch (error) {
     console.log(error);

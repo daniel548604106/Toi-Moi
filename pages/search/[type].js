@@ -28,7 +28,7 @@ const SearchType = () => {
   ];
   return (
     <div className="flex-col md:flex-row flex fullBodyHeight">
-      <div className="w-full md:block hidden h-full max-w-[360px]">
+      <div className="w-full md:block hidden fullBodyHeight max-w-[360px]">
         <SidebarList filterList={filterList} />
       </div>
       <div className="md:hidden block">

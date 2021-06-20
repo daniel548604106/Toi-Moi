@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import genderAvatar from '../../utils/genderAvatar';
 const SidebarRow = ({ src, Icon, title }) => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -13,12 +14,12 @@ const SidebarRow = ({ src, Icon, title }) => {
   return (
     <div
       onClick={() => handleDirectToPage()}
-      className="flex hover:bg-gray-200 items-center rounded-lg  p-4 cursor-pointer "
+      className="flex hover:bg-gray-200 items-center rounded-lg  p-4 py-3 cursor-pointer "
     >
       {src && (
         <Image
-          width={30}
-          height={30}
+          width={35}
+          height={35}
           layout="fixed"
           className="rounded-full"
           src={src}

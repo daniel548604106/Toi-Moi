@@ -6,6 +6,7 @@ import {
   getMyInfo
 } from '../../redux/slices/userSlice';
 import { getProfileData } from '../../redux/slices/profileSlice.js';
+import Loader from '../Global/Loader';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { useRouter } from 'next/router';
@@ -14,6 +15,7 @@ const EditProfileImageModal = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [text, setText] = useState('');
+  const [isLoading, setLoading] = useState(false);
   const [profileImage, setProfileImage] = useState('');
   const profileImageToUpdate = useSelector(
     (state) => state.user.profileImageToUpdate
@@ -41,12 +43,18 @@ const EditProfileImageModal = () => {
     }
   };
   const handleSubmitUpdate = async () => {
-    await sendUpdates(profileImage);
-    // Get updated user info
-    dispatch(getMyInfo());
-    // Get updated user profile
-    dispatch(getProfileData(userInfo.username));
-    dispatch(setEditProfileImageOpen(false));
+    try {
+      setLoading(true);
+      await sendUpdates(profileImage);
+      // Get updated user info
+      dispatch(getMyInfo());
+      // Get updated user profile
+      dispatch(getProfileData(userInfo.username));
+      setLoading(false);
+      dispatch(setEditProfileImageOpen(false));
+    } catch (error) {
+      console.log(error);
+    }
   };
   const cropperRef = useRef(null);
   const onCrop = () => {
@@ -56,6 +64,12 @@ const EditProfileImageModal = () => {
     // sendUpdates(cropper.getCroppedCanvas().toDataURL());
     // console.log(cropper.getCroppedCanvas().toDataURL());
   };
+
+  useEffect(() => {
+    return () => {
+      onCrop();
+    };
+  }, []);
 
   return (
     <div className="rounded-lg relative max-w-[600px] w-full bg-white shadow-xl">
@@ -98,9 +112,9 @@ const EditProfileImageModal = () => {
         </button>
         <button
           onClick={() => handleSubmitUpdate()}
-          className="rounded-md p-2 text-sm px-4 bg-blue-600 text-white ml-[10px]"
+          className="rounded-md flex items-center justify-center p-2 text-sm px-4 bg-blue-600 text-white ml-[10px]"
         >
-          Save
+          {isLoading ? <Loader /> : 'Save'}
         </button>
       </div>
     </div>
