@@ -3,6 +3,7 @@ import StoryCard from './StoryCard';
 import Image from 'next/image';
 import { PlusIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
+import genderAvatar from '../../../utils/genderAvatar';
 const Stories = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const stories = [
@@ -39,7 +40,7 @@ const Stories = () => {
         <div className="h-full w-full">
           <Image
             className=" h-full rounded-3xl"
-            src={userInfo.profileImage}
+            src={userInfo.profileImage || genderAvatar(userInfo.gender)}
             layout="fill"
             objectFit="cover"
           />

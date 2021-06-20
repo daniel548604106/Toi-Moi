@@ -3,7 +3,7 @@ import { apiPostLogin } from '../../api/index';
 import { useDispatch } from 'react-redux';
 import { setUserLogin } from '../../redux/slices/userSlice';
 import { useRouter } from 'next/router';
-import catchErrors from '../../utils/catchErrors';
+import catchError from '../../lib/catchError';
 import Cookie from 'js-cookie';
 import Signup from '../Signup/Index';
 import Image from 'next/image';
@@ -30,7 +30,7 @@ const Login = () => {
       Cookie.set('token', data.token);
       router.push('/');
     } catch (error) {
-      const errMsg = catchErrors(error);
+      const errMsg = catchError(error);
       setError(errMsg);
     }
   };
@@ -81,6 +81,9 @@ const Login = () => {
               placeholder="Password"
             />
           </div>
+          {error !== '' && (
+            <div className="text-red-500 my-3 relative ">{error}</div>
+          )}
           <button
             onClick={(e) => handleLogin(e)}
             className="rounded-md w-full text-lg p-3 bg-blue-600 text-white"
@@ -99,7 +102,6 @@ const Login = () => {
           Create Account
         </button>
       </div>
-      {error !== '' && <div className="text-red-500">{error}</div>}
     </div>
   );
 };

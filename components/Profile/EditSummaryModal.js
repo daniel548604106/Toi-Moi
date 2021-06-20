@@ -32,7 +32,6 @@ const EditSummaryModal = () => {
             Your info will be set public, and will not be sent to your feed.
           </p>
         </div>
-
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Work Experience</h2>
           {activeBox === 1 ? (

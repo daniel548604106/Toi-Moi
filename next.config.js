@@ -4,7 +4,8 @@ module.exports = {
       'links.papareact.com',
       'platform-lookaside.fbsbx.com',
       'images.unsplash.com',
-      'ik.imagekit.io'
+      'ik.imagekit.io',
+      'image.flaticon.com'
     ]
   },
   env: {

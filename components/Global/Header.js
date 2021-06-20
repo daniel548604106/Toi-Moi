@@ -17,6 +17,7 @@ import {
   ViewGridIcon
 } from '@heroicons/react/solid';
 import HeaderIcon from './HeaderIcon';
+import genderAvatar from '../../utils/genderAvatar';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import AccountDropDown from './AccountDropDown';
@@ -73,7 +74,7 @@ const Header = () => {
           <Image
             className="cursor-pointer object-cover mr-2 rounded-full"
             layout="fixed"
-            src={userInfo.profileImage}
+            src={userInfo.profileImage || genderAvatar(userInfo.gender)}
             width="40"
             height="40"
           />

@@ -72,7 +72,6 @@ const Index = ({ profileData, postsData, friends }) => {
           ))}
         </div>
       </main>
-      }
     </div>
   );
 };

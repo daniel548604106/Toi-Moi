@@ -71,16 +71,16 @@ router.post('/', async (req, res) => {
             city: '',
             country: '',
             still_living: '',
-            set_public: ''
+            set_public: true
           },
           hometown: {
             country: '',
             city: '',
-            set_public: ''
+            set_public: true
           },
           relationship: {
             status: '',
-            set_public: ''
+            set_public: true
           }
         }
       }).save();

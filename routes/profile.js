@@ -24,13 +24,13 @@ router.get('/:username', authMiddleware, async (req, res) => {
   try {
     const user = await User.findOne({ username: username.toLowerCase() });
     if (!user) return res.status(404).send('User not found');
-    console.log(user);
+    // console.log(user);
 
     const profile = await Profile.findOne({ user: user._id }).populate('user');
     const friends = await Friend.findOne({ user: user._id });
-    console.log(profile);
+    // console.log(profile);
     const profileFollowStats = await Follower.findOne({ user: user._id });
-    console.log(profileFollowStats);
+    // console.log(profileFollowStats);
     res.status(200).json({
       profile,
       total_friends: friends.friends.length,
@@ -104,7 +104,7 @@ router.post('/follow/:userToFollowId', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
     const { userToFollowId } = req.params;
-    console.log(userToFollowId);
+    // console.log(userToFollowId);
     const user = await Follower.findOne({ user: userId });
     const userToFollow = await Follower.findOne({ user: userToFollowId });
     if (!user) return res.status(404).send('User not found');
@@ -319,7 +319,7 @@ router.get('/friends_preview/:username', authMiddleware, async (req, res) => {
     const friends = await Friend.findOne({ user: user._id }).populate(
       'friends.user'
     );
-    console.log(friends);
+    // console.log(friends);
 
     const list = {
       friends_total: friends.friends.length,

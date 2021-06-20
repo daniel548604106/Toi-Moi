@@ -118,12 +118,12 @@ const Post = ({ post }) => {
               </p>
             </div>
           </div>
-          <span className="group p-2 relative rounded-full  hover:bg-gray-100">
+          <button className="group focus:outline-none p-2 relative rounded-full  hover:bg-gray-100">
             <DotsHorizontalIcon className="h-5 cursor-pointer text-gray-700 " />
-            <div className="  hidden group-hover:block  z-40  absolute bottom-0 transform translate-y-full right-0 ">
-              <Popup postId={post._id} />
+            <div className="group-focus:block  hidden  z-20  absolute bottom-0 transform translate-y-full right-0 ">
+              <Popup user={post.user} postId={post._id} />
             </div>
-          </span>
+          </button>
         </div>
         <p className="text-sm">{post.text}</p>
       </div>

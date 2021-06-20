@@ -4,11 +4,17 @@ import {
   ExclamationCircleIcon,
   XIcon
 } from '@heroicons/react/solid';
+import Loader from '../Global/Loader';
 import _ from 'lodash';
 import { apiPostSignup } from '../../api';
-import catchErrors from '../../utils/catchErrors';
+import catchError from '../../lib/catchError';
+import Cookie from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import { setUserLogin } from '../../redux/slices/userSlice';
 const Index = ({ setSignupOpen }) => {
+  const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
+  const [isLoading, setLoading] = useState(false);
   const yearRange = _.range(currentYear, 1930);
   const monthRange = _.range(1, 12);
   const dateRange = _.range(1, 31);
@@ -16,9 +22,9 @@ const Index = ({ setSignupOpen }) => {
   const [errorMsg, setErrorMsg] = useState({});
   const [signupInfo, setSignupInfo] = useState({
     name: '',
+    username: '',
     email: '',
     password: '',
-    passwordConfirm: '',
     birthday: {
       year: '',
       month: '',
@@ -32,7 +38,7 @@ const Index = ({ setSignupOpen }) => {
     name,
     email,
     password,
-    passwordConfirm,
+    username,
     birthday: { year, month, date },
     gender,
     genderDisplayName
@@ -53,8 +59,9 @@ const Index = ({ setSignupOpen }) => {
     });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
     let error = {};
     setInputChecked(true);
     // Name
@@ -70,10 +77,31 @@ const Index = ({ setSignupOpen }) => {
     if (!password) {
       error['password'] = 'Please provide a password';
     }
-    if (!passwordConfirm) {
-      error['passwordConfirm'] = 'Please confirm your password';
+    // Username
+    if (!username) {
+      error['username'] = 'Please confirm your password';
+    }
+    // Gender
+    if (!gender) {
+      error['gender'] = 'Please provide your gender';
+    }
+    // BDay
+    if (!year || !month || !date) {
+      error['birthday'] = 'Please make sure you have the right birthday';
     }
     setErrorMsg(error);
+    try {
+      setLoading(true);
+      const { data } = await apiPostSignup(signupInfo);
+      dispatch(setUserLogin(data.user));
+      Cookie.set('token', data.token);
+      router.push('/');
+      setLoading(false);
+      setSignupOpen(false);
+    } catch (error) {
+      setLoading(false);
+      catchError(error);
+    }
   };
 
   useEffect(() => {
@@ -89,14 +117,25 @@ const Index = ({ setSignupOpen }) => {
       if (password) {
         setErrorMsg({ ...errorMsg, password: '' });
       }
-      if (passwordConfirm) {
-        setErrorMsg({ ...errorMsg, passwordConfirm: '' });
+      if (username) {
+        setErrorMsg({ ...errorMsg, username: '' });
+      }
+      if (gender) {
+        setErrorMsg({ ...errorMsg, gender: '' });
+      }
+      if (year && date && month) {
+        setErrorMsg({ ...errorMsg, birthday: '' });
       }
     }
     console.log(errorMsg, 'ser');
   }, [signupInfo]);
   useEffect(() => {
     console.log(signupInfo);
+    if (year && month && date) {
+      let formattedBirthday = new Date(year, month, date);
+      formattedBirthday = formattedBirthday.toISOString();
+      setSignupInfo({ ...signupInfo, birthday: formattedBirthday });
+    }
   }, [signupInfo]);
 
   return (
@@ -128,6 +167,22 @@ const Index = ({ setSignupOpen }) => {
             placeholder="Name"
           />
           {errorMsg.name && (
+            <ExclamationCircleIcon className="h-6 text-red-500" />
+          )}
+        </div>
+        <div
+          className={`flex  p-3 items-center rounded-lg border ${
+            errorMsg.username && 'border-red-600'
+          }`}
+        >
+          <input
+            className="w-full focus:outline-none"
+            type="text"
+            onChange={(e) => handleInputChange(e)}
+            name="username"
+            placeholder="Account"
+          />
+          {errorMsg.username && (
             <ExclamationCircleIcon className="h-6 text-red-500" />
           )}
         </div>
@@ -163,22 +218,6 @@ const Index = ({ setSignupOpen }) => {
               placeholder="Password"
             />
             {errorMsg.password && (
-              <ExclamationCircleIcon className="h-6 text-red-500" />
-            )}
-          </div>
-          <div
-            className={`flex  p-3 items-center rounded-lg border ${
-              errorMsg.passwordConfirm && 'border-red-600'
-            }`}
-          >
-            <input
-              className="w-full focus:outline-none"
-              type="password"
-              onChange={(e) => handleInputChange(e)}
-              name="passwordConfirm"
-              placeholder="Confirm password"
-            />
-            {errorMsg.passwordConfirm && (
               <ExclamationCircleIcon className="h-6 text-red-500" />
             )}
           </div>
@@ -224,7 +263,7 @@ const Index = ({ setSignupOpen }) => {
           <div className="w-full p-2 rounded-md flex items-center justify-between border">
             <label htmlFor="female">Female</label>
             <input
-              onChange={(e) => handleGender(e)}
+              onChange={(e) => handleInputChange(e)}
               type="radio"
               id="female"
               name="gender"
@@ -232,12 +271,12 @@ const Index = ({ setSignupOpen }) => {
             />
           </div>
           <div className="w-full p-2 rounded-md ml-[10px] flex items-center justify-between border">
-            <label onChange={(e) => handleGender(e)} htmlFor="male">
+            <label onChange={(e) => handleInputChange(e)} htmlFor="male">
               Male
             </label>
 
             <input
-              onChange={(e) => handleGender(e)}
+              onChange={(e) => handleInputChange(e)}
               type="radio"
               id="male"
               name="gender"
@@ -261,7 +300,7 @@ const Index = ({ setSignupOpen }) => {
             onClick={(e) => handleSignup(e)}
             className="text-lg font-semibold bg-green-400 text-white rounded-md w-[200px] p-2 mx-auto"
           >
-            SIGN UP
+            {isLoading ? <Loader /> : 'SIGN UP'}{' '}
           </button>
         </div>
       </div>

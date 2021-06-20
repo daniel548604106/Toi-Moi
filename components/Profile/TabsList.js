@@ -89,7 +89,7 @@ const TabsList = ({ user, friends_total }) => {
           <ChevronDownIcon className="h-4" />
           <div className="hidden absolute bottom-0 left-0 transform translate-y-full rounded-lg shadow-xl border p-2 bg-white w-[300px]">
             {moreTabs.map((tab) => (
-              <div>{tab.title}</div>
+              <div key={tab.title}>{tab.title}</div>
             ))}
           </div>
         </span>

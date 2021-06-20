@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/userModel');
+const Notification = require('../models/notificationModel');
 const Profile = require('../models/profileModel');
+const Friend = require('../models/friendModel');
 const Follower = require('../models/followerModel');
 const Chat = require('../models/chatModel');
+const Search = require('../models/searchModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isEmail = require('validator/lib/isEmail');
@@ -29,8 +32,24 @@ router.get('/:username', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { name, username, email, password, bio } = req.body;
+  const {
+    name,
+    username,
+    email,
+    birthday,
+    gender,
+    genderDisplayName,
+    password,
+    bio
+  } = req.body;
   try {
+    console.log(req.body);
+    if (!email) return res.status(401).send('Please provide email');
+    if (!username) return res.status(401).send('Please provide username');
+    if (!birthday) return res.status(401).send('Please provide birthday');
+    if (!name) return res.status(401).send('Please provide name');
+    if (!password) return res.status(401).send('Please provide password');
+    if (!gender) return res.status(401).send('Please provide gender');
     if (!isEmail) return res.status(401).send('Invalid Email');
     if (password.length < 6)
       return res.status(401).send('Password must be at least 6 characters');
@@ -48,7 +67,9 @@ router.post('/', async (req, res) => {
       email: email.toLowerCase(),
       username: username.toLowerCase(),
       password,
-      profileImage: req.body.profileImage || ''
+      profileImage: '',
+      gender,
+      genderDisplayName
     });
     // 10 is the recommended round
     user.password = await bcrypt.hash(password, 10);
@@ -56,10 +77,36 @@ router.post('/', async (req, res) => {
 
     // Profile Model
 
-    let profileFields = {};
-    (profileFields.user = user._id),
-      (profileFields.bio = bio),
-      await new Profile(profileFields).save();
+    let profileFields = {
+      user: user._id,
+      bio: '',
+      profileImage: {
+        picUrl: '',
+        postId: '',
+        description: ''
+      },
+      profileCoverImage: '',
+      summary: {
+        work_experience: [],
+        education: [],
+        current_city: {
+          city: '',
+          country: '',
+          still_living: '',
+          set_public: true
+        },
+        hometown: {
+          country: '',
+          city: '',
+          set_public: true
+        },
+        relationship: {
+          set_public: true
+        }
+      }
+    };
+
+    await new Profile(profileFields).save();
 
     // Follower Model
     await new Follower({
@@ -104,7 +151,7 @@ router.post('/', async (req, res) => {
       { expiresIn: '2d' },
       (err, token) => {
         if (err) throw err;
-        res.status(200).json(token);
+        res.status(200).json({ user, token });
       }
     );
   } catch (error) {
