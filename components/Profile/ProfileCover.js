@@ -10,10 +10,12 @@ import {
   setViewPostModalOpen,
   apiGetCurrentPost
 } from '../../redux/slices/postSlice';
+import Loader from '../Global/Loader';
 
 const ProfileCover = ({ user, profile }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isLoading, setLoading] = useState(false);
   const [isCoverImageEditable, setCoverImageEditable] = useState(false);
   const [coverImage, setCoverImage] = useState(profile.profileCoverImage);
   const [coverDescription, setCoverDescription] = useState(
@@ -59,6 +61,7 @@ const ProfileCover = ({ user, profile }) => {
     profileCoverDescription,
     profileCoverImage
   ) => {
+    setLoading(true);
     try {
       const { data } = await apiPostNewPost({
         image: profileCoverImage,
@@ -74,7 +77,7 @@ const ProfileCover = ({ user, profile }) => {
         profileCoverDescription,
         profileCoverImage
       });
-
+      setLoading(false);
       console.log('profile cover changed', res);
     } catch (error) {
       console.log(error);
@@ -114,7 +117,7 @@ const ProfileCover = ({ user, profile }) => {
                 onClick={() => handleSaveImageChanges()}
                 className="ml-[10px] text-white bg-blue-600  rounded-md py-2 px-4"
               >
-                Save Changes
+                {isLoading ? <Loader /> : 'Save Changes'}
               </button>
             </div>
           </div>
@@ -148,6 +151,7 @@ const ProfileCover = ({ user, profile }) => {
           )}
           <div className="absolute translate-y-[10px] bottom-0 transform left-1/2 -translate-x-1/2">
             <ProfileImage
+              user={profile.user}
               postId={profile.profileImage.postId || ''}
               profileImage={user.profileImage}
             />

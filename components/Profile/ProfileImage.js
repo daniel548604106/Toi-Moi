@@ -11,7 +11,8 @@ import {
   setViewPostModalOpen
 } from '../../redux/slices/postSlice';
 import router from 'next/router';
-const ProfileImage = ({ postId, profileImage }) => {
+import genderAvatar from '../../utils/genderAvatar';
+const ProfileImage = ({ postId, user, profileImage }) => {
   const dispatch = useDispatch();
   const profileImageRef = useRef(null);
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -22,6 +23,9 @@ const ProfileImage = ({ postId, profileImage }) => {
   };
 
   const handleViewCurrentProfile = async (e) => {
+    if (!postId || !profileImage) {
+      return console.log('onono');
+    }
     e.stopPropagation();
     await dispatch(apiGetCurrentPost(postId));
     dispatch(setViewPostModalOpen(true));
@@ -40,11 +44,16 @@ const ProfileImage = ({ postId, profileImage }) => {
     dispatch(setEditProfileImageOpen(true));
   };
   return (
-    <div className="relative  border w-[160px] h-[160px] rounded-full border-white ">
+    <div
+      onClick={(e) => e.stopPropagation()}
+      className="relative  border w-[160px] h-[160px] rounded-full border-white "
+    >
       <Image
         onClick={(e) => handleViewCurrentProfile(e)}
-        className="cursor-pointer object-cover h-[60px] w-[60px] sm:w-[100px] sm:h-[100px]   rounded-full"
-        src={profileImage}
+        className={`${profileImage && 'cursor-pointer'} ${
+          !profileImage && 'cursor-default'
+        } object-cover h-[60px] w-[60px] cursor sm:w-[100px] sm:h-[100px]   rounded-full`}
+        src={profileImage || genderAvatar(user.gender)}
         layout="fill"
       />
       {router.query.id === userInfo.username && (

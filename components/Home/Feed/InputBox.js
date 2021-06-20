@@ -8,6 +8,7 @@ import {
   setPostInputBoxOpen,
   setImageToPost
 } from '../../../redux/slices/postSlice';
+import genderAvatar from '../../../utils/genderAvatar';
 const InputBox = () => {
   const filePickerRef = useRef(null);
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const InputBox = () => {
         <Image
           onClick={() => router.push(`/${userInfo.username}`)}
           className="rounded-full object-cover cursor-pointer min-w-[50px]"
-          src={userInfo.profileImage}
+          src={userInfo.profileImage || genderAvatar(userInfo.gender)}
           height={50}
           width={50}
           layout="fixed"

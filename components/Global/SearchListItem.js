@@ -4,11 +4,21 @@ import { useRouter } from 'next/router';
 import { XIcon } from '@heroicons/react/outline';
 import { apiPostUserSearch } from '../../api';
 import Image from 'next/image';
-const SearchListItem = ({ username, name, profileImage, searchText, Icon }) => {
+import genderAvatar from '../../utils/genderAvatar';
+const SearchListItem = ({
+  username,
+  name,
+  profileImage,
+  gender,
+  searchText,
+  Icon,
+  setSearchResultShow
+}) => {
   const router = useRouter();
   const handleDirectToProfile = async () => {
     router.push(`/${username}`);
     try {
+      setSearchResultShow(false);
       const res = await apiPostUserSearch(username);
       console.log(res, 'search');
     } catch (error) {
@@ -27,7 +37,7 @@ const SearchListItem = ({ username, name, profileImage, searchText, Icon }) => {
               <Image
                 className="rounded-full object-cover"
                 layout="fixed"
-                src={profileImage}
+                src={profileImage || genderAvatar()}
                 width={40}
                 height={40}
               />
@@ -39,7 +49,7 @@ const SearchListItem = ({ username, name, profileImage, searchText, Icon }) => {
             <Image
               className="rounded-full object-cover"
               layout="fixed"
-              src={DefaultAvatar}
+              src={genderAvatar(gender)}
               width={40}
               height={40}
             />

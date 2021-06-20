@@ -12,12 +12,16 @@ import {
 } from '@heroicons/react/solid';
 import SidebarRow from './SidebarRow';
 import { useSelector } from 'react-redux';
+import genderAvatar from '../../utils/genderAvatar';
 
 const Sidebar = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   return (
     <div className="max-w-[400px] sticky top-[80px] ">
-      <SidebarRow src={userInfo.profileImage} title={userInfo.name} />
+      <SidebarRow
+        src={userInfo.profileImage || genderAvatar(userInfo.gender)}
+        title={userInfo.name}
+      />
       <SidebarRow Icon={UsersIcon} title="Friends" />
       <SidebarRow Icon={UserGroupIcon} title="Groups" />
       <SidebarRow Icon={ShoppingBagIcon} title="Marketplace" />

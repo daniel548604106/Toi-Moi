@@ -10,11 +10,20 @@ const UserSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
+    gender: {
+      type: String,
+      required: true,
+      enum: ['female', 'male', 'other']
+    },
     password: {
       type: String,
       required: true,
       // By setting select to false, when we search for a user in the backend , won't show password field by default
       select: false
+    },
+    birthday: {
+      type: Date,
+      default: Date.now()
     },
     username: {
       type: String,

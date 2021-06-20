@@ -39,7 +39,7 @@ const hiddenTabs = [
   }
 ];
 
-const TabsList = ({ user }) => {
+const TabsList = ({ user, friends_total }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(router.query.tab);
   const [visibleTabs, setVisibleTabs] = useState(tabs);
@@ -81,7 +81,7 @@ const TabsList = ({ user }) => {
             }`}
             onClick={() => router.push(`/${router.query.id}/${tab.link}`)}
           >
-            {tab.title}
+            {tab.title} {tab.title === 'friends' && friends_total}
           </span>
         ))}
         <span className="hidden text-xs sm:text-sm relative sm:flex cursor-pointer items-center p-3  rounded-lg hover:bg-gray-100">
@@ -89,7 +89,7 @@ const TabsList = ({ user }) => {
           <ChevronDownIcon className="h-4" />
           <div className="hidden absolute bottom-0 left-0 transform translate-y-full rounded-lg shadow-xl border p-2 bg-white w-[300px]">
             {moreTabs.map((tab) => (
-              <div>{tab.title}</div>
+              <div key={tab.title}>{tab.title}</div>
             ))}
           </div>
         </span>
