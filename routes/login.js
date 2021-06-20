@@ -5,6 +5,7 @@ const Follower = require('../models/followerModel');
 const Profile = require('../models/profileModel');
 const Chat = require('../models/chatModel');
 const Notification = require('../models/notificationModel');
+const Search = require('../models/searchModel');
 const Friend = require('../models/friendModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -57,6 +58,11 @@ router.post('/', async (req, res) => {
       await new Profile({
         user: user._id,
         bio: '',
+        profileImage: {
+          picUrl: '',
+          postId: '',
+          description: ''
+        },
         profileCoverImage: '',
         social: {
           facebook: '',
@@ -81,6 +87,17 @@ router.post('/', async (req, res) => {
       await new Notification({
         user: user._id,
         notifications: []
+      }).save();
+    }
+
+    // Search Model
+    const search = await Search.findOne({
+      user: user._id
+    });
+    if (!search) {
+      await new Search({
+        user: user._id,
+        history: []
       }).save();
     }
 

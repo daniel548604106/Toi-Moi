@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require('../models/userModel');
 const Profile = require('../models/profileModel');
 const Follower = require('../models/followerModel');
-const Chat = require('../models/chatModel')
+const Chat = require('../models/chatModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isEmail = require('validator/lib/isEmail');
@@ -29,7 +29,7 @@ router.get('/:username', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-  const { name, username, email, password, bio, facebook, twitter } = req.body;
+  const { name, username, email, password, bio } = req.body;
   try {
     if (!isEmail) return res.status(401).send('Invalid Email');
     if (password.length < 6)
@@ -59,12 +59,7 @@ router.post('/', async (req, res) => {
     let profileFields = {};
     (profileFields.user = user._id),
       (profileFields.bio = bio),
-      (profileFields.social = {
-        facebook: facebook || '',
-        twitter: twitter || ''
-      });
-
-    await new Profile(profileFields).save();
+      await new Profile(profileFields).save();
 
     // Follower Model
     await new Follower({
@@ -76,8 +71,30 @@ router.post('/', async (req, res) => {
     // Chat Model
     await new Chat({
       user: user._id,
-      chats:[]
-    }).save()
+      chats: []
+    }).save();
+
+    // Friend Model
+
+    await new Friend({
+      user: user._id,
+      requestsSent: [],
+      requestsReceived: [],
+      friends: []
+    }).save();
+
+    // Notification Model
+    await new Notification({
+      user: user._id,
+      notifications: []
+    }).save();
+
+    // Search Model
+
+    await new Search({
+      user: user._id,
+      history: []
+    }).save();
 
     // Send Token to user
     const payload = { userId: user._id };

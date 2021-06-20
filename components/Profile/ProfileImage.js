@@ -1,22 +1,30 @@
 import React, { useRef } from 'react';
 import { CameraIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setEditProfileImageOpen,
   setProfileImageToUpdate
 } from '../../redux/slices/userSlice';
-const ProfileImage = ({ profileImage, setProfileImage }) => {
+import {
+  apiGetCurrentPost,
+  setViewPostModalOpen
+} from '../../redux/slices/postSlice';
+import router from 'next/router';
+const ProfileImage = ({ postId, profileImage }) => {
   const dispatch = useDispatch();
   const profileImageRef = useRef(null);
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const handleNewProfileImagePreview = (e) => {
     e.stopPropagation();
     profileImageRef.current.click();
   };
 
-  const handleViewCurrentProfile = (e) => {
+  const handleViewCurrentProfile = async (e) => {
     e.stopPropagation();
+    await dispatch(apiGetCurrentPost(postId));
+    dispatch(setViewPostModalOpen(true));
   };
   const addProfileImageToPost = (e) => {
     const reader = new FileReader();
@@ -39,19 +47,21 @@ const ProfileImage = ({ profileImage, setProfileImage }) => {
         src={profileImage}
         layout="fill"
       />
-      <span
-        name="profile"
-        onClick={(e) => handleNewProfileImagePreview(e)}
-        className="absolute bottom-0 border-2 right-0 p-2 rounded-full bg-white shadow-md hover:shadow-xl"
-      >
-        <CameraIcon className="h-6 " />
-        <input
-          onChange={(e) => addProfileImageToPost(e)}
-          ref={profileImageRef}
-          type="file"
-          hidden
-        />
-      </span>
+      {router.query.id === userInfo.username && (
+        <span
+          name="profile"
+          onClick={(e) => handleNewProfileImagePreview(e)}
+          className="absolute bottom-0 border-2 right-0 p-2 rounded-full bg-white shadow-md hover:shadow-xl"
+        >
+          <CameraIcon className="h-6 " />
+          <input
+            onChange={(e) => addProfileImageToPost(e)}
+            ref={profileImageRef}
+            type="file"
+            hidden
+          />
+        </span>
+      )}
     </div>
   );
 };

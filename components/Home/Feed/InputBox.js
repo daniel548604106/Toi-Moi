@@ -31,7 +31,7 @@ const InputBox = () => {
       <div className="flex items-center w-full space-x-2 mb-3">
         <Image
           onClick={() => router.push(`/${userInfo.username}`)}
-          className="rounded-full cursor-pointer min-w-[50px]"
+          className="rounded-full object-cover cursor-pointer min-w-[50px]"
           src={userInfo.profileImage}
           height={50}
           width={50}
@@ -47,7 +47,7 @@ const InputBox = () => {
       <hr className="my-2" />
       <div className="flex justify-evenly p-1 ">
         <div className="inputIcon">
-          <VideoCameraIcon className="h-6 text-red-500 w-full" />
+          <VideoCameraIcon className="h-6 text-red-500" />
           <p className="text-sm sm:text-sm xl:text-md whitespace-nowrap">
             Live Stream
           </p>
@@ -56,7 +56,7 @@ const InputBox = () => {
           onClick={() => filePickerRef.current.click()}
           className="inputIcon"
         >
-          <CameraIcon className="h-6 text-green-300 w-full" />
+          <CameraIcon className="h-6 text-green-300 " />
           <p className="text-sm sm:text-sm xl:text-md">Photo/Video</p>
           <input
             ref={filePickerRef}
@@ -66,7 +66,7 @@ const InputBox = () => {
           />
         </div>
         <div className="inputIcon">
-          <EmojiHappyIcon className="h-6 text-yellow-300 w-full" />
+          <EmojiHappyIcon className="h-6 text-yellow-300" />
           <p className="text-sm sm:text-sm xl:text-md">Feeling/Activity</p>
         </div>
       </div>

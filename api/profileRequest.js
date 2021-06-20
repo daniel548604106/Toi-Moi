@@ -26,3 +26,17 @@ export const patchProfile = ({
 export const getProfileFriends = (username) => {
   return request.get(`/friends_preview/${username}`);
 };
+
+// update profile image
+export const patchProfileImage = ({
+  username,
+  profileImageDescription,
+  profileImagePostId,
+  profileImage
+}) => {
+  return request.patch(`/profile/${username}/profile_image`, {
+    profileImageDescription,
+    profileImagePostId,
+    profileImage
+  });
+};

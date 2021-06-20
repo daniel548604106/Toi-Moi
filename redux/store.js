@@ -18,12 +18,13 @@ import globalReducer from './slices/globalSlice';
 import userReducer from './slices/userSlice';
 import postReducer from './slices/postSlice';
 import messageReducer from './slices/messageSlice';
-
+import profileReducer from './slices/profileSlice';
 const reducers = combineReducers({
   user: userReducer,
   global: globalReducer,
   post: postReducer,
-  message: messageReducer
+  message: messageReducer,
+  profile: profileReducer
 });
 
 const persistConfig = {
