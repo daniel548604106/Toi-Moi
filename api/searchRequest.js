@@ -12,8 +12,8 @@ export const getAllSearch = () => {
   return request.get(`/search/history/all`);
 };
 
-export const postUserSearch = () => {
-  return request.post('/search/user');
+export const postUserSearch = (username) => {
+  return request.post('/search/user', { username });
 };
 export const postKeywordSearch = (keyword) => {
   return request.post('/search/keyword', { keyword });

@@ -18,10 +18,8 @@ const Search = () => {
 
   const search = async () => {
     try {
-      console.log(searchText);
       const res = await apiSearchRequest(searchText);
       setSearchResult(res.data);
-      console.log(res.data, res);
     } catch (error) {
       console.log(error);
     }
@@ -120,6 +118,7 @@ const Search = () => {
                 ))
               : searchHistory.map((history) => (
                   <SearchHistoryItem
+                    setSearchResultShow={setSearchResultShow}
                     searchHistory={searchHistory}
                     setSearchHistory={setSearchHistory}
                     key={history._id}
@@ -127,15 +126,17 @@ const Search = () => {
                   />
                 ))}
           </div>
-          <div
-            onClick={(e) => handleKeywordSearch(e)}
-            className="flex hover:bg-gray-100 rounded-md cursor-pointer items-center p-2 py-1"
-          >
-            <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-blue-600 text-white" />
-            <p className="ml-[15px] font-medium text-blue-600">
-              搜尋 {searchText}
-            </p>
-          </div>
+          {searchText !== '' && (
+            <div
+              onClick={(e) => handleKeywordSearch(e)}
+              className="flex hover:bg-gray-100 rounded-md cursor-pointer items-center p-2 py-1"
+            >
+              <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-blue-600 text-white" />
+              <p className="ml-[15px] font-medium text-blue-600">
+                搜尋 {searchText}
+              </p>
+            </div>
+          )}
         </div>
       )}
     </div>

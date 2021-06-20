@@ -4,7 +4,6 @@ import { CameraIcon, GlobeIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
 import BioInput from './BioInput';
-import TabsList from './TabsList';
 import ProfileImage from './ProfileImage';
 import { apiPatchProfile, apiPostNewPost } from '../../api';
 import {
@@ -82,6 +81,11 @@ const ProfileCover = ({ user, profile }) => {
     }
   };
 
+  const handleEditCover = (e) => {
+    e.stopPropagation();
+    inputRef.current.click();
+  };
+
   useEffect(() => {
     setCoverDescription(profile.profileCoverDescription);
     setCoverImage(profile.profileCoverImage);
@@ -130,7 +134,7 @@ const ProfileCover = ({ user, profile }) => {
           />
           {isEditable && (
             <span
-              onClick={() => inputRef.current.click()}
+              onClick={(e) => handleEditCover(e)}
               className="px-4 py-2 absolute bottom-5 hover:shadow-xl cursor-pointer rounded-md right-5 bg-white"
             >
               <CameraIcon className="h-6 " />
@@ -143,7 +147,10 @@ const ProfileCover = ({ user, profile }) => {
             </span>
           )}
           <div className="absolute translate-y-[10px] bottom-0 transform left-1/2 -translate-x-1/2">
-            <ProfileImage profileImage={user.profileImage} />
+            <ProfileImage
+              postId={profile.profileImage.postId || ''}
+              profileImage={user.profileImage}
+            />
           </div>
         </div>
 

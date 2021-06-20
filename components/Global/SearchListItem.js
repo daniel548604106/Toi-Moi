@@ -2,13 +2,23 @@ import React from 'react';
 import DefaultAvatar from '../../public/vercel.svg';
 import { useRouter } from 'next/router';
 import { XIcon } from '@heroicons/react/outline';
+import { apiPostUserSearch } from '../../api';
 import Image from 'next/image';
 const SearchListItem = ({ username, name, profileImage, searchText, Icon }) => {
   const router = useRouter();
+  const handleDirectToProfile = async () => {
+    router.push(`/${username}`);
+    try {
+      const res = await apiPostUserSearch(username);
+      console.log(res, 'search');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div
       className="flex items-center p-[10px] cursor-pointer rounded-md hover:bg-gray-200 "
-      onClick={() => router.push(`/${username}`)}
+      onClick={() => handleDirectToProfile()}
     >
       {name &&
         (profileImage ? (

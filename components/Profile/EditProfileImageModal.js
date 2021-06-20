@@ -1,7 +1,11 @@
 import React, { useState, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { XIcon } from '@heroicons/react/outline';
-import { setEditProfileImageOpen } from '../../redux/slices/userSlice';
+import {
+  setEditProfileImageOpen,
+  getMyInfo
+} from '../../redux/slices/userSlice';
+import { getProfileData } from '../../redux/slices/profileSlice.js';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 import { useRouter } from 'next/router';
@@ -14,6 +18,7 @@ const EditProfileImageModal = () => {
   const profileImageToUpdate = useSelector(
     (state) => state.user.profileImageToUpdate
   );
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   const sendUpdates = async (profileImage) => {
     try {
@@ -35,8 +40,13 @@ const EditProfileImageModal = () => {
       console.log(error);
     }
   };
-  const handleSubmitUpdate = () => {
-    sendUpdates(profileImage);
+  const handleSubmitUpdate = async () => {
+    await sendUpdates(profileImage);
+    // Get updated user info
+    dispatch(getMyInfo());
+    // Get updated user profile
+    dispatch(getProfileData(userInfo.username));
+    dispatch(setEditProfileImageOpen(false));
   };
   const cropperRef = useRef(null);
   const onCrop = () => {

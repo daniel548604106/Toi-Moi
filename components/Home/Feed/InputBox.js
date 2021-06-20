@@ -31,7 +31,7 @@ const InputBox = () => {
       <div className="flex items-center w-full space-x-2 mb-3">
         <Image
           onClick={() => router.push(`/${userInfo.username}`)}
-          className="rounded-full cursor-pointer min-w-[50px]"
+          className="rounded-full object-cover cursor-pointer min-w-[50px]"
           src={userInfo.profileImage}
           height={50}
           width={50}

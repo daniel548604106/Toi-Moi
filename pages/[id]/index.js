@@ -12,7 +12,7 @@ import InputBox from '../../components/Home/Feed/InputBox';
 const Index = ({ profileData, postsData, friends }) => {
   const router = useRouter();
   useEffect(() => {
-    console.log('posts', postsData, friends);
+    console.log('posts', profileData, postsData, friends);
   }, []);
   const [profile, setProfile] = useState(profileData.profile);
   const [user, setUser] = useState(profileData.profile.user);
@@ -50,11 +50,13 @@ const Index = ({ profileData, postsData, friends }) => {
       <div className="bg-gradient-to-b from-gray-400 via-white to-white">
         <ProfileCover profile={profile} user={user} />
       </div>
-      <div className="sticky top-[60px] z-40  self-start ">
-        <TabsList user={user} />
+      <div className="bg-white sticky top-[60px] border-b z-30">
+        <div className=" max-w-7xl mx-auto bg-white self-start ">
+          <TabsList user={user} />
+        </div>
       </div>
       <main className="max-w-7xl mx-auto p-4 bg-[#fafafa] flex-col lg:flex-row  flex justify-center">
-        <div className="w-full mr-[10px] sticky bottom-0  self-end">
+        <div className="w-full md:mr-[10px] sticky bottom-0  self-end">
           <Summary />
           <Photos />
           <Friends friends={friends} />
@@ -70,6 +72,7 @@ const Index = ({ profileData, postsData, friends }) => {
           ))}
         </div>
       </main>
+      }
     </div>
   );
 };
