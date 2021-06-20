@@ -32,6 +32,26 @@ const ProfileSchema = new mongoose.Schema(
           still_working: {
             type: Boolean
           },
+          description: {
+            type: String
+          },
+          location: {
+            type: String
+          },
+          period: {
+            start_year: {
+              type: String
+            },
+            start_month: {
+              type: String
+            },
+            end_year: {
+              type: String
+            },
+            end_month: {
+              type: String
+            }
+          },
           set_public: {
             type: Boolean,
             default: true

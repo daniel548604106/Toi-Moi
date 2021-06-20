@@ -10,16 +10,11 @@ import CurrentCityInputBox from './EditSummary/CurrentCityInputBox';
 import EducationInputBox from './EditSummary/EducationInputBox';
 const EditSummaryModal = () => {
   const dispatch = useDispatch();
-  const [activeBox, setActiveBox] = useState([]);
+  const [activeBox, setActiveBox] = useState(0);
   const handleSetActive = (idx) => {
-    if (activeBox === []) {
-      return setActiveBox([idx]);
-    }
-    setActiveBox([...activeBox, idx]);
+    setActiveBox(idx);
   };
-  useEffect(() => {
-    console.log(activeBox);
-  }, [activeBox]);
+
   return (
     <div className="relative bg-white rounded-md flex flex-col  w-full max-w-[600px] max-h-screen  sm:max-h-[70vh] h-full">
       <div className="flex p-3 border-b items-center justify-center">
@@ -40,8 +35,8 @@ const EditSummaryModal = () => {
 
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Work Experience</h2>
-          {activeBox.includes(1) ? (
-            <WorkExperienceInputBox />
+          {activeBox === 1 ? (
+            <WorkExperienceInputBox setActiveBox={setActiveBox} />
           ) : (
             <div onClick={() => handleSetActive(1)}>
               <AddNewButton title="Add New Work Location" />
@@ -50,7 +45,7 @@ const EditSummaryModal = () => {
         </div>
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Education</h2>
-          {activeBox.includes(2) ? (
+          {activeBox === 2 ? (
             <EducationInputBox />
           ) : (
             <div onClick={() => handleSetActive(2)}>
@@ -60,7 +55,7 @@ const EditSummaryModal = () => {
         </div>
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Current City</h2>
-          {activeBox.includes(3) ? (
+          {activeBox === 3 ? (
             <CurrentCityInputBox />
           ) : (
             <div onClick={() => handleSetActive(3)}>
@@ -70,7 +65,7 @@ const EditSummaryModal = () => {
         </div>
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Hometown</h2>
-          {activeBox.includes(4) ? (
+          {activeBox === 4 ? (
             <HomeTownInputBox />
           ) : (
             <div onClick={() => handleSetActive(4)}>
@@ -80,7 +75,7 @@ const EditSummaryModal = () => {
         </div>
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Relationship</h2>
-          {activeBox.includes(5) ? (
+          {activeBox === 5 ? (
             <RelationshipStatusInputBox />
           ) : (
             <div onClick={() => handleSetActive(5)}>

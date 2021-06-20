@@ -424,4 +424,24 @@ router.patch(
     }
   }
 );
+
+// Add Work Experience
+router.post('/:username/work_experience', authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req;
+    const { username } = req.params;
+    const { experience } = req.body;
+    const user = await Profile.findOne({ user: userId }).populate('user');
+    if (user.user.username !== username)
+      return res.status(401).send('Unauthorized');
+
+    user.summary.work_experience.unshift(experience);
+    await user.save();
+    res.status(200).json(user.summary);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
