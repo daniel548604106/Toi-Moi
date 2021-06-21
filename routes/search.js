@@ -13,7 +13,7 @@ router.get('/:searchText', async (req, res) => {
     let userPattern = new RegExp(`^${searchText}`);
     // options i means it's not case sensitive
     const results = await User.find({
-      name: { $regex: userPattern, $options: 'i' }
+      name: { $regex: searchText, $options: 'i' }
     });
     // console.log(results);
     res.status(200).json(results);
