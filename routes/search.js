@@ -8,6 +8,7 @@ const uuid = require('uuid').v4;
 router.get('/:searchText', async (req, res) => {
   try {
     const { searchText } = req.params;
+    const { userId } = req;
     console.log(searchText);
     if (searchText.length === 0) return;
     let userPattern = new RegExp(`^${searchText}`);
@@ -15,8 +16,12 @@ router.get('/:searchText', async (req, res) => {
     const results = await User.find({
       name: { $regex: searchText, $options: 'i' }
     });
+    const resultsFiltered =
+      results.length > 0 &&
+      results.filter((result) => result._id.toString() !== userId);
+
     // console.log(results);
-    res.status(200).json(results);
+    res.status(200).json(resultsFiltered);
   } catch (error) {
     console.log(error);
     res.status(500).send('Server Error');

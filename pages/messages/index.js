@@ -5,6 +5,7 @@ import ChatroomSidebarHeader from '../../components/Messages/ChatroomSidebar/Cha
 import ChatroomList from '../../components/Messages/ChatroomSidebar/ChatroomList';
 import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomMainHeader';
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
+import ChatroomMainInputBox from '../../components/Messages/ChatroomMain/ChatroomMainInputBox';
 import { useRouter } from 'next/router';
 import { apiGetChat } from '../../api/index';
 import { useSelector } from 'react-redux';
@@ -16,6 +17,7 @@ const io = require('socket.io-client');
 const Index = (props) => {
   const router = useRouter();
   const socket = useRef();
+  const userInfo = useSelector((state) => state.user.userInfo);
   const [chats, setChats] = useState(props.chats);
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
@@ -25,10 +27,8 @@ const Index = (props) => {
     name: '',
     profileImage: ''
   });
-  const userInfo = useSelector((state) => state.user.userInfo);
 
-  // This ref is for persisting the state of query string in url through re-renders
-  // This ref is the query string inside url
+  // This ref is for persisting the state of query string in url through re-renders because on each re-render of component , the querystring will automatically reset
   // useRef 可以在不 re-render 的狀態下更新值
   const openChatId = useRef();
 
@@ -67,7 +67,7 @@ const Index = (props) => {
       const newChat = {
         messagesWith: result._id,
         name: result.name,
-        profileImage: result.profileImage,
+        profileImage: result.profileImage || genderAvatar(result.gender),
         lastMessage: '',
         date: Date.now()
       };
@@ -81,7 +81,7 @@ const Index = (props) => {
     // Open current chat
     setOpenChatUser({
       name: result.name,
-      profileImage: result.profileImage
+      profileImage: result.profileImage || genderAvatar(result.gender)
     });
   };
 
@@ -124,6 +124,10 @@ const Index = (props) => {
         messagesWith: router.query.message
       });
 
+      socket.current.on('noChatFound', async () => {
+        setMessages([]);
+      });
+
       socket.current.on('messagesLoaded', ({ chat }) => {
         setMessages(chat.messages);
         setOpenChatUser({
@@ -156,19 +160,50 @@ const Index = (props) => {
             previousChat.date = newMessage.date;
             return [...chats];
           });
+
+          socket.current.on('newMsgReceived', async ({ newMessage }) => {
+            console.log('receiving...', newMessage);
+            // When chat is open inside the browser
+            if (newMessage.sender === openChatId.current) {
+              setMessages((prev) => [...prev, newMessage]);
+              setChats((prev) => {
+                const previousChat = prev.find(
+                  (chat) => chat.messagesWith === newMessage.sender
+                );
+                previousChat.lastMessage = newMessage.msg;
+                previousChat.data = newMessage.date;
+                return [...prev];
+              });
+            } else {
+              const ifPreviouslyMessaged =
+                chats.filter((chat) => chat.messagesWith === newMessage.sender)
+                  .length > 0;
+
+              if (ifPreviouslyMessaged) {
+                setChats((prev) => {
+                  const previousChat = prev.find(
+                    (chat) => chat.messagesWith === newMessage.sender
+                  );
+                  previousChat.lastMessage = newMessage.msg;
+                  previousChat.date = newMessage.date;
+                  return [...prev];
+                });
+              }
+            }
+          });
         }
       });
     }
   }, []);
   return (
-    <div className="flex fullBodyHeight  ">
-      <div className="w-full p-2 sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex flex-col min-h-full">
+    <div className="flex ">
+      <div className="w-full hidden sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col ">
         <ChatroomSidebarHeader
           setSearchText={setSearchText}
           searchText={searchText}
           addChat={addChat}
         />
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto ">
           {searchResult.length > 0
             ? searchResult.map((result) => (
                 <div
@@ -187,6 +222,7 @@ const Index = (props) => {
               ))
             : chats.map((chat) => (
                 <ChatroomList
+                  setOpenChatUser={setOpenChatUser}
                   connectedUsers={connectedUsers}
                   key={chat.messagesWith}
                   chat={chat}
@@ -194,7 +230,7 @@ const Index = (props) => {
               ))}
         </div>
       </div>
-      <div className="flex flex-col flex-1 ">
+      <div className="flex-1  ">
         <ChatroomMainHeader
           connectedUsers={connectedUsers}
           openChatUser={openChatUser}
@@ -207,6 +243,7 @@ const Index = (props) => {
           messagesWith={openChatId.current}
           messages={messages}
         />
+        <ChatroomMainInputBox sendMsg={sendMsg} />
       </div>
     </div>
   );

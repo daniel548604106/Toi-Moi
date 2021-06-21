@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   PhoneIcon,
   InformationCircleIcon,
   VideoCameraIcon
 } from '@heroicons/react/solid';
 import Image from 'next/image';
+import genderAvatar from '../../../utils/genderAvatar';
+import router from 'next/router';
 const Header = ({ openChatUser, connectedUsers }) => {
   const isOnline =
     connectedUsers.length > 0 &&
-    connectedUsers.filter((user) => user.userId === chat.messagesWith).length >
-      0;
+    connectedUsers.filter((user) => user.userId === router.query.message)
+      .length > 0;
   return (
-    <div className="border-b-2 flex items-center justify-between p-3">
+    <div className="border-b-2 flex items-center justify-between p-2 sm:p-3">
       <div className="flex items-center">
         {openChatUser.profileImage && (
           <Image
-            className="rounded-full cursor-pointer"
-            src={openChatUser.profileImage || ''}
+            className="rounded-full w-[25px] h-[25px] sm:w-[50px] sm:h-[50px]  cursor-pointer"
+            src={openChatUser.profileImage}
             width="50"
             height="50"
           />

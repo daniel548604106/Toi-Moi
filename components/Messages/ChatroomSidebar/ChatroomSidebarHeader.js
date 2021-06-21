@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 const Header = ({ searchText, setSearchText, addChat }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   return (
-    <div className="  p-2">
+    <div className="  p-3">
       <div className="flex items-center justify-between mb-3">
         <Image
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
