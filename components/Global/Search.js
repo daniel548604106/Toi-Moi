@@ -119,7 +119,9 @@ const Search = () => {
                     profileImage={result.profileImage}
                   />
                 ))
-              : searchHistory.map((history) => (
+              : 
+              
+              searchHistory.map((history) => (
                   <SearchHistoryItem
                     setSearchResultShow={setSearchResultShow}
                     searchHistory={searchHistory}

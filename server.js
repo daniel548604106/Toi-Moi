@@ -42,8 +42,16 @@ app.use(express.urlencoded({ limit: '50mb' }));
 
 // Socket.io
 
-const { addUser, removeUser } = require('./utilsServer/roomActions');
-const { loadMessages, sendMessage } = require('./utilsServer/messageActions');
+const {
+  addUser,
+  removeUser,
+  findConnectedUsers
+} = require('./utilsServer/roomActions');
+const {
+  loadMessages,
+  sendMessage,
+  setMessageToUnread
+} = require('./utilsServer/messageActions');
 // socket means the client user who is connected
 io.on('connection', (socket) => {
   socket.on('join', async ({ userId }) => {
@@ -66,12 +74,27 @@ io.on('connection', (socket) => {
     if (!error) {
       socket.emit('messagesLoaded', { chat });
     } else {
+      socket.emit('noChatFound');
       console.log(error);
     }
   });
 
   socket.on('sendMessage', async ({ userId, messageSentTo, msg }) => {
     const { newMessage, error } = await sendMessage(userId, messageSentTo, msg);
+    // check if user is online, if he is , then we'll directly send the message to the user
+    console.log('before');
+    const receiverSocket = findConnectedUsers(messageSentTo);
+    if (receiverSocket) {
+      console.log('after', receiverSocket, newMessage, 'new');
+
+      // Send message to the specific user , so io.to()
+      io.to(receiverSocket.socketId).emit('newMsgReceived', { newMessage });
+      console.log('sent success');
+    } else {
+      // else we're setting unreadMessage to true so when the user logs in , he'll realise
+      console.log('no');
+      await setMessageToUnread(messageSentTo);
+    }
     if (!error) {
       socket.emit('messageSent', { newMessage });
     } else {

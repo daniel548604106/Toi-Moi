@@ -31,8 +31,8 @@ const AccountPopup = () => {
           height={60}
           className="rounded-full"
         />
-        <div className="ml-[10px]">
-          <span className=" font-semibold">{userInfo.name}</span>
+        <div className="ml-[10px] text-left">
+          <span className="font-semibold">{userInfo.name}</span>
           <p className="text-xs text-gray-600">Check out your profile</p>
         </div>
       </div>

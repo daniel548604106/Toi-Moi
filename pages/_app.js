@@ -14,6 +14,8 @@ import LikesListModal from '../components/Home/Feed/LikesListModal';
 import InputBoxModal from '../components/Home/Feed/InputBoxModal';
 import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 import EditSummaryModal from '../components/Profile/EditSummaryModal';
+import router from 'next/router';
+import Cookies from 'js-cookie';
 const App = ({ Component, pageProps }) => {
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
   const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
