@@ -1,5 +1,5 @@
 const Chat = require('../models/chatModel');
-
+const User = require('../models/userModel');
 const loadMessages = async (userId, messagesWith) => {
   try {
     const user = await Chat.findOne({ user: userId }).populate(
@@ -75,4 +75,18 @@ const sendMessage = async (userId, messageSentTo, msg) => {
   }
 };
 
-module.exports = { loadMessages, sendMessage };
+const setMessageToUnread = async (userId) => {
+  try {
+    console.log('setUnread');
+    const user = await User.findById(userId);
+    if (!user.unreadMessage) {
+      user.unreadMessage = true;
+    }
+    await user.save();
+    return;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { loadMessages, sendMessage, setMessageToUnread };
