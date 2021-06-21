@@ -3,18 +3,22 @@ import { apiGetChats } from '../../api/index';
 import axios from 'axios';
 import ChatroomSidebarHeader from '../../components/Messages/ChatroomSidebar/ChatroomSidebarHeader';
 import ChatroomList from '../../components/Messages/ChatroomSidebar/ChatroomList';
-import ChatroomSidebarFooter from '../../components/Messages/ChatroomSidebar/ChatroomSidebarFooter';
 import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomMainHeader';
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
 import { useRouter } from 'next/router';
 import { apiGetChat } from '../../api/index';
 import { useSelector } from 'react-redux';
+import Image from 'next/image';
+import { apiSearchRequest } from '../../api/index';
+import genderAvatar from '../../utils/genderAvatar';
 const io = require('socket.io-client');
 
 const Index = (props) => {
   const router = useRouter();
   const socket = useRef();
   const [chats, setChats] = useState(props.chats);
+  const [searchText, setSearchText] = useState('');
+  const [searchResult, setSearchResult] = useState([]);
   const [messages, setMessages] = useState([]);
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [openChatUser, setOpenChatUser] = useState({
@@ -28,6 +32,19 @@ const Index = (props) => {
   // useRef 可以在不 re-render 的狀態下更新值
   const openChatId = useRef();
 
+  const searchChat = async () => {
+    try {
+      const { data } = await apiSearchRequest(searchText);
+      setSearchResult(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (!searchText) return;
+    searchChat();
+  }, [searchText]);
+
   const sendMsg = (msg) => {
     if (socket.current) {
       socket.current.emit('sendMessage', {
@@ -36,6 +53,36 @@ const Index = (props) => {
         msg
       });
     }
+  };
+
+  const addChat = (result) => {
+    const alreadyInChat =
+      chats.length > 0 &&
+      chats.filter((chat) => chat.messagesWith === result._id).length > 0;
+
+    console.log(alreadyInChat, '?');
+    if (alreadyInChat) {
+      router.push(`/messages?message=${result._id}`);
+    } else {
+      const newChat = {
+        messagesWith: result._id,
+        name: result.name,
+        profileImage: result.profileImage,
+        lastMessage: '',
+        date: Date.now()
+      };
+
+      setChats((chats) => [newChat, ...chats]);
+      router.push(`/messages?message=${result._id}`);
+    }
+    // Clean search result
+    setSearchResult([]);
+    setSearchText('');
+    // Open current chat
+    setOpenChatUser({
+      name: result.name,
+      profileImage: result.profileImage
+    });
   };
 
   // Connection
@@ -114,21 +161,40 @@ const Index = (props) => {
     }
   }, []);
   return (
-    <div className="flex h-100vh  ">
+    <div className="flex fullBodyHeight  ">
       <div className="w-full p-2 sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex flex-col min-h-full">
-        <ChatroomSidebarHeader />
-        <div className="flex-1">
-          {chats.map((chat) => (
-            <ChatroomList
-              connectedUsers={connectedUsers}
-              key={chat.messagesWith}
-              chat={chat}
-            />
-          ))}
+        <ChatroomSidebarHeader
+          setSearchText={setSearchText}
+          searchText={searchText}
+          addChat={addChat}
+        />
+        <div className="flex-1 overflow-y-auto">
+          {searchResult.length > 0
+            ? searchResult.map((result) => (
+                <div
+                  key={result._id}
+                  onClick={() => addChat(result)}
+                  className="flex p-2 rounded-lg hover:bg-gray-100 cursor-pointer items-center"
+                >
+                  <Image
+                    src={result.profileImage || genderAvatar(result.gender)}
+                    width={30}
+                    height={30}
+                    className="cursor-pointer rounded-full"
+                  />
+                  <span className="ml-[10px]">{result.name}</span>
+                </div>
+              ))
+            : chats.map((chat) => (
+                <ChatroomList
+                  connectedUsers={connectedUsers}
+                  key={chat.messagesWith}
+                  chat={chat}
+                />
+              ))}
         </div>
-        <ChatroomSidebarFooter />
       </div>
-      <div className="flex flex-col flex-1 min-h-[90vh]">
+      <div className="flex flex-col flex-1 ">
         <ChatroomMainHeader
           connectedUsers={connectedUsers}
           openChatUser={openChatUser}

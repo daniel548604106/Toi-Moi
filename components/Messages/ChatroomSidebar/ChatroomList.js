@@ -15,7 +15,7 @@ const List = ({ chat, connectedUsers }) => {
           shallow: true
         })
       }
-      className={`flex items-center p-3 rounded-sm hover:bg-blue-100 cursor-pointer ${
+      className={`flex items-center p-3 rounded-md hover:bg-blue-100 cursor-pointer ${
         router.query.message === chat.messagesWith ? 'bg-blue-100' : ''
       }`}
     >

@@ -15,21 +15,23 @@ const Header = ({ openChatUser, connectedUsers }) => {
       <div className="flex items-center">
         {openChatUser.profileImage && (
           <Image
-            className="rounded-full "
+            className="rounded-full cursor-pointer"
             src={openChatUser.profileImage || ''}
             width="50"
             height="50"
           />
         )}
         <div className="ml-3">
-          <p className="text-lg font-medium">{openChatUser.name}</p>
+          <p className="text-lg font-medium cursor-pointer hover:underline">
+            {openChatUser.name}
+          </p>
           {isOnline && <p className="text-sm text-gray-500">目前在線上</p>}
         </div>
       </div>
       <div className="flex items-center space-x-3">
-        <PhoneIcon className="h-6 text-blue-600" />
-        <VideoCameraIcon className="h-6 text-blue-600" />
-        <InformationCircleIcon className="h-6 text-blue-600" />
+        <PhoneIcon className="h-6 text-blue-600 cursor-pointer" />
+        <VideoCameraIcon className="h-6 text-blue-600 cursor-pointer" />
+        <InformationCircleIcon className="h-6 text-blue-600 cursor-pointer" />
       </div>
     </div>
   );

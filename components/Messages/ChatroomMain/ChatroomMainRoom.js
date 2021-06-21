@@ -22,8 +22,8 @@ const ChatroomMainRoom = ({
     setInputText('');
   };
   return (
-    <div className="">
-      <div className="flex-1 min-h-[80vh] overflow-y-auto shadow-md p-5 flex-grow">
+    <div className="flex flex-col flex-1">
+      <div className="flex-1 overflow-y-auto border-b p-5">
         {messages.map((message) => (
           <div key={message.date} className="flex items-center mb-3">
             {message.sender !== user._id && receiverProfileImage && (
@@ -46,7 +46,7 @@ const ChatroomMainRoom = ({
           </div>
         ))}
       </div>
-      <div className="p-2 flex items-center border">
+      <div className="p-2 flex items-center border-b">
         <div className="flex items-center space-x-2">
           <PlusIcon className="h-5 text-blue-600" />
           <PhotographIcon className="h-5 text-blue-600" />
