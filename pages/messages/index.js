@@ -121,6 +121,7 @@ const Index = (props) => {
   }, [messages]);
 
   useEffect(() => {
+    console.log('open');
     if (chats.length > 0 && !router.query.message) {
       router.push(`/messages?message=${chats[0].messagesWith}`, undefined, {
         shallow: true

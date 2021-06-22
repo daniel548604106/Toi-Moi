@@ -45,11 +45,11 @@ const InputBox = () => {
           {`${userInfo.name},What's on your mind`}
         </div>
       </div>
-      <hr className="my-2" />
+      <hr className="my-2 " />
       <div className="flex justify-evenly p-1 ">
         <div className="inputIcon">
-          <VideoCameraIcon className="h-6 text-red-500" />
-          <p className="text-sm sm:text-sm xl:text-md whitespace-nowrap">
+          <VideoCameraIcon className="h-5 mb-2 sm:mb-0  sm:h-6 text-red-500" />
+          <p className="text-xs sm:text-sm xl:text-md whitespace-nowrap">
             Live Stream
           </p>
         </div>
@@ -57,8 +57,8 @@ const InputBox = () => {
           onClick={() => filePickerRef.current.click()}
           className="inputIcon"
         >
-          <CameraIcon className="h-6 text-green-300 " />
-          <p className="text-sm sm:text-sm xl:text-md">Photo/Video</p>
+          <CameraIcon className="h-5 mb-2 sm:mb-0 sm:h-6 text-green-300 " />
+          <p className="text-xs sm:text-sm xl:text-md">Photo/Video</p>
           <input
             ref={filePickerRef}
             hidden
@@ -67,8 +67,8 @@ const InputBox = () => {
           />
         </div>
         <div className="inputIcon">
-          <EmojiHappyIcon className="h-6 text-yellow-300" />
-          <p className="text-sm sm:text-sm xl:text-md">Feeling/Activity</p>
+          <EmojiHappyIcon className="h-5 mb-2 sm:mb-0 sm:h-6 text-yellow-300" />
+          <p className="text-xs sm:text-sm xl:text-md">Feeling/Activity</p>
         </div>
       </div>
     </div>

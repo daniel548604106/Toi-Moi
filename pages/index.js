@@ -1,15 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import io from 'socket.io-client';
 import Head from 'next/head';
-import Image from 'next/image';
-import Login from '../components/Login/Index';
 import Sidebar from '../components/Home/Sidebar';
-import Feed from '../components/Home/Feed/Index';
-import Contacts from '../components/Home/Contacts/Index';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import Feed from '../components/Home/Feed/Index';
+import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
+import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { apiGetAllPosts } from '../api';
 import axios from 'axios';
+import genderAvatar from '../utils/genderAvatar';
 export default function Home({ posts }) {
   useEffect(() => {
     console.log(posts);
@@ -17,7 +16,7 @@ export default function Home({ posts }) {
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts);
   const [currentPage, setCurrentPage] = useState(2);
-
+  const { userInfo } = useSelector((state) => state.user);
   useEffect(() => {
     setCurrentPosts(posts);
     console.log(posts);
@@ -36,6 +35,33 @@ export default function Home({ posts }) {
       console.log(error);
     }
   };
+
+  const socket = useRef();
+  const [newMessageReceived, setNewMessageReceived] = useState(null);
+  const [newMessagePopup, setNewMessagePopup] = useState(false);
+  useEffect(() => {
+    if (!socket.current) {
+      socket.current = io(process.env.BASE_URL);
+    }
+
+    if (socket.current) {
+      // keep track of user is online
+      socket.current.emit('join', { userId: userInfo._id });
+      socket.current.on('newMsgReceived', async ({ newMessage }) => {
+        const { name, profileImage, gender } = await apiGetChatUserInfo(
+          newMessage.sender
+        );
+        if (user.newMessagePopup) {
+          setNewMessageReceived({
+            ...newMessage,
+            senderName: name,
+            senderProfileImage: profileImage || genderAvatar(gender)
+          });
+          setMessagePopup(true);
+        }
+      });
+    }
+  }, []);
   return (
     <div className="bg-gray-100">
       <Head>
