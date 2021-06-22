@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { apiGetChats } from '../../api/index';
+import { apiGetChats, apiGetChatUserInfo } from '../../api/index';
 import axios from 'axios';
 import ChatroomSidebarHeader from '../../components/Messages/ChatroomSidebar/ChatroomSidebarHeader';
 import ChatroomList from '../../components/Messages/ChatroomSidebar/ChatroomList';
@@ -7,7 +7,6 @@ import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomM
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
 import ChatroomMainInputBox from '../../components/Messages/ChatroomMain/ChatroomMainInputBox';
 import { useRouter } from 'next/router';
-import { apiGetChat } from '../../api/index';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import { apiSearchRequest } from '../../api/index';
@@ -18,7 +17,7 @@ const Index = (props) => {
   const router = useRouter();
   const socket = useRef();
   const userInfo = useSelector((state) => state.user.userInfo);
-  const [chats, setChats] = useState(props.chats);
+  const [chats, setChats] = useState(props.chats || []);
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -46,6 +45,7 @@ const Index = (props) => {
   }, [searchText]);
 
   const sendMsg = (msg) => {
+    console.log('sentto', openChatId.current);
     if (socket.current) {
       socket.current.emit('sendMessage', {
         userId: userInfo._id,
@@ -72,6 +72,8 @@ const Index = (props) => {
         date: Date.now()
       };
 
+      console.log(openChatId);
+      openChatId.current = result._id;
       setChats((chats) => [newChat, ...chats]);
       router.push(`/messages?message=${result._id}`);
     }
@@ -190,14 +192,15 @@ const Index = (props) => {
               return [...prev];
             });
           } else {
-            const { name, profileImage } = await apiGetCHatUserInfo(
-              newMsg.sender
-            );
+            const {
+              data: { name, profileImage, gender }
+            } = await apiGetChatUserInfo(newMessage.sender);
+            console.log(',hi', name, profileImage);
             const newChat = {
               messagesWith: newMessage.sender,
               name,
-              profileImage,
-              lastMessage: newMessages.msg
+              profileImage: profileImage || genderAvatar(gender),
+              lastMessage: newMessage.msg
             };
             setChats((prev) => [newChat, ...prev]);
           }
@@ -230,7 +233,8 @@ const Index = (props) => {
                   <span className="ml-[10px]">{result.name}</span>
                 </div>
               ))
-            : chats.map((chat) => (
+            : chats.length > 0 &&
+              chats.map((chat) => (
                 <ChatroomList
                   setOpenChatUser={setOpenChatUser}
                   connectedUsers={connectedUsers}
