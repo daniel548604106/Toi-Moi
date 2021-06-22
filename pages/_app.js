@@ -31,7 +31,9 @@ const App = ({ Component, pageProps }) => {
   const isPostInputBoxOpen = useSelector(
     (state) => state.post.isPostInputBoxOpen
   );
-  if (!isUserLoggedIn) return <Login />;
+
+  const allowedRoutes = router.pathname === '/reset/password';
+  if (!isUserLoggedIn && !allowedRoutes) return <Login />;
   return (
     <>
       {(isLikesListOpen ||
@@ -47,7 +49,7 @@ const App = ({ Component, pageProps }) => {
           {isEditSummaryModalOpen && <EditSummaryModal />}
         </Overlay>
       )}
-      <Header />
+      {!allowedRoutes && <Header />}
       <main className="pt-[56px] md:pt-0">
         <Component {...pageProps} />
       </main>

@@ -7,11 +7,13 @@ import catchError from '../../lib/catchError';
 import Cookie from 'js-cookie';
 import Signup from '../Signup/Index';
 import Image from 'next/image';
+import ForgotPassword from '../ForgotPassword/Index';
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [error, setError] = useState('');
   const [isSignupOpen, setSignupOpen] = useState(false);
+  const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [loginInput, setLoginInput] = useState({
     email: '',
     password: ''
@@ -49,6 +51,14 @@ const Login = () => {
           className="fixed top-0 z-50 left-0 flex w-screen h-screen items-center justify-center bg-opacity-20 bg-black"
         >
           <Signup setSignupOpen={setSignupOpen} />
+        </div>
+      )}
+      {isForgotPasswordOpen && (
+        <div
+          onClick={() => setForgotPasswordOpen(false)}
+          className="fixed top-0 z-50 left-0 flex w-screen h-screen items-center justify-center bg-opacity-20 bg-black"
+        >
+          <ForgotPassword />
         </div>
       )}
       <div className="w-full max-w-md mb-[20px] md:mb-0">
@@ -91,7 +101,10 @@ const Login = () => {
             Login
           </button>
         </form>
-        <span className="inline-block text-blue-600 my-[20px] cursor-pointer text-md">
+        <span
+          onClick={() => setForgotPasswordOpen(true)}
+          className="inline-block text-blue-600 my-[20px] cursor-pointer text-md"
+        >
           Forgot Password?
         </span>
         <hr />
