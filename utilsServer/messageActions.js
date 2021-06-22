@@ -61,7 +61,7 @@ const sendMessage = async (userId, messageSentTo, msg) => {
       await receiver.save();
     } else {
       const newChat = {
-        messagesWith: messageSentTo,
+        messagesWith: userId,
         messages: [{ ...newMessage }]
       };
       receiver.chats.unshift(newChat);
