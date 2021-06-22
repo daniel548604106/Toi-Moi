@@ -14,7 +14,7 @@ const AccountPopup = () => {
   const dispatch = useDispatch();
   const handleUserLogout = (email) => {
     // Set userEmail for autocomplete in login email field
-    Cookie.set('userEmail', email);
+    Cookie.set('userEmail', 234);
     Cookie.remove('token');
     dispatch(setUserLogout());
     router.push('/');
@@ -47,7 +47,7 @@ const AccountPopup = () => {
         <ChevronRightIcon className="h-6 text-gray-600" />
       </div>
       <div
-        onClick={() => handleUserLogout(email)}
+        onClick={() => handleUserLogout()}
         className="cursor-pointer flex items-center hover:bg-gray-100 rounded-md p-2"
       >
         <span className="p-2 rounded-full bg-gray-100">
