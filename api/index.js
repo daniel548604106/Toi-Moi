@@ -30,7 +30,7 @@ import { getChats, getChat, getChatUserInfo } from './chatRequest';
 
 export const apiGetChats = getChats;
 export const apiGetChat = getChat;
-export const apiGetCHatUserInfo = getChatUserInfo;
+export const apiGetChatUserInfo = getChatUserInfo;
 
 // Posts
 
