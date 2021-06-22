@@ -18,7 +18,7 @@ const MessageDropDown = () => {
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/chats', {
+        const res = await axios.get(`${process.env.BASE_URL}/api/chats`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
