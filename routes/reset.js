@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
       return res.status(404).send('User not found');
     }
     const token = crypto.randomBytes(32).toString('hex');
-    const href = `${process.env.BASE_URL}/reset/${token}`;
+    const href = `${process.env.BASE_URL}/reset/password?token=${token}`;
     user.resetToken = token;
     user.expireToken = Date.now() + 3600000; // Expire within ten minutes
     await user.save();
@@ -60,7 +60,10 @@ router.post('/token', async (req, res) => {
       return res.status(401).send('Unauthorized');
     }
 
-    if (password.length < 6) return res.status(401).send('Unauthorized');
+    if (password.length < 6)
+      return res
+        .status(401)
+        .send('Password length must be at least 6 characters');
     const user = await User.findOne({ resetToken: token });
     if (!user) return res.status(404).send('User not found');
     if (Date.now() > user.expireToken) {

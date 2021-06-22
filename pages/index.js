@@ -62,6 +62,7 @@ export default function Home({ posts }) {
       });
     }
   }, []);
+
   return (
     <div className="bg-gray-100">
       <Head>

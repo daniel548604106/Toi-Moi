@@ -23,7 +23,7 @@ const Index = () => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="rounded-lg shadow-xl p-5 bg-white w-[300px] flex flex-col items-center justify-center "
+      className="rounded-lg text-center shadow-xl p-5 bg-white w-[300px] flex flex-col items-center justify-center "
     >
       <h1 className="text-xl mb-[10px] font-semibold"> Forgot Password</h1>
 
@@ -32,16 +32,24 @@ const Index = () => {
       {emailSent ? (
         <div className="text-center space-y-1 mt-2">
           <span className="text-sm text-gray-400">
-            {loading ? 'Sending...' : 'Email has been sent!'}
+            {loading ? (
+              'Sending...'
+            ) : (
+              <span>
+                Email has been sent!
+                <br />
+                Please check your email account
+              </span>
+            )}
           </span>
 
-          <div className="flex items-center">
+          <div className="flex items-center justify-center">
             <span
               onClick={() => handleSendEmail()}
               className="text-xs text-gray-300 cursor-pointer underline"
             >
               Not received? Send again
-            </span>{' '}
+            </span>
           </div>
         </div>
       ) : (
