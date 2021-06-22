@@ -8,6 +8,7 @@ import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMai
 import ChatroomMainInputBox from '../../components/Messages/ChatroomMain/ChatroomMainInputBox';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import messageNotificationSound from '../../utils/messageNotificationSound';
 import Image from 'next/image';
 import { apiSearchRequest } from '../../api/index';
 import genderAvatar from '../../utils/genderAvatar';
@@ -26,6 +27,12 @@ const Index = (props) => {
     name: '',
     profileImage: ''
   });
+
+  const divRef = useRef(null);
+  const scrollToBottom = (divRef) => {
+    divRef.current !== null &&
+      divRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   // This ref is for persisting the state of query string in url through re-renders because on each re-render of component , the querystring will automatically reset
   // useRef 可以在不 re-render 的狀態下更新值
@@ -110,12 +117,16 @@ const Index = (props) => {
   }, []);
 
   useEffect(() => {
+    messages.length > 0 && scrollToBottom(divRef);
+  }, [messages]);
+
+  useEffect(() => {
     if (chats.length > 0 && !router.query.message) {
       router.push(`/messages?message=${chats[0].messagesWith}`, undefined, {
         shallow: true
       });
     }
-  }, [chats]);
+  }, []);
 
   // Load Messages
 
@@ -138,6 +149,7 @@ const Index = (props) => {
         });
         // tracking the query string in the url
         openChatId.current = chat.messagesWith._id;
+        divRef.current && scrollToBottom(divRef);
       });
     };
 
@@ -165,7 +177,7 @@ const Index = (props) => {
       });
 
       socket.current.on('newMsgReceived', async ({ newMessage }) => {
-        console.log('receiving...', newMessage);
+        let senderName;
         // When chat is open inside the browser
         if (newMessage.sender === openChatId.current) {
           setMessages((prev) => [...prev, newMessage]);
@@ -175,6 +187,7 @@ const Index = (props) => {
             );
             previousChat.lastMessage = newMessage.msg;
             previousChat.data = newMessage.date;
+            senderName = previousChat.name;
             return [...prev];
           });
         } else {
@@ -189,12 +202,14 @@ const Index = (props) => {
               );
               previousChat.lastMessage = newMessage.msg;
               previousChat.date = newMessage.date;
+              senderName = previousChat.name;
               return [...prev];
             });
           } else {
             const {
               data: { name, profileImage, gender }
             } = await apiGetChatUserInfo(newMessage.sender);
+            senderName = name;
             console.log(',hi', name, profileImage);
             const newChat = {
               messagesWith: newMessage.sender,
@@ -205,6 +220,8 @@ const Index = (props) => {
             setChats((prev) => [newChat, ...prev]);
           }
         }
+
+        messageNotificationSound(senderName);
       });
     }
   }, []);
@@ -250,6 +267,7 @@ const Index = (props) => {
           openChatUser={openChatUser}
         />
         <ChatroomMainRoom
+          divRef={divRef}
           sendMsg={sendMsg}
           socket={socket.current}
           user={userInfo}

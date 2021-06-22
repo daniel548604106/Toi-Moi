@@ -1,9 +1,15 @@
 import Image from 'next/image';
-const ChatroomMainRoom = ({ messages, receiverProfileImage, socket, user }) => {
+const ChatroomMainRoom = ({
+  messages,
+  divRef,
+  receiverProfileImage,
+  socket,
+  user
+}) => {
   return (
     <div className="chatRoomHeight overflow-y-auto border-b p-5">
       {messages.map((message) => (
-        <div key={message.date} className="flex items-center mb-3">
+        <div ref={divRef} key={message.date} className="flex items-center mb-3">
           {message.sender !== user._id && receiverProfileImage && (
             <Image
               width="40"
@@ -13,7 +19,7 @@ const ChatroomMainRoom = ({ messages, receiverProfileImage, socket, user }) => {
             />
           )}
           <span
-            className={`inline-block max-w-[250px]   p-2 rounded-lg  ml-2 border  ${
+            className={`max-w-[300px] overflow-auto break-all  p-2 rounded-lg  ml-2 border  ${
               message.sender === user._id
                 ? 'bg-blue-600 text-white ml-auto'
                 : ''
