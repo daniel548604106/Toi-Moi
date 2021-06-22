@@ -67,7 +67,9 @@ router.post('/token', async (req, res) => {
     const user = await User.findOne({ resetToken: token });
     if (!user) return res.status(404).send('User not found');
     if (Date.now() > user.expireToken) {
-      return res.status(401).send('Token expired. Generate new one');
+      return res
+        .status(401)
+        .send('Token expired. Please click on forgot password again');
     }
     user.password = await bcrypt.hash(password, 10);
     user.resetToken = '';
