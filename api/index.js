@@ -1,3 +1,9 @@
+// Reset
+import { postForgotPassword, postPasswordReset } from './resetRequest';
+export const apiPostForgotPassword = postForgotPassword;
+
+export const apiPostPasswordReset = postPasswordReset;
+
 // Me
 import { getMyInfo } from './meRequest';
 export const apiGetMyInfo = getMyInfo;

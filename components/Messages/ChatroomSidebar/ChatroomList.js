@@ -44,9 +44,7 @@ const List = ({ chat, connectedUsers, setOpenChatUser }) => {
           <p className="mr-2">{chat.name}</p>
           <p className="text-xs text-gray-600">{timeDiff(chat.date)}</p>
         </div>
-        <p className="overflow-ellipsis text-sm text-gray-600">
-          {chat.lastMessage}
-        </p>
+        <p className=" truncate text-sm text-gray-600">{chat.lastMessage}</p>
       </div>
     </div>
   );

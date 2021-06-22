@@ -5,7 +5,7 @@ import { apiPostReadNotifications } from '../api';
 import LikeNotification from '../components/Notifications/LikeNotification';
 import CommentNotification from '../components/Notifications/CommentNotification';
 import FriendNotification from '../components/Notifications/FriendNotification';
-const Index = ({ notifications: { notifications } }) => {
+const Index = ({ notifications }) => {
   useEffect(() => {
     console.log(notifications);
 
