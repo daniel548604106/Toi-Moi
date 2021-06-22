@@ -151,7 +151,6 @@ const Index = (props) => {
         // We're doing this so that only the opened chat will push new messages so we don't air unopened chat
         if (newMessage.receiver === openChatId.current) {
           setMessages((messages) => [...messages, newMessage]);
-          console.log(chats);
           setChats((chats) => {
             const previousChat = chats.find((chat) => {
               return chat.messagesWith === newMessage.receiver;
@@ -160,37 +159,48 @@ const Index = (props) => {
             previousChat.date = newMessage.date;
             return [...chats];
           });
+        }
+      });
 
-          socket.current.on('newMsgReceived', async ({ newMessage }) => {
-            console.log('receiving...', newMessage);
-            // When chat is open inside the browser
-            if (newMessage.sender === openChatId.current) {
-              setMessages((prev) => [...prev, newMessage]);
-              setChats((prev) => {
-                const previousChat = prev.find(
-                  (chat) => chat.messagesWith === newMessage.sender
-                );
-                previousChat.lastMessage = newMessage.msg;
-                previousChat.data = newMessage.date;
-                return [...prev];
-              });
-            } else {
-              const ifPreviouslyMessaged =
-                chats.filter((chat) => chat.messagesWith === newMessage.sender)
-                  .length > 0;
-
-              if (ifPreviouslyMessaged) {
-                setChats((prev) => {
-                  const previousChat = prev.find(
-                    (chat) => chat.messagesWith === newMessage.sender
-                  );
-                  previousChat.lastMessage = newMessage.msg;
-                  previousChat.date = newMessage.date;
-                  return [...prev];
-                });
-              }
-            }
+      socket.current.on('newMsgReceived', async ({ newMessage }) => {
+        console.log('receiving...', newMessage);
+        // When chat is open inside the browser
+        if (newMessage.sender === openChatId.current) {
+          setMessages((prev) => [...prev, newMessage]);
+          setChats((prev) => {
+            const previousChat = prev.find(
+              (chat) => chat.messagesWith === newMessage.sender
+            );
+            previousChat.lastMessage = newMessage.msg;
+            previousChat.data = newMessage.date;
+            return [...prev];
           });
+        } else {
+          const ifPreviouslyMessaged =
+            chats.filter((chat) => chat.messagesWith === newMessage.sender)
+              .length > 0;
+
+          if (ifPreviouslyMessaged) {
+            setChats((prev) => {
+              const previousChat = prev.find(
+                (chat) => chat.messagesWith === newMessage.sender
+              );
+              previousChat.lastMessage = newMessage.msg;
+              previousChat.date = newMessage.date;
+              return [...prev];
+            });
+          } else {
+            const { name, profileImage } = await apiGetCHatUserInfo(
+              newMsg.sender
+            );
+            const newChat = {
+              messagesWith: newMessage.sender,
+              name,
+              profileImage,
+              lastMessage: newMessages.msg
+            };
+            setChats((prev) => [newChat, ...prev]);
+          }
         }
       });
     }
