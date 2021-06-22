@@ -1,11 +1,11 @@
 {
   "name": "frontend",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "scripts": {
-    "dev": "nodemon -w server.js server.js",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "next start -p $PORT"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.1",
