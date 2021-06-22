@@ -288,7 +288,7 @@ export async function getServerSideProps({ req, res }) {
   try {
     // get server side cookies
     const token = req.cookies.token;
-    let chats = await axios.get('http://localhost:3000/api/chats', {
+    let chats = await axios.get(`${process.env.BASE_URL}/api/chats`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
