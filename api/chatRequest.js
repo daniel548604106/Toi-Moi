@@ -7,3 +7,7 @@ export const getChats = () => {
 export const getChat = (id) => {
   return request.get(`/chats/${id}`);
 };
+
+export const getChatUserInfo = (senderId) => {
+  return request.get(`/chats/userInfo/${senderId}`);
+};
