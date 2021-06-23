@@ -3,7 +3,7 @@ import Header from '../components/Global/Header';
 import Search from '../components/Global/Search';
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Login from '../components/Login/Index';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
@@ -16,7 +16,9 @@ import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 import EditSummaryModal from '../components/Profile/EditSummaryModal';
 import router from 'next/router';
 import Cookies from 'js-cookie';
+import { setUserLogout } from '../redux/slices/userSlice';
 const App = ({ Component, pageProps }) => {
+  const dispatch = useDispatch();
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
   const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
   const isEditProfileImageOpen = useSelector(
@@ -31,6 +33,11 @@ const App = ({ Component, pageProps }) => {
   const isPostInputBoxOpen = useSelector(
     (state) => state.post.isPostInputBoxOpen
   );
+
+  const token = Cookies.get('token');
+  if (!token) {
+    dispatch(setUserLogout());
+  }
 
   const allowedRoutes = router.pathname === '/reset/password';
   if (!isUserLoggedIn && !allowedRoutes) return <Login />;
