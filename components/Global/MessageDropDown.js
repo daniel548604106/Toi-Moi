@@ -6,23 +6,16 @@ import {
   SearchIcon
 } from '@heroicons/react/solid';
 import ToolTips from './ToolTips';
-import axios from 'axios';
-import Cookie from 'js-cookie';
-import { apiGetChat } from '../../api';
+import { apiGetChats } from '../../api';
 import { useRouter } from 'next/router';
 import MessageDropDownList from './MesseageDropDownList';
 const MessageDropDown = () => {
-  const token = Cookie.get('token');
-  const [messages, setMessages] = useState(null);
+  const [messages, setMessages] = useState([]);
   const router = useRouter();
   useEffect(() => {
     const getMessages = async () => {
       try {
-        const res = await axios.get(`${process.env.BASE_URL}/api/chats`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
+        const res = await apiGetChats();
         setMessages(res.data);
       } catch (error) {
         console.log(error);
@@ -57,10 +50,13 @@ const MessageDropDown = () => {
           placeholder="搜尋 messenger"
         />
       </div>
-      {messages &&
+      {messages.length > 0 ? (
         messages.map((message) => (
           <MessageDropDownList key={message.messagesWith} message={message} />
-        ))}
+        ))
+      ) : (
+        <div>No Message</div>
+      )}
 
       <div
         onClick={() => router.push('/messages')}

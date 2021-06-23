@@ -9,7 +9,10 @@ module.exports = {
     ]
   },
   env: {
-    NEXTAUTH_URL: 'http://localhost:3000'
+    BASE_URL:
+      process.env.NODE_ENV === 'production'
+        ? 'https://daniel-fullstack-facebook.herokuapp.com'
+        : 'http://localhost:3000'
   },
   webpack(config) {
     config.module.rules.push({

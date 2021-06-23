@@ -87,7 +87,7 @@ export async function getServerSideProps({ req, params, res }) {
     return {
       props: {
         post: data,
-        notifications: notifications.data.notifications,
+        notifications: notifications.data,
         profile: profile.data
       }
     };

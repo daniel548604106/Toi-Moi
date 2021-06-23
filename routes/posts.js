@@ -98,10 +98,14 @@ router.get('/', authMiddleware, async (req, res) => {
 // Get Post By Id
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
+    console.log('hihihihihi');
     const postId = req.params.id;
-    const post = await Post.findById(postId).populate('user');
+    const post = await Post.findById(postId)
+      .populate('user')
+      .populate('comments.user');
+    console.log(post, 'post');
     if (!post) return res.status(404).send('Post not found');
-
+    console.log('posts', post);
     return res.status(200).json(post);
   } catch (error) {
     console.log(error);

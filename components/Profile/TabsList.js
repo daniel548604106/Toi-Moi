@@ -67,6 +67,9 @@ const TabsList = ({ user, friends_total }) => {
 
   useEffect(() => {
     window.addEventListener('resize', handleResize, false);
+    return () => {
+      window.removeEventListener('resize', console.log());
+    };
   }, []);
   return (
     <div className="p-3  border-t bg-white  flex items-center justify-between">

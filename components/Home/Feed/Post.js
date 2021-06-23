@@ -21,6 +21,7 @@ import {
 } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
 import Comment from './Comment';
+import genderAvatar from '../../../utils/genderAvatar';
 const Post = ({ post }) => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -31,6 +32,9 @@ const Post = ({ post }) => {
   const [comments, setComments] = useState(post.comments);
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
+  useEffect(() => {
+    console.log(post);
+  }, []);
   const dispatch = useDispatch();
 
   const handleSubmitComment = async (e) => {
@@ -95,7 +99,7 @@ const Post = ({ post }) => {
             <Image
               onClick={() => handleDirectToProfile()}
               className="rounded-full object-cover  cursor-pointer"
-              src={post.user.profileImage}
+              src={post.user.profileImage || genderAvatar(post.user.gender)}
               width="40"
               height="40"
             />
