@@ -29,6 +29,7 @@ const Login = () => {
     try {
       const { data } = await apiPostLogin(loginInput);
       console.log('login', data);
+      if (!data || !data.user || !data.token) return console.log('error');
       dispatch(setUserLogin(data.user));
       Cookie.set('token', data.token);
       router.push('/');
