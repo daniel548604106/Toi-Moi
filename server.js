@@ -1,7 +1,6 @@
-const { createServer } = require('http');
 const express = require('express');
 const app = express();
-const server = require('http').createServer(app);
+const server = require('http').Server(app);
 const dev = process.env.NODE_ENV !== 'production';
 const io = require('socket.io')(server);
 
