@@ -1,8 +1,16 @@
 import React from 'react';
 import Image from 'next/image';
-import { DotsHorizontalIcon, UserIcon } from '@heroicons/react/outline';
+import {
+  DotsHorizontalIcon,
+  UserIcon,
+  PlusIcon
+} from '@heroicons/react/outline';
+import { useSelector } from 'react-redux';
+import router from 'next/router';
 const ProfileCover = ({ user, profile }) => {
   if (!profile) return <dic>Loading</dic>;
+  const userInfo = useSelector((state) => state.user.userInfo);
+  const isLoggedInUser = router.query.id === userInfo.username;
   return (
     <div>
       <div className="relative ">
@@ -30,8 +38,8 @@ const ProfileCover = ({ user, profile }) => {
           </div>
         </div>
       </div>
-      <div className="p-5  bg-white border-t flex item-center justify-between">
-        <ul className="hidden sm:flex items-center text-gray-600 space-x-1 md:space-x-3">
+      <div className="p-3  bg-white border-t flex item-center justify-between">
+        <ul className="text-sm sm:text-md hidden sm:flex items-center text-gray-600 space-x-1 md:space-x-3">
           <li className="cursor-pointer p-2 px-2 md:px-4 rounded-lg hover:bg-gray-100">
             Homepage
           </li>
@@ -46,10 +54,17 @@ const ProfileCover = ({ user, profile }) => {
           More
         </button>
         <div className="flex items-center">
-          <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-blue-600 text-white">
-            <UserIcon className=" text-sm h-6 mr-[10px]" />
-            Add Friend
-          </button>
+          {isLoggedInUser ? (
+            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-blue-600 text-white">
+              <PlusIcon className=" text-sm h-6 mr-[10px]" />
+              Add Stories
+            </button>
+          ) : (
+            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-blue-600 text-white">
+              <UserIcon className=" text-sm h-6 mr-[10px]" />
+              Add Friend
+            </button>
+          )}
           <button className="px-4 py-2 rounded-md bg-gray-100 ml-[10px]">
             <DotsHorizontalIcon className=" text-sm h-6" />
           </button>

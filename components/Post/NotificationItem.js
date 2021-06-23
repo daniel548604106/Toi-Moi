@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { UsersIcon, ChatAlt2Icon, ThumbUpIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
+import genderAvatar from '../../utils/genderAvatar';
 const NotificationList = ({ notification }) => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -47,7 +48,10 @@ const NotificationList = ({ notification }) => {
       <span className="relative">
         <Image
           className="rounded-full object-cover"
-          src={notification.user.profileImage}
+          src={
+            notification.user.profileImage ||
+            genderAvatar(notification.user.gender)
+          }
           width={60}
           height={60}
         />

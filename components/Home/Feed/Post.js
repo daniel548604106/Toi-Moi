@@ -21,6 +21,7 @@ import {
 } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
 import Comment from './Comment';
+import genderAvatar from '../../../utils/genderAvatar';
 const Post = ({ post }) => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -29,8 +30,15 @@ const Post = ({ post }) => {
   );
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
-  const [error, setError] = useState(null);
+  const [isLiked, setLiked] = useState(
+    likes.length > 0 &&
+      likes.filter((like) => like.user === userInfo._id).length > 0
+  );
   const [text, setText] = useState('');
+  const [commentLength, setCommentLength] = useState(2);
+  useEffect(() => {
+    console.log(post, commentLength);
+  }, [commentLength]);
   const dispatch = useDispatch();
 
   const handleSubmitComment = async (e) => {
@@ -50,6 +58,8 @@ const Post = ({ post }) => {
     try {
       console.log('clicked');
       const { data } = await apiLikePost(id);
+      setLiked(true);
+      setLikes([...likes, { user: id }]);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -58,8 +68,11 @@ const Post = ({ post }) => {
 
   const handleUnlikePost = async (id) => {
     try {
+      console.log('unlike');
       const { data } = await apiUnlikePost(id);
-      console.log(data);
+      setLiked(false);
+      let indexOf = likes.map((like) => like.user).indexOf(id);
+      setLikes(likes.splice(indexOf, 1));
     } catch (error) {
       console.log(error);
     }
@@ -80,13 +93,7 @@ const Post = ({ post }) => {
   const handleDirectToProfile = () => {
     router.push(`/${post.user.username}`);
   };
-  const isLiked =
-    likes.length > 0 &&
-    likes.filter((like) => like.user._id === userInfo._id).length > 0;
 
-  useEffect(() => {
-    console.log(likes, isLiked);
-  }, [likes]);
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
       <div className=" sm:p-3">
@@ -95,7 +102,7 @@ const Post = ({ post }) => {
             <Image
               onClick={() => handleDirectToProfile()}
               className="rounded-full object-cover  cursor-pointer"
-              src={post.user.profileImage}
+              src={post.user.profileImage || genderAvatar(post.user.gender)}
               width="40"
               height="40"
             />
@@ -166,11 +173,11 @@ const Post = ({ post }) => {
 
       <div className="flex items-center  border-t p-1 sm:p-3">
         {isLiked ? (
-          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600">
-            <SolidThumbUpIcon
-              onClick={() => handleUnlikePost(post._id)}
-              className="h-4 "
-            />
+          <div
+            onClick={() => handleUnlikePost(post._id)}
+            className="rounded-md  flex items-center justify-center p-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600"
+          >
+            <SolidThumbUpIcon className="h-4 " />
             <span className="text-sm sm:text-md ml-[10px]">Like</span>
           </div>
         ) : (
@@ -209,7 +216,7 @@ const Post = ({ post }) => {
         </form>
       </div>
       {comments.length > 0 &&
-        comments.slice(0, 2).map((comment) => (
+        comments.slice(0, commentLength).map((comment) => (
           <div key={comment._id} className=" p-1 w-full">
             <Comment
               comments={comments}
@@ -219,8 +226,13 @@ const Post = ({ post }) => {
             />
           </div>
         ))}
-      {comments.length > 2 && (
-        <span className="inline-block text-xs cursor-pointer">查看更多</span>
+      {comments.length > 2 && commentLength < comments.length && (
+        <span
+          onClick={() => setCommentLength(commentLength + 5)}
+          className="inline-block text-xs cursor-pointer"
+        >
+          查看更多
+        </span>
       )}
     </div>
   );

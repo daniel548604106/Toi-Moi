@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
     transporter.sendMail(mailOptions, (err, info) => {
       err && console.log(err);
     });
-    res.status(200).send('Email sent successfully');
+    return res.status(200).send('Email sent successfully');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');

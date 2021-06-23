@@ -9,6 +9,7 @@ import {
 } from '../../../api/index';
 import { useSelector } from 'react-redux';
 import { ThumbUpIcon, TrashIcon } from '@heroicons/react/solid';
+import genderAvatar from '../../../utils/genderAvatar';
 const Comment = ({ setComments, comments, postId, comment }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const isCommentLiked =
@@ -47,7 +48,7 @@ const Comment = ({ setComments, comments, postId, comment }) => {
   return (
     <div className="flex  items-center">
       <Image
-        src={comment.user.profileImage}
+        src={comment.user.profileImage || genderAvatar(comment.user.gender)}
         width={30}
         height={30}
         className="rounded-full object-cover cursor-pointer "

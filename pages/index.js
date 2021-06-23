@@ -10,17 +10,13 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import genderAvatar from '../utils/genderAvatar';
 export default function Home({ posts }) {
-  useEffect(() => {
-    console.log(posts);
-  }, []);
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts);
   const [currentPage, setCurrentPage] = useState(2);
+  const [newMessageReceived, setNewMessageReceived] = useState(null);
+  const [newMessagePopup, setNewMessagePopup] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
-  useEffect(() => {
-    setCurrentPosts(posts);
-    console.log(posts);
-  }, [posts]);
+
   const getMorePosts = async () => {
     try {
       console.log('get');
@@ -29,7 +25,6 @@ export default function Home({ posts }) {
       console.log('new', posts.data);
       if (posts.data.length === 0) setHasMore(false);
       setCurrentPage((currentPage) => currentPage + 1);
-
       console.log(currentPosts);
     } catch (error) {
       console.log(error);
@@ -37,8 +32,11 @@ export default function Home({ posts }) {
   };
 
   const socket = useRef();
-  const [newMessageReceived, setNewMessageReceived] = useState(null);
-  const [newMessagePopup, setNewMessagePopup] = useState(false);
+
+  useEffect(() => {
+    setCurrentPosts(posts);
+  }, [posts]);
+
   useEffect(() => {
     if (!socket.current) {
       socket.current = io(process.env.BASE_URL);
@@ -103,11 +101,15 @@ export async function getServerSideProps({ req, res }) {
   try {
     // get server side cookies
     const token = req.cookies.token;
-    let posts = await axios.get(`${process.env.BASE_URL}/api/posts?page=1`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    let posts, messages;
+    if (token) {
+      posts = await axios.get(`${process.env.BASE_URL}/api/posts?page=1`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+    }
+
     if (!posts.data) {
       return {
         notFound: true
