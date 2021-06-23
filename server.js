@@ -18,29 +18,32 @@ const PORT = process.env.PORT || 3000;
 // The following dotenv config will have access to .env file , so make sure it's named as .env and not .env.local .etc
 require('dotenv').config();
 
-connectDB().then(() => {
-  nextApp.prepare().then(() => {
-    //routes
-    app.use('/api/profile', require('./routes/profile'));
-    app.use('/api/me', require('./routes/me'));
-    app.use('/api/notifications', require('./routes/notifications'));
-    app.use('/api/login', require('./routes/login'));
-    app.use('/api/signup', require('./routes/signup'));
-    app.use('/api/search', require('./routes/search'));
-    app.use('/api/chats', require('./routes/chats'));
-    app.use('/api/posts', require('./routes/posts'));
-    app.use('/api/reset', require('./routes/reset'));
-    app.all('*', (req, res) => handle(req, res));
+connectDB()
+  .then(() => {
+    nextApp.prepare().then(() => {
+      //routes
+      app.use('/api/profile', require('./routes/profile'));
+      app.use('/api/me', require('./routes/me'));
+      app.use('/api/notifications', require('./routes/notifications'));
+      app.use('/api/login', require('./routes/login'));
+      app.use('/api/signup', require('./routes/signup'));
+      app.use('/api/search', require('./routes/search'));
+      app.use('/api/chats', require('./routes/chats'));
+      app.use('/api/posts', require('./routes/posts'));
+      app.use('/api/reset', require('./routes/reset'));
+      app.all('*', (req, res) => handle(req, res));
 
-    server.listen(PORT, (err) => {
-      if (err) throw err;
-      console.log(`express server running on ${PORT}`);
+      server.listen(PORT, (err) => {
+        if (err) throw err;
+        console.log(`express server running on ${PORT}`);
+      });
     });
+  })
+  .catch((err) => {
+    if (err) console.log(err);
   });
-});
 app.use(express.json({ limit: '50mb' })); // this is the body parser
-app.use(express.urlencoded({ limit: '50mb' }));
-
+app.use(express.urlencoded({ limit: '50mb', extended: true })); //changed
 // Socket.io
 
 const {
