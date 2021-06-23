@@ -23,9 +23,7 @@ const ProfileImage = ({ postId, user, profileImage }) => {
   };
 
   const handleViewCurrentProfile = async (e) => {
-    if (!postId || !profileImage) {
-      return console.log('onono');
-    }
+    if (!postId || !profileImage) return;
     e.stopPropagation();
     await dispatch(apiGetCurrentPost(postId));
     dispatch(setViewPostModalOpen(true));
@@ -50,9 +48,8 @@ const ProfileImage = ({ postId, user, profileImage }) => {
     >
       <Image
         onClick={(e) => handleViewCurrentProfile(e)}
-        className={`${profileImage && 'cursor-pointer'} ${
-          !profileImage && 'cursor-default'
-        } object-cover h-[60px] w-[60px] cursor sm:w-[100px] sm:h-[100px]   rounded-full`}
+        className={`${profileImage && 'cursor-pointer'} 
+       object-cover h-[60px] w-[60px]  cursor-default sm:w-[100px] sm:h-[100px]   rounded-full`}
         src={profileImage || genderAvatar(user.gender)}
         layout="fill"
       />
@@ -60,7 +57,7 @@ const ProfileImage = ({ postId, user, profileImage }) => {
         <span
           name="profile"
           onClick={(e) => handleNewProfileImagePreview(e)}
-          className="absolute bottom-0 border-2 right-0 p-2 rounded-full bg-white shadow-md hover:shadow-xl"
+          className="cursor-pointer absolute bottom-0 border-2 right-0 p-2 rounded-full bg-white shadow-md hover:shadow-xl"
         >
           <CameraIcon className="h-6 " />
           <input

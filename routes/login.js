@@ -79,7 +79,6 @@ router.post('/', async (req, res) => {
             set_public: true
           },
           relationship: {
-            status: '',
             set_public: true
           }
         }

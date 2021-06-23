@@ -50,6 +50,7 @@ const ProfileCover = ({ user, profile }) => {
   };
 
   const handleViewCoverPost = async () => {
+    if (!profile.profileCoverPostId) return;
     await dispatch(apiGetCurrentPost(profile.profileCoverPostId));
     dispatch(setViewPostModalOpen(true));
   };
@@ -124,9 +125,9 @@ const ProfileCover = ({ user, profile }) => {
         )}
         <div
           onClick={() => handleViewCoverPost()}
-          className={`${
+          className={`${profile.profileCoverPostId && 'cursor-pointer'} ${
             isCoverImageEditable && 'cursor-move'
-          } relative cursor-pointer bg-gray-100 w-full  rounded-xl`}
+          } relative  bg-gray-100 w-full  rounded-xl`}
         >
           <Image
             width={1000}
