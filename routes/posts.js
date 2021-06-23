@@ -99,9 +99,12 @@ router.get('/', authMiddleware, async (req, res) => {
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const postId = req.params.id;
-    const post = await Post.findById(postId).populate('user');
+    const post = await Post.findById(postId)
+      .populate('user')
+      .populate('comments.user');
+    console.log(post, 'post');
     if (!post) return res.status(404).send('Post not found');
-
+    console.log('posts', post);
     return res.status(200).json(post);
   } catch (error) {
     console.log(error);
@@ -206,7 +209,7 @@ router.post('/like/:id', authMiddleware, async (req, res) => {
     await post.save();
 
     const userToNotifyId = post.user;
-    if (post.user.toString() !== userToNotifyId) {
+    if (post.user.toString() !== userId) {
       await newLikeNotification(userId, postId, userToNotifyId);
     }
     res.status(200).send('Post liked');

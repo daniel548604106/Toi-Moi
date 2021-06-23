@@ -50,28 +50,10 @@ const TabsList = ({ user, friends_total }) => {
     setActiveTab(router.query.tab);
   }, [router.query.tab]);
 
-  const handleResize = () => {
-    let width = window.innerWidth;
-    if (width < 600) {
-      setVisibleTabs(visibleTabs.slice(0, 0));
-    } else if (width < 700) {
-      setVisibleTabs(visibleTabs.slice(0, 1));
-    } else if (width < 900) {
-      setVisibleTabs(visibleTabs.slice(0, 2));
-    } else if (width < 1000) {
-      setVisibleTabs(visibleTabs.slice(0, 3));
-    } else if (width < 1200) {
-      setVisibleTabs(visibleTabs.slice(0, 5));
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize, false);
-  }, []);
   return (
     <div className="p-3  border-t bg-white  flex items-center justify-between">
       <div className="flex items-center font-semibold text-gray-600 capitalize">
-        {visibleTabs.map((tab) => (
+        {visibleTabs.slice(0, 0).map((tab) => (
           <span
             key={tab.title}
             className={`p-3 text-xs sm:text-sm   cursor-pointer  rounded-lg hover:bg-gray-100 ${
