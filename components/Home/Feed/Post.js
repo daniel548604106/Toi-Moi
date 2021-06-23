@@ -34,11 +34,11 @@ const Post = ({ post }) => {
     likes.length > 0 &&
       likes.filter((like) => like.user === userInfo._id).length > 0
   );
-  const [error, setError] = useState(null);
   const [text, setText] = useState('');
+  const [commentLength, setCommentLength] = useState(2);
   useEffect(() => {
-    console.log(post);
-  }, []);
+    console.log(post, commentLength);
+  }, [commentLength]);
   const dispatch = useDispatch();
 
   const handleSubmitComment = async (e) => {
@@ -94,9 +94,6 @@ const Post = ({ post }) => {
     router.push(`/${post.user.username}`);
   };
 
-  useEffect(() => {
-    console.log(likes, isLiked);
-  }, [likes]);
   return (
     <div className="rounded-xl shadow-md p-3  bg-white">
       <div className=" sm:p-3">
@@ -219,7 +216,7 @@ const Post = ({ post }) => {
         </form>
       </div>
       {comments.length > 0 &&
-        comments.slice(0, 2).map((comment) => (
+        comments.slice(0, commentLength).map((comment) => (
           <div key={comment._id} className=" p-1 w-full">
             <Comment
               comments={comments}
@@ -229,8 +226,13 @@ const Post = ({ post }) => {
             />
           </div>
         ))}
-      {comments.length > 2 && (
-        <span className="inline-block text-xs cursor-pointer">查看更多</span>
+      {comments.length > 2 && commentLength < comments.length && (
+        <span
+          onClick={() => setCommentLength(commentLength + 5)}
+          className="inline-block text-xs cursor-pointer"
+        >
+          查看更多
+        </span>
       )}
     </div>
   );
