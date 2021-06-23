@@ -30,7 +30,8 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   version: 1,
-  storage
+  storage,
+  blacklist: ['user']
 };
 
 const _persistedReducer = persistReducer(persistConfig, reducers);
