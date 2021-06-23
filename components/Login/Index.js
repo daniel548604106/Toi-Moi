@@ -28,6 +28,7 @@ const Login = () => {
     if (loginInput.account === '' || loginInput.password === '') return;
     try {
       const { data } = await apiPostLogin(loginInput);
+      console.log('login', data);
       dispatch(setUserLogin(data.user));
       Cookie.set('token', data.token);
       router.push('/');
