@@ -30,8 +30,8 @@ const ProfileCover = ({ user, profile }) => {
           </div>
         </div>
       </div>
-      <div className="p-5  bg-white border-t flex item-center justify-between">
-        <ul className="hidden sm:flex items-center text-gray-600 space-x-1 md:space-x-3">
+      <div className="p-3  bg-white border-t flex item-center justify-between">
+        <ul className="text-sm sm:text-md hidden sm:flex items-center text-gray-600 space-x-1 md:space-x-3">
           <li className="cursor-pointer p-2 px-2 md:px-4 rounded-lg hover:bg-gray-100">
             Homepage
           </li>

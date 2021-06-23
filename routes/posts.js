@@ -98,7 +98,6 @@ router.get('/', authMiddleware, async (req, res) => {
 // Get Post By Id
 router.get('/:id', authMiddleware, async (req, res) => {
   try {
-    console.log('hihihihihi');
     const postId = req.params.id;
     const post = await Post.findById(postId)
       .populate('user')
@@ -210,7 +209,7 @@ router.post('/like/:id', authMiddleware, async (req, res) => {
     await post.save();
 
     const userToNotifyId = post.user;
-    if (post.user.toString() !== userToNotifyId) {
+    if (post.user.toString() !== userId) {
       await newLikeNotification(userId, postId, userToNotifyId);
     }
     res.status(200).send('Post liked');

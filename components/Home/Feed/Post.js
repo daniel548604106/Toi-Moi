@@ -30,6 +30,10 @@ const Post = ({ post }) => {
   );
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
+  const [isLiked, setLiked] = useState(
+    likes.length > 0 &&
+      likes.filter((like) => like.user === userInfo._id).length > 0
+  );
   const [error, setError] = useState(null);
   const [text, setText] = useState('');
   useEffect(() => {
@@ -54,6 +58,8 @@ const Post = ({ post }) => {
     try {
       console.log('clicked');
       const { data } = await apiLikePost(id);
+      setLiked(true);
+      setLikes([...likes, { user: id }]);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -62,8 +68,11 @@ const Post = ({ post }) => {
 
   const handleUnlikePost = async (id) => {
     try {
+      console.log('unlike');
       const { data } = await apiUnlikePost(id);
-      console.log(data);
+      setLiked(false);
+      let indexOf = likes.map((like) => like.user).indexOf(id);
+      setLikes(likes.splice(indexOf, 1));
     } catch (error) {
       console.log(error);
     }
@@ -84,9 +93,6 @@ const Post = ({ post }) => {
   const handleDirectToProfile = () => {
     router.push(`/${post.user.username}`);
   };
-  const isLiked =
-    likes.length > 0 &&
-    likes.filter((like) => like.user._id === userInfo._id).length > 0;
 
   useEffect(() => {
     console.log(likes, isLiked);
@@ -170,11 +176,11 @@ const Post = ({ post }) => {
 
       <div className="flex items-center  border-t p-1 sm:p-3">
         {isLiked ? (
-          <div className="rounded-md  flex items-center justify-center py-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600">
-            <SolidThumbUpIcon
-              onClick={() => handleUnlikePost(post._id)}
-              className="h-4 "
-            />
+          <div
+            onClick={() => handleUnlikePost(post._id)}
+            className="rounded-md  flex items-center justify-center p-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600"
+          >
+            <SolidThumbUpIcon className="h-4 " />
             <span className="text-sm sm:text-md ml-[10px]">Like</span>
           </div>
         ) : (
