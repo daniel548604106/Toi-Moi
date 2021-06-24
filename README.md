@@ -12,12 +12,13 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
   
 ## Features
 
-📱       Realtime Communication & Notification
+📱    Realtime Communication & Notification
 
-🌎      i18n - Internationalization
+🌎    i18n - Internationalization
 
-🌗   Light/dark mode toggle
-
+🌗    Light/dark mode toggle
+   
+📧.  Customized EDM
   
 ## Tech Stack
 
