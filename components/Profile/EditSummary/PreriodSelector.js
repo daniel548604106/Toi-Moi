@@ -51,7 +51,7 @@ const PeriodSelector = ({ newExperience, setNewExperience }) => {
           <button className="group w-[100px] relative flex text-sm justify-center items-center p-2 px-4 rounded-md border text-gray-600 ">
             {startYear ? startYear : 'Year'}
             <ChevronDownIcon className="h-6" />
-            <div className="group-focus:block focus:hidden hidden  right-0 bg-white transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
+            <div className="group-focus:block focus:hidden hidden  right-0 bg-secondary text-secondary transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
               {yearRange.map((year) => (
                 <p
                   onClick={() => setStartYear(year)}
@@ -66,7 +66,7 @@ const PeriodSelector = ({ newExperience, setNewExperience }) => {
           <button className="group ml-[10px] justify-center  w-[100px] relative flex text-sm items-center p-2 px-4 rounded-md border text-gray-600 ">
             {startMonth ? startMonth : 'Month'}
             <ChevronDownIcon className="h-6" />
-            <div className="group-focus:block hidden right-0 bg-white transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
+            <div className="group-focus:block hidden right-0 bg-secondary text-secondary transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
               {monthRange.map((month) => (
                 <p
                   onClick={() => setStartMonth(month)}
@@ -86,7 +86,7 @@ const PeriodSelector = ({ newExperience, setNewExperience }) => {
               <button className="group  focus:outline-none w-[100px] relative flex text-sm justify-center items-center p-2 px-4 rounded-md border text-gray-600 ">
                 {endYear ? endYear : 'Year'}
                 <ChevronDownIcon className="h-6" />
-                <div className="hidden  group-focus:block right-0 bg-white transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
+                <div className="hidden  group-focus:block right-0 bg-secondary text-secondary transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
                   {yearRange.map((year) => (
                     <p
                       onClick={() => setEndYear(year)}
@@ -101,7 +101,7 @@ const PeriodSelector = ({ newExperience, setNewExperience }) => {
               <button className="group focus:outline-none ml-[10px] justify-center  w-[100px] relative flex text-sm items-center p-2 px-4 rounded-md border text-gray-600 ">
                 {endMonth ? endMonth : 'Month'}
                 <ChevronDownIcon className="h-6" />
-                <div className="hidden group-focus:block right-0 bg-white transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
+                <div className="hidden group-focus:block right-0 bg-secondary text-secondary transform translate-y-full bottom-0 w-[100px] border rounded-md absolute h-[150px] overflow-y-auto">
                   {monthRange.map((month) => (
                     <p
                       onClick={() => setEndMonth(month)}

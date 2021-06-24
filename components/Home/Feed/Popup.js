@@ -14,7 +14,7 @@ const Popup = ({ postId, user }) => {
     }
   };
   return (
-    <div className="shadow-lg p-3 w-[300px] rounded-md  bg-white">
+    <div className="shadow-lg p-3 w-[300px] rounded-md  bg-secondary text-secondary">
       {user.username === userInfo.username && (
         <div
           onClick={() => handleDeletePost()}

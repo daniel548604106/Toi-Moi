@@ -32,13 +32,13 @@ const Header = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center sticky left-0 right-0 top-0 bg-white z-40 shadow-md p-1 sm:px-5 ">
+    <div className="flex items-center sticky left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md p-1 sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <Image
             onClick={() => router.push('/')}
             className="cursor-pointer"
-            src="https://links.papareact.com/5me"
+            src="/logo.svg"
             width={40}
             height={40}
             layout="fixed"
@@ -50,7 +50,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="fixed top-[60px] left-0 flex bg-white  w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed top-[60px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           title="home"
           href="/"
@@ -66,10 +66,10 @@ const Header = () => {
         />
         <HeaderIcon title="groups" href="/groups/feed" Icon={UserGroupIcon} />
       </div>
-      <div className="w-1/2 relative flex justify-end items-center space-x-1 sm:space-x-2 ">
+      <div className="w-1/2  relative flex justify-end items-center space-x-1 sm:space-x-2 ">
         <div
           onClick={() => router.push(`/${userInfo.username}`)}
-          className="flex border items-center rounded-full space-x-2 hover:border-blue-600  p-1 cursor-pointer "
+          className="flex border items-center rounded-full space-x-2 hover:border-main  p-1 cursor-pointer "
         >
           <Image
             className="cursor-pointer object-cover mr-2 rounded-full"
@@ -78,7 +78,7 @@ const Header = () => {
             width="40"
             height="40"
           />
-          <p className="pr-2 text-sm text-gray-600 whitespace-nowrap hidden xl:block">
+          <p className="pr-2 text-sm  whitespace-nowrap hidden xl:block">
             {userInfo.name}
           </p>
         </div>

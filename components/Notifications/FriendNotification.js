@@ -44,7 +44,7 @@ const FriendNotification = ({ notification }) => {
             src={notification.user.profileImage}
           />
           <span className="absolute bottom-1 right-0 bg-gray-800 rounded-full p-1">
-            <UsersIcon className="h-4 text-white" />
+            <UsersIcon className="h-4 text-secondary" />
           </span>
         </span>
 
@@ -64,7 +64,7 @@ const FriendNotification = ({ notification }) => {
           </p>
           <p
             className={`text-xs text-gray-500 ${
-              !notification.isNotificationRead && 'text-blue-600'
+              !notification.isNotificationRead && 'text-main'
             }`}
           >
             {timeDiff(notification.date)}
@@ -75,7 +75,7 @@ const FriendNotification = ({ notification }) => {
                 onClick={(e) =>
                   handleAcceptFriendRequest(e, notification.user.username)
                 }
-                className="w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-blue-600 text-white "
+                className="w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-main text-secondary "
               >
                 {' '}
                 Confirm
@@ -89,7 +89,7 @@ const FriendNotification = ({ notification }) => {
       </div>
       <div className="flex items-center">
         {!notification.isNotificationRead && (
-          <div className="rounded-full ml-[10px] w-[8px] h-[8px] bg-blue-600"></div>
+          <div className="rounded-full ml-[10px] w-[8px] h-[8px] bg-main"></div>
         )}
       </div>
     </div>

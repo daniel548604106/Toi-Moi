@@ -30,7 +30,7 @@ const password = () => {
     <div className="flex top-0 left-0 items-center flex-col bg-gray-100 justify-center p-3 w-screen h-screen fixed">
       <div className="flex items-center justify-center flex-col">
         <Image src="/facebook_logo.svg" width={400} height={120} />
-        <div className="rounded-lg text-center  space-y-3 border w-full max-w-[600px]  shadow-xl p-5 bg-white">
+        <div className="rounded-lg text-center  space-y-3 border w-full max-w-[600px]  shadow-xl p-5 bg-secondary text-secondary">
           {newPasswordSuccess ? (
             <h2 className="text-xl font-semibold mb-3">Changed Successfully</h2>
           ) : (
@@ -71,14 +71,14 @@ const password = () => {
           {newPasswordSuccess ? (
             <button
               onClick={() => router.push('/')}
-              className="bg-green-500 focus:outline-none text-white p-3 py-2 mt-[10px] rounded-lg"
+              className="bg-green-500 focus:outline-none text-secondary p-3 py-2 mt-[10px] rounded-lg"
             >
               Login{' '}
             </button>
           ) : (
             <button
               onClick={() => handleResetPassword()}
-              className="bg-blue-600 focus:outline-none text-white p-3 rounded-lg"
+              className="bg-main focus:outline-none text-secondary p-3 rounded-lg"
             >
               Reset Password
             </button>

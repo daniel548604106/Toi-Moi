@@ -1,7 +1,6 @@
 import React from 'react';
-import DefaultAvatar from '../../public/vercel.svg';
-import { useRouter } from 'next/router';
 import { XIcon } from '@heroicons/react/outline';
+import { useRouter } from 'next/router';
 import { apiPostUserSearch } from '../../api';
 import Image from 'next/image';
 import genderAvatar from '../../utils/genderAvatar';

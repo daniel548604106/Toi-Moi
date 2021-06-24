@@ -1,4 +1,5 @@
 import '../styles/globals.css';
+import { useEffect } from 'react';
 import Header from '../components/Global/Header';
 import Search from '../components/Global/Search';
 import { store } from '../redux/store';
@@ -57,7 +58,7 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
-      <main className="pt-[56px] md:pt-0">
+      <main className="pt-[56px] md:pt-0 primary dark:bg-primary">
         <Component {...pageProps} />
       </main>
     </>

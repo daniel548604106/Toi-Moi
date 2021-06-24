@@ -23,7 +23,7 @@ const Index = () => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="rounded-lg text-center shadow-xl p-5 bg-white w-[300px] flex flex-col items-center justify-center "
+      className="bg-white w-full max-w-[400px]  rounded-lg text-center shadow-xl p-5 bg-secondary text-secondary  flex flex-col items-center justify-center "
     >
       <h1 className="text-xl mb-[10px] font-semibold"> Forgot Password</h1>
 
@@ -64,7 +64,7 @@ const Index = () => {
           <span
             onClick={() => handleSendEmail()}
             className={`p-1 rounded-full ml-[5px] border text-gray-400  ${
-              email && 'text-white bg-gray-600 cursor-pointer'
+              email && 'text-secondary bg-gray-600 cursor-pointer'
             }`}
           >
             <InboxIcon className="h-6" />

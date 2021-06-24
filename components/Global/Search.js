@@ -79,7 +79,7 @@ const Search = () => {
         />
       </div>
       {isSearchResultShow && (
-        <div className="fixed z-50 top-0 h-full sm:h-auto  left-0 w-full sm:max-w-[350px] rounded-md bg-white p-3 shadow-xl">
+        <div className="fixed z-50 top-0 h-full sm:h-auto  left-0 w-full sm:max-w-[350px] rounded-md bg-secondary text-secondary p-3 shadow-xl">
           <div className="flex items-center w-full sm:pl-3">
             <span
               onClick={() => setSearchResultShow(false)}
@@ -104,7 +104,7 @@ const Search = () => {
           <div className=" max-h-[500px] overflow-y-auto py-[10px]">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-semibold">Recent Search</h2>
-              <span className="cursor-pointer hover:bg-gray-100 text-blue-600 text-sm p-2 rounded-md">
+              <span className="cursor-pointer hover:bg-gray-100 text-main text-sm p-2 rounded-md">
                 Edit History
               </span>
             </div>
@@ -119,9 +119,7 @@ const Search = () => {
                     profileImage={result.profileImage}
                   />
                 ))
-              : 
-              
-              searchHistory.map((history) => (
+              : searchHistory.map((history) => (
                   <SearchHistoryItem
                     setSearchResultShow={setSearchResultShow}
                     searchHistory={searchHistory}
@@ -136,8 +134,8 @@ const Search = () => {
               onClick={(e) => handleKeywordSearch(e)}
               className="flex hover:bg-gray-100 rounded-md cursor-pointer items-center p-2 py-1"
             >
-              <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-blue-600 text-white" />
-              <p className="ml-[15px] font-medium text-blue-600">
+              <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-main text-secondary" />
+              <p className="ml-[15px] font-medium text-main">
                 搜尋 {searchText}
               </p>
             </div>

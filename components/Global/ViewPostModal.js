@@ -19,7 +19,7 @@ const ViewPostModal = () => {
       <div className="w-full h-[500px] lg:h-auto relative  bg-black">
         <Image className="object-scale-down" src={post.picUrl} layout="fill" />
       </div>
-      <div className="w-full h-full overflow-y-scroll lg:w-[600px] bg-white">
+      <div className="w-full h-full overflow-y-scroll lg:w-[600px] bg-secondary text-secondary">
         {<Post post={post} />}
       </div>
     </div>

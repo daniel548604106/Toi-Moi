@@ -64,12 +64,12 @@ const Login = () => {
         </div>
       )}
       <div className="w-full max-w-md mb-[20px] md:mb-0">
-        <Image src="/facebook_logo.svg" width={400} height={100} />
+        <Image src="/toi&moi-logo.svg" width={400} height={100} />
         <h2 className="text-2xl  font-semibold">
-          Connect with friends and the world around you on Facebook.
+          Connect with friends and the world around you on Toi&Moi.
         </h2>
       </div>
-      <div className="p-5 rounded-md text-center bg-white shadow-md w-full max-w-[450px]">
+      <div className="p-5 bg-white rounded-md text-center bg-secondary text-secondary shadow-md w-full max-w-[450px]">
         <form className="w-full">
           <div className="mb-5 ">
             <input
@@ -98,21 +98,21 @@ const Login = () => {
           )}
           <button
             onClick={(e) => handleLogin(e)}
-            className="rounded-md w-full text-lg p-3 bg-blue-600 text-white"
+            className="rounded-md w-full text-lg p-3 text-white bg-main text-secondary"
           >
             Login
           </button>
         </form>
         <span
           onClick={() => setForgotPasswordOpen(true)}
-          className="inline-block text-blue-600 my-[20px] cursor-pointer text-md"
+          className="inline-block text-main my-[20px] cursor-pointer text-md"
         >
           Forgot Password?
         </span>
         <hr />
         <button
           onClick={() => setSignupOpen(true)}
-          className="p-3 bg-green-500 cursor-pointer my-[20px] text-white rounded-md text-lg"
+          className="p-3 text-white bg-main-yellow cursor-pointer my-[20px] text-secondary rounded-md text-lg"
         >
           Create Account
         </button>

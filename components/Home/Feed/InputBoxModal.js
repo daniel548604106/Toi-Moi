@@ -50,10 +50,10 @@ const InputBoxModal = () => {
   }, [imageToPost]);
 
   return (
-    <div className="rounded-md bg-white w-full max-w-[600px]  relative">
+    <div className="rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
       <XIcon
         onClick={() => dispatch(setPostInputBoxOpen(false))}
-        className="h-8 cursor-pointer rounded-full p-1 bg-gray-100 absolute top-[8px] right-[10px]"
+        className="h-8 cursor-pointer rounded-full p-1  absolute top-[8px] right-[10px]"
       />
       <div className="p-3 text-center text-lg font-semibold border-b">
         Create Post
@@ -73,7 +73,7 @@ const InputBoxModal = () => {
             value={text}
             type="text"
             onChange={(e) => setText(e.target.value)}
-            className={`min-h-[200px]  text-xl ${
+            className={`min-h-[200px] bg-secondary rounded-md p-2 text-xl ${
               image && 'text-sm min-h-[150px]'
             } w-full focus:outline-none`}
             placeholder={`${userInfo.name}, what's on your mind?`}
@@ -83,7 +83,7 @@ const InputBoxModal = () => {
               <Image layout="fill" objectFit="cover" src={image} alt="image" />
               <XIcon
                 onClick={() => handleRemoveImage()}
-                className="h-6 cursor-pointer rounded-full border bg-white absolute top-[10px] right-[10px]"
+                className="h-6 cursor-pointer rounded-full border bg-secondary text-secondary absolute top-[10px] right-[10px]"
               />
             </div>
           )}
@@ -108,8 +108,8 @@ const InputBoxModal = () => {
         </div>
         <button
           onClick={(e) => sendPost(e)}
-          className={`mt-[10px]  text-sm rounded-lg w-full py-3 bg-gray-100 ${
-            text && 'bg-blue-600 text-white'
+          className={`mt-[10px]  text-sm text-black cursor-default rounded-lg w-full py-3 bg-gray-100 ${
+            text && 'bg-main text-white text-secondary cursor-pointer'
           } `}
         >
           Post

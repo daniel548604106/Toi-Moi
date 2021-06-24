@@ -57,7 +57,7 @@ const ProfileImage = ({ postId, user, profileImage }) => {
         <span
           name="profile"
           onClick={(e) => handleNewProfileImagePreview(e)}
-          className="cursor-pointer absolute bottom-0 border-2 right-0 p-2 rounded-full bg-white shadow-md hover:shadow-xl"
+          className="cursor-pointer absolute bottom-0 border-2 right-0 p-2 rounded-full bg-secondary text-secondary shadow-md hover:shadow-xl"
         >
           <CameraIcon className="h-6 " />
           <input

@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 const Header = ({ searchText, setSearchText, addChat }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   return (
-    <div className="  p-3">
+    <div className="text-primary bg-primary  p-3">
       <div className="flex items-center justify-between mb-3">
         <Image
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
@@ -18,7 +18,7 @@ const Header = ({ searchText, setSearchText, addChat }) => {
           height={40}
           className="rounded-full cursor-pointer"
         />
-        <h2 className="text-2xl font-semibold ">聊天室</h2>
+        <h2 className="text-2xl font-semibold ">Messenger</h2>
         <div className="flex items-center">
           <PencilAltIcon className="h-5 w-5  cursor-pointer  rounded-full bg-gray-100" />
           <VideoCameraIcon className="h-5 w-5 ml-[5px] cursor-pointer   rounded-full bg-gray-100" />

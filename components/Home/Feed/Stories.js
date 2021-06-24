@@ -45,10 +45,10 @@ const Stories = () => {
             objectFit="cover"
           />
         </div>
-        <span className="rounded-full p-1 absolute z-10 top-1/2 text-white left-1/2 transform -translate-x-1/2 border-4 border-white bg-blue-600 ">
+        <span className="rounded-full p-1 absolute z-10 top-1/2 text-secondary left-1/2 transform -translate-x-1/2 border-4 border-white bg-main ">
           <PlusIcon className="h-6 " />
         </span>
-        <div className="bg-white h-1/2">Create Story</div>
+        <div className="bg-secondary text-secondary h-1/2">Create Story</div>
       </div>
       {stories.map((story) => (
         <StoryCard
