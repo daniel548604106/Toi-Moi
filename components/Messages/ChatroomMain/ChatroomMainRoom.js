@@ -21,7 +21,7 @@ const ChatroomMainRoom = ({
           <span
             className={`max-w-[300px] overflow-auto break-all  p-2 rounded-lg  ml-2 border  ${
               message.sender === user._id
-                ? 'bg-blue-600 text-white ml-auto'
+                ? 'bg-main text-secondary ml-auto'
                 : ''
             }`}
           >

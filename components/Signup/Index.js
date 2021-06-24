@@ -141,7 +141,7 @@ const Index = ({ setSignupOpen }) => {
   return (
     <form
       onClick={(e) => e.stopPropagation()}
-      className="relative bg-white shadow-lg rounded-lg w-full max-w-[500px]"
+      className="relative bg-secondary text-secondary shadow-lg rounded-lg w-full max-w-[500px]"
     >
       <span
         onClick={() => setSignupOpen(false)}
@@ -161,7 +161,7 @@ const Index = ({ setSignupOpen }) => {
         >
           <input
             onChange={(e) => handleInputChange(e)}
-            className="w-full focus:outline-none bg-white"
+            className="w-full focus:outline-none bg-secondary text-secondary"
             type="text"
             name="name"
             placeholder="Name"
@@ -194,7 +194,7 @@ const Index = ({ setSignupOpen }) => {
           >
             <input
               onChange={(e) => handleInputChange(e)}
-              className="w-full focus:outline-none bg-white"
+              className="w-full focus:outline-none bg-secondary text-secondary"
               type="email"
               name="email"
               value={signupInfo.email}
@@ -291,14 +291,13 @@ const Index = ({ setSignupOpen }) => {
         <p className="mb-[20px] text-sm text-gray-600">
           By clicking <span className="underline">Signup</span> means you've
           agreed to our{' '}
-          <span className="text-blue-600 cursor-pointer">Service policy</span>{' '}
-          and{' '}
-          <span className="text-blue-600 cursor-pointer">Cookie policy</span>
+          <span className="text-main cursor-pointer">Service policy</span> and{' '}
+          <span className="text-main cursor-pointer">Cookie policy</span>
         </p>
         <div className="flex items-center justify-center">
           <button
             onClick={(e) => handleSignup(e)}
-            className="text-lg font-semibold bg-green-400 text-white rounded-md w-[200px] p-2 mx-auto"
+            className="text-lg font-semibold bg-green-400 text-secondary rounded-md w-[200px] p-2 mx-auto"
           >
             {isLoading ? <Loader /> : 'SIGN UP'}{' '}
           </button>

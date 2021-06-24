@@ -31,9 +31,9 @@ const Header = ({ openChatUser, connectedUsers }) => {
         </div>
       </div>
       <div className="flex items-center space-x-3">
-        <PhoneIcon className="h-6 text-blue-600 cursor-pointer" />
-        <VideoCameraIcon className="h-6 text-blue-600 cursor-pointer" />
-        <InformationCircleIcon className="h-6 text-blue-600 cursor-pointer" />
+        <PhoneIcon className="h-6 text-main cursor-pointer" />
+        <VideoCameraIcon className="h-6 text-main cursor-pointer" />
+        <InformationCircleIcon className="h-6 text-main cursor-pointer" />
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ const Summary = () => {
     <CardLayout title="Summary">
       <button
         onClick={() => dispatch(setSummaryModalShow(true))}
-        className="hover:bg-gray-200 p-2 rounded-md bg-gray-100 w-full"
+        className="hover:bg-opacity-50 p-2 rounded-md bg-button w-full"
       >
         編輯詳細資料
       </button>

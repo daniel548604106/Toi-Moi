@@ -95,7 +95,7 @@ const Post = ({ post }) => {
   };
 
   return (
-    <div className="rounded-xl shadow-md p-3  bg-white">
+    <div className="rounded-xl shadow-md text-primary p-3 bg-secondary">
       <div className=" sm:p-3">
         <div className="flex justify-between  mb-[10px]">
           <div className="flex items-center">
@@ -155,7 +155,7 @@ const Post = ({ post }) => {
             onClick={() => handleLikesListOpen(post._id)}
             className="flex items-center cursor-pointer hover:underline"
           >
-            <span className="rounded-full p-1 bg-blue-600 text-white">
+            <span className="rounded-full p-1 bg-main text-secondary">
               <SolidThumbUpIcon className="h-2 " />
             </span>
             <span className="text-gray-600 ml-[3px] ">{likes.length}</span>
@@ -175,7 +175,7 @@ const Post = ({ post }) => {
         {isLiked ? (
           <div
             onClick={() => handleUnlikePost(post._id)}
-            className="rounded-md  flex items-center justify-center p-2 hover:bg-gray-100 flex-1  cursor-pointer text-blue-600"
+            className="rounded-md  flex items-center justify-center p-2 hover:bg-gray-100 flex-1  cursor-pointer text-main"
           >
             <SolidThumbUpIcon className="h-4 " />
             <span className="text-sm sm:text-md ml-[10px]">Like</span>

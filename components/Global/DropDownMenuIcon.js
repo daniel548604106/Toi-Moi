@@ -7,14 +7,14 @@ const DropDownMenuIcon = ({ Icon, children, title }) => {
     <button className="group focus:outline-none">
       {title === 'Notification' && userInfo.unreadNotification && (
         <div className="relative">
-          <span className="z-50 absolute top-0 transform -translate-y-1/2 right-0 p-1 text-xs text-white rounded-full bg-red-400">
+          <span className="z-50 absolute top-0 transform -translate-y-1/2 right-0 p-1 text-xs text-secondary rounded-full bg-red-400">
             1
           </span>
         </div>
       )}
       <Icon
         onClick={() => setMenuOpen(!isMenuOpen)}
-        className="icon group-hover:text-blue-600 group-focus:text-blue-600"
+        className="icon group-hover:text-main group-focus:text-main"
       />{' '}
       <div className="group-focus:block hidden">{children}</div>
     </button>

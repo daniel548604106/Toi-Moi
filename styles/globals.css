@@ -4,14 +4,40 @@
 
 @layer components {
   .icon {
-    @apply inline-flex hover:bg-gray-200  p-2 cursor-pointer bg-gray-100 w-10 h-10 rounded-full items-center justify-center;
+    @apply inline-flex hover:bg-white  p-2 cursor-pointer bg-secondary text-secondary w-10 h-10 rounded-full items-center justify-center;
   }
   .inputIcon {
-    @apply flex-col text-center flex sm:flex-row items-center space-x-1 hover:bg-gray-100 w-full  justify-center p-2 sm:p-3 sm:px-4 rounded-md cursor-pointer;
+    @apply flex-col text-center  flex sm:flex-row items-center space-x-1 hover:bg-white w-full  justify-center p-2 sm:p-3 sm:px-4 rounded-md cursor-pointer;
   }
   .fullBodyHeight {
     min-height: calc(100vh - 64px);
   }
+}
+
+.dark {
+  --color-bg-primary: #121212;
+  --color-bg-secondary: #272727;
+  --color-bg-button: #3f3f3f;
+  --color-text-primary: #f7fafc;
+  --color-text-secondary: #e2e8f0;
+  --color-text-accent: #81e6d9;
+}
+
+.light {
+  --color-bg-primary: #fafafa;
+  --color-bg-secondary: #ffffff;
+  --color-bg-button: #f0f0f0;
+
+  --color-text-primary: #2d3748;
+  --color-text-secondary: #4a5568;
+  --color-text-accent: #2b6cb0;
+}
+
+button.dark {
+  background-color: #3f3f3f;
+}
+button.light {
+  background: #f0f0f0;
 }
 
 .chatRoomHeight {

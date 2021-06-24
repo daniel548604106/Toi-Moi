@@ -28,7 +28,7 @@ const InputBox = () => {
   };
 
   return (
-    <div className="p-3 shadow-md font-medium rounded-xl bg-white">
+    <div className="p-3 shadow-md font-medium rounded-xl bg-secondary text-secondary">
       <div className="flex items-center w-full space-x-2 mb-3">
         <Image
           onClick={() => router.push(`/${userInfo.username}`)}

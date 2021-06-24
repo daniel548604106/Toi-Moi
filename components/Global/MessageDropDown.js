@@ -60,7 +60,7 @@ const MessageDropDown = () => {
 
       <div
         onClick={() => router.push('/messages')}
-        className="border-t pt-2 text-blue-600 text-center hover:underline cursor-pointer"
+        className="border-t pt-2 text-main text-center hover:underline cursor-pointer"
       >
         到 Messenger 查看全部
       </div>

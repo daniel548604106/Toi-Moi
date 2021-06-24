@@ -26,7 +26,7 @@ const NotificationDropDown = () => {
 
         <span
           onClick={() => router.push('/notifications')}
-          className="text-blue-600 cursor-pointer text-sm"
+          className="text-main cursor-pointer text-sm"
         >
           See All
         </span>

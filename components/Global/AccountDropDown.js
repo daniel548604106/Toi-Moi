@@ -1,12 +1,13 @@
-import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { LogoutIcon, CogIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import { setUserLogout } from '../../redux/slices/userSlice';
 import Image from 'next/image';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
+import useDarkMode from '../../hooks/useDarkMode';
 import genderAvatar from '../../utils/genderAvatar';
 const AccountPopup = () => {
+  const [colorTheme, setTheme] = useDarkMode();
   const userInfo = useSelector((state) => state.user.userInfo);
   const email = useSelector((state) => state.user.userInfo.email);
   const router = useRouter();
@@ -19,6 +20,7 @@ const AccountPopup = () => {
     dispatch(setUserLogout());
     router.push('/');
   };
+
   return (
     <div>
       <div
@@ -45,6 +47,9 @@ const AccountPopup = () => {
           <span className="ml-[10px]">Settings and Privacy</span>
         </div>
         <ChevronRightIcon className="h-6 text-gray-600" />
+      </div>
+      <div>
+        <span onClick={() => setTheme(colorTheme)}>Light Mode</span>
       </div>
       <div
         onClick={() => handleUserLogout(email)}

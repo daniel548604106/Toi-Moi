@@ -19,7 +19,7 @@ const MessageDropDownList = ({ message }) => {
         <p>{message.name}</p>
         <p className="text-gray-500">{message.lastMessage}</p>
       </div>
-      <span className="hidden group-hover:block  absolute top-1/2 transform -translate-y-1/2 right-4 p-2 rounded-full  bg-white shadow-lg cursor-pointer">
+      <span className="hidden group-hover:block  absolute top-1/2 transform -translate-y-1/2 right-4 p-2 rounded-full  bg-secondary text-secondary shadow-lg cursor-pointer">
         <DotsHorizontalIcon className="h-6" />
       </span>
     </div>

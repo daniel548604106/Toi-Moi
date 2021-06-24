@@ -11,10 +11,10 @@ const LikesListModal = () => {
   const router = useRouter();
 
   return (
-    <div className="rounded-lg relative bg-white w-full max-w-[600px]   p-5">
+    <div className="rounded-lg relative bg-secondary text-secondary w-full max-w-[600px]   p-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <ThumbUpIcon className="h-6 text-blue-600 cursor-pointer" />
+          <ThumbUpIcon className="h-6 text-main cursor-pointer" />
           <span className="ml-[5px] text-sm text-gray-600">2</span>
         </div>
         <span
@@ -42,8 +42,8 @@ const LikesListModal = () => {
                     layout="fixed"
                     className="rounded-full cursor-pointer "
                   />
-                  <span className="absolute bottom-[5px] right-0 p-1 rounded-full bg-blue-600">
-                    <ThumbUpIcon className="h-2 text-white " />
+                  <span className="absolute bottom-[5px] right-0 p-1 rounded-full bg-main">
+                    <ThumbUpIcon className="h-2 text-secondary " />
                   </span>
                 </span>
                 <span className="ml-[15px] cursor-pointer hover:underline">
