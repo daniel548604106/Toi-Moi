@@ -27,7 +27,7 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
 
 **Server** 
 
-✨ Node.js, Express.js , Socket.io
+✨ Node.js, Express.js , Socket.io , Nodemailer
 
 **Database** 
 
