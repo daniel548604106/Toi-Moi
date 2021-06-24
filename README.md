@@ -1,12 +1,10 @@
 
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+![Logo](https://ik.imagekit.io/4liibdxmxfn/images/users/user-peter548604106-cover-1624546491192_fBp5lDxtY)
 
     
-# Project Title
+# Toi & Moi (You & Me)
 
-A brief description of what this project does and who it's for
-
-
+Toi&Moi is a fullstack social platform designated to connect people from distances away, users are able to build their own profile and connect with people from around the world  with realtime messaging and friend system.  (Idea originated from starting a Facebook clone)
 ## Screenshots
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
