@@ -1,5 +1,12 @@
+import { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { LogoutIcon, CogIcon, ChevronRightIcon } from '@heroicons/react/solid';
+import {
+  LogoutIcon,
+  CogIcon,
+  ChevronRightIcon,
+  MoonIcon,
+  SunIcon
+} from '@heroicons/react/solid';
 import { setUserLogout } from '../../redux/slices/userSlice';
 import Image from 'next/image';
 import Cookie from 'js-cookie';
@@ -10,6 +17,8 @@ const AccountPopup = () => {
   const [colorTheme, setTheme] = useDarkMode();
   const userInfo = useSelector((state) => state.user.userInfo);
   const email = useSelector((state) => state.user.userInfo.email);
+  const [darkModeChecked, setDarkModeChecked] = useState(false);
+  const inputRef = useRef(null);
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -42,21 +51,58 @@ const AccountPopup = () => {
       <div className="cursor-pointer flex justify-between items-center hover:bg-gray-100 rounded-md p-2">
         <div className="flex items-center">
           <span className="p-2 rounded-full bg-gray-100">
-            <CogIcon className="h-6" />
+            <CogIcon className="h-6 text-black" />
           </span>
           <span className="ml-[10px]">Settings and Privacy</span>
         </div>
         <ChevronRightIcon className="h-6 text-gray-600" />
       </div>
-      <div>
-        <span onClick={() => setTheme(colorTheme)}>Light Mode</span>
+      <div className="flex items-center justify-between  p-2">
+        <div className="flex items-center ">
+          {darkModeChecked ? (
+            <span className="p-2 rounded-full bg-gray-100">
+              <MoonIcon className="h-6 text-black" />
+            </span>
+          ) : (
+            <span className="p-2 rounded-full bg-gray-100">
+              <SunIcon className="h-6 text-black" />
+            </span>
+          )}
+          <span className="ml-[10px]">
+            {colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}
+          </span>
+        </div>
+        <div>
+          <span
+            onClick={() => inputRef.current.click()}
+            className={`rounded-full w-[70px] h-[40px]  p-2  flex items-center ${
+              darkModeChecked ? 'bg-gray-700' : 'bg-white border'
+            }`}
+          >
+            <span
+              className={` rounded-full transition-all transform duration-200 ease-in-out bg-white w-[25px] h-[25px]
+             ${darkModeChecked ? ' bg-white translate-x-full' : 'bg-gray-700'}
+          `}
+            ></span>
+          </span>
+          <input
+            type="checkbox"
+            hidden
+            ref={inputRef}
+            value={darkModeChecked}
+            onClick={(e) => {
+              setTheme(colorTheme);
+              setDarkModeChecked(!darkModeChecked);
+            }}
+          />
+        </div>
       </div>
       <div
         onClick={() => handleUserLogout(email)}
         className="cursor-pointer flex items-center hover:bg-gray-100 rounded-md p-2"
       >
         <span className="p-2 rounded-full bg-gray-100">
-          <LogoutIcon className="h-6" />
+          <LogoutIcon className="h-6 text-black" />
         </span>
         <span className="ml-[10px]">Logout</span>
       </div>

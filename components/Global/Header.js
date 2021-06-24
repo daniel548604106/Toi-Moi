@@ -78,7 +78,7 @@ const Header = () => {
             width="40"
             height="40"
           />
-          <p className="pr-2 text-sm text-gray-600 whitespace-nowrap hidden xl:block">
+          <p className="pr-2 text-sm  whitespace-nowrap hidden xl:block">
             {userInfo.name}
           </p>
         </div>
