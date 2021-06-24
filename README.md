@@ -5,6 +5,8 @@
 # Toi & Moi (You & Me)
 
 Toi&Moi is a fullstack social platform designated to connect people from distances away, users are able to build their own profile and connect with people from around the world  with realtime messaging and friend system.  (Idea originated from starting a Facebook clone)
+
+⭐  Live Demo   (https://toi-moi.herokuapp.com/)
 ## Screenshots
 
 ![App Screenshot](https://ik.imagekit.io/4liibdxmxfn/images/users/user-peter548604106-cover-1624548236774_5Z3g7HK3Qq)
@@ -35,13 +37,13 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
 ✨ MongoDB
 
   
-## Demo
-
-Insert gif or link to demo
-  
 ## Deployment
 
 🌟 **Heroku**
 － Easy to maintain and operate. Suitable for traffical level of a non-product website.
 
   
+## Demo
+
+Live Demo
+  https://toi-moi.herokuapp.com/
