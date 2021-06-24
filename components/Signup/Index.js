@@ -141,7 +141,7 @@ const Index = ({ setSignupOpen }) => {
   return (
     <form
       onClick={(e) => e.stopPropagation()}
-      className="relative bg-secondary text-secondary shadow-lg rounded-lg w-full max-w-[500px]"
+      className="bg-white relative shadow-lg rounded-lg w-full max-w-[500px]"
     >
       <span
         onClick={() => setSignupOpen(false)}
@@ -297,7 +297,7 @@ const Index = ({ setSignupOpen }) => {
         <div className="flex items-center justify-center">
           <button
             onClick={(e) => handleSignup(e)}
-            className="text-lg font-semibold bg-green-400 text-secondary rounded-md w-[200px] p-2 mx-auto"
+            className="text-lg font-semibold bg-main-yellow text-white text-secondary rounded-md w-[200px] p-2 mx-auto"
           >
             {isLoading ? <Loader /> : 'SIGN UP'}{' '}
           </button>

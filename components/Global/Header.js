@@ -50,7 +50,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="fixed top-[60px] left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed top-[60px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           title="home"
           href="/"
