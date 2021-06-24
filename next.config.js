@@ -11,7 +11,7 @@ module.exports = {
   env: {
     BASE_URL:
       process.env.NODE_ENV === 'production'
-        ? 'https://daniel-fullstack-facebook.herokuapp.com'
+        ? 'https://toi-moi.herokuapp.com'
         : 'http://localhost:3000'
   },
   webpack(config) {
