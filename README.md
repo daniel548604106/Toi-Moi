@@ -22,6 +22,8 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
 
 
 🌎    i18n - Internationalization
+![螢幕錄製-2021-06-25-下午7 33 28](https://user-images.githubusercontent.com/61279365/123419339-b0caa200-d5ec-11eb-9c5f-e40fd2788e84.gif)
+
 
 🌗    Light/dark mode toggle
 
