@@ -1,0 +1,21 @@
+{
+  "language": "Language",
+  "settings&privacy": "Settings & Privacy",
+  "lightMode": "Light Mode",
+  "darkMode": "Dark Mode",
+  "logOut": "Log out",
+  "checkOutYourProfile": "View Your Profile",
+  "searchMessenger": "Search In Messenger",
+  "viewAllInMessenger": "View All In Messenger",
+  "seeAll": "See All",
+  "commentedOnYourPost": "commented on your post",
+  "likedYourPost": "liked your post",
+  "create": "Create",
+  "post": "Post",
+  "notification": "Notification",
+  "account": "Account",
+  "search": "Search",
+  "story": "Story",
+  "sharePost": "Share on your post",
+  "shareVideoOrWriteSth": "Share video or write something"
+}

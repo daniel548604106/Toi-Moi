@@ -227,7 +227,7 @@ const Index = (props) => {
     }
   }, []);
   return (
-    <div className="flex bg-primary text-primary">
+    <div className="flex bg-primary h-screen pt-[56px] text-primary">
       <div className="w-full hidden sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col ">
         <ChatroomSidebarHeader
           setSearchText={setSearchText}

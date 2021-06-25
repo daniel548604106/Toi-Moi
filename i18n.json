@@ -2,6 +2,6 @@
   "locales": ["en-US", "zh-tw"],
   "defaultLocale": "en-US",
   "pages": {
-    "*": ["common"]
+    "*": ["common", "header"]
   }
 }

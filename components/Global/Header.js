@@ -1,7 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
 import {
-  SearchIcon,
   PlayIcon,
   FlagIcon,
   ShoppingCartIcon,
@@ -27,12 +26,14 @@ import MessageDropDown from './MessageDropDown';
 import CreateDropDown from './CreateDropDown';
 import Search from './Search';
 import NotificationDropDown from './NotificationDropDown';
+import useTranslation from 'next-translate/useTranslation';
 const Header = () => {
   const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
+  const { t } = useTranslation('header');
 
   return (
-    <div className="flex items-center sticky left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3  sm:px-5 ">
+    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3  sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <Image
@@ -43,7 +44,7 @@ const Header = () => {
             height={40}
             layout="fixed"
           />
-          <Search />
+          <Search t={t} />
           <div className="block md:hidden">
             <HeaderIcon Icon={MenuIcon} />
           </div>
@@ -75,8 +76,8 @@ const Header = () => {
             className="cursor-pointer object-cover mr-2 rounded-full"
             layout="fixed"
             src={userInfo.profileImage || genderAvatar(userInfo.gender)}
-            width="40"
-            height="40"
+            width="35"
+            height="35"
           />
           <p className="pr-2 text-sm  whitespace-nowrap hidden xl:block">
             {userInfo.name}
@@ -85,23 +86,23 @@ const Header = () => {
         <div className="hidden md:block">
           <DropDownMenuIcon title="Create" Icon={PlusIcon}>
             <DropDownMenu>
-              <CreateDropDown />
+              <CreateDropDown t={t} />
             </DropDownMenu>
           </DropDownMenuIcon>
         </div>
         <DropDownMenuIcon title="Notification" Icon={BellIcon}>
           <DropDownMenu>
-            <NotificationDropDown />
+            <NotificationDropDown t={t} />
           </DropDownMenu>
         </DropDownMenuIcon>
         <DropDownMenuIcon title="Messenger" Icon={ChatIcon}>
           <DropDownMenu>
-            <MessageDropDown />
+            <MessageDropDown t={t} />
           </DropDownMenu>
         </DropDownMenuIcon>
         <DropDownMenuIcon title="Account" Icon={ChevronDownIcon}>
           <DropDownMenu>
-            <AccountDropDown />
+            <AccountDropDown t={t} />
           </DropDownMenu>
         </DropDownMenuIcon>
       </div>

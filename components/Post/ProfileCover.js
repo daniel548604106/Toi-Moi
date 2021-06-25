@@ -55,12 +55,12 @@ const ProfileCover = ({ user, profile }) => {
         </button>
         <div className="flex items-center">
           {isLoggedInUser ? (
-            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-main text-secondary">
+            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-main text-white">
               <PlusIcon className=" text-sm h-6 mr-[10px]" />
               Add Stories
             </button>
           ) : (
-            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-main text-secondary">
+            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-main text-white">
               <UserIcon className=" text-sm h-6 mr-[10px]" />
               Add Friend
             </button>

@@ -25,7 +25,7 @@ const PostLayout = ({ post, profile, notifications }) => {
           <Post post={post} />
         </div>
       </div>
-      <div className="sticky self-start top-[64px] overflow-y-auto border w-[30%] hidden lg:block fullBodyHeight  p-3 py-5 bg-secondary text-secondary min-w-[350px]">
+      <div className="sticky self-start top-[50px] overflow-y-auto border w-[30%] hidden lg:block fullBodyHeight  p-3 py-5 bg-secondary text-secondary min-w-[350px]">
         <div className=" flex items-center justify-between px-2">
           <h2 className="text-2xl font-semibold">Notifications</h2>
           <span className="cursor-pointer rounded-full p-2 bg-secondary text-secondary hover:shadow-lg">

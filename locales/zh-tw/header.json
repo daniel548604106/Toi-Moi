@@ -1,0 +1,21 @@
+{
+  "language": "語言",
+  "settings&privacy": "設定與隱私",
+  "lightMode": "明亮模式",
+  "darkMode": "暗黑模式",
+  "logOut": "登出",
+  "checkOutYourProfile": "查看你的個人檔案",
+  "searchMessenger": "搜尋 Messenger",
+  "viewAllInMessenger": "到 Messenger 查看全部",
+  "seeAll": "查看全部",
+  "commentedOnYourPost": "在你的貼文留言",
+  "likedYourPost": "對你的貼文說讚",
+  "create": "創建",
+  "notification": "通知",
+  "account": "帳戶",
+  "post": "貼文",
+  "search": "搜尋",
+  "story": "限時動態",
+  "sharePost": "在動態消息分享貼文",
+  "shareVideoOrWriteSth": "分享影片或是寫點內容"
+}

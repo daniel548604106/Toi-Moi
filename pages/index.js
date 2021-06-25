@@ -76,7 +76,7 @@ export default function Home({ posts, chats }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className=" w-full fullBodyHeight relative flex justify-between p-3">
+      <main className=" w-full pt-[70px] relative flex justify-between p-3">
         <div className="w-1/2 hidden lg:block">
           <Sidebar />
         </div>

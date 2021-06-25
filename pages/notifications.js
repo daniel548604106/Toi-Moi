@@ -19,7 +19,7 @@ const Index = ({ notifications }) => {
     readNotifications();
   }, []);
   return (
-    <div className="fullBodyHeight py-[50px]">
+    <div className="min-h-screen py-[80px]">
       <div className="p-3 rounded-xl w-full max-w-[600px]  mx-auto bg-secondary text-secondary shadow-lg">
         <div className="flex items-center justify-between mb-[20px]">
           <h2 className="font-semibold text-2xl">Notification</h2>

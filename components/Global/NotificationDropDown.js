@@ -4,7 +4,7 @@ import { apiGetNotifications } from '../../api/index';
 import CommentNotification from '../Notifications/CommentNotification';
 import FriendNotification from '../Notifications/FriendNotification';
 import LikeNotification from '../Notifications/LikeNotification';
-const NotificationDropDown = () => {
+const NotificationDropDown = ({ t }) => {
   const router = useRouter();
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
@@ -22,27 +22,27 @@ const NotificationDropDown = () => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Notification</h2>
+        <h2 className="text-2xl font-semibold">{t('notification')}</h2>
 
         <span
           onClick={() => router.push('/notifications')}
           className="text-main cursor-pointer text-sm"
         >
-          See All
+          {t('seeAll')}
         </span>
       </div>
       {notifications.length > 0 ? (
         notifications.map((notification) => (
           <div key={notification._id}>
             {notification.type === 'newLike' && (
-              <LikeNotification notification={notification} />
+              <LikeNotification t={t} notification={notification} />
             )}
             {notification.type === 'newComment' && (
-              <CommentNotification notification={notification} />
+              <CommentNotification t={t} notification={notification} />
             )}
             {(notification.type === 'newFriendAccepted' ||
               notification.type === 'newFriendInvitation') && (
-              <FriendNotification notification={notification} />
+              <FriendNotification t={t} notification={notification} />
             )}
           </div>
         ))

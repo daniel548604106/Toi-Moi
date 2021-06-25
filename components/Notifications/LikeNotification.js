@@ -5,7 +5,7 @@ import { DotsHorizontalIcon, ThumbUpIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
-const LikeNotification = ({ notification }) => {
+const LikeNotification = ({ notification, t }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
   const handleReadNotification = async (notificationId) => {
@@ -38,7 +38,7 @@ const LikeNotification = ({ notification }) => {
         <div className=" ml-[10px]">
           <p className="text-sm">
             <span className="font-semibold">{notification.user.name}</span>{' '}
-            likes your post
+            {t('likedYourPost')}
           </p>
           <p
             className={`text-xs  ${
