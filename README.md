@@ -16,7 +16,7 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
 
 📱    Realtime Communication & Notification
 
-![Uploading 截圖 2021-06-25 上午10.58.02.png…]()
+![截圖 2021-06-25 上午10 58 02](https://user-images.githubusercontent.com/61279365/123364315-c87f3780-d5a6-11eb-95ac-190f17b9e6c9.png)
 
 ![螢幕錄製-2021-06-25-上午10 53 21](https://user-images.githubusercontent.com/61279365/123363915-147dac80-d5a6-11eb-99ec-b06e194dc3c8.gif)
 
