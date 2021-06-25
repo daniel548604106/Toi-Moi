@@ -22,10 +22,10 @@ const Header = ({ searchText, t, setSearchText, addChat }) => {
           Messenger
         </h2>
         <div className="flex items-center">
-          <span className="p-2 rounded-full bg-button text-button">
+          <span className="p-2 rounded-full bg-button text-secondary">
             <PencilAltIcon className="h-5 w-5  cursor-pointer  rounded-full" />
           </span>
-          <span className="p-2 ml-[5px] rounded-full bg-button text-button">
+          <span className="p-2 ml-[5px] rounded-full bg-button text-secondary">
             <VideoCameraIcon className="h-5 w-5  cursor-pointer   rounded-full" />
           </span>
         </div>
