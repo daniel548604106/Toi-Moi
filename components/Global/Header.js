@@ -32,7 +32,7 @@ const Header = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
-    <div className="flex items-center sticky left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md p-1 sm:px-5 ">
+    <div className="flex items-center sticky left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3  sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <Image
@@ -50,7 +50,7 @@ const Header = () => {
         </div>
       </div>
 
-      <div className="fixed top-[60px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           title="home"
           href="/"

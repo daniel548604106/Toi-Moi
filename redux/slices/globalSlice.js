@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 export const globalSlice = createSlice({
   name: 'global',
   initialState: {
-    isSearchBarOpen: false
+    isSearchBarOpen: false,
+    isLanguageOpen: false
   },
   reducers: {
     // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -12,11 +13,15 @@ export const globalSlice = createSlice({
     // immutable state based off those changes
     toggleSearchBar: (state) => {
       state.isSearchBarOpen = !state.isSearchBarOpen;
+    },
+    toggleLanguageOpen: (state) => {
+      state.isLanguageOpen = !state.isLanguageOpen;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { toggleSearchBar, setLikesListOpen } = globalSlice.actions;
+export const { toggleSearchBar, setLikesListOpen, toggleLanguageOpen } =
+  globalSlice.actions;
 
 export default globalSlice.reducer;

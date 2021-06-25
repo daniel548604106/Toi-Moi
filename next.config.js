@@ -1,12 +1,15 @@
 module.exports = {
   images: {
     domains: [
-      'links.papareact.com',
       'platform-lookaside.fbsbx.com',
       'images.unsplash.com',
       'ik.imagekit.io',
       'image.flaticon.com'
     ]
+  },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'zh-tw']
   },
   env: {
     BASE_URL:

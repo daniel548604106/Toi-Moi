@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'next-i18next';
+
 import io from 'socket.io-client';
 import Head from 'next/head';
 import Sidebar from '../components/Home/Sidebar';
@@ -10,6 +12,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
 import genderAvatar from '../utils/genderAvatar';
 export default function Home({ posts, chats }) {
+  const { t } = useTranslation('common');
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts);
   const [currentChats, setCurrentChats] = useState(chats);
