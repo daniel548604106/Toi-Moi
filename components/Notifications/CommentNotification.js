@@ -5,8 +5,9 @@ import { DotsHorizontalIcon, ChatAlt2Icon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
-
-const CommentNotification = ({ notification, t }) => {
+import useTranslation from 'next-translate/useTranslation';
+const CommentNotification = ({ notification }) => {
+  const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
   const handleReadNotification = async (notificationId) => {

@@ -7,7 +7,7 @@ const ChatroomMainRoom = ({
   user
 }) => {
   return (
-    <div className="chatRoomHeight overflow-y-auto border-b p-5">
+    <div className="flex-1 overflow-y-auto border-b p-5">
       {messages.map((message) => (
         <div ref={divRef} key={message.date} className="flex items-center mb-3">
           {message.sender !== user._id && receiverProfileImage && (
