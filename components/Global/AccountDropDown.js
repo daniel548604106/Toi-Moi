@@ -7,7 +7,9 @@ import {
   MoonIcon,
   SunIcon
 } from '@heroicons/react/solid';
+import { GlobeIcon } from '@heroicons/react/outline';
 import { setUserLogout } from '../../redux/slices/userSlice';
+import { toggleLanguageOpen } from '../../redux/slices/globalSlice';
 import Image from 'next/image';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
@@ -56,6 +58,17 @@ const AccountPopup = () => {
           <span className="ml-[10px]">Settings and Privacy</span>
         </div>
         <ChevronRightIcon className="h-6 text-gray-600" />
+      </div>
+      <div
+        onClick={() => dispatch(toggleLanguageOpen())}
+        className="cursor-pointer flex justify-between items-center hover:bg-gray-100 rounded-md p-2"
+      >
+        <div className="flex items-center">
+          <span className="p-2 rounded-full bg-gray-100">
+            <GlobeIcon className="h-6 text-black" />
+          </span>
+          <span className="ml-[10px]">Language</span>
+        </div>
       </div>
       <div className="flex items-center justify-between  p-2">
         <div className="flex items-center ">

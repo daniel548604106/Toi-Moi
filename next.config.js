@@ -1,13 +1,15 @@
-module.exports = {
+const nextTranslate = require('next-translate');
+
+module.exports = nextTranslate({
   images: {
     domains: [
-      'links.papareact.com',
       'platform-lookaside.fbsbx.com',
       'images.unsplash.com',
       'ik.imagekit.io',
       'image.flaticon.com'
     ]
   },
+
   env: {
     BASE_URL:
       process.env.NODE_ENV === 'production'
@@ -25,4 +27,4 @@ module.exports = {
 
     return config;
   }
-};
+});

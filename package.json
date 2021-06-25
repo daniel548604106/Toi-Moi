@@ -22,7 +22,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^5.12.13",
     "next": "10.2.3",
-    "next-auth": "^3.26.1",
+    "next-translate": "^1.0.7",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "nookies": "^2.5.2",
     "react": "17.0.2",
