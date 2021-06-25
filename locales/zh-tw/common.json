@@ -1,0 +1,29 @@
+{
+  "Hello": "你好",
+  "sidebar":{
+    "language": "語言設定",
+    "friends": "朋友",
+    "marketPlace": "商城",
+    "groups": "社團",
+    "saved": "典藏",
+    "friendList": "朋友名單",
+    "fanPage": "粉絲專頁",
+    "seeMore": "查看更多",
+    "favorite": "最愛",
+    "events": "活動"
+  },
+  "post":{
+    "whatAreYouThinking": "你有什麼想法嗎？",
+    "liveStreaming": "直播",
+    "photo/video": "照片/影片",
+    "feeling/activity":"感受/活動",
+    "changedProfileCover": "更換封面圖片",
+    "like": "讚",
+    "comment": "留言",
+    "share": "分享",
+    "addComment":"新增留言"
+  },
+  "contact":{
+    "contact": "聯絡人"
+  }
+}

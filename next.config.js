@@ -1,4 +1,6 @@
-module.exports = {
+const nextTranslate = require('next-translate');
+
+module.exports = nextTranslate({
   images: {
     domains: [
       'platform-lookaside.fbsbx.com',
@@ -7,10 +9,7 @@ module.exports = {
       'image.flaticon.com'
     ]
   },
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'zh-tw']
-  },
+
   env: {
     BASE_URL:
       process.env.NODE_ENV === 'production'
@@ -28,4 +27,4 @@ module.exports = {
 
     return config;
   }
-};
+});

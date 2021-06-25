@@ -13,8 +13,6 @@ import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 import EditSummaryModal from '../components/Profile/EditSummaryModal';
 import router from 'next/router';
 import Cookies from 'js-cookie';
-// i18n
-import { appWithTranslation } from 'next-i18next';
 
 // Redux Persist
 import { PersistGate } from 'redux-persist/integration/react';
@@ -85,4 +83,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default appWithTranslation(MyApp);
+export default MyApp;

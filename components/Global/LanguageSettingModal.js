@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import { XIcon } from '@heroicons/react/outline';
 import { useDispatch } from 'react-redux';
 import { toggleLanguageOpen } from '../../redux/slices/globalSlice';
+import useTranslation from 'next-translate/useTranslation';
 import Link from 'next/link';
 import router from 'next/router';
 const LanguageSettingModal = () => {
   const [currentLanguage, setCurrentLanguage] = useState(router.locale);
   const dispatch = useDispatch();
+  let { t } = useTranslation('common');
   const languages = [
     {
       name: 'English',
-      id: 'en'
+      id: 'en-US'
     },
     {
       name: '繁體中文',
@@ -19,7 +21,7 @@ const LanguageSettingModal = () => {
   ];
   return (
     <div className="relative w-full max-w-[400px] rounded-lg p-5 bg-secondary text-secondary">
-      <h2 className="text-2xl font-semibold mb-3">Language Setting</h2>
+      <h2 className="text-2xl font-semibold mb-3">{t('language')}</h2>
       <span
         onClick={() => dispatch(toggleLanguageOpen())}
         className="cursor-pointer absolute top-3 right-3 rounded-full p-2 bg-secondary text-secondary"
