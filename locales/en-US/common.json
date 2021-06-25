@@ -1,6 +1,13 @@
 {
   "Hello": "Hello",
-  "sidebar":{
+  "seeMore": "See More",
+  "languageSetting": "Language Setting",
+  "ago": "ago",
+  "day": "day",
+  "week": "week",
+  "month": "month",
+  "year": "year",
+  "sidebar": {
     "language": "Language Setting",
     "friends": "Friends",
     "marketPlace": "Market Place",
@@ -12,19 +19,20 @@
     "favorite": "Favorite",
     "events": "Events"
   },
-  "post":{
+  "post": {
     "whatAreYouThinking": "What's on your mind",
-    "liveStreaming": "Live Stream",
+    "liveStream": "Live Stream",
     "photo/video": "Photo/Video",
-    "feeling/activity":"Feeling/activity",
+    "feeling/activity": "Feeling/activity",
     "changedProfileCover": "Changed Profile Cover",
     "like": "Like",
     "comment": "Comment",
     "share": "Share",
-    "addComment":"Add Comment"
+    "addComment": "Add Comment",
+    "commentTotal": "comment",
+    "reply": "Reply"
   },
-  "contact":{
+  "contact": {
     "contact": "Contact"
   }
-  
 }

@@ -10,7 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import { ThumbUpIcon, TrashIcon } from '@heroicons/react/solid';
 import genderAvatar from '../../../utils/genderAvatar';
-const Comment = ({ setComments, comments, postId, comment }) => {
+const Comment = ({ setComments, comments, postId, comment, t }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const isCommentLiked =
     comment.likes.length > 0 &&
@@ -87,17 +87,17 @@ const Comment = ({ setComments, comments, postId, comment }) => {
               onClick={() => handleUnlikeComment(comment._id)}
               className="cursor-pointer text-main"
             >
-              like
+              {t('post.like')}
             </span>
           ) : (
             <span
               onClick={() => handleLikeComment(comment._id)}
               className="cursor-pointer"
             >
-              like
+              {t('post.like')}
             </span>
           )}
-          <span className="cursor-pointer ml-[5px]">reply</span>
+          <span className="cursor-pointer ml-[5px]">{t('post.reply')}</span>
           <span className="text-xs text-gray-600 ml-[5px]">
             {timeDiff(comment.date)}
           </span>

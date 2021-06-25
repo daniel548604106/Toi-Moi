@@ -22,8 +22,10 @@ import {
 import { useRouter } from 'next/router';
 import Comment from './Comment';
 import genderAvatar from '../../../utils/genderAvatar';
+import useTranslation from 'next-translate/useTranslation';
 const Post = ({ post }) => {
   const router = useRouter();
+  const { t } = useTranslation('common');
   const userInfo = useSelector((state) => state.user.userInfo);
   const isViewPostModalOpen = useSelector(
     (state) => state.post.isViewPostModalOpen
@@ -116,12 +118,16 @@ const Post = ({ post }) => {
                 </span>
                 {post.type === 'profileCover' && (
                   <span className=" ml-[5px] text-xs text-gray-600">
-                    Changed profile cover
+                    {t('post.changedProfileCover')}
                   </span>
                 )}
               </p>
               <p className="text-xs text-gray-600 hover:underline cursor-pointer">
-                {timeDiff(post.updatedAt)}
+                {timeDiff(post.updatedAt).split(' ')[0]}
+                <span className={router.locale === 'zh-tw' ? 'mx-0' : 'mx-1'}>
+                  {t(timeDiff(post.updatedAt).split(' ')[1])}
+                </span>
+                {t('ago')}
               </p>
             </div>
           </div>
@@ -155,17 +161,19 @@ const Post = ({ post }) => {
             onClick={() => handleLikesListOpen(post._id)}
             className="flex items-center cursor-pointer hover:underline"
           >
-            <span className="rounded-full p-1 bg-main text-secondary">
-              <SolidThumbUpIcon className="h-2 " />
+            <span className="rounded-full p-1 bg-main text-white">
+              <SolidThumbUpIcon className="h-3 " />
             </span>
             <span className="text-gray-600 ml-[3px] ">{likes.length}</span>
           </div>
         )}
         <div>
           {comments.length > 0 && (
-            <span className="text-gray-600 cursor-pointer hover:underline">
+            <span className="text-gray-600 lowercase cursor-pointer hover:underline">
               {comments.length}
-              {comments.length === 1 ? ' comment' : ' comments'}
+              {comments.length === 1
+                ? t('post.commentTotal')
+                : t('post.commentTotal')}
             </span>
           )}
         </div>
@@ -178,7 +186,9 @@ const Post = ({ post }) => {
             className="rounded-md  flex items-center justify-center p-2 hover:bg-gray-100 flex-1  cursor-pointer text-main"
           >
             <SolidThumbUpIcon className="h-4 " />
-            <span className="text-sm sm:text-md ml-[10px]">Like</span>
+            <span className="text-sm sm:text-md ml-[10px]">
+              {t('post.like')}
+            </span>
           </div>
         ) : (
           <div
@@ -186,16 +196,22 @@ const Post = ({ post }) => {
             className="rounded-md flex items-center justify-center  p-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400"
           >
             <OutlineThumbUpIcon className="h-4  " />
-            <span className="text-sm sm:text-md ml-[10px]"> Like</span>
+            <span className="text-sm sm:text-md ml-[10px]">
+              {t('post.like')}
+            </span>
           </div>
         )}
         <div className="rounded-md  flex items-center justify-center p-2  hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
           <AnnotationIcon className="h-4  " />
-          <span className="text-sm sm:text-md ml-[10px]">Comment</span>
+          <span className="text-sm sm:text-md ml-[10px]">
+            {t('post.comment')}
+          </span>
         </div>
         <div className="rounded-md flex items-center justify-center  p-2 hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
           <ShareIcon className="h-4 " />
-          <span className="text-sm sm:text-md ml-[10px]">Share</span>
+          <span className="text-sm sm:text-md ml-[10px]">
+            {t('post.share')}
+          </span>
         </div>
       </div>
       <div className="p-1 flex items-center">
@@ -210,7 +226,7 @@ const Post = ({ post }) => {
             onChange={(e) => setText(e.target.value)}
             value={text}
             type="text"
-            placeholder="Add Comment..."
+            placeholder={t('post.addComment')}
             className="border focus:outline-none   text-sm ml-[10px] rounded-full w-full px-[10px] py-[10px]"
           />
         </form>
@@ -219,6 +235,7 @@ const Post = ({ post }) => {
         comments.slice(0, commentLength).map((comment) => (
           <div key={comment._id} className=" p-1 w-full">
             <Comment
+              t={t}
               comments={comments}
               setComments={setComments}
               postId={post._id}
@@ -231,7 +248,7 @@ const Post = ({ post }) => {
           onClick={() => setCommentLength(commentLength + 5)}
           className="inline-block text-xs cursor-pointer"
         >
-          查看更多
+          {t('seeMore')}
         </span>
       )}
     </div>

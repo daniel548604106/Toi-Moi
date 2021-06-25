@@ -1,6 +1,14 @@
 {
   "Hello": "你好",
-  "sidebar":{
+  "seeMore": "查看更多",
+  "languageSetting": "語言設定",
+  "ago": "前",
+  "hour": "小時",
+  "day": "天",
+  "week": "星期",
+  "month": "月",
+  "year": "年",
+  "sidebar": {
     "language": "語言設定",
     "friends": "朋友",
     "marketPlace": "商城",
@@ -12,18 +20,20 @@
     "favorite": "最愛",
     "events": "活動"
   },
-  "post":{
+  "post": {
     "whatAreYouThinking": "你有什麼想法嗎？",
-    "liveStreaming": "直播",
+    "liveStream": "直播",
     "photo/video": "照片/影片",
-    "feeling/activity":"感受/活動",
-    "changedProfileCover": "更換封面圖片",
+    "feeling/activity": "感受/活動",
+    "changedProfileCover": "更換了封面圖片",
     "like": "讚",
     "comment": "留言",
     "share": "分享",
-    "addComment":"新增留言"
+    "addComment": "新增留言",
+    "commentTotal": "則留言",
+    "reply": "回覆"
   },
-  "contact":{
+  "contact": {
     "contact": "聯絡人"
   }
 }

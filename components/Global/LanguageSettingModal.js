@@ -21,7 +21,7 @@ const LanguageSettingModal = () => {
   ];
   return (
     <div className="relative w-full max-w-[400px] rounded-lg p-5 bg-secondary text-secondary">
-      <h2 className="text-2xl font-semibold mb-3">{t('language')}</h2>
+      <h2 className="text-2xl font-semibold mb-3">{t('languageSetting')}</h2>
       <span
         onClick={() => dispatch(toggleLanguageOpen())}
         className="cursor-pointer absolute top-3 right-3 rounded-full p-2 bg-secondary text-secondary"
