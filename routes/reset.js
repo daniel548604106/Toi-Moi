@@ -25,18 +25,19 @@ router.post('/', async (req, res) => {
       return res.status(404).send('User not found');
     }
     const token = crypto.randomBytes(32).toString('hex');
-    const href = `${process.env.BASE_URL}/reset/password?token=${token}`;
     user.resetToken = token;
     user.expireToken = Date.now() + 3600000; // Expire within ten minutes
     await user.save();
+
+    // Email Info
     const subject = 'Toi&Moi - Reset Password';
+    const href = `${process.env.BASE_URL}/reset/password?token=${token}`;
 
     const html = await readFile(
       path.resolve(__dirname, '../views/resetPassword', 'index.html')
     );
 
     await sendEmail({ email: user.email, subject, html });
-
     console.log('successful');
     return res.status('200').send('Email sent successfully');
   } catch (error) {
