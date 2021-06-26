@@ -30,7 +30,10 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
 ![螢幕錄製-2021-06-25-上午10 38 20](https://user-images.githubusercontent.com/61279365/123364070-5d356580-d5a6-11eb-9974-d3c3809458e7.gif)
 
    
-📧.  Customized EDM
+📧.  Customized EDM (Cross Email Service Provider Compatibile)
+
+![截圖 2021-06-26 下午2 53 07](https://user-images.githubusercontent.com/61279365/123504865-5c77fe80-d68e-11eb-9bbd-2ff42768c952.png)
+
   
 ## Tech Stack
 
