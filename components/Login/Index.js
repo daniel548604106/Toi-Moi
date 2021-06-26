@@ -64,29 +64,34 @@ const Login = () => {
         </div>
       )}
       <div className="w-full max-w-md mb-[20px] md:mb-0">
-        <Image src="/facebook_logo.svg" width={400} height={100} />
-        <h2 className="text-2xl  font-semibold">
-          Connect with friends and the world around you on Facebook.
+        <Image
+          className="w-[200px] h-[100px] sm:w-[400px] sm:h-[200px]"
+          src="/toi&moi-logo.svg"
+          width={400}
+          height={100}
+        />
+        <h2 className="text-md sm:text-2xl  font-semibold">
+          Connect with friends and the world around you on Toi&Moi.
         </h2>
       </div>
-      <div className="p-5 rounded-md text-center bg-white shadow-md w-full max-w-[450px]">
-        <form className="w-full">
-          <div className="mb-5 ">
+      <div className="p-3 sm:p-5 bg-white rounded-md text-center bg-secondary text-secondary shadow-md w-full max-w-[450px]">
+        <form className="w-full space-y-2 sm:space-y-3">
+          <div className="">
             <input
               name="email"
               onChange={(e) => handleLoginInput(e)}
-              className="w-full  block mt-2 p-3 text-lg rounded-md border"
+              className="w-full text-md  block mt-2 p-3 sm:text-lg rounded-md border"
               id="account"
               value={loginInput.email}
               type="email"
               placeholder="Account"
             />
           </div>
-          <div className="mb-5">
+          <div className="">
             <input
               name="password"
               onChange={(e) => handleLoginInput(e)}
-              className="block w-full mt-2 p-3 text-lg rounded-md border"
+              className="block  text-md w-full mt-2 p-3 sm:text-lg rounded-md border"
               id="password"
               type="password"
               value={loginInput.password}
@@ -94,25 +99,27 @@ const Login = () => {
             />
           </div>
           {error !== '' && (
-            <div className="text-red-500 my-3 relative ">{error}</div>
+            <div className="text-sm sm:text-md text-red-500 my-3 relative ">
+              {error}
+            </div>
           )}
           <button
             onClick={(e) => handleLogin(e)}
-            className="rounded-md w-full text-lg p-3 bg-blue-600 text-white"
+            className="rounded-md w-full text-md sm:text-lg p-2 sm:p-3 text-white bg-main text-secondary"
           >
             Login
           </button>
         </form>
         <span
           onClick={() => setForgotPasswordOpen(true)}
-          className="inline-block text-blue-600 my-[20px] cursor-pointer text-md"
+          className="text-sm sm:text-md inline-block text-main my-[20px] cursor-pointer text-md"
         >
           Forgot Password?
         </span>
         <hr />
         <button
           onClick={() => setSignupOpen(true)}
-          className="p-3 bg-green-500 cursor-pointer my-[20px] text-white rounded-md text-lg"
+          className="text-white  text-md sm:text-lg p-3 bg-main-yellow cursor-pointer my-3 sm:my-4 text-secondary rounded-md"
         >
           Create Account
         </button>

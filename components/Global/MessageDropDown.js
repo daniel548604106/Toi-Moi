@@ -9,7 +9,7 @@ import ToolTips from './ToolTips';
 import { apiGetChats } from '../../api';
 import { useRouter } from 'next/router';
 import MessageDropDownList from './MesseageDropDownList';
-const MessageDropDown = () => {
+const MessageDropDown = ({ t }) => {
   const [messages, setMessages] = useState([]);
   const router = useRouter();
   useEffect(() => {
@@ -47,7 +47,7 @@ const MessageDropDown = () => {
         <input
           className="bg-gray-100 focus:outline-none"
           type="text"
-          placeholder="搜尋 messenger"
+          placeholder={t('searchMessenger')}
         />
       </div>
       {messages.length > 0 ? (
@@ -60,9 +60,9 @@ const MessageDropDown = () => {
 
       <div
         onClick={() => router.push('/messages')}
-        className="border-t pt-2 text-blue-600 text-center hover:underline cursor-pointer"
+        className="border-t pt-2 text-main text-center hover:underline cursor-pointer"
       >
-        到 Messenger 查看全部
+        {t('viewAllInMessenger')}
       </div>
     </div>
   );

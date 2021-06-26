@@ -16,7 +16,7 @@ const SidebarListItem = ({ Icon, title, lists, param }) => {
       <div className="flex items-center">
         <span
           className={`rounded-full p-2 bg-gray-100 mr-[20px] ${
-            isActive && 'bg-blue-600 text-white'
+            isActive && 'bg-main text-secondary'
           }`}
         >
           <Icon className="h-6" />

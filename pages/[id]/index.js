@@ -46,16 +46,16 @@ const Index = ({ profileData, postsData, friends }) => {
   }, [router.query.id]);
 
   return (
-    <div>
+    <div className="pt-[60px] bg-primary text-primary">
       <div className="bg-gradient-to-b from-gray-400 via-white to-white">
         <ProfileCover profile={profile} user={user} />
       </div>
-      <div className="bg-white sticky top-[60px] border-b z-30">
-        <div className=" max-w-7xl mx-auto bg-white self-start ">
+      <div className="bg-secondary text-secondary sticky top-[50px] border-b z-30">
+        <div className=" max-w-7xl mx-auto bg-secondary text-secondary self-start ">
           <TabsList friends_total={friends.friends_total} user={user} />
         </div>
       </div>
-      <main className="max-w-7xl mx-auto p-4 bg-[#fafafa] flex-col lg:flex-row  flex justify-center">
+      <main className="max-w-7xl mx-auto p-4  flex-col lg:flex-row  flex justify-center">
         <div className="w-full md:mr-[10px] sticky bottom-0  self-end">
           <Summary />
           <Photos />

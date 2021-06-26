@@ -16,7 +16,7 @@ const EditSummaryModal = () => {
   };
 
   return (
-    <div className="relative bg-white rounded-md flex flex-col  w-full max-w-[600px] max-h-screen  sm:max-h-[70vh] h-full">
+    <div className="relative bg-secondary text-secondary rounded-md flex flex-col  w-full max-w-[600px] max-h-screen  sm:max-h-[70vh] h-full">
       <div className="flex p-3 border-b items-center justify-center">
         <h2 className="text-xl font-semibold">Edit Summary</h2>
       </div>
@@ -91,7 +91,7 @@ const EditSummaryModal = () => {
           >
             Cancel
           </button>
-          <button className="rounded-md p-2 text-sm ml-[10px] w-[100px] bg-blue-600 text-white">
+          <button className="rounded-md p-2 text-sm ml-[10px] w-[100px] bg-main text-secondary">
             Save
           </button>
         </div>

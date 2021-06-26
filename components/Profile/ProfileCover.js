@@ -97,11 +97,11 @@ const ProfileCover = ({ user, profile }) => {
   }, [profile]);
 
   return (
-    <div className=" bg-white ">
+    <div className=" bg-secondary text-secondary ">
       <div className="max-w-7xl mx-auto relative">
         {isCoverImageEditable && (
           <div className="absolute top-0 w-full left-0 z-30 flex items-center justify-between p-3 bg-black bg-opacity-10">
-            <div className="flex items-center text-white">
+            <div className="flex items-center text-secondary">
               <GlobeIcon className="h-6" />
               <p className="text-sm ml-[5px]">
                 Your Cover Photo Will Be Visible To Everyone
@@ -116,7 +116,7 @@ const ProfileCover = ({ user, profile }) => {
               </button>
               <button
                 onClick={() => handleSaveImageChanges()}
-                className="ml-[10px] text-white bg-blue-600  rounded-md py-2 px-4"
+                className="ml-[10px] text-white bg-main  rounded-md py-2 px-4"
               >
                 {isLoading ? <Loader /> : 'Save Changes'}
               </button>
@@ -139,7 +139,7 @@ const ProfileCover = ({ user, profile }) => {
           {isEditable && (
             <span
               onClick={(e) => handleEditCover(e)}
-              className="px-4 py-2 absolute bottom-5 hover:shadow-xl cursor-pointer rounded-md right-5 bg-white"
+              className="px-4 py-2 absolute bottom-5 hover:shadow-xl cursor-pointer rounded-md right-5 bg-secondary text-secondary"
             >
               <CameraIcon className="h-6 " />
               <input

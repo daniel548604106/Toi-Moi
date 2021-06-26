@@ -5,7 +5,7 @@ import SidebarListItem from '../Activity/SidebarListItem';
 const SidebarLIst = ({ filterList }) => {
   const router = useRouter();
   return (
-    <div className="bg-white p-5 h-full border-r">
+    <div className="bg-secondary text-secondary p-5 h-full border-r">
       <div className="flex items-center">
         <span className="text-gray-400 ">{router.query.q}'s</span>
         <h2 className="text-xl font-semibold ml-[5px]">Search Result</h2>

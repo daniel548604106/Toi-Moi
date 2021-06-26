@@ -13,7 +13,7 @@ const Header = ({ openChatUser, connectedUsers }) => {
     connectedUsers.filter((user) => user.userId === router.query.message)
       .length > 0;
   return (
-    <div className="border-b-2 flex items-center justify-between p-2 sm:p-3">
+    <div className=" border-b-2 flex items-center justify-between p-2 sm:p-3">
       <div className="flex items-center">
         {openChatUser.profileImage && (
           <Image
@@ -31,9 +31,9 @@ const Header = ({ openChatUser, connectedUsers }) => {
         </div>
       </div>
       <div className="flex items-center space-x-3">
-        <PhoneIcon className="h-6 text-blue-600 cursor-pointer" />
-        <VideoCameraIcon className="h-6 text-blue-600 cursor-pointer" />
-        <InformationCircleIcon className="h-6 text-blue-600 cursor-pointer" />
+        <PhoneIcon className="h-6 text-main cursor-pointer" />
+        <VideoCameraIcon className="h-6 text-main cursor-pointer" />
+        <InformationCircleIcon className="h-6 text-main cursor-pointer" />
       </div>
     </div>
   );

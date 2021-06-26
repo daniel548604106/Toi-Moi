@@ -5,8 +5,9 @@ import { DotsHorizontalIcon, ChatAlt2Icon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
-
+import useTranslation from 'next-translate/useTranslation';
 const CommentNotification = ({ notification }) => {
+  const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
   const handleReadNotification = async (notificationId) => {
@@ -23,7 +24,7 @@ const CommentNotification = ({ notification }) => {
   return (
     <div
       onClick={() => handleReadNotification(notification._id)}
-      className="group relative w-full  p-2 rounded-lg hover:bg-gray-100 justify-between cursor-pointer mb-2 flex items-center"
+      className="group  relative w-full  p-2 rounded-lg  justify-between cursor-pointer mb-2 flex items-center"
     >
       <div className="flex items-center">
         <span className="relative">
@@ -33,32 +34,30 @@ const CommentNotification = ({ notification }) => {
             height={60}
             src={notification.user.profileImage}
           />
-          <span className="absolute bottom-1 right-0 rounded-full bg-green-400 text-white p-1">
+          <span className="absolute bottom-1 right-0 rounded-full text-white bg-green-400 text-secondary p-1">
             <ChatAlt2Icon className="h-4" />
           </span>
         </span>
         <div className=" ml-[10px]">
-          <p className="text-sm text-gray-600">
-            <span className="text-black font-semibold">
-              {notification.user.name}
-            </span>{' '}
-            commented your post
+          <p className="text-sm ">
+            <span className=" font-semibold">{notification.user.name}</span>{' '}
+            {t('commentedOnYourPost')}
           </p>
           <p
             className={`text-xs ${
-              !notification.isNotificationRead && 'text-blue-600'
-            } text-gray-500 `}
+              !notification.isNotificationRead && 'text-main'
+            }  `}
           >
             {timeDiff(notification.date)}
           </p>{' '}
         </div>
       </div>
       <div className="flex items-center">
-        <div className="hidden group-hover:block rounded-full cursor-pointer bg-white  border p-2">
+        <div className="hidden group-hover:block rounded-full cursor-pointer bg-secondary text-secondary  border p-2">
           <DotsHorizontalIcon className="h-6 " />
         </div>
         {!notification.isNotificationRead && (
-          <div className="rounded-full ml-[10px] w-[8px] h-[8px] bg-blue-600"></div>
+          <div className="rounded-full ml-[10px] w-[8px] h-[8px] bg-main"></div>
         )}{' '}
       </div>
     </div>

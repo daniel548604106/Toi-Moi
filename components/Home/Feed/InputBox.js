@@ -9,7 +9,9 @@ import {
   setImageToPost
 } from '../../../redux/slices/postSlice';
 import genderAvatar from '../../../utils/genderAvatar';
+import useTranslation from 'next-translate/useTranslation';
 const InputBox = () => {
+  const { t } = useTranslation('common');
   const filePickerRef = useRef(null);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -28,7 +30,7 @@ const InputBox = () => {
   };
 
   return (
-    <div className="p-3 shadow-md font-medium rounded-xl bg-white">
+    <div className="p-3 shadow-md font-medium rounded-xl bg-secondary text-secondary">
       <div className="flex items-center w-full space-x-2 mb-3">
         <Image
           onClick={() => router.push(`/${userInfo.username}`)}
@@ -42,7 +44,7 @@ const InputBox = () => {
           onClick={() => dispatch(setPostInputBoxOpen(true))}
           className="bg-gray-100 cursor-pointer flex-1 text-left  rounded-full p-2 pl-4 hover:bg-gray-200 text-md text-gray-600"
         >
-          {`${userInfo.name},What's on your mind`}
+          {`${userInfo.name} ,`} {t('post.whatAreYouThinking')}
         </div>
       </div>
       <hr className="my-2 " />
@@ -50,7 +52,7 @@ const InputBox = () => {
         <div className="inputIcon">
           <VideoCameraIcon className="h-5 mb-2 sm:mb-0  sm:h-6 text-red-500" />
           <p className="text-xs sm:text-sm xl:text-md whitespace-nowrap">
-            Live Stream
+            {t('post.liveStream')}
           </p>
         </div>
         <div
@@ -58,7 +60,9 @@ const InputBox = () => {
           className="inputIcon"
         >
           <CameraIcon className="h-5 mb-2 sm:mb-0 sm:h-6 text-green-300 " />
-          <p className="text-xs sm:text-sm xl:text-md">Photo/Video</p>
+          <p className="text-xs sm:text-sm xl:text-md">
+            {t('post.photo/video')}
+          </p>
           <input
             ref={filePickerRef}
             hidden
@@ -68,7 +72,9 @@ const InputBox = () => {
         </div>
         <div className="inputIcon">
           <EmojiHappyIcon className="h-5 mb-2 sm:mb-0 sm:h-6 text-yellow-300" />
-          <p className="text-xs sm:text-sm xl:text-md">Feeling/Activity</p>
+          <p className="text-xs sm:text-sm xl:text-md">
+            {t('post.feeling/activity')}
+          </p>
         </div>
       </div>
     </div>

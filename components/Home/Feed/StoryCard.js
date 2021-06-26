@@ -17,7 +17,7 @@ const StoryCard = ({ name, profile, src }) => {
           layout="fixed"
         />
       </div>
-      <span className="text-white bottom-3 left-3 absolute max-w-[50px] truncate">
+      <span className="text-secondary bottom-3 left-3 absolute max-w-[50px] truncate">
         {name}
       </span>
     </div>

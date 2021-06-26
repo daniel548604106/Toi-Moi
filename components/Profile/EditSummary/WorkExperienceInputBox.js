@@ -96,7 +96,7 @@ const WorkExperienceInputBox = ({ setActiveBox }) => {
         <button
           onClick={() => handleSave()}
           className={`rounded-md  bg-gray-100 p-2 w-full flex items-center justify-center ${
-            available && 'bg-blue-600 text-white cursor-pointer'
+            available && 'bg-main text-secondary cursor-pointer'
           }  ${!available && 'cursor-not-allowed'}`}
         >
           {isLoading ? <Loader /> : 'Save'}

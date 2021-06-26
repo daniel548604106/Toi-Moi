@@ -1,34 +1,59 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+![Logo](https://ik.imagekit.io/4liibdxmxfn/images/users/user-peter548604106-cover-1624546491192_fBp5lDxtY)
 
-First, run the development server:
+    
+# Toi & Moi (You & Me)
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Toi&Moi is a fullstack social platform designated to connect people from distances away, users are able to build their own profile and connect with people from around the world  with realtime messaging and friend system.  (Idea originated from starting a Facebook clone)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+⭐  Live Demo   (https://toi-moi.herokuapp.com/)
+## Screenshots
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+![App Screenshot](https://ik.imagekit.io/4liibdxmxfn/images/users/user-peter548604106-cover-1624548236774_5Z3g7HK3Qq)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Features
 
-## Learn More
+📱    Realtime Communication & Notification
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![螢幕錄製-2021-06-25-上午10 53 21](https://user-images.githubusercontent.com/61279365/123363915-147dac80-d5a6-11eb-99ec-b06e194dc3c8.gif)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+🌎    i18n - Internationalization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![螢幕錄製-2021-06-25-下午7 33 28](https://user-images.githubusercontent.com/61279365/123419339-b0caa200-d5ec-11eb-9c5f-e40fd2788e84.gif)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+🌗    Light/dark mode toggle
+
+![螢幕錄製-2021-06-25-上午10 38 20](https://user-images.githubusercontent.com/61279365/123364070-5d356580-d5a6-11eb-9974-d3c3809458e7.gif)
+
+   
+📧.  Customized EDM
+  
+## Tech Stack
+
+**Client** 
+
+✨   Next.js, Redux, TailwindCSS , Socket.io-client
+
+**Server** 
+
+✨ Node.js, Express.js , Socket.io , Nodemailer
+
+**Database** 
+
+✨ MongoDB
+
+  
+## Deployment
+
+🌟 **Heroku**
+－ Easy to maintain and operate. Suitable for traffical level of a non-product website.
+
+  
+## Demo
+
+Live Demo
+  https://toi-moi.herokuapp.com/

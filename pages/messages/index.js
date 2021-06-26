@@ -12,9 +12,11 @@ import messageNotificationSound from '../../utils/messageNotificationSound';
 import Image from 'next/image';
 import { apiSearchRequest } from '../../api/index';
 import genderAvatar from '../../utils/genderAvatar';
+import useTranslation from 'next-translate/useTranslation';
 const io = require('socket.io-client');
 
 const Index = (props) => {
+  const { t } = useTranslation('messages');
   const router = useRouter();
   const socket = useRef();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -227,9 +229,10 @@ const Index = (props) => {
     }
   }, []);
   return (
-    <div className="flex ">
+    <div className="flex bg-primary h-screen pt-[30px] sm:pt-[56px] text-primary">
       <div className="w-full hidden sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col ">
         <ChatroomSidebarHeader
+          t={t}
           setSearchText={setSearchText}
           searchText={searchText}
           addChat={addChat}
@@ -262,11 +265,12 @@ const Index = (props) => {
               ))}
         </div>
       </div>
-      <div className="flex-1  ">
+      <div className="flex-1 flex flex-col  ">
         <ChatroomMainHeader
           connectedUsers={connectedUsers}
           openChatUser={openChatUser}
         />
+
         <ChatroomMainRoom
           divRef={divRef}
           sendMsg={sendMsg}
@@ -276,7 +280,7 @@ const Index = (props) => {
           messagesWith={openChatId.current}
           messages={messages}
         />
-        <ChatroomMainInputBox sendMsg={sendMsg} />
+        <ChatroomMainInputBox t={t} sendMsg={sendMsg} />
       </div>
     </div>
   );

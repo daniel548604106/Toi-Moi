@@ -27,14 +27,23 @@ const password = () => {
     setError('');
   }, [password, passwordConfirm]);
   return (
-    <div className="flex top-0 left-0 items-center flex-col bg-gray-100 justify-center p-3 w-screen h-screen fixed">
-      <div className="flex items-center justify-center flex-col">
-        <Image src="/facebook_logo.svg" width={400} height={120} />
-        <div className="rounded-lg text-center  space-y-3 border w-full max-w-[600px]  shadow-xl p-5 bg-white">
+    <div className=" flex top-0 left-0 items-center flex-col bg-gray-100 justify-center p-3 w-screen h-screen fixed">
+      <div className="w-full max-w-[450px] flex items-center justify-center flex-col">
+        <Image
+          src="/toi&moi-logo.svg"
+          className="max-w-[100px] sm:w-[400px]"
+          width={400}
+          height={120}
+        />
+        <div className="rounded-lg bg-white text-center  space-y-3 border w-full max-w-[600px]  shadow-xl p-5 bg-secondary text-secondary">
           {newPasswordSuccess ? (
-            <h2 className="text-xl font-semibold mb-3">Changed Successfully</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-3">
+              Changed Successfully
+            </h2>
           ) : (
-            <h2 className="text-2xl font-semibold mb-3">Password Reset</h2>
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3">
+              Password Reset
+            </h2>
           )}
           {newPasswordSuccess ? (
             <Image src="/images/password-success.svg" width={60} height={60} />
@@ -71,14 +80,14 @@ const password = () => {
           {newPasswordSuccess ? (
             <button
               onClick={() => router.push('/')}
-              className="bg-green-500 focus:outline-none text-white p-3 py-2 mt-[10px] rounded-lg"
+              className="bg-green-500 focus:outline-none text-secondary p-3 py-2 mt-[10px] rounded-lg"
             >
               Login{' '}
             </button>
           ) : (
             <button
               onClick={() => handleResetPassword()}
-              className="bg-blue-600 focus:outline-none text-white p-3 rounded-lg"
+              className="bg-main text-white text-sm sm:text-lg focus:outline-none text-secondary  p-3 rounded-lg"
             >
               Reset Password
             </button>

@@ -44,7 +44,7 @@ const BioInput = ({ isEditable, bio, originalBio, setBio, sendUpdates }) => {
             <div className="flex items-center ">
               <button
                 onClick={() => handleCancelChanges()}
-                className="px-4 py-2 rounded-md bg-white border text-xs"
+                className="px-4 py-2 rounded-md bg-secondary text-secondary border text-xs"
               >
                 Cancel
               </button>
@@ -52,7 +52,7 @@ const BioInput = ({ isEditable, bio, originalBio, setBio, sendUpdates }) => {
                 onClick={() => handleSendBio()}
                 className={`${
                   disable && 'bg-gray-200 cursor-not-allowed'
-                } ml-[10px] px-4 py-2 rounded-md bg-blue-600 text-white border text-xs `}
+                } ml-[10px] px-4 py-2 rounded-md bg-main text-secondary border text-xs `}
               >
                 Save Changes
               </button>
@@ -65,7 +65,7 @@ const BioInput = ({ isEditable, bio, originalBio, setBio, sendUpdates }) => {
           {isEditable && (
             <span
               onClick={() => setBioInputOpen(true)}
-              className="text-blue-600 cursor-pointer"
+              className="text-main cursor-pointer"
             >
               Edit
             </span>

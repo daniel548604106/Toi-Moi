@@ -20,7 +20,8 @@ router.get('/', authMiddleware, async (req, res) => {
         name: chat.messagesWith.name,
         profileImage: chat.messagesWith.profileImage,
         lastMessage: chat.messages[chat.messages.length - 1].msg,
-        date: chat.messages[chat.messages.length - 1].date
+        date: chat.messages[chat.messages.length - 1].date,
+        gender: chat.messagesWith.gender
       }));
     }
     return res.json(chatsToBeSent);

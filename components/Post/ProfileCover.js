@@ -21,7 +21,7 @@ const ProfileCover = ({ user, profile }) => {
           height={450}
           className="w-full  rounded-b-lg relative object-cover h-[100px] cursor-pointer"
         />
-        <div className="px-10 py-16 sm:py-20 bg-white border-b">
+        <div className="px-10 py-16 sm:py-20 bg-secondary text-secondary border-b">
           <div className="absolute bottom-[50px] left-[30px] flex items-end ">
             <Image
               src={user.profileImage}
@@ -38,7 +38,7 @@ const ProfileCover = ({ user, profile }) => {
           </div>
         </div>
       </div>
-      <div className="p-3  bg-white border-t flex item-center justify-between">
+      <div className="p-3  bg-secondary text-secondary border-t flex item-center justify-between">
         <ul className="text-sm sm:text-md hidden sm:flex items-center text-gray-600 space-x-1 md:space-x-3">
           <li className="cursor-pointer p-2 px-2 md:px-4 rounded-lg hover:bg-gray-100">
             Homepage
@@ -55,12 +55,12 @@ const ProfileCover = ({ user, profile }) => {
         </button>
         <div className="flex items-center">
           {isLoggedInUser ? (
-            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-blue-600 text-white">
+            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-main text-white">
               <PlusIcon className=" text-sm h-6 mr-[10px]" />
               Add Stories
             </button>
           ) : (
-            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-blue-600 text-white">
+            <button className="px-4 py-2 flex whitespace-nowrap items-center rounded-md bg-main text-white">
               <UserIcon className=" text-sm h-6 mr-[10px]" />
               Add Friend
             </button>

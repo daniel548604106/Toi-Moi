@@ -13,7 +13,7 @@ const Index = ({ data }) => {
   return (
     <div>
       <ProfileCover profile={profile} user={user} />
-      <div className="bg-white sticky top-[60px] border-b">
+      <div className="bg-secondary text-secondary sticky top-[60px] border-b">
         <div className="max-w-7xl mx-auto ">
           <TabsList />
         </div>

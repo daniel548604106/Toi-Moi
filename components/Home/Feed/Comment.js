@@ -10,7 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import { ThumbUpIcon, TrashIcon } from '@heroicons/react/solid';
 import genderAvatar from '../../../utils/genderAvatar';
-const Comment = ({ setComments, comments, postId, comment }) => {
+const Comment = ({ setComments, comments, postId, comment, t }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const isCommentLiked =
     comment.likes.length > 0 &&
@@ -64,9 +64,9 @@ const Comment = ({ setComments, comments, postId, comment }) => {
             </span>
             <p className="text-sm  ">{comment.text}</p>
             {comment.likes.length > 0 && (
-              <div className="absolute flex items-center text-xs transform cursor-pointer shadow-md translate-y-1/2 text-gray-400 bottom-2 right-1 translate-x-full rounded-full bg-white p-1">
-                <span className="p-1 rounded-full bg-blue-600">
-                  <ThumbUpIcon className="h-2 text-white" />
+              <div className="absolute flex items-center text-xs transform cursor-pointer shadow-md translate-y-1/2 text-gray-400 bottom-2 right-1 translate-x-full rounded-full bg-secondary text-secondary p-1">
+                <span className="p-1 rounded-full bg-main">
+                  <ThumbUpIcon className="h-2 text-secondary" />
                 </span>
                 <span className="ml-[5px]">{comment.likes.length}</span>
               </div>
@@ -85,19 +85,19 @@ const Comment = ({ setComments, comments, postId, comment }) => {
           {isCommentLiked ? (
             <span
               onClick={() => handleUnlikeComment(comment._id)}
-              className="cursor-pointer text-blue-600"
+              className="cursor-pointer text-main"
             >
-              like
+              {t('post.like')}
             </span>
           ) : (
             <span
               onClick={() => handleLikeComment(comment._id)}
               className="cursor-pointer"
             >
-              like
+              {t('post.like')}
             </span>
           )}
-          <span className="cursor-pointer ml-[5px]">reply</span>
+          <span className="cursor-pointer ml-[5px]">{t('post.reply')}</span>
           <span className="text-xs text-gray-600 ml-[5px]">
             {timeDiff(comment.date)}
           </span>

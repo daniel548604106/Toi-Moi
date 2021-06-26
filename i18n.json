@@ -1,0 +1,8 @@
+{
+  "locales": ["en-US", "zh-tw"],
+  "defaultLocale": "en-US",
+  "pages": {
+    "*": ["common", "header"],
+    "/messages": ["messages"]
+  }
+}

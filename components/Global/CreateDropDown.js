@@ -4,27 +4,27 @@ import { PencilAltIcon, BookOpenIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 import { setPostInputBoxOpen } from '../../redux/slices/postSlice';
-const CreateDropDown = () => {
+const CreateDropDown = ({ t }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   return (
     <div>
       <div>
-        <h2 className="text-2xl font-semibold">Create</h2>
+        <h2 className="text-2xl font-semibold">{t('create')}</h2>
       </div>
       <div>
         <div onClick={() => dispatch(setPostInputBoxOpen(true))}>
           <CreateListItem
             Icon={PencilAltIcon}
-            title="貼文"
-            description="在動態消息分享貼文"
+            title={t('post')}
+            description={t('sharePost')}
           />
         </div>
         <div onClick={() => router.push('/stories/create')}>
           <CreateListItem
             Icon={BookOpenIcon}
-            title="限時動態"
-            description="分享影片或是寫點內容"
+            title={t('story')}
+            description={t('shareVideoOrWriteSth')}
           />
         </div>
       </div>

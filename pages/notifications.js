@@ -19,33 +19,35 @@ const Index = ({ notifications }) => {
     readNotifications();
   }, []);
   return (
-    <div className="p-3 rounded-xl w-full max-w-[600px] my-[50px] mx-auto bg-white shadow-lg">
-      <div className="flex items-center justify-between mb-[20px]">
-        <h2 className="font-semibold text-2xl">Notification</h2>
-        <DotsHorizontalIcon className="h-6 cursor-pointer" />
+    <div className="min-h-screen py-[80px]">
+      <div className="p-3 rounded-xl w-full max-w-[600px]  mx-auto bg-secondary text-secondary shadow-lg">
+        <div className="flex items-center justify-between mb-[20px]">
+          <h2 className="font-semibold text-2xl">Notification</h2>
+          <DotsHorizontalIcon className="h-6 cursor-pointer" />
+        </div>
+        {notifications.length > 0 ? (
+          <div>
+            {notifications.map((notification) => (
+              <div key={notification._id}>
+                {notification.type === 'newLike' && (
+                  <LikeNotification notification={notification} />
+                )}
+                {notification.type === 'newComment' && (
+                  <CommentNotification notification={notification} />
+                )}
+                {(notification.type === 'newFriendAccepted' ||
+                  notification.type === 'newFriendInvitation') && (
+                  <FriendNotification notification={notification} />
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="h-screen w-screen flex justify-center items-center">
+            No notifications
+          </div>
+        )}
       </div>
-      {notifications.length > 0 ? (
-        <div>
-          {notifications.map((notification) => (
-            <div key={notification._id}>
-              {notification.type === 'newLike' && (
-                <LikeNotification notification={notification} />
-              )}
-              {notification.type === 'newComment' && (
-                <CommentNotification notification={notification} />
-              )}
-              {(notification.type === 'newFriendAccepted' ||
-                notification.type === 'newFriendInvitation') && (
-                <FriendNotification notification={notification} />
-              )}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="h-screen w-screen flex justify-center items-center">
-          No notifications
-        </div>
-      )}
     </div>
   );
 };

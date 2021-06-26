@@ -141,19 +141,19 @@ const Index = ({ setSignupOpen }) => {
   return (
     <form
       onClick={(e) => e.stopPropagation()}
-      className="relative bg-white shadow-lg rounded-lg w-full max-w-[500px]"
+      className="h-screen sm:h-auto bg-white relative shadow-lg rounded-lg  w-screen  sm:w-full sm:max-w-[500px]"
     >
       <span
         onClick={() => setSignupOpen(false)}
         className="absolute rounded-full border border-gray-600 text-gray-600 top-5 right-5 p-2 cursor-pointer "
       >
-        <XIcon className="h-6" />
+        <XIcon className="h-4  sm:h-6" />
       </span>
-      <div className="p-5 border-b">
-        <h1 className="text-3xl font-semibold">Signup</h1>
+      <div className="p-3  sm:p-5 border-b">
+        <h1 className="text-xl sm:text-3xl font-semibold">Signup</h1>
         <p className="text-sm text-gray-400">Fast and simple</p>
       </div>
-      <div className="p-5 space-y-2">
+      <div className="p-3 sm:p-5 space-y-2">
         <div
           className={`flex  p-3 items-center rounded-lg border ${
             errorMsg.name && 'border-red-600'
@@ -161,7 +161,7 @@ const Index = ({ setSignupOpen }) => {
         >
           <input
             onChange={(e) => handleInputChange(e)}
-            className="w-full focus:outline-none bg-white"
+            className="w-full text-sm sm:text-md focus:outline-none bg-secondary text-secondary"
             type="text"
             name="name"
             placeholder="Name"
@@ -176,7 +176,7 @@ const Index = ({ setSignupOpen }) => {
           }`}
         >
           <input
-            className="w-full focus:outline-none"
+            className="w-full text-sm sm:text-md focus:outline-none"
             type="text"
             onChange={(e) => handleInputChange(e)}
             name="username"
@@ -194,7 +194,7 @@ const Index = ({ setSignupOpen }) => {
           >
             <input
               onChange={(e) => handleInputChange(e)}
-              className="w-full focus:outline-none bg-white"
+              className="w-full text-sm sm:text-md focus:outline-none bg-secondary text-secondary"
               type="email"
               name="email"
               value={signupInfo.email}
@@ -211,7 +211,7 @@ const Index = ({ setSignupOpen }) => {
           >
             <input
               onChange={(e) => handleInputChange(e)}
-              className="w-full focus:outline-none"
+              className="w-full text-sm sm:text-md focus:outline-none"
               type="password"
               name="password"
               value={signupInfo.password}
@@ -223,7 +223,7 @@ const Index = ({ setSignupOpen }) => {
           </div>
         </div>
         <div className="flex items-center text-gray-600">
-          <span>Birthday</span>
+          <span className="text-sm sm:text-md">Birthday</span>
           <QuestionMarkCircleIcon className="h-5  cursor-pointer ml-[5px]" />
         </div>
 
@@ -257,11 +257,13 @@ const Index = ({ setSignupOpen }) => {
           </select>
         </div>
         <div className="text-gray-600">
-          <span>Gender</span>
+          <span className="text-sm sm:text-md">Gender</span>
         </div>
         <div className="flex items-center">
           <div className="w-full p-2 rounded-md flex items-center justify-between border">
-            <label htmlFor="female">Female</label>
+            <label className="text-sm sm:text-md" htmlFor="female">
+              Female
+            </label>
             <input
               onChange={(e) => handleInputChange(e)}
               type="radio"
@@ -271,7 +273,11 @@ const Index = ({ setSignupOpen }) => {
             />
           </div>
           <div className="w-full p-2 rounded-md ml-[10px] flex items-center justify-between border">
-            <label onChange={(e) => handleInputChange(e)} htmlFor="male">
+            <label
+              className="text-sm sm:text-md"
+              onChange={(e) => handleInputChange(e)}
+              htmlFor="male"
+            >
               Male
             </label>
 
@@ -284,21 +290,22 @@ const Index = ({ setSignupOpen }) => {
             />
           </div>{' '}
           <div className="w-full p-2 rounded-md ml-[10px] flex items-center justify-between border">
-            <label htmlFor="other">Other</label>
+            <label className="text-sm sm:text-md" htmlFor="other">
+              Other
+            </label>
             <input type="radio" id="other" name="gender" value="other" />
           </div>
         </div>
-        <p className="mb-[20px] text-sm text-gray-600">
+        <p className="mb-[20px] text-xs sm:text-sm text-gray-600">
           By clicking <span className="underline">Signup</span> means you've
           agreed to our{' '}
-          <span className="text-blue-600 cursor-pointer">Service policy</span>{' '}
-          and{' '}
-          <span className="text-blue-600 cursor-pointer">Cookie policy</span>
+          <span className="text-main cursor-pointer">Service policy</span> and{' '}
+          <span className="text-main cursor-pointer">Cookie policy</span>
         </p>
         <div className="flex items-center justify-center">
           <button
             onClick={(e) => handleSignup(e)}
-            className="text-lg font-semibold bg-green-400 text-white rounded-md w-[200px] p-2 mx-auto"
+            className="text-md sm:text-lg font-semibold bg-main-yellow text-white text-secondary rounded-md w-[200px] p-2 mx-auto"
           >
             {isLoading ? <Loader /> : 'SIGN UP'}{' '}
           </button>
