@@ -13,7 +13,7 @@ const Header = ({ openChatUser, connectedUsers }) => {
     connectedUsers.filter((user) => user.userId === router.query.message)
       .length > 0;
   return (
-    <div className="border-b-2 flex items-center justify-between p-2 sm:p-3">
+    <div className=" border-b-2 flex items-center justify-between p-2 sm:p-3">
       <div className="flex items-center">
         {openChatUser.profileImage && (
           <Image

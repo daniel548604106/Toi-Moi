@@ -7,21 +7,27 @@ import {
 import Image from 'next/image';
 import genderAvatar from '../../../utils/genderAvatar';
 import { useSelector } from 'react-redux';
-const Header = ({ searchText, setSearchText, addChat }) => {
+const Header = ({ searchText, t, setSearchText, addChat }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   return (
-    <div className="text-primary bg-primary  p-3">
-      <div className="flex items-center justify-between mb-3">
+    <div className=" text-primary bg-primary  p-3">
+      <div className="flex relative items-center justify-between mb-3">
         <Image
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
           width={40}
           height={40}
           className="rounded-full cursor-pointer"
         />
-        <h2 className="text-2xl font-semibold ">Messenger</h2>
+        <h2 className="text-lg sm:text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold ">
+          Messenger
+        </h2>
         <div className="flex items-center">
-          <PencilAltIcon className="h-5 w-5  cursor-pointer  rounded-full bg-gray-100" />
-          <VideoCameraIcon className="h-5 w-5 ml-[5px] cursor-pointer   rounded-full bg-gray-100" />
+          <span className="p-2 rounded-full bg-button text-secondary">
+            <PencilAltIcon className="h-5 w-5  cursor-pointer  rounded-full" />
+          </span>
+          <span className="p-2 ml-[5px] rounded-full bg-button text-secondary">
+            <VideoCameraIcon className="h-5 w-5  cursor-pointer   rounded-full" />
+          </span>
         </div>
       </div>
       <div className="rounded-2xl bg-gray-200 flex items-center p-2">
@@ -31,7 +37,7 @@ const Header = ({ searchText, setSearchText, addChat }) => {
           type="text"
           value={searchText}
           className="w-full bg-gray-200 focus:outline-none"
-          placeholder="搜尋 Messenger"
+          placeholder={t('searchMessenger')}
         />
       </div>
     </div>

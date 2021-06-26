@@ -5,8 +5,9 @@ import { DotsHorizontalIcon, ChatAlt2Icon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
-
+import useTranslation from 'next-translate/useTranslation';
 const CommentNotification = ({ notification }) => {
+  const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
   const handleReadNotification = async (notificationId) => {
@@ -40,7 +41,7 @@ const CommentNotification = ({ notification }) => {
         <div className=" ml-[10px]">
           <p className="text-sm ">
             <span className=" font-semibold">{notification.user.name}</span>{' '}
-            commented your post
+            {t('commentedOnYourPost')}
           </p>
           <p
             className={`text-xs ${

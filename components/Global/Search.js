@@ -5,7 +5,7 @@ import SearchListItem from './SearchListItem';
 import { apiPostKeywordSearch, apiGetRecentSearch } from '../../api/index';
 import router from 'next/router';
 import SearchHistoryItem from './SearchHistoryItem';
-const Search = () => {
+const Search = ({ t }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
   const [searchHistory, setSearchHistory] = useState(null);
@@ -66,16 +66,16 @@ const Search = () => {
     }
   }, [searchText]);
   return (
-    <div className="group max-w-[350px]">
+    <div className="group ">
       <div className="flex items-center rounded-full bg-gray-100 ">
-        <span onClick={() => handleInputFocus()} className="p-1 rounded-full ">
+        <span onClick={() => handleInputFocus()} className="p-2  rounded-full ">
           <SearchIcon className="h-5" />
         </span>
         <input
           type="text"
           onFocus={() => handleInputFocus()}
-          placeholder="Search"
-          className="text-sm hidden sm:block bg-gray-100 rounded-full p-3 pl-2 outline-none"
+          placeholder={t('search')}
+          className="text-sm hidden max-w-[160px]  lg:max-w-[200px] lg:block bg-gray-100 rounded-full p-3 pl-2 outline-none"
         />
       </div>
       {isSearchResultShow && (
@@ -136,7 +136,7 @@ const Search = () => {
             >
               <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-main text-secondary" />
               <p className="ml-[15px] font-medium text-main">
-                搜尋 {searchText}
+                {t('search')} {searchText}
               </p>
             </div>
           )}

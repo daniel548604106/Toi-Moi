@@ -5,7 +5,7 @@ import {
   GiftIcon,
   ThumbUpIcon
 } from '@heroicons/react/solid';
-const InputBox = ({ sendMsg }) => {
+const InputBox = ({ sendMsg, t }) => {
   const [inputText, setInputText] = useState('');
   const [loading, setLoading] = useState(false);
   const handleSubmitMessage = (e, msg) => {
@@ -26,7 +26,7 @@ const InputBox = ({ sendMsg }) => {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             className="w-full rounded-full py-2  px-5 focus:outline-none bg-gray-100 text-gray-500"
-            placeholder="Send new message"
+            placeholder={t('sendNewMessage')}
           />
         </form>
       </div>

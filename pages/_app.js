@@ -65,7 +65,7 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
-      <main className="pt-[50px] md:pt-0 primary dark:bg-primary">
+      <main className="pt-[70px] h-screen md:pt-0 primary dark:bg-primary">
         <Component {...pageProps} />
       </main>
     </>

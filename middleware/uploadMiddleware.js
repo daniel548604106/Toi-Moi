@@ -9,6 +9,7 @@ const imageKit = new ImageKit({
 const uploadProfileImage = async (req, res, next) => {
   try {
     if (!req.body.profileImage) return next();
+
     const uploaded = await imageKit.upload({
       file: req.body.profileImage, //required
       fileName: `user-${req.params._id}-${Date.now()}`, //required

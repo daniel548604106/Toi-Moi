@@ -15,7 +15,7 @@ import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
 import useDarkMode from '../../hooks/useDarkMode';
 import genderAvatar from '../../utils/genderAvatar';
-const AccountPopup = () => {
+const AccountPopup = ({ t }) => {
   const [colorTheme, setTheme] = useDarkMode();
   const userInfo = useSelector((state) => state.user.userInfo);
   const email = useSelector((state) => state.user.userInfo.email);
@@ -46,7 +46,7 @@ const AccountPopup = () => {
         />
         <div className="ml-[10px] text-left">
           <span className="font-semibold">{userInfo.name}</span>
-          <p className="text-xs text-gray-600">Check out your profile</p>
+          <p className="text-xs text-gray-600">{t('checkOutYourProfile')}</p>
         </div>
       </div>
       <hr className="my-[10px]" />
@@ -55,7 +55,7 @@ const AccountPopup = () => {
           <span className="p-2 rounded-full bg-gray-100">
             <CogIcon className="h-6 text-black" />
           </span>
-          <span className="ml-[10px]">Settings and Privacy</span>
+          <span className="ml-[10px]">{t('settings&privacy')}</span>
         </div>
         <ChevronRightIcon className="h-6 text-gray-600" />
       </div>
@@ -67,7 +67,7 @@ const AccountPopup = () => {
           <span className="p-2 rounded-full bg-gray-100">
             <GlobeIcon className="h-6 text-black" />
           </span>
-          <span className="ml-[10px]">Language</span>
+          <span className="ml-[10px]">{t('language')}</span>
         </div>
       </div>
       <div className="flex items-center justify-between  p-2">
@@ -82,7 +82,7 @@ const AccountPopup = () => {
             </span>
           )}
           <span className="ml-[10px]">
-            {colorTheme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            {colorTheme === 'light' ? t('darkMode') : t('lightMode')}
           </span>
         </div>
         <div>
@@ -117,7 +117,7 @@ const AccountPopup = () => {
         <span className="p-2 rounded-full bg-gray-100">
           <LogoutIcon className="h-6 text-black" />
         </span>
-        <span className="ml-[10px]">Logout</span>
+        <span className="ml-[10px]">{t('logOut')}</span>
       </div>
     </div>
   );
