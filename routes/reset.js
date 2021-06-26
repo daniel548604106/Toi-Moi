@@ -1,17 +1,16 @@
 const express = require('express');
 const router = express.Router();
-
+const sendEmail = require('../utilsServer/email');
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
-const sendGridTransport = require('nodemailer-sendgrid-transport');
 const crypto = require('crypto');
 const isEmail = require('validator/lib/isEmail');
-const options = {
-  auth: {
-    api_key: process.env.SENDGRID_KEY
-  }
-};
+
+// HTML FILE READER
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
+const readFile = promisify(fs.readFile);
 
 // Check user exists and send email for reset password
 router.post('/', async (req, res) => {
@@ -30,26 +29,21 @@ router.post('/', async (req, res) => {
     user.resetToken = token;
     user.expireToken = Date.now() + 3600000; // Expire within ten minutes
     await user.save();
-    const mailOptions = {
-      to: user.email,
-      from: process.env.EMAIL,
-      subject: 'Facebook password reset request',
-      html: `<p>Hey ${user.name
-        .split(' ')[0]
-        .toString()}, There was a request for password reset<a href=${href}>Click this link to reset password</a></p><p>This token is only valid for 1 hour</p>`
-    };
+    const subject = 'Toi&Moi - Reset Password';
 
-    transporter.sendMail(mailOptions, (err, info) => {
-      err && console.log(err);
-    });
-    return res.status(200).send('Email sent successfully');
+    const html = await readFile(
+      path.resolve(__dirname, '../views/resetPassword', 'index.html')
+    );
+
+    await sendEmail({ email: user.email, subject, html });
+
+    console.log('successful');
+    return res.status('200').send('Email sent successfully');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
   }
 });
-
-const transporter = nodemailer.createTransport(sendGridTransport(options));
 
 // Verify token and reset the password in DB
 

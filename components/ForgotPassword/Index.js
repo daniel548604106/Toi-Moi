@@ -23,7 +23,7 @@ const Index = () => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="bg-white w-full max-w-[400px]  rounded-lg text-center shadow-xl p-5 bg-secondary text-secondary  flex flex-col items-center justify-center "
+      className="  bg-white w-full max-w-[400px]  rounded-lg text-center shadow-xl p-5 bg-secondary text-secondary  flex flex-col items-center justify-center "
     >
       <h1 className="text-xl mb-[10px] font-semibold"> Forgot Password</h1>
 
