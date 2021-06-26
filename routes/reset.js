@@ -33,11 +33,7 @@ router.post('/', async (req, res) => {
     const subject = 'Toi&Moi - Reset Password';
     const href = `${process.env.BASE_URL}/reset/password?token=${token}`;
 
-    const html = await readFile(
-      path.resolve(__dirname, '../views/resetPassword', 'index.html')
-    );
-
-    await sendEmail({ email: user.email, subject, html });
+    await sendEmail({ email: user.email, name: user.name, subject, href });
     console.log('successful');
     return res.status('200').send('Email sent successfully');
   } catch (error) {

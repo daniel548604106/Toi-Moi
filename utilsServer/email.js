@@ -8,7 +8,7 @@ const options = {
   }
 };
 
-module.exports = async ({ email, subject, html, context }) => {
+module.exports = async ({ email, name, subject, href }) => {
   try {
     // Handlebar
 
@@ -27,7 +27,8 @@ module.exports = async ({ email, subject, html, context }) => {
       subject,
       template: 'resetPassword',
       context: {
-        name: 'Daniel'
+        name,
+        href
       }
     };
 
