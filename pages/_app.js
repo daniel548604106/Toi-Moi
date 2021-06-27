@@ -46,15 +46,18 @@ const App = ({ Component, pageProps }) => {
   }
 
   const allowedRoutes = router.pathname === '/reset/password';
+  const isModalOpen =
+    isLikesListOpen ||
+    isPostInputBoxOpen ||
+    isViewPostModalOpen ||
+    isEditProfileImageOpen ||
+    isEditSummaryModalOpen ||
+    isLanguageOpen;
+
   if (!isUserLoggedIn && !allowedRoutes) return <Login />;
   return (
     <>
-      {(isLikesListOpen ||
-        isPostInputBoxOpen ||
-        isViewPostModalOpen ||
-        isEditProfileImageOpen ||
-        isEditSummaryModalOpen ||
-        isLanguageOpen) && (
+      {isModalOpen && (
         <Overlay>
           {isLikesListOpen && <LikesListModal />}
           {isPostInputBoxOpen && <InputBoxModal />}
@@ -65,7 +68,11 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
-      <main className="pt-[70px] h-screen md:pt-0 primary dark:bg-primary">
+      <main
+        className={`${
+          isModalOpen && 'overflow-hidden'
+        } pt-[70px] h-screen md:pt-0 primary dark:bg-primary`}
+      >
         <Component {...pageProps} />
       </main>
     </>
