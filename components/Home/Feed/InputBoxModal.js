@@ -50,7 +50,7 @@ const InputBoxModal = () => {
   }, [imageToPost]);
 
   return (
-    <div className="h-screen sm:h-auto rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
+    <div className="h-screen sm:h-auto pb-10 sm:pb-4 rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
       <XIcon
         onClick={() => dispatch(setPostInputBoxOpen(false))}
         className="h-8 cursor-pointer rounded-full p-1  absolute top-[8px] right-[10px]"
