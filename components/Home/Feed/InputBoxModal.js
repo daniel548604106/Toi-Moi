@@ -50,7 +50,7 @@ const InputBoxModal = () => {
   }, [imageToPost]);
 
   return (
-    <div className="rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
+    <div className="h-screen sm:h-auto rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
       <XIcon
         onClick={() => dispatch(setPostInputBoxOpen(false))}
         className="h-8 cursor-pointer rounded-full p-1  absolute top-[8px] right-[10px]"
@@ -73,7 +73,7 @@ const InputBoxModal = () => {
             value={text}
             type="text"
             onChange={(e) => setText(e.target.value)}
-            className={`min-h-[200px] bg-secondary rounded-md p-2 text-xl ${
+            className={`min-h-[200px] bg-secondary rounded-md p-2 text-md sm:text-xl ${
               image && 'text-sm min-h-[150px]'
             } w-full focus:outline-none`}
             placeholder={`${userInfo.name}, what's on your mind?`}
@@ -89,7 +89,7 @@ const InputBoxModal = () => {
           )}
           <div className="rounded-lg cursor-pointer border p-3">
             <div className="flex items-center justify-between">
-              <span>Add to post</span>
+              <span className="text-sm sm:text-md">Add to post</span>
               <div className="flex items-center space-x-1">
                 <PhotographIcon
                   onClick={() => fileUploadRef.current.click()}
@@ -108,8 +108,8 @@ const InputBoxModal = () => {
         </div>
         <button
           onClick={(e) => sendPost(e)}
-          className={`mt-[10px]  text-sm text-black cursor-default rounded-lg w-full py-3 bg-gray-100 ${
-            text && 'bg-main text-white text-secondary cursor-pointer'
+          className={`mt-[10px]  text-sm  cursor-default rounded-lg w-full py-3 bg-gray-100 ${
+            text && 'bg-main text-white  cursor-pointer'
           } `}
         >
           Post
