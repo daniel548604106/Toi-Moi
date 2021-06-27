@@ -6,9 +6,13 @@
   "hour": "hour",
   "hours": "hours",
   "day": "day",
+  "days": "days",
   "week": "week",
+  "weeks": "weeks",
   "month": "month",
+  "months": "months",
   "year": "year",
+  "years": "years",
   "sidebar": {
     "language": "Language Setting",
     "friends": "Friends",
