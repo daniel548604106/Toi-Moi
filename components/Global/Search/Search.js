@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { apiSearchRequest } from '../../api/index';
 import { ChevronLeftIcon, SearchIcon } from '@heroicons/react/outline';
+import { apiPostKeywordSearch, apiGetRecentSearch,apiSearchRequest } from '../../../api/index';
 import SearchListItem from './SearchListItem';
-import { apiPostKeywordSearch, apiGetRecentSearch } from '../../api/index';
-import router from 'next/router';
 import SearchHistoryItem from './SearchHistoryItem';
+import router from 'next/router';
 const Search = ({ t }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
@@ -67,7 +66,7 @@ const Search = ({ t }) => {
   }, [searchText]);
   return (
     <div className="group ">
-      <div className="flex items-center rounded-full bg-gray-100 ">
+      <div className="flex items-center rounded-full bg-button text-primary ">
         <span onClick={() => handleInputFocus()} className="p-2  rounded-full ">
           <SearchIcon className="h-5" />
         </span>
@@ -75,7 +74,7 @@ const Search = ({ t }) => {
           type="text"
           onFocus={() => handleInputFocus()}
           placeholder={t('search')}
-          className="text-sm hidden max-w-[160px]  lg:max-w-[200px] lg:block bg-gray-100 rounded-full p-3 pl-2 outline-none"
+          className="text-sm hidden max-w-[160px]  lg:max-w-[200px] lg:block bg-button text-button rounded-full p-3 pl-2 outline-none"
         />
       </div>
       {isSearchResultShow && (
@@ -83,11 +82,11 @@ const Search = ({ t }) => {
           <div className="flex items-center w-full sm:pl-3">
             <span
               onClick={() => setSearchResultShow(false)}
-              className="p-3 rounded-full cursor-pointer bg-gray-100"
+              className="p-3 rounded-full cursor-pointer bg-button text-primary"
             >
               <ChevronLeftIcon className="h-6 " />
             </span>
-            <div className="flex flex-1 ml-[20px] items-center rounded-full bg-gray-100 pl-2">
+            <div className="flex flex-1 ml-[20px] items-center rounded-full bg-button text-primary pl-2">
               <SearchIcon className="h-5 ml-[10px]" />
               <input
                 type="text"
@@ -97,7 +96,7 @@ const Search = ({ t }) => {
                 onKeyDown={(e) => handleKeywordSearch(e)}
                 onChange={(e) => setSearchText(e.target.value)}
                 placeholder="Search"
-                className="text-sm w-full bg-gray-100 rounded-full p-3 pl-2 outline-none"
+                className="text-sm w-full bg-button text-button rounded-full p-3 pl-2 outline-none"
               />
             </div>
           </div>

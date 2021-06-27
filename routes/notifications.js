@@ -25,12 +25,14 @@ router.post('/', authMiddleware, async (req, res) => {
       user.unreadNotification = false;
     }
     await user.save();
+    console.log(user)
     return res.status(200).send('Updated');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
   }
 });
+
 
 router.post('/:notificationId/read', authMiddleware, async (req, res) => {
   try {

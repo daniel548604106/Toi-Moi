@@ -52,7 +52,7 @@ const BioInput = ({ isEditable, bio, originalBio, setBio, sendUpdates }) => {
                 onClick={() => handleSendBio()}
                 className={`${
                   disable && 'bg-gray-200 cursor-not-allowed'
-                } ml-[10px] px-4 py-2 rounded-md bg-main text-secondary border text-xs `}
+                } ml-[10px] px-4 py-2 rounded-md bg-main text-white border text-xs `}
               >
                 Save Changes
               </button>

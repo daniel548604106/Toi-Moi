@@ -1,9 +1,9 @@
 import React from 'react';
 import { SearchIcon, XIcon } from '@heroicons/react/outline';
-import { apiDeleteHistory } from '../../api';
+import { apiDeleteHistory } from '../../../api';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-import genderAvatar from '../../utils/genderAvatar';
+import genderAvatar from '../../../utils/genderAvatar';
 const SearchHistoryItem = ({
   setSearchResultShow,
   history,

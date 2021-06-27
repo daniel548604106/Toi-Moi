@@ -3,7 +3,7 @@ import CreateListItem from './CreateListItem';
 import { PencilAltIcon, BookOpenIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
-import { setPostInputBoxOpen } from '../../redux/slices/postSlice';
+import { setPostInputBoxOpen } from '../../../redux/slices/postSlice';
 const CreateDropDown = ({ t }) => {
   const router = useRouter();
   const dispatch = useDispatch();
