@@ -8,13 +8,13 @@ import {
   SunIcon
 } from '@heroicons/react/solid';
 import { GlobeIcon } from '@heroicons/react/outline';
-import { setUserLogout } from '../../redux/slices/userSlice';
-import { toggleLanguageOpen } from '../../redux/slices/globalSlice';
+import { setUserLogout } from '../../../redux/slices/userSlice';
+import { toggleLanguageOpen } from '../../../redux/slices/globalSlice';
 import Image from 'next/image';
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
-import useDarkMode from '../../hooks/useDarkMode';
-import genderAvatar from '../../utils/genderAvatar';
+import useDarkMode from '../../../hooks/useDarkMode';
+import genderAvatar from '../../../utils/genderAvatar';
 const AccountPopup = ({ t }) => {
   const [colorTheme, setTheme] = useDarkMode();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -33,7 +33,7 @@ const AccountPopup = ({ t }) => {
   };
 
   return (
-    <div>
+    <div className="text-primary ml-0">
       <div
         onClick={() => router.push(`/${userInfo.username}`)}
         className="cursor-pointer flex items-center rounded-md hover:bg-gray-100  p-2"
@@ -46,7 +46,7 @@ const AccountPopup = ({ t }) => {
         />
         <div className="ml-[10px] text-left">
           <span className="font-semibold">{userInfo.name}</span>
-          <p className="text-xs text-gray-600">{t('checkOutYourProfile')}</p>
+          <p className="text-xs ">{t('checkOutYourProfile')}</p>
         </div>
       </div>
       <hr className="my-[10px]" />

@@ -28,10 +28,9 @@ const Login = () => {
     if (loginInput.account === '' || loginInput.password === '') return;
     try {
       const { data } = await apiPostLogin(loginInput);
-      console.log('login', data);
       if (!data || !data.user || !data.token) return console.log('error');
-      dispatch(setUserLogin(data.user));
       Cookie.set('token', data.token);
+      dispatch(setUserLogin(data.user));
       router.push('/');
     } catch (error) {
       const errMsg = catchError(error);

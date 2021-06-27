@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { apiGetNotifications } from '../../api/index';
-import CommentNotification from '../Notifications/CommentNotification';
-import FriendNotification from '../Notifications/FriendNotification';
-import LikeNotification from '../Notifications/LikeNotification';
+import { apiGetNotifications } from '../../../api/index';
+import CommentNotification from '../../Notifications/CommentNotification';
+import FriendNotification from '../../Notifications/FriendNotification';
+import LikeNotification from '../../Notifications/LikeNotification';
 const NotificationDropDown = ({ t }) => {
   const router = useRouter();
   const [notifications, setNotifications] = useState([]);

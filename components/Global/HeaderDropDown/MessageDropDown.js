@@ -5,8 +5,8 @@ import {
   DotsHorizontalIcon,
   SearchIcon
 } from '@heroicons/react/solid';
-import ToolTips from './ToolTips';
-import { apiGetChats } from '../../api';
+import ToolTips from '../ToolTips';
+import { apiGetChats } from '../../../api';
 import { useRouter } from 'next/router';
 import MessageDropDownList from './MesseageDropDownList';
 const MessageDropDown = ({ t }) => {

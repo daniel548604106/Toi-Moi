@@ -4,8 +4,11 @@ import { timeDiff } from '../../lib/dayjs';
 import { UsersIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
+
 import { apiPostReadSingleNotification, apiPostFriendRequest } from '../../api';
-const FriendNotification = ({ notification }) => {
+const FriendNotification = ({ notification, }) => {
+  const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
   const [isAccepted, setAccepted] = useState(false);
@@ -43,14 +46,14 @@ const FriendNotification = ({ notification }) => {
             height={60}
             src={notification.user.profileImage}
           />
-          <span className="absolute bottom-1 right-0 bg-gray-800 rounded-full p-1">
-            <UsersIcon className="h-4 text-secondary" />
+          <span className="absolute bottom-1 right-0 bg-gray-800  rounded-full p-1">
+            <UsersIcon className="h-4 text-white" />
           </span>
         </span>
 
         <div className=" ml-[10px]">
-          <p className="text-sm text-gray-600">
-            <span className="text-black font-semibold">
+          <p className="text-sm text-primary">
+            <span className="text-primary font-semibold">
               {notification.user.name}
             </span>{' '}
             {notification.type === 'newFriendInvitation' && isAccepted && (
@@ -60,7 +63,7 @@ const FriendNotification = ({ notification }) => {
               <span>sent you a friend request</span>
             )}
             {notification.type === 'newFriendAccepted' &&
-              'accepted your friend request'}
+              t('acceptedYourFriendRequest')}
           </p>
           <p
             className={`text-xs text-gray-500 ${
