@@ -60,3 +60,9 @@ Toi&Moi is a fullstack social platform designated to connect people from distanc
 
 Live Demo
   https://toi-moi.herokuapp.com/
+  
+  
+## Problems Ecountered
+
+- Problem: tailwindcss group-focus not working on mobile
+- Fix: change it to useClickAway custom hook
