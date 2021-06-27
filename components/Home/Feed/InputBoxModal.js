@@ -51,7 +51,7 @@ const InputBoxModal = () => {
 
   return (
     <div className="h-screen overflow-y-auto sm:h-auto pb-10 sm:pb-4 rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
-      <div className="p-3 z-40 sticky top-0  text-center text-lg font-semibold border-b">
+      <div className="p-3 bg-white z-40 sticky top-0  text-center text-lg font-semibold border-b">
         Create Post
         <XIcon
           onClick={() => dispatch(setPostInputBoxOpen(false))}
@@ -106,7 +106,7 @@ const InputBoxModal = () => {
         </div>
         <button
           onClick={(e) => sendPost(e)}
-          className={`mt-[10px]  text-sm  cursor-default rounded-lg w-full py-3 bg-gray-100 ${
+          className={`mt-[10px] mb-10  text-sm  cursor-default rounded-lg w-full py-3 bg-gray-100 ${
             text && 'bg-main text-white  cursor-pointer'
           } `}
         >
