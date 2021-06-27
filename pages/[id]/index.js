@@ -46,7 +46,7 @@ const Index = ({ profileData, postsData, friends }) => {
   }, [router.query.id]);
 
   return (
-    <div className="pt-[60px] bg-primary text-primary">
+    <div className=" bg-primary text-primary">
       <div className="bg-gradient-to-b from-gray-400 via-white to-white">
         <ProfileCover profile={profile} user={user} />
       </div>

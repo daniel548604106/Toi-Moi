@@ -1,9 +1,9 @@
 import React from 'react';
 import { XIcon } from '@heroicons/react/outline';
 import { useRouter } from 'next/router';
-import { apiPostUserSearch } from '../../api';
+import { apiPostUserSearch } from '../../../api';
 import Image from 'next/image';
-import genderAvatar from '../../utils/genderAvatar';
+import genderAvatar from '../../../utils/genderAvatar';
 const SearchListItem = ({
   username,
   name,
