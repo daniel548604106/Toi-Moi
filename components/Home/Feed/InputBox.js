@@ -42,7 +42,7 @@ const InputBox = () => {
         />
         <div
           onClick={() => dispatch(setPostInputBoxOpen(true))}
-          className="bg-gray-100 cursor-pointer flex-1 text-left  rounded-full p-2 pl-4 hover:bg-gray-200 text-sm sm:text-md text-gray-600"
+          className="bg-button text-primary cursor-pointer flex-1 text-left  rounded-full p-2 pl-4 hover:bg-gray-200 text-sm sm:text-md"
         >
           {`${userInfo.name} ,`} {t('post.whatAreYouThinking')}
         </div>

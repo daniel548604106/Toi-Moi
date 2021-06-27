@@ -160,7 +160,7 @@ const ProfileCover = ({ user, profile }) => {
         </div>
 
         <div className=" p-5 space-x-2  flex flex-col items-center justify-center">
-          <h2 className="text-2xl font-semibold">{user.name}</h2>
+          <h2 className="text-xl sm:text-2xl font-semibold">{user.name}</h2>
           <BioInput
             isEditable={isEditable}
             originalBio={profile.bio}
