@@ -11,12 +11,30 @@ import catchError from '../../lib/catchError';
 import Cookie from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { setUserLogin } from '../../redux/slices/userSlice';
+import { Formik, Form, Field } from 'formik';
+ import * as Yup from 'yup';
+ 
+ const SignupSchema = Yup.object().shape({
+   name: Yup.string()
+     .min(2, 'Please use your real name')
+     .max(50, 'Too Long!')
+     .required('Required'),
+  username: Yup.string()
+     .min(2, 'Username must be at least 2 characters')
+     .max(50, 'Too Long!')
+     .required('Required'),
+   email: Yup.string().email('Invalid email').required('Required'),
+   password: Yup.string()
+   .min(6, 'Password must be at least 6 characters')
+   .max(20, 'Too Long!')
+   .required('Required'),
+ });
 const Index = ({ setSignupOpen }) => {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
   const [isLoading, setLoading] = useState(false);
   const yearRange = _.range(currentYear, 1930);
-  const monthRange = _.range(1, 12);
+  const monthRange = _.range(1, 13);
   const dateRange = _.range(1, 31);
   const [inputChecked, setInputChecked] = useState(false);
   const [errorMsg, setErrorMsg] = useState({});
@@ -44,14 +62,6 @@ const Index = ({ setSignupOpen }) => {
     genderDisplayName
   } = signupInfo;
 
-  const handleInputChange = (e) => {
-    const { value, name } = e.target;
-    setSignupInfo({
-      ...signupInfo,
-      [name]: value
-    });
-  };
-
   const handleBirthdayChange = (e) => {
     setSignupInfo({
       ...signupInfo,
@@ -60,35 +70,10 @@ const Index = ({ setSignupOpen }) => {
   };
 
   const handleSignup = async (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+
     let error = {};
     setInputChecked(true);
     // Name
-
-    if (!name) {
-      error['name'] = 'Cannot be empty';
-    }
-    // Email
-    if (!email) {
-      error['email'] = 'Please provide your email';
-    }
-    // Password
-    if (!password) {
-      error['password'] = 'Please provide a password';
-    }
-    // Username
-    if (!username) {
-      error['username'] = 'Please confirm your password';
-    }
-    // Gender
-    if (!gender) {
-      error['gender'] = 'Please provide your gender';
-    }
-    // BDay
-    if (!year || !month || !date) {
-      error['birthday'] = 'Please make sure you have the right birthday';
-    }
     setErrorMsg(error);
     try {
       setLoading(true);
@@ -103,40 +88,6 @@ const Index = ({ setSignupOpen }) => {
       catchError(error);
     }
   };
-
-  useEffect(() => {
-    // Check latest input after submit button is clicked
-    console.log(inputChecked);
-    if (inputChecked) {
-      if (name) {
-        setErrorMsg({ ...errorMsg, name: '' });
-      }
-      if (email) {
-        setErrorMsg({ ...errorMsg, email: '' });
-      }
-      if (password) {
-        setErrorMsg({ ...errorMsg, password: '' });
-      }
-      if (username) {
-        setErrorMsg({ ...errorMsg, username: '' });
-      }
-      if (gender) {
-        setErrorMsg({ ...errorMsg, gender: '' });
-      }
-      if (year && date && month) {
-        setErrorMsg({ ...errorMsg, birthday: '' });
-      }
-    }
-    console.log(errorMsg, 'ser');
-  }, [signupInfo]);
-  useEffect(() => {
-    console.log(signupInfo);
-    if (year && month && date) {
-      let formattedBirthday = new Date(year, month, date);
-      formattedBirthday = formattedBirthday.toISOString();
-      setSignupInfo({ ...signupInfo, birthday: formattedBirthday });
-    }
-  }, [signupInfo]);
 
   return (
     <form
@@ -153,150 +104,87 @@ const Index = ({ setSignupOpen }) => {
         <h1 className="text-xl sm:text-3xl font-semibold">Signup</h1>
         <p className="text-sm text-gray-400">Fast and simple</p>
       </div>
-      <div className="p-3 sm:p-5 space-y-2">
-        <div
-          className={`flex  p-3 items-center rounded-lg border ${
-            errorMsg.name && 'border-red-600'
-          }`}
-        >
-          <input
-            onChange={(e) => handleInputChange(e)}
-            className="w-full text-sm sm:text-md focus:outline-none bg-secondary text-secondary"
-            type="text"
-            name="name"
-            placeholder="Name"
-          />
-          {errorMsg.name && (
-            <ExclamationCircleIcon className="h-6 text-red-500" />
-          )}
-        </div>
-        <div
-          className={`flex  p-3 items-center rounded-lg border ${
-            errorMsg.username && 'border-red-600'
-          }`}
-        >
-          <input
-            className="w-full text-sm sm:text-md focus:outline-none"
-            type="text"
-            onChange={(e) => handleInputChange(e)}
-            name="username"
-            placeholder="Account"
-          />
-          {errorMsg.username && (
-            <ExclamationCircleIcon className="h-6 text-red-500" />
-          )}
-        </div>
-        <div className="space-y-2">
-          <div
-            className={`flex  p-3 items-center rounded-lg border ${
-              errorMsg.email && 'border-red-600'
-            }`}
-          >
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="w-full text-sm sm:text-md focus:outline-none bg-secondary text-secondary"
-              type="email"
-              name="email"
-              value={signupInfo.email}
-              placeholder="Email"
-            />
-            {errorMsg.email && (
-              <ExclamationCircleIcon className="h-6 text-red-500" />
-            )}
-          </div>
-          <div
-            className={`flex  p-3 items-center rounded-lg border ${
-              errorMsg.password && 'border-red-600'
-            }`}
-          >
-            <input
-              onChange={(e) => handleInputChange(e)}
-              className="w-full text-sm sm:text-md focus:outline-none"
-              type="password"
-              name="password"
-              value={signupInfo.password}
-              placeholder="Password"
-            />
-            {errorMsg.password && (
-              <ExclamationCircleIcon className="h-6 text-red-500" />
-            )}
-          </div>
-        </div>
-        <div className="flex items-center text-gray-600">
-          <span className="text-sm sm:text-md">Birthday</span>
-          <QuestionMarkCircleIcon className="h-5  cursor-pointer ml-[5px]" />
-        </div>
+        <div className="p-5">
+      <Formik
+       initialValues={{
+         name: '',
+         username: '',
+         email: '',
+         password: '',
+         gender: 'male'
+       }}
+       validationSchema={SignupSchema}
+       onSubmit={values => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(values);
+       }}
+     >
+       {({ errors, touched }) => (
+         <Form className="space-y-3">
+           <div className={`border p-3 rounded-md flex items-center w-full ${errors.name && touched.name && 'border-red-600'}`}>
+           <Field placeholder="Name" className="w-full outline-none"  name="name" />
+           {errors.name && touched.name && <ExclamationCircleIcon className="h-6 text-red-600"/> }
+           </div>
+           <div className="text-red-600 text-sm">
+           {errors.name && touched.name ? (
+             <div>{errors.name}</div>
+           ) : null}
+           </div>
+           <div className={`border p-3 rounded-md flex items-center w-full ${errors.username && touched.username && 'border-red-600'}`}>
+           <Field placeholder="Username" className="w-full outline-none"  name="username" />
+           {errors.username && touched.username && <ExclamationCircleIcon className="h-6 text-red-600"/> }
+           </div>
+           <div className="text-red-600 text-sm">
+           {errors.username && touched.username ? (
+             <div>{errors.username}</div>
+           ) : null}
+           </div>
+           <div className={`border p-3 rounded-md flex items-center w-full ${errors.email && touched.email && 'border-red-600'}`}>
+             <Field placeholder="Email" className="w-full outline-none" name="email" type="email" />
+             {errors.email && touched.email && <ExclamationCircleIcon className="h-6 text-red-600"/> }
+           </div>
+           <div className="text-red-600 text-sm">
+           {errors.email && touched.email ? (
+             <div>{errors.email}</div>
+           ) : null}
+           </div>
+           <div className={`border p-3 rounded-md flex items-center w-full ${errors.password && touched.password && 'border-red-600'}`}>
+           <Field placeholder="Password" className="w-full outline-none" name="password" type="password" />
+           {errors.password && touched.password && <ExclamationCircleIcon className="h-6 text-red-600"/> }
+           </div>
+           <div className="text-red-600 text-sm">
+           {errors.password && touched.password ? (
+             <div>{errors.password}</div>
+           ) : null}
+           </div>
+           <div>
+            <div id="gender-group">Gender</div>
+            <div className="flex items-center mt-1" role="group" aria-labelledby="gender-group">
+              <div className="flex border p-2 rounded-md w-full items-center justify-between">
+                <label>                Male
+                </label>
+                <Field type="radio" name="gender" value="male" />
+              </div>
+              <div className="flex border p-2 rounded-md w-full ml-2 items-center justify-between">
+              <label>
+                Female
+              </label>
+                <Field type="radio" name="gender" value="female" />
+                </div>
+              <div className="flex border p-2 rounded-md w-full ml-2 items-center justify-between">
+              <label>
+                Other
+              </label>
+                <Field type="radio" name="gender" value="other" />
+              </div>
+            </div>
+           </div>
 
-        <div className=" flex items-center w-full">
-          <select
-            onChange={(e) => handleBirthdayChange(e)}
-            className="w-full text-sm  border p-2 rounded-md"
-            name="year"
-          >
-            {yearRange.map((year) => (
-              <option key={year}>{year}</option>
-            ))}
-          </select>
-          <select
-            onChange={(e) => handleBirthdayChange(e)}
-            className="w-full  text-sm border p-2 rounded-md ml-[10px] "
-            name="month"
-          >
-            {monthRange.map((month) => (
-              <option key={month}>{month}</option>
-            ))}
-          </select>
-          <select
-            onChange={(e) => handleBirthdayChange(e)}
-            className="w-full  text-sm border p-2 rounded-md ml-[10px] "
-            name="date"
-          >
-            {dateRange.map((date) => (
-              <option key={date}>{date}</option>
-            ))}
-          </select>
-        </div>
-        <div className="text-gray-600">
-          <span className="text-sm sm:text-md">Gender</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-full p-2 rounded-md flex items-center justify-between border">
-            <label className="text-sm sm:text-md" htmlFor="female">
-              Female
-            </label>
-            <input
-              onChange={(e) => handleInputChange(e)}
-              type="radio"
-              id="female"
-              name="gender"
-              value="female"
-            />
-          </div>
-          <div className="w-full p-2 rounded-md ml-[10px] flex items-center justify-between border">
-            <label
-              className="text-sm sm:text-md"
-              onChange={(e) => handleInputChange(e)}
-              htmlFor="male"
-            >
-              Male
-            </label>
-
-            <input
-              onChange={(e) => handleInputChange(e)}
-              type="radio"
-              id="male"
-              name="gender"
-              value="male"
-            />
-          </div>{' '}
-          <div className="w-full p-2 rounded-md ml-[10px] flex items-center justify-between border">
-            <label className="text-sm sm:text-md" htmlFor="other">
-              Other
-            </label>
-            <input type="radio" id="other" name="gender" value="other" />
-          </div>
-        </div>
-        <p className="mb-[20px] text-xs sm:text-sm text-gray-600">
+         </Form>
+       )}
+     </Formik>
+        <p className="my-[20px] text-xs sm:text-sm text-gray-600">
           By clicking <span className="underline">Signup</span> means you've
           agreed to our{' '}
           <span className="text-main cursor-pointer">Service policy</span> and{' '}
@@ -305,12 +193,12 @@ const Index = ({ setSignupOpen }) => {
         <div className="flex items-center justify-center">
           <button
             onClick={(e) => handleSignup(e)}
-            className="text-md sm:text-lg font-semibold bg-main-yellow text-white text-secondary rounded-md w-[200px] p-2 mx-auto"
+            className="text-md flex items-center justify-center sm:text-lg font-semibold bg-main-yellow text-white text-secondary rounded-md w-[200px] p-2 mx-auto"
           >
             {isLoading ? <Loader /> : 'SIGN UP'}{' '}
           </button>
-        </div>
-      </div>
+          </div>
+          </div>
     </form>
   );
 };
