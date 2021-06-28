@@ -72,7 +72,7 @@ const Index = ({ setSignupOpen }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="h-screen sm:h-auto bg-white relative shadow-lg rounded-lg  w-screen  sm:w-full sm:max-w-[500px]"
+      className="h-screen overflow-y-auto sm:h-auto bg-white relative shadow-lg rounded-lg  w-screen  sm:w-full sm:max-w-[500px]"
     >
       <span
         onClick={() => setSignupOpen(false)}
