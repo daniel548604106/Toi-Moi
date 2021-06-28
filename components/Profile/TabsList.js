@@ -127,7 +127,7 @@ const TabsList = ({ user, friends_total,friend_status }) => {
         <div className="flex items-center  space-x-3">
           {
             friendStatus === 'unfriend' && 
-          <button onClick={() => handleSendFriendRequest()} className="text-xs sm:text-sm flex items-center  bg-gray-100 rounded-md py-2 px-3">
+          <button onClick={() => handleSendFriendRequest()} className="text-xs text-black sm:text-sm flex items-center  bg-gray-100 rounded-md py-2 px-3">
             <UserAddIcon className="h-6 mr-2" />
             Add Friend
           </button>
@@ -159,7 +159,7 @@ const TabsList = ({ user, friends_total,friend_status }) => {
             <ChatAlt2Icon className="h-6 mr-2" />
             Message
           </button>
-          <button className="py-2 px-3 rounded-md  bg-gray-100">
+          <button className="py-2 px-3 rounded-md  text-black bg-gray-100">
             <DotsHorizontalIcon className="h-6" />
           </button>
         </div>
