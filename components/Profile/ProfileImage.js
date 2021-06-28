@@ -44,12 +44,12 @@ const ProfileImage = ({ postId, user, profileImage }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="relative  border w-[160px] h-[160px] rounded-full border-white "
+      className="relative  border h-[100px] w-[100px] sm:w-[160px] sm:h-[160px] rounded-full border-white "
     >
       <Image
         onClick={(e) => handleViewCurrentProfile(e)}
         className={`${profileImage && 'cursor-pointer'} 
-       object-cover h-[60px] w-[60px]  cursor-default sm:w-[100px] sm:h-[100px]   rounded-full`}
+       object-cover   cursor-default sm:w-[100px] sm:h-[100px]   rounded-full`}
         src={profileImage || genderAvatar(user.gender)}
         layout="fill"
       />
