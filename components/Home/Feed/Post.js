@@ -216,7 +216,7 @@ const Post = ({ post }) => {
       </div>
       <div className="p-1 flex items-center">
         <Image
-          src={userInfo.profileImage}
+          src={userInfo.profileImage || genderAvatar(userInfo.gender)}
           width={30}
           height={30}
           className="rounded-full "

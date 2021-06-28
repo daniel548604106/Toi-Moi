@@ -2,14 +2,17 @@ import { useState, useEffect, useRef } from 'react';
 
 import io from 'socket.io-client';
 import Head from 'next/head';
-import Sidebar from '../components/Home/Sidebar';
+import Sidebar from '../components/Home/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import Feed from '../components/Home/Feed/Index';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import InputBox from '../components/Home/Feed/InputBox';
 import axios from 'axios';
 import genderAvatar from '../utils/genderAvatar';
+import NoPost from '../components/Home/Feed/NoPost';
+import EndMessage from '../components/Home/Feed/EndMessage';
 export default function Home({ posts, chats }) {
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts);
@@ -76,25 +79,26 @@ export default function Home({ posts, chats }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="pt-[80px] w-full relative flex justify-between p-3">
+      <main className=" w-full relative flex justify-between p-3">
         <div className="w-1/2 hidden lg:block">
           <Sidebar />
         </div>
-        <div className="w-full">
-          {currentPosts && (
+        <div className=" w-full sm:px-5 sm:mx-0 xl:px-10">
+          <div className="mb-[15px] sm:mb-[20px]">
+            <InputBox />
+          </div>
+          {currentPosts ? (
             <InfiniteScroll
               dataLength={currentPosts.length} //This is important field to render the next data, only when the length is changed then will trigger next function
               next={getMorePosts}
               hasMore={hasMore}
               loader={<h4>Loading...</h4>}
-              endMessage={
-                <p style={{ textAlign: 'center' }}>
-                  <b>Yay! You have seen it all</b>
-                </p>
-              }
+              endMessage={<EndMessage />}
             >
               <Feed posts={currentPosts} />
             </InfiniteScroll>
+          ) : (
+            <NoPost />
           )}
         </div>
         <div className=" w-1/2 hidden md:block ">
