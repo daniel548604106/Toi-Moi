@@ -16,8 +16,9 @@
   "account": "Account",
   "search": "Search",
   "story": "Story",
+  "confirm": "Confirm",
+  "cancel": "Cancel",
   "sharePost": "Share on your post",
   "shareVideoOrWriteSth": "Share video or write something",
   "acceptedYourFriendRequest": "accepted your friend request"
-
 }

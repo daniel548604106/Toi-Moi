@@ -7,6 +7,7 @@ import {
 } from '@heroicons/react/solid';
 import ToolTips from '../ToolTips';
 import { apiGetChats } from '../../../api';
+import EmptyChat from '../../Messages/EmptyChat';
 import { useRouter } from 'next/router';
 import MessageDropDownList from './MesseageDropDownList';
 const MessageDropDown = ({ t }) => {
@@ -55,7 +56,9 @@ const MessageDropDown = ({ t }) => {
           <MessageDropDownList key={message.messagesWith} message={message} />
         ))
       ) : (
-        <div>No Message</div>
+        <div className="my-3">
+          <EmptyChat />
+        </div>
       )}
 
       <div

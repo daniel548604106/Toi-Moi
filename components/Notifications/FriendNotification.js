@@ -7,7 +7,8 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
 import { apiPostReadSingleNotification, apiPostFriendRequest } from '../../api';
-const FriendNotification = ({ notification, }) => {
+import genderAvatar from '../../utils/genderAvatar';
+const FriendNotification = ({ notification }) => {
   const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
@@ -44,7 +45,10 @@ const FriendNotification = ({ notification, }) => {
             className="rounded-full object-cover cursor-pointer"
             width={60}
             height={60}
-            src={notification.user.profileImage}
+            src={
+              notification.user.profileImage ||
+              genderAvatar(notification.user.gender)
+            }
           />
           <span className="absolute bottom-1 right-0 bg-gray-800  rounded-full p-1">
             <UsersIcon className="h-4 text-white" />
@@ -78,13 +82,12 @@ const FriendNotification = ({ notification, }) => {
                 onClick={(e) =>
                   handleAcceptFriendRequest(e, notification.user.username)
                 }
-                className="w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-main text-secondary "
+                className="w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-main text-white "
               >
-                {' '}
-                Confirm
+                {t('confirm')}
               </button>
               <button className="w-full text-xs ml-[10px] cursor-pointer rounded-md p-2 px-4 border">
-                Cancel
+                {t('cancel')}
               </button>
             </div>
           )}

@@ -259,7 +259,7 @@ const Index = ({ setSignupOpen }) => {
                 <button
                   disabled={!(isValid && dirty)}
                   onClick={(e) => handleSignup(e)}
-                  className={`text-md mb-10 flex items-center justify-center sm:text-lg font-semibold  text-white text-secondary rounded-md w-[200px] p-2 mx-auto ${
+                  className={`text-md mb-20 flex items-center justify-center sm:text-lg font-semibold  text-white text-secondary rounded-md w-[200px] p-2 mx-auto ${
                     !(isValid && dirty)
                       ? 'bg-gray-100 text-black cursor-not-allowed'
                       : 'bg-main-yellow'

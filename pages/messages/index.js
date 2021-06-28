@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { apiGetChats, apiGetChatUserInfo } from '../../api/index';
+import Image from 'next/image';
+import { apiGetChatUserInfo, apiSearchRequest } from '../../api/index';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import ChatroomSidebarHeader from '../../components/Messages/ChatroomSidebar/ChatroomSidebarHeader';
 import ChatroomList from '../../components/Messages/ChatroomSidebar/ChatroomList';
 import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomMainHeader';
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
 import ChatroomMainInputBox from '../../components/Messages/ChatroomMain/ChatroomMainInputBox';
-import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import EmptyChat from '../../components/Messages/EmptyChat';
+
 import messageNotificationSound from '../../utils/messageNotificationSound';
-import Image from 'next/image';
-import { apiSearchRequest } from '../../api/index';
 import genderAvatar from '../../utils/genderAvatar';
 import useTranslation from 'next-translate/useTranslation';
+
 const io = require('socket.io-client');
 
 const Index = (props) => {
@@ -54,7 +56,6 @@ const Index = (props) => {
   }, [searchText]);
 
   const sendMsg = (msg) => {
-    console.log('sentto', openChatId.current);
     if (socket.current) {
       socket.current.emit('sendMessage', {
         userId: userInfo._id,
@@ -229,7 +230,7 @@ const Index = (props) => {
     }
   }, []);
   return (
-    <div className="flex bg-primary h-screen pt-[30px] sm:pt-[56px] text-primary">
+    <div className="flex bg-primary fullBodyHeight text-primary">
       <div className="w-full hidden sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col ">
         <ChatroomSidebarHeader
           t={t}
@@ -265,23 +266,27 @@ const Index = (props) => {
               ))}
         </div>
       </div>
-      <div className="flex-1 flex flex-col  ">
-        <ChatroomMainHeader
-          connectedUsers={connectedUsers}
-          openChatUser={openChatUser}
-        />
+      {chats.length > 0 ? (
+        <div className="flex-1 flex flex-col  ">
+          <ChatroomMainHeader
+            connectedUsers={connectedUsers}
+            openChatUser={openChatUser}
+          />
 
-        <ChatroomMainRoom
-          divRef={divRef}
-          sendMsg={sendMsg}
-          socket={socket.current}
-          user={userInfo}
-          receiverProfileImage={openChatUser.profileImage}
-          messagesWith={openChatId.current}
-          messages={messages}
-        />
-        <ChatroomMainInputBox t={t} sendMsg={sendMsg} />
-      </div>
+          <ChatroomMainRoom
+            divRef={divRef}
+            sendMsg={sendMsg}
+            socket={socket.current}
+            user={userInfo}
+            receiverProfileImage={openChatUser.profileImage}
+            messagesWith={openChatId.current}
+            messages={messages}
+          />
+          <ChatroomMainInputBox t={t} sendMsg={sendMsg} />
+        </div>
+      ) : (
+        <EmptyChat />
+      )}
     </div>
   );
 };

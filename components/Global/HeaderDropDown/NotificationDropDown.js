@@ -4,6 +4,7 @@ import { apiGetNotifications } from '../../../api/index';
 import CommentNotification from '../../Notifications/CommentNotification';
 import FriendNotification from '../../Notifications/FriendNotification';
 import LikeNotification from '../../Notifications/LikeNotification';
+import EmptyNotification from '../../Notifications/EmptyNotification';
 const NotificationDropDown = ({ t }) => {
   const router = useRouter();
   const [notifications, setNotifications] = useState([]);
@@ -23,7 +24,6 @@ const NotificationDropDown = ({ t }) => {
     <div>
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold">{t('notification')}</h2>
-
         <span
           onClick={() => router.push('/notifications')}
           className="text-main cursor-pointer text-sm"
@@ -47,7 +47,7 @@ const NotificationDropDown = ({ t }) => {
           </div>
         ))
       ) : (
-        <div>Notification Box Empty</div>
+        <EmptyNotification />
       )}
     </div>
   );

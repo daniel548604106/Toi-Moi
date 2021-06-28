@@ -3,6 +3,7 @@ import axios from 'axios';
 import Sidebar from '../../components/Friends/Sidebar';
 import RecentBirthdays from '../../components/Friends/Birthdays/RecentBirthdays';
 import MonthlyBirthdays from '../../components/Friends/Birthdays/MonthlyBirthdays';
+import EmptyBirthday from '../../components/Friends/Birthdays/EmptyBirthday';
 import dayjs from 'dayjs';
 const birthdays = ({ friends }) => {
   const [recentBirthdays, setRecentBirthdays] = useState([]);
@@ -42,24 +43,32 @@ const birthdays = ({ friends }) => {
     getMonthlyBirthdays();
   }, [friends]);
   return (
-    <div className="flex">
-      <div className=" hidden md:block min-w-[300px] w-[20%]">
+    <div className="flex flex-col sm:flex-row">
+      <div className="min-w-[300px] w-[20%]">
         <Sidebar />
       </div>
       <div className="flex-1 bg-primary p-5 ">
-        <div className="mx-auto w-full max-w-[600px] space-y-4">
-          <RecentBirthdays recentBirthdays={recentBirthdays} />
-          {monthlyBirthdays.map(
-            (month) =>
-              month.birthdays.length > 0 && (
-                <MonthlyBirthdays
-                  key={month.month}
-                  month={month.month}
-                  birthdays={month.birthdays}
-                />
-              )
-          )}
-        </div>
+        {friends.length > 0 ? (
+          <div className="mx-auto w-full max-w-[600px] space-y-4">
+            {recentBirthdays.length > 0 && (
+              <RecentBirthdays recentBirthdays={recentBirthdays} />
+            )}
+            {monthlyBirthdays.map(
+              (month) =>
+                month.birthdays.length > 0 && (
+                  <MonthlyBirthdays
+                    key={month.month}
+                    month={month.month}
+                    birthdays={month.birthdays}
+                  />
+                )
+            )}
+          </div>
+        ) : (
+          <div className="mt-20">
+            <EmptyBirthday />
+          </div>
+        )}
       </div>
     </div>
   );

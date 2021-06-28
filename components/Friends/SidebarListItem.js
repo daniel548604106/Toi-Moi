@@ -11,13 +11,13 @@ const SidebarListItem = ({ Icon, title, link }) => {
       }`}
     >
       <span
-        className={`rounded-full p-2 mr-3  ${
+        className={`rounded-full p-1 sm:p-2 mr-3  ${
           active ? 'bg-main text-white' : 'bg-button text-secondary'
         }`}
       >
-        <Icon className="h-6" />
+        <Icon className="h-5 sm:h-6" />
       </span>
-      <p>{title}</p>
+      <p className="text-sm sm:text-md">{title}</p>
     </div>
   );
 };

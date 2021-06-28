@@ -8,18 +8,28 @@ const Index = ({ recommendations }) => {
   useEffect(() => {
     console.log(recommendations, 'recommendations');
   }, [recommendations]);
+  const removeRecommendation = (id) => {
+    let update = currentRecommendations.filter(
+      (recommendation) => recommendation._id !== id
+    );
+    setCurrentRecommendations(update);
+  };
   return (
-    <div className="flex">
-      <div className="hidden md:block min-w-[300px] w-[20%]">
+    <div className="flex flex-col sm:flex-row">
+      <div className="min-w-[300px] w-[20%]">
         <Sidebar />
       </div>
       <div className="flex-1 p-3 space-y-3">
         <h2 className="text-lg font-semibold sm:text-2xl">
           Friend Recommendation
         </h2>
-        <div className="grid gap-2 sm:gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="transition-all grid gap-2 sm:gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {currentRecommendations.map((recommendation) => (
-            <FriendCard key={recommendation.username} user={recommendation} />
+            <FriendCard
+              removeRecommendation={removeRecommendation}
+              key={recommendation.username}
+              user={recommendation}
+            />
           ))}
         </div>
       </div>
@@ -29,10 +39,16 @@ const Index = ({ recommendations }) => {
 
 export default Index;
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req }) {
   try {
+    const token = req.cookies.token;
     const res = await axios.get(
-      `${process.env.BASE_URL}/api/friends/recommendations`
+      `${process.env.BASE_URL}/api/friends/recommendations`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
     );
     return {
       props: {
