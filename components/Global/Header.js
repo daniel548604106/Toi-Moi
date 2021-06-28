@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import {
   PlayIcon,
@@ -26,15 +26,16 @@ import CreateDropDown from './HeaderDropDown/CreateDropDown';
 import Search from './Search/Search';
 import NotificationDropDown from './HeaderDropDown/NotificationDropDown';
 import useTranslation from 'next-translate/useTranslation';
+import Sidebar from '../Home/Sidebar/Sidebar';
 const Header = () => {
   const router = useRouter();
-  const [isSideMenuShow, setSideMenuShow] = useState(false)
+  const [isSideMenuShow, setSideMenuShow] = useState(false);
   const userInfo = useSelector((state) => state.user.userInfo);
   const { t } = useTranslation('header');
-  const handleSideMenuShow = (e) =>{
-     e.stopPropagation();
-    setSideMenuShow(!isSideMenuShow)
-  }
+  const handleSideMenuShow = (e) => {
+    e.stopPropagation();
+    setSideMenuShow(!isSideMenuShow);
+  };
 
   return (
     <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3 py-1  sm:px-5 ">
@@ -49,11 +50,9 @@ const Header = () => {
             layout="fixed"
           />
           <Search t={t} />
-        
         </div>
       </div>
-
-      <div className="fixed top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed max-w-[750px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           title="home"
           href="/"
@@ -87,31 +86,38 @@ const Header = () => {
         </div>
         <div className="hidden md:flex items-center">
           <DropDownMenuIcon title="Create" Icon={PlusIcon}>
-              <CreateDropDown t={t} />
+            <CreateDropDown t={t} />
           </DropDownMenuIcon>
-        <DropDownMenuIcon title="Notification" Icon={BellIcon}>
+          <DropDownMenuIcon title="Notification" Icon={BellIcon}>
             <NotificationDropDown t={t} />
-        </DropDownMenuIcon>
-        <DropDownMenuIcon title="Messenger" Icon={ChatIcon}>
+          </DropDownMenuIcon>
+          <DropDownMenuIcon title="Messenger" Icon={ChatIcon}>
             <MessageDropDown t={t} />
-        </DropDownMenuIcon>
-        <DropDownMenuIcon  title="Account" Icon={ChevronDownIcon}>
+          </DropDownMenuIcon>
+          <DropDownMenuIcon title="Account" Icon={ChevronDownIcon}>
             <AccountDropDown t={t} />
-        </DropDownMenuIcon>
+          </DropDownMenuIcon>
         </div>
-
-        <div  className="flex items-center space-x-3 md:hidden">
-          <BellIcon onClick={() => router.push('/notifications')} className="h-6"/>
-          <ChatIcon onClick={() => router.push('/messages')} className="h-6"/>
-          <MenuIcon onClick={(e) => handleSideMenuShow(e)} className="h-6"/>
+        <div className="flex items-center space-x-3 md:hidden">
+          <BellIcon
+            onClick={() => router.push('/notifications')}
+            className="h-6"
+          />
+          <ChatIcon onClick={() => router.push('/messages')} className="h-6" />
+          <MenuIcon onClick={(e) => handleSideMenuShow(e)} className="h-6" />
+        </div>
+        {isSideMenuShow && (
+          <div
+            className={`${
+              isSideMenuShow && '-translate-x-full'
+            } transform ease-in-out overflow-y-auto transition-transform  delay-500  fixed left-full w-full bg-secondary text-button h-full z-40 top-[50px]`}
+          >
+            <div onClick={(e) => handleSideMenuShow(e)}>
+              <Sidebar />
+            </div>
+            <AccountDropDown t={t} />
           </div>
-          {isSideMenuShow &&
-          <div  className={`${isSideMenuShow && '-translate-x-full'} transform ease-in-out transition-transform  delay-500  fixed left-full w-full bg-secondary text-button h-full z-40 top-[50px]`}>
-          <AccountDropDown t={t} />
-
-          </div>
-
-          }
+        )}
       </div>
     </div>
   );

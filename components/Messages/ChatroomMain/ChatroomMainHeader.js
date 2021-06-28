@@ -24,16 +24,18 @@ const Header = ({ openChatUser, connectedUsers }) => {
           />
         )}
         <div className="ml-3">
-          <p className="text-lg font-medium cursor-pointer hover:underline">
+          <p className="text-sm truncate sm:text-lg font-medium cursor-pointer hover:underline">
             {openChatUser.name}
           </p>
-          {isOnline && <p className="text-sm text-gray-500">目前在線上</p>}
+          {isOnline && (
+            <p className="text-xs sm:text-sm text-gray-500">目前在線上</p>
+          )}
         </div>
       </div>
       <div className="flex items-center space-x-3">
-        <PhoneIcon className="h-6 text-main cursor-pointer" />
-        <VideoCameraIcon className="h-6 text-main cursor-pointer" />
-        <InformationCircleIcon className="h-6 text-main cursor-pointer" />
+        <PhoneIcon className="h-5 sm:h-6 text-main cursor-pointer" />
+        <VideoCameraIcon className="h-5 sm:h-6 text-main cursor-pointer" />
+        <InformationCircleIcon className="h-5 sm:h-6 text-main cursor-pointer" />
       </div>
     </div>
   );

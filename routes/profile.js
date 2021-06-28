@@ -22,14 +22,14 @@ const {
 router.get('/:username', authMiddleware, async (req, res) => {
   const { username } = req.params;
   try {
-    const {userId} = req
+    const { userId } = req;
     const user = await User.findOne({ username: username.toLowerCase() });
     if (!user) return res.status(404).send('User not found');
     // console.log(user);
 
     const profile = await Profile.findOne({ user: user._id }).populate('user');
     const friends = await Friend.findOne({ user: user._id });
-   
+
     // console.log(profile);
     const profileFollowStats = await Follower.findOne({ user: user._id });
     // console.log(profileFollowStats);
@@ -212,10 +212,11 @@ router.post('/friend/:username', authMiddleware, async (req, res) => {
     // Check if request has already been sent
     if (
       userToSendRequest.requestsSent.find(
-        (request) => request.user.toString() === user._id
+        (request) => request.user.toString() === user._id.toString()
       )
-    )
+    ) {
       return res.status(401).send('Request already sent');
+    }
 
     // Check if the user himself has already received request from the userToReceiveRequest
 
@@ -322,17 +323,23 @@ router.get('/friends_preview/:username', authMiddleware, async (req, res) => {
       'friends.user'
     );
     // console.log(friends);
-    const requestedByGuest =  friends.requestsSent.map(request => request.user.toString()).indexOf(userId) > -1
-    const receivedFromGuest =  friends.requestsReceived.map(received => received.user.toString()).indexOf(userId) > -1
+    const requestedByGuest =
+      friends.requestsSent
+        .map((request) => request.user.toString())
+        .indexOf(userId) > -1;
+    const receivedFromGuest =
+      friends.requestsReceived
+        .map((received) => received.user.toString())
+        .indexOf(userId) > -1;
     let friend_status = 'unfriend';
-    if(requestedByGuest){
-      friend_status = 'friendInvited'
+    if (requestedByGuest) {
+      friend_status = 'friendInvited';
     }
-    if(receivedFromGuest){
-      friend_status = 'friendRequested'
+    if (receivedFromGuest) {
+      friend_status = 'friendRequested';
     }
-    if(requestedByGuest && receivedFromGuest){
-      friend_status = 'friend'
+    if (requestedByGuest && receivedFromGuest) {
+      friend_status = 'friend';
     }
     const list = {
       friends_total: friends.friends.length,

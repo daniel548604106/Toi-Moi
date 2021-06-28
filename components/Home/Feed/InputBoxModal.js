@@ -8,6 +8,7 @@ import {
 } from '../../../redux/slices/postSlice';
 import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { apiPostNewPost } from '../../../api/index';
+import genderAvatar from '../../../utils/genderAvatar';
 const InputBoxModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const imageToPost = useSelector((state) => state.post.imageToPost);
@@ -62,7 +63,7 @@ const InputBoxModal = () => {
         <div className="flex items-center py-2">
           <Image
             className="rounded-full cursor-pointer"
-            src={userInfo.profileImage}
+            src={userInfo.profileImage || genderAvatar(userInfo.gender)}
             width={50}
             height={50}
           />

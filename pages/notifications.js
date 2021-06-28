@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import Image from 'next/image';
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
 import { apiPostReadNotifications } from '../api';
 import LikeNotification from '../components/Notifications/LikeNotification';
 import CommentNotification from '../components/Notifications/CommentNotification';
 import FriendNotification from '../components/Notifications/FriendNotification';
+import EmptyNotification from '../components/Notifications/EmptyNotification';
 const Index = ({ notifications }) => {
   useEffect(() => {
     console.log(notifications);
@@ -43,9 +45,7 @@ const Index = ({ notifications }) => {
             ))}
           </div>
         ) : (
-          <div className="h-screen w-screen flex justify-center items-center">
-            No notifications
-          </div>
+          <EmptyNotification />
         )}
       </div>
     </div>

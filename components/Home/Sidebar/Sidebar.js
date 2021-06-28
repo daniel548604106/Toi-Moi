@@ -11,23 +11,25 @@ const Sidebar = () => {
   const { t } = useTranslation('common');
   const userInfo = useSelector((state) => state.user.userInfo);
   const [isSeeMoreOpen, setSeeMoreOpen] = useState(false);
+  const handleSeeMore = (e) => {
+    e.stopPropagation();
+    setSeeMoreOpen(true);
+  };
   return (
-    <div className="max-w-[400px] sticky top-[80px] ">
+    <div className="max-w-[400px] text-secondary sm:sticky top-[80px] ">
       <div
         className="flex hover:bg-gray-200 items-center rounded-lg  p-4 py-3 cursor-pointer "
         onClick={() => router.push(`/${userInfo.username}`)}
       >
         <Image
-          width={35}
-          height={35}
-          layout="fixed"
-          className="rounded-full"
+          width={60}
+          height={60}
+          className="sm:w-[30px] sm:h-[30px] rounded-full"
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
         />
-        <p className="hidden sm:inline-flex font-medium ml-3">
-          {userInfo.name}
-        </p>
+        <p className=" sm:inline-flex font-medium ml-3">{userInfo.name}</p>
       </div>
+      <hr className="sm:hidden" />
       <SidebarListItem
         link="friends"
         src="/icons/friend.png"
@@ -72,7 +74,7 @@ const Sidebar = () => {
           />
         </>
       ) : (
-        <div onClick={() => setSeeMoreOpen(true)}>
+        <div onClick={(e) => handleSeeMore(e)}>
           <SidebarListItem
             Icon={ChevronDownIcon}
             title={t('sidebar.seeMore')}
