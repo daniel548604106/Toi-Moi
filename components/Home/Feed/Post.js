@@ -38,11 +38,7 @@ const Post = ({ post }) => {
   );
   const [text, setText] = useState('');
   const [commentLength, setCommentLength] = useState(2);
-  useEffect(() => {
-    console.log(post, commentLength);
-  }, [commentLength]);
   const dispatch = useDispatch();
-
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     if (text === '') return;
@@ -58,11 +54,9 @@ const Post = ({ post }) => {
 
   const handleLikePost = async (id) => {
     try {
-      console.log('clicked');
       const { data } = await apiLikePost(id);
       setLiked(true);
       setLikes([...likes, { user: id }]);
-      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -70,7 +64,6 @@ const Post = ({ post }) => {
 
   const handleUnlikePost = async (id) => {
     try {
-      console.log('unlike');
       const { data } = await apiUnlikePost(id);
       setLiked(false);
       let indexOf = likes.map((like) => like.user).indexOf(id);
