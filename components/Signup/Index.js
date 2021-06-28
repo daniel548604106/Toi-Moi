@@ -130,7 +130,7 @@ const Index = ({ setSignupOpen }) => {
                 }`}
               >
                 <Field
-                  placeholder="account"
+                  placeholder="Account"
                   className="w-full outline-none"
                   name="account"
                 />
