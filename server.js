@@ -26,6 +26,7 @@ connectDB()
       app.use('/api/notifications', require('./routes/notifications'));
       app.use('/api/login', require('./routes/login'));
       app.use('/api/signup', require('./routes/signup'));
+      app.use('/api/friends', require('./routes/friends'));
       app.use('/api/search', require('./routes/search'));
       app.use('/api/chats', require('./routes/chats'));
       app.use('/api/users', require('./routes/users'));

@@ -40,7 +40,6 @@ const Login = () => {
   useEffect(() => {
     const userEmail = Cookie.get('userEmail');
     if (userEmail) {
-      console.log(userEmail);
       setLoginInput({ ...loginInput, email: userEmail });
     }
   }, []);
