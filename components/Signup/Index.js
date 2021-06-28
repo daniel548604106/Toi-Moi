@@ -72,7 +72,7 @@ const Index = ({ setSignupOpen }) => {
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="h-screen sm:h-auto bg-white relative shadow-lg rounded-lg  w-screen  sm:w-full sm:max-w-[500px]"
+      className="h-screen overflow-y-auto sm:h-auto bg-white relative shadow-lg rounded-lg  w-screen  sm:w-full sm:max-w-[500px]"
     >
       <span
         onClick={() => setSignupOpen(false)}
@@ -259,7 +259,7 @@ const Index = ({ setSignupOpen }) => {
                 <button
                   disabled={!(isValid && dirty)}
                   onClick={(e) => handleSignup(e)}
-                  className={`text-md flex items-center justify-center sm:text-lg font-semibold  text-white text-secondary rounded-md w-[200px] p-2 mx-auto ${
+                  className={`text-md mb-20 flex items-center justify-center sm:text-lg font-semibold  text-white text-secondary rounded-md w-[200px] p-2 mx-auto ${
                     !(isValid && dirty)
                       ? 'bg-gray-100 text-black cursor-not-allowed'
                       : 'bg-main-yellow'

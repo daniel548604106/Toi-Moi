@@ -12,6 +12,7 @@ import InputBox from '../components/Home/Feed/InputBox';
 import axios from 'axios';
 import genderAvatar from '../utils/genderAvatar';
 import NoPost from '../components/Home/Feed/NoPost';
+import LoaderSpinner from '../components/Global/LoaderSpinner';
 import EndMessage from '../components/Home/Feed/EndMessage';
 export default function Home({ posts, chats }) {
   const [hasMore, setHasMore] = useState(true);
@@ -26,8 +27,8 @@ export default function Home({ posts, chats }) {
     try {
       console.log('get');
       const posts = await apiGetAllPosts(currentPage);
-      setCurrentPosts((prev) => [...prev, ...posts.data]);
       console.log('new', posts.data);
+      setCurrentPosts((prev) => [...prev, ...posts.data]);
       if (posts.data.length === 0) setHasMore(false);
       setCurrentPage((currentPage) => currentPage + 1);
       console.log(currentPosts);
@@ -40,7 +41,12 @@ export default function Home({ posts, chats }) {
 
   useEffect(() => {
     setCurrentPosts(posts);
-  }, [posts]);
+    console.log(currentPosts, 'posts');
+    // Stop loading for more if there's no data at first
+    // if (currentPosts.length < 1) {
+    //   setHasMore(false);
+    // }
+  }, [posts, currentPosts]);
   useEffect(() => {
     console.log(chats, 'chats');
   }, [chats]);
@@ -83,22 +89,23 @@ export default function Home({ posts, chats }) {
         <div className="w-1/2 hidden lg:block">
           <Sidebar />
         </div>
-        <div className=" w-full sm:px-5 sm:mx-0 xl:px-10">
+        <div className="max-w-[750px] w-full sm:px-5 sm:mx-0 xl:px-10 xl:mx-20">
           <div className="mb-[15px] sm:mb-[20px]">
             <InputBox />
           </div>
-          {currentPosts ? (
-            <InfiniteScroll
-              dataLength={currentPosts.length} //This is important field to render the next data, only when the length is changed then will trigger next function
-              next={getMorePosts}
-              hasMore={hasMore}
-              loader={<h4>Loading...</h4>}
-              endMessage={<EndMessage />}
-            >
-              <Feed posts={currentPosts} />
-            </InfiniteScroll>
-          ) : (
-            <NoPost />
+          <InfiniteScroll
+            dataLength={currentPosts.length} //This is important field to render the next data, only when the length is changed then will trigger next function
+            next={getMorePosts}
+            hasMore={hasMore}
+            loader={<LoaderSpinner />}
+            endMessage={<EndMessage />}
+          >
+            <Feed posts={currentPosts} />
+          </InfiniteScroll>
+          {currentPosts.length < 10 && (
+            <div className="mt-5">
+              <NoPost />
+            </div>
           )}
         </div>
         <div className=" w-1/2 hidden md:block ">

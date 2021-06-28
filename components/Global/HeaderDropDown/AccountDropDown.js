@@ -36,7 +36,7 @@ const AccountPopup = ({ t }) => {
     <div className="text-primary ml-0">
       <div
         onClick={() => router.push(`/${userInfo.username}`)}
-        className="cursor-pointer flex items-center rounded-md hover:bg-gray-100  p-2"
+        className="hidden sm:flex cursor-pointer items-center rounded-md hover:bg-gray-100 p-3 "
       >
         <Image
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
@@ -55,7 +55,9 @@ const AccountPopup = ({ t }) => {
           <span className="p-2 rounded-full bg-gray-100">
             <CogIcon className="h-6 text-black" />
           </span>
-          <span className="ml-[10px]">{t('settings&privacy')}</span>
+          <span className="text-sm sm:text-md ml-[10px]">
+            {t('settings&privacy')}
+          </span>
         </div>
         <ChevronRightIcon className="h-6 text-gray-600" />
       </div>
@@ -81,7 +83,7 @@ const AccountPopup = ({ t }) => {
               <SunIcon className="h-6 text-black" />
             </span>
           )}
-          <span className="ml-[10px]">
+          <span className="text-sm sm:text-md ml-[10px]">
             {colorTheme === 'light' ? t('darkMode') : t('lightMode')}
           </span>
         </div>
@@ -112,12 +114,12 @@ const AccountPopup = ({ t }) => {
       </div>
       <div
         onClick={() => handleUserLogout(email)}
-        className="cursor-pointer flex items-center hover:bg-gray-100 rounded-md p-2"
+        className="mb-32 sm:mb-0 cursor-pointer flex items-center hover:bg-gray-100 rounded-md p-2"
       >
         <span className="p-2 rounded-full bg-gray-100">
           <LogoutIcon className="h-6 text-black" />
         </span>
-        <span className="ml-[10px]">{t('logOut')}</span>
+        <span className="text-sm sm:text-md ml-[10px]">{t('logOut')}</span>
       </div>
     </div>
   );

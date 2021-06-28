@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import genderAvatar from '../../utils/genderAvatar';
 import Image from 'next/image';
 import router from 'next/router';
+import { CheckIcon } from '@heroicons/react/solid';
 import { apiPostFriendRequest } from '../../api/index';
-const FriendCard = ({ user }) => {
+const FriendCard = ({ user, removeRecommendation, idx }) => {
+  const [added, setAdded] = useState(false);
   const handleAddFriend = async () => {
     try {
+      setAdded(true);
       const { data } = await apiPostFriendRequest(user.username);
+      removeRecommendation(user._id);
       console.log(data);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className=" p-3 bg-secondary shadow-lg rounded-lg text-secondary">
+    <div
+      className={`${
+        added && 'opacity-20'
+      } transition-opacity duration-500  p-3 bg-secondary shadow-lg rounded-lg text-secondary`}
+    >
       <div
         onClick={() =>
           router.push(`/friends/suggestions?profile_id=${user._id}`)
@@ -30,11 +38,14 @@ const FriendCard = ({ user }) => {
       <div className="space-y-2">
         <button
           onClick={() => handleAddFriend()}
-          className="text-xs sm:text-sm rounded-lg p-2 w-full bg-main text-white "
+          className="text-xs outline-none flex items-center justify-center sm:text-sm rounded-lg p-2 w-full bg-main text-white "
         >
-          Add Friend
+          {added ? <CheckIcon className="h-4 text-white" /> : 'Add Friend'}
         </button>
-        <button className="text-xs sm:text-sm rounded-lg p-2 w-full bg-button text-secondary">
+        <button
+          onClick={() => removeRecommendation(user._id)}
+          className="text-xs sm:text-sm rounded-lg p-2 w-full bg-button text-secondary"
+        >
           Remove
         </button>
       </div>

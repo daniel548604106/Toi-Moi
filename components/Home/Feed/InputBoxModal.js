@@ -8,6 +8,7 @@ import {
 } from '../../../redux/slices/postSlice';
 import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { apiPostNewPost } from '../../../api/index';
+import genderAvatar from '../../../utils/genderAvatar';
 const InputBoxModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const imageToPost = useSelector((state) => state.post.imageToPost);
@@ -50,19 +51,19 @@ const InputBoxModal = () => {
   }, [imageToPost]);
 
   return (
-    <div className="h-screen sm:h-auto pb-10 sm:pb-4 rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
-      <XIcon
-        onClick={() => dispatch(setPostInputBoxOpen(false))}
-        className="h-8 cursor-pointer rounded-full p-1  absolute top-[8px] right-[10px]"
-      />
-      <div className="p-3 text-center text-lg font-semibold border-b">
+    <div className="h-screen overflow-y-auto sm:h-auto pb-10 sm:pb-4 rounded-md bg-secondary text-secondary w-full max-w-[600px]  relative">
+      <div className="p-3 bg-white z-40 sticky top-0  text-center text-lg font-semibold border-b">
         Create Post
+        <XIcon
+          onClick={() => dispatch(setPostInputBoxOpen(false))}
+          className="h-8 cursor-pointer rounded-full p-1  absolute top-[8px] right-[10px]"
+        />
       </div>
       <div className="p-3">
         <div className="flex items-center py-2">
           <Image
             className="rounded-full cursor-pointer"
-            src={userInfo.profileImage}
+            src={userInfo.profileImage || genderAvatar(userInfo.gender)}
             width={50}
             height={50}
           />
@@ -73,9 +74,7 @@ const InputBoxModal = () => {
             value={text}
             type="text"
             onChange={(e) => setText(e.target.value)}
-            className={`min-h-[200px] bg-secondary rounded-md p-2 text-md sm:text-xl ${
-              image && 'text-sm min-h-[150px]'
-            } w-full focus:outline-none`}
+            className={`min-h-[100px] sm:min-h-[200px] bg-secondary rounded-md p-2 text-md sm:text-xl  w-full focus:outline-none`}
             placeholder={`${userInfo.name}, what's on your mind?`}
           />
           {image && (
@@ -108,7 +107,7 @@ const InputBoxModal = () => {
         </div>
         <button
           onClick={(e) => sendPost(e)}
-          className={`mt-[10px]  text-sm  cursor-default rounded-lg w-full py-3 bg-gray-100 ${
+          className={`mt-[10px] mb-10  text-sm  cursor-default rounded-lg w-full py-3 bg-gray-100 ${
             text && 'bg-main text-white  cursor-pointer'
           } `}
         >
