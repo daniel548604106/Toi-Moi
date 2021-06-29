@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { apiGetFriendList } from '../../../../../api';
 import genderAvatar from '../../../../../utils/genderAvatar';
 import LoaderSpinner from '../../../../Global/LoaderSpinner';
+import router from 'next/router';
 import { toggleCreateRoomOpen } from '../../../../../redux/slices/globalSlice';
 const InviteRoom = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const InviteRoom = () => {
   };
   const handleJoinRoom = () => {
     dispatch(toggleCreateRoomOpen());
+    router.push(`/groupcall/2`);
   };
   useEffect(() => {
     getFriendList();
