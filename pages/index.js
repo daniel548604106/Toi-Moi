@@ -9,23 +9,24 @@ import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
+import Room from '../components/Home/Feed/Room/Index';
 import axios from 'axios';
 import genderAvatar from '../utils/genderAvatar';
 import NoPost from '../components/Home/Feed/NoPost';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import EndMessage from '../components/Home/Feed/EndMessage';
-export default function Home({ posts, chats }) {
+export default function Home({ posts, chats, friends }) {
   const [hasMore, setHasMore] = useState(true);
-  const [currentPosts, setCurrentPosts] = useState(posts);
+  const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentChats, setCurrentChats] = useState(chats);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState(null);
   const [newMessagePopup, setNewMessagePopup] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
+  const [roomList, setRoomList] = useState(friends);
 
   const getMorePosts = async () => {
     try {
-      console.log('get');
       const posts = await apiGetAllPosts(currentPage);
       console.log('new', posts.data);
       setCurrentPosts((prev) => [...prev, ...posts.data]);
@@ -41,15 +42,15 @@ export default function Home({ posts, chats }) {
 
   useEffect(() => {
     setCurrentPosts(posts);
-    console.log(currentPosts, 'posts');
     // Stop loading for more if there's no data at first
-    // if (currentPosts.length < 1) {
-    //   setHasMore(false);
-    // }
-  }, [posts, currentPosts]);
+    if (posts && posts.length < 1) {
+      setHasMore(false);
+    }
+  }, [posts]);
+
   useEffect(() => {
-    console.log(chats, 'chats');
-  }, [chats]);
+    setRoomList(friends);
+  }, [friends]);
 
   useEffect(() => {
     if (!socket.current) {
@@ -89,20 +90,21 @@ export default function Home({ posts, chats }) {
         <div className="w-1/2 hidden lg:block">
           <Sidebar />
         </div>
-        <div className="max-w-[750px] w-full sm:px-5 sm:mx-0 xl:px-10 xl:mx-20">
-          <div className="mb-[15px] sm:mb-[20px]">
-            <InputBox />
-          </div>
-          <InfiniteScroll
-            dataLength={currentPosts.length} //This is important field to render the next data, only when the length is changed then will trigger next function
-            next={getMorePosts}
-            hasMore={hasMore}
-            loader={<LoaderSpinner />}
-            endMessage={<EndMessage />}
-          >
-            <Feed posts={currentPosts} />
-          </InfiniteScroll>
-          {currentPosts.length < 10 && (
+        <div className="space-y-5 max-w-[700px] w-full sm:px-5 sm:mx-0 xl:px-10 xl:mx-20">
+          <InputBox />
+          <Room roomList={roomList} />
+          {currentPosts && (
+            <InfiniteScroll
+              dataLength={currentPosts.length} //This is important field to render the next data, only when the length is changed then will trigger next function
+              next={getMorePosts}
+              hasMore={hasMore}
+              loader={<LoaderSpinner />}
+              endMessage={<EndMessage />}
+            >
+              <Feed posts={currentPosts} />
+            </InfiniteScroll>
+          )}
+          {currentPosts && currentPosts.length < 10 && (
             <div className="mt-5">
               <NoPost />
             </div>
@@ -120,7 +122,7 @@ export async function getServerSideProps({ req, res }) {
   try {
     // get server side cookies
     const token = req.cookies.token;
-    let posts, chats;
+    let posts, chats, friends;
     if (token) {
       posts = await axios.get(`${process.env.BASE_URL}/api/posts?page=1`, {
         headers: {
@@ -128,6 +130,11 @@ export async function getServerSideProps({ req, res }) {
         }
       });
       chats = await axios.get(`${process.env.BASE_URL}/api/chats`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      friends = await axios.get(`${process.env.BASE_URL}/api/friends`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -142,7 +149,8 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         posts: posts.data,
-        chats: chats.data
+        chats: chats.data,
+        friends: friends.data
       }
     };
   } catch (error) {

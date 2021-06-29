@@ -51,11 +51,6 @@ const Sidebar = () => {
         title={t('sidebar.saved')}
       />
       <SidebarListItem
-        link="friends-list"
-        src="/icons/friendList.png"
-        title={t('sidebar.friendList')}
-      />
-      <SidebarListItem
         link="fanpage"
         src="/icons/page.png"
         title={t('sidebar.fanPage')}

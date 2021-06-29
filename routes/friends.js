@@ -65,4 +65,39 @@ router.get('/received', authMiddleware, async (req, res) => {
   }
 });
 
+// Get Friend List
+router.get('/', authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req;
+    const { friends } = await Friend.findOne({ user: userId }).populate(
+      'friends.user'
+    );
+    console.log('friends', friends);
+    res.status(200).json(friends);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Get Searched Friend
+router.get(`/search/:searchedName`, authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req;
+    const { searchedName } = req.params;
+    // options i means it's not case sensitive
+
+    let regex = new RegExp(`/${searchedName}/i`, 'g');
+    const { friends } = await Friend.findOne({ user: userId }).populate(
+      'friends.user'
+    );
+
+    const results = friends.map((friend) => regex.test(friend.user.name));
+    console.log(friends, searchedName, results);
+    res.status(200).json(results);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 module.exports = router;

@@ -78,17 +78,17 @@ const FriendNotification = ({ notification }) => {
           </p>{' '}
           {notification.type === 'newFriendInvitation' && !isAccepted && (
             <div className="mt-[5px] w-full flex flex-1 items-center">
-              <button
+              <div
                 onClick={(e) =>
                   handleAcceptFriendRequest(e, notification.user.username)
                 }
-                className="w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-main text-white "
+                className=" flex items-center justify-center w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-main text-white "
               >
                 {t('confirm')}
-              </button>
-              <button className="w-full text-xs ml-[10px] cursor-pointer rounded-md p-2 px-4 border">
+              </div>
+              <div className=" flex items-center justify-center w-full text-xs ml-[10px] cursor-pointer rounded-md p-2 px-4 border">
                 {t('cancel')}
-              </button>
+              </div>
             </div>
           )}
         </div>

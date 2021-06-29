@@ -12,7 +12,6 @@ const NotificationDropDown = ({ t }) => {
     const getNotifications = async () => {
       try {
         const { data } = await apiGetNotifications();
-        console.log(data);
         setNotifications(data);
       } catch (error) {
         console.log(error);

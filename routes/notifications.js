@@ -9,7 +9,6 @@ router.get('/', authMiddleware, async (req, res) => {
     const user = await Notification.findOne({ user: userId })
       .populate('notifications.user')
       .populate('notifications.post');
-    console.log('heree', userId, user);
     res.status(200).json(user.notifications);
   } catch (error) {
     console.log(error);
@@ -25,14 +24,13 @@ router.post('/', authMiddleware, async (req, res) => {
       user.unreadNotification = false;
     }
     await user.save();
-    console.log(user)
+    console.log(user);
     return res.status(200).send('Updated');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
   }
 });
-
 
 router.post('/:notificationId/read', authMiddleware, async (req, res) => {
   try {

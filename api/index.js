@@ -93,6 +93,11 @@ export const apiPatchProfileSummary = patchProfileSummary;
 export const apiPostWorkExperienceSummary = postWorkExperienceSummary;
 // Friend
 
-import { postFriendRequest,removeFriendRequest } from './friendRequest';
+import {
+  postFriendRequest,
+  removeFriendRequest,
+  getFriendList
+} from './friendRequest';
 export const apiPostFriendRequest = postFriendRequest;
-export const apiRemoveFriendRequest = removeFriendRequest
+export const apiRemoveFriendRequest = removeFriendRequest;
+export const apiGetFriendList = getFriendList;
