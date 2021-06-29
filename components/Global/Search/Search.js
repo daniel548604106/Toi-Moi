@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeftIcon, SearchIcon } from '@heroicons/react/outline';
-import { apiPostKeywordSearch, apiGetRecentSearch,apiSearchRequest } from '../../../api/index';
+import {
+  apiPostKeywordSearch,
+  apiGetRecentSearch,
+  apiSearchRequest
+} from '../../../api/index';
 import SearchListItem from './SearchListItem';
 import SearchHistoryItem from './SearchHistoryItem';
 import router from 'next/router';
@@ -74,7 +78,7 @@ const Search = ({ t }) => {
           type="text"
           onFocus={() => handleInputFocus()}
           placeholder={t('search')}
-          className="text-sm hidden max-w-[160px]  lg:max-w-[200px] lg:block bg-button text-button rounded-full p-3 pl-2 outline-none"
+          className="text-sm hidden max-w-[160px]  lg:max-w-[200px] lg:block bg-button text-primary rounded-full p-3 pl-2 outline-none"
         />
       </div>
       {isSearchResultShow && (
@@ -96,7 +100,7 @@ const Search = ({ t }) => {
                 onKeyDown={(e) => handleKeywordSearch(e)}
                 onChange={(e) => setSearchText(e.target.value)}
                 placeholder="Search"
-                className="text-sm w-full bg-button text-button rounded-full p-3 pl-2 outline-none"
+                className="text-sm w-full bg-button text-primary rounded-full p-3 pl-2 outline-none"
               />
             </div>
           </div>
@@ -133,7 +137,7 @@ const Search = ({ t }) => {
               onClick={(e) => handleKeywordSearch(e)}
               className="flex hover:bg-gray-100 rounded-md cursor-pointer items-center p-2 py-1"
             >
-              <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-main text-secondary" />
+              <SearchIcon className=" rounded-full w-[40px] h-[40px] p-2  bg-main text-white" />
               <p className="ml-[15px] font-medium text-main">
                 {t('search')} {searchText}
               </p>

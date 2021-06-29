@@ -37,6 +37,10 @@
   --color-text-accent: #2b6cb0;
 }
 
+button {
+  outline: none;
+}
+
 button.dark {
   background-color: #3f3f3f;
 }

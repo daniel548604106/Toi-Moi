@@ -4,13 +4,16 @@ import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import Login from '../components/Login/Index';
-import LanguageSettingModal from '../components/Global/LanguageSettingModal';
-import ViewPostModal from '../components/Global/ViewPostModal';
 import Overlay from '../components/Global/Overlay';
+
+// Modals
+import ViewPostModal from '../components/Global/ViewPostModal';
+import LanguageSettingModal from '../components/Global/LanguageSettingModal';
 import LikesListModal from '../components/Home/Feed/LikesListModal';
 import InputBoxModal from '../components/Home/Feed/InputBoxModal';
 import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 import EditSummaryModal from '../components/Profile/EditSummaryModal';
+import CreateRoomModal from '../components/Home/Feed/Room/CreateRoomModal/Index';
 import router from 'next/router';
 import Cookies from 'js-cookie';
 
@@ -29,6 +32,9 @@ const App = ({ Component, pageProps }) => {
   const isLanguageOpen = useSelector((state) => state.global.isLanguageOpen);
   const isEditProfileImageOpen = useSelector(
     (state) => state.user.isEditProfileImageOpen
+  );
+  const isCreateRoomOpen = useSelector(
+    (state) => state.global.isCreateRoomOpen
   );
   const isEditSummaryModalOpen = useSelector(
     (state) => state.profile.isEditSummaryModalOpen
@@ -52,6 +58,7 @@ const App = ({ Component, pageProps }) => {
     isViewPostModalOpen ||
     isEditProfileImageOpen ||
     isEditSummaryModalOpen ||
+    isCreateRoomOpen ||
     isLanguageOpen;
 
   if (!isUserLoggedIn && !allowedRoutes) return <Login />;
@@ -65,6 +72,7 @@ const App = ({ Component, pageProps }) => {
           {isEditProfileImageOpen && <EditProfileImageModal />}
           {isEditSummaryModalOpen && <EditSummaryModal />}
           {isLanguageOpen && <LanguageSettingModal />}
+          {isCreateRoomOpen && <CreateRoomModal />}
         </Overlay>
       )}
       {!allowedRoutes && <Header />}

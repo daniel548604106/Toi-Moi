@@ -3,7 +3,9 @@ const app = express();
 const server = require('http').Server(app);
 const dev = process.env.NODE_ENV !== 'production';
 const io = require('socket.io')(server);
-
+const groupCallIo = require('socket.io')(server, {
+  path: '/api/rooms'
+});
 //The custom server uses the following import to connect the server with the Next.js application:
 
 const next = require('next');
@@ -62,6 +64,37 @@ const {
   sendMessage,
   setMessageToUnread
 } = require('./utilsServer/messageActions');
+
+const users = {};
+
+// Group Call Socket
+groupCallIo.on('connection', (socket) => {
+  console.log('connected!!');
+
+  if (!users[socket.id]) {
+    users[socket.id] = socket.id;
+  }
+  console.log(users);
+
+  socket.emit('yourID', socket.id);
+  socket.emit('allUsers', users);
+  socket.on('disconnect', () => {
+    delete users[socket.id];
+  });
+
+  socket.on('callUser', (data) => {
+    console.log('calling', data);
+    groupCallIo.to(data.userToCall).emit('hey', {
+      signal: data.signalData,
+      from: data.from
+    });
+  });
+
+  socket.on('acceptCall', (data) => {
+    groupCallIo.to(data.to).emit('callAccepted', data.signal);
+  });
+});
+
 // socket means the client user who is connected
 io.on('connection', (socket) => {
   socket.on('join', async ({ userId }) => {
