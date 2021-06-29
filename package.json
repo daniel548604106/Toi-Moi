@@ -38,6 +38,7 @@
     "redux-persist": "^6.0.0",
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.1.2",
+    "tailwind-scrollbar-hide": "^1.0.3",
     "uuid": "^8.3.2",
     "validator": "^13.6.0",
     "yup": "^0.32.9"
@@ -45,6 +46,7 @@
   "devDependencies": {
     "autoprefixer": "^10.2.6",
     "eslint": "^7.28.0",
+    "eslint-config-next": "^11.0.1",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-node": "^11.1.0",
