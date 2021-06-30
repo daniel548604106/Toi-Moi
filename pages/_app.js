@@ -3,6 +3,7 @@ import '../styles/LoaderHeart.css';
 import '../styles/LoaderSpinner.css';
 import '../styles/LoaderBounce.css';
 import { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,9 +12,11 @@ import { useRouter } from 'next/router';
 // Components
 
 import LoaderSpinner from '../components/Global/LoaderSpinner';
-import Header from '../components/Global/Header';
 import Login from '../components/Login/Index';
 import Overlay from '../components/Global/Overlay';
+const Header = dynamic(() => import('../components/Global/Header'), {
+  loading: () => <LoaderSpinner />
+});
 
 // Modals
 import ViewPostModal from '../components/Global/ViewPostModal';
