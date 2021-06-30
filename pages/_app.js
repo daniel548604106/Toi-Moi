@@ -43,10 +43,20 @@ const CreateRoomModal = dynamic(
     loading: () => <LoaderSpinner />
   }
 );
+const EditProfileImageModal = dynamic(
+  () => import('../components/Profile/EditProfileImageModal'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+const LanguageSettingModal = dynamic(
+  () => import('../components/Global/LanguageSettingModal'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
 
-import LanguageSettingModal from '../components/Global/LanguageSettingModal';
 import InputBoxModal from '../components/Home/Feed/InputBoxModal';
-import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 import Cookies from 'js-cookie';
 
 // Redux Persist
