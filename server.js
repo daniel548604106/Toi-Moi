@@ -29,6 +29,7 @@ connectDB()
       app.use('/api/login', require('./routes/login'));
       app.use('/api/signup', require('./routes/signup'));
       app.use('/api/friends', require('./routes/friends'));
+      app.use('/api/rooms', require('./routes/rooms'));
       app.use('/api/search', require('./routes/search'));
       app.use('/api/chats', require('./routes/chats'));
       app.use('/api/users', require('./routes/users'));
@@ -40,7 +41,6 @@ connectDB()
         if (err) throw err;
         console.log(`express server running on ${PORT}`);
       });
-    });
   })
   .catch((err) => {
     if (err) console.log(err);

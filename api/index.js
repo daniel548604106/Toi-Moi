@@ -101,3 +101,7 @@ import {
 export const apiPostFriendRequest = postFriendRequest;
 export const apiRemoveFriendRequest = removeFriendRequest;
 export const apiGetFriendList = getFriendList;
+
+// Room
+import { postNewRoom } from './roomRequest';
+export const apiPostNewRoom = postNewRoom;
