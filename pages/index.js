@@ -90,7 +90,7 @@ export default function Home({ posts, chats, friends }) {
         <div className="w-1/2 hidden lg:block">
           <Sidebar />
         </div>
-        <div className="space-y-5 max-w-[700px] w-full sm:px-5 sm:mx-0 xl:px-10 xl:mx-20">
+        <div className="space-y-5 max-w-[750px] w-full sm:px-5 sm:mx-0  xl:mx-20">
           <InputBox />
           <Room roomList={roomList} />
           {currentPosts && (

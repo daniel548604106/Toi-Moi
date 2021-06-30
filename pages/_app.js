@@ -79,7 +79,7 @@ const App = ({ Component, pageProps }) => {
       <main
         className={`${
           isModalOpen && 'overflow-hidden'
-        } pt-[110px] sm:pt-[70px] h-screen primary dark:bg-primary`}
+        } pt-[110px] md:pt-[70px] h-screen primary dark:bg-primary`}
       >
         <Component {...pageProps} />
       </main>

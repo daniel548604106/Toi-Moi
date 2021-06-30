@@ -8,7 +8,9 @@ import Cookie from 'js-cookie';
 import Signup from '../Signup/Index';
 import Image from 'next/image';
 import ForgotPassword from '../ForgotPassword/Index';
+import Loader from '../Global/Loader';
 const Login = () => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
   const [error, setError] = useState('');
@@ -27,10 +29,11 @@ const Login = () => {
     e.preventDefault();
     if (loginInput.account === '' || loginInput.password === '') return;
     try {
+      setLoading(true);
       const { data } = await apiPostLogin(loginInput);
-      if (!data || !data.user || !data.token) return console.log('error');
       Cookie.set('token', data.token);
       dispatch(setUserLogin(data.user));
+      setLoading(false);
       router.push('/');
     } catch (error) {
       const errMsg = catchError(error);
@@ -63,6 +66,7 @@ const Login = () => {
       )}
       <div className="w-full max-w-md mb-[20px] md:mb-0">
         <Image
+          priority="true"
           className="w-[200px] h-[100px] sm:w-[400px] sm:h-[200px]"
           src="/toi&moi-logo.svg"
           width={400}
@@ -103,9 +107,9 @@ const Login = () => {
           )}
           <button
             onClick={(e) => handleLogin(e)}
-            className="rounded-md w-full text-md sm:text-lg p-2 sm:p-3 text-white bg-main text-secondary"
+            className="rounded-md outline-none flex items-center justify-center w-full text-md sm:text-lg p-2 sm:p-3 text-white bg-main text-secondary"
           >
-            Login
+            {loading ? <Loader /> : 'Login'}
           </button>
         </form>
         <span
