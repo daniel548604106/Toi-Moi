@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ExclamationCircleIcon, XIcon } from '@heroicons/react/solid';
 import Loader from '../Global/Loader';
-import _ from 'lodash';
+import range from 'lodash/range';
 import { apiPostSignup } from '../../api';
 import catchError from '../../lib/catchError';
 import Cookie from 'js-cookie';
@@ -30,9 +30,9 @@ const Index = ({ setSignupOpen }) => {
   const dispatch = useDispatch();
   const currentYear = new Date().getFullYear();
   const [isLoading, setLoading] = useState(false);
-  const yearRange = _.range(currentYear, 1930);
-  const monthRange = _.range(1, 13);
-  const dateRange = _.range(1, 32);
+  const yearRange = range(currentYear, 1930);
+  const monthRange = range(1, 13);
+  const dateRange = range(1, 32);
   const [errorMsg, setErrorMsg] = useState('');
   const [birthdayError, setBirthdayError] = useState('');
   const formRef = useRef();
