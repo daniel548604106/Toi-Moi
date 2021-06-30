@@ -150,7 +150,7 @@ const Post = ({ post }) => {
             )}
             src={post.picUrl}
             layout="fill"
-            className="image"
+            className="image rounded-lg "
           />
         </div>
       )}

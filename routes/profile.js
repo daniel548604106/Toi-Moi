@@ -55,12 +55,19 @@ router.get('/:username', authMiddleware, async (req, res) => {
 router.get('/posts/:username', authMiddleware, async (req, res) => {
   try {
     const { username } = req.params;
+    const page = Number(req.query.page) || 1;
+    const size = 5;
+    const skips = size * (page - 1);
+
     const user = await User.findOne({ username: username.toLowerCase() });
     if (!user) return res.status(404).send('User not found');
     const posts = await Post.find({ user: user._id })
       .sort({ createdAt: -1 })
       .populate('user')
-      .populate('comments.user');
+      .populate('comments.user')
+      .limit(size)
+      .skip(skips);
+
     if (!posts) return res.status(404).send('Posts not found');
     return res.status(200).json(posts);
   } catch (error) {

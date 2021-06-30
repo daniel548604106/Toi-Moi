@@ -2,6 +2,7 @@ import React from 'react';
 import CardLayout from './CardLayout';
 import Image from 'next/image';
 import router from 'next/router';
+import genderAvatar from '../../utils/genderAvatar';
 const Friends = ({ friends }) => {
   return (
     <CardLayout
@@ -22,7 +23,7 @@ const Friends = ({ friends }) => {
               className="rounded-md cursor-pointer "
               width={150}
               height={150}
-              src={friend.user.profileImage}
+              src={friend.user.profileImage || genderAvatar(friend.user.gender)}
             />
             <p> {friend.user.name}</p>
           </span>

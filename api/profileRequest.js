@@ -4,8 +4,8 @@ export const getProfile = (username) => {
   return request.get(`/profile/${username}`);
 };
 
-export const getProfilePosts = (username) => {
-  return request.get(`/profile/posts/${username}`);
+export const getProfilePosts = (username, currentPage) => {
+  return request.get(`/profile/posts/${username}?page=${currentPage}`);
 };
 
 export const patchProfile = ({
