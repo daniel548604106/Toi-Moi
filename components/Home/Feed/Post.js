@@ -134,10 +134,21 @@ const Post = ({ post }) => {
         <p className="text-sm">{post.text}</p>
       </div>
       {!isViewPostModalOpen && post.picUrl && (
-        <div className="imageContainer">
+        <div
+          onClick={() => handleViewPost(post._id)}
+          className="imageContainer cursor-pointer"
+        >
           <Image
+            placeholder={() => (
+              <div
+                style={{
+                  backgroundColor: 'red',
+                  height: '100px',
+                  width: '100%'
+                }}
+              />
+            )}
             src={post.picUrl}
-            placeholder="blur"
             layout="fill"
             className="image"
           />

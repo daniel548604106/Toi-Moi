@@ -107,8 +107,8 @@ const InputBoxModal = () => {
         </div>
         <button
           onClick={(e) => sendPost(e)}
-          className={`mt-[10px] mb-10  text-sm  cursor-default rounded-lg w-full py-3 bg-gray-100 ${
-            text && 'bg-main text-white  cursor-pointer'
+          className={`mt-[10px] mb-10  text-sm  cursor-default rounded-lg w-full py-3  ${
+            text ? 'bg-main text-white  cursor-pointer' : 'bg-gray-100'
           } `}
         >
           Post

@@ -21,7 +21,9 @@ const Index = ({ roomList }) => {
             className="rounded-full cursor-pointer border bg-secondary border-main text-main p-2 flex items-center"
           >
             <VideoCameraIcon className="h-6" />
-            <span className="text-sm sm:text-md ml-[5px]">Create Room</span>
+            <span className="text-sm sm:text-md whitespace-nowrap ml-[5px]">
+              Create Room
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             {roomList &&
