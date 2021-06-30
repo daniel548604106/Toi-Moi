@@ -101,7 +101,7 @@ const CreateRoomName = ({ setRoomInfo, roomInfo, setCreateNameOpen }) => {
             </h2>
           </div>
           <hr className="my-4" />
-          <div className="max-h-[40vh] overflow-y-auto flex items-center whitespace-nowrap flex-shrink-0 flex-wrap">
+          <div className="max-h-[60vh] sm:max-h-[40vh] overflow-y-auto flex items-center whitespace-nowrap flex-shrink-0 flex-wrap">
             <div
               onClick={() => setNewNameOpen(true)}
               className="flex  items-center min-w-[50%] p-3 cursor-pointer rounded-lg"

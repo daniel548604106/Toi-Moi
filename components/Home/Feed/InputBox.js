@@ -30,7 +30,7 @@ const InputBox = () => {
   };
 
   return (
-    <div className="p-3 shadow-md font-medium rounded-xl bg-secondary text-secondary">
+    <div className="w-full p-3 shadow-md font-medium rounded-xl bg-secondary text-secondary">
       <div className="flex items-center w-full space-x-2 mb-3">
         <Image
           priority="true"

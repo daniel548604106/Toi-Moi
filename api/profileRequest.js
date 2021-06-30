@@ -32,7 +32,7 @@ export const postWorkExperienceSummary = (username, experience) => {
 };
 
 export const getProfileFriends = (username) => {
-  return request.get(`/friends_preview/${username}`);
+  return request.get(`profile/friends_preview/${username}`);
 };
 
 // update profile image

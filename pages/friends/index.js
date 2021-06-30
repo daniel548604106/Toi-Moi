@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import FriendCard from '../../components/Friends/FriendCard';
+import RequestCard from '../../components/Friends/Requests/RequestCard';
+
 import Sidebar from '../../components/Friends/Sidebar';
 import axios from 'axios';
-const Index = ({ recommendations }) => {
+import useTranslation from 'next-translate/useTranslation';
+const Index = ({ recommendations, requestsReceived }) => {
+  const { t } = useTranslation('header');
   const [currentRecommendations, setCurrentRecommendations] =
     useState(recommendations);
+  const [requests, setRequests] = useState(requestsReceived);
   useEffect(() => {
-    console.log(recommendations, 'recommendations');
+    console.log(recommendations, requests, 'recommendations');
   }, [recommendations]);
   const removeRecommendation = (id) => {
     let update = currentRecommendations.filter(
@@ -20,6 +25,16 @@ const Index = ({ recommendations }) => {
         <Sidebar />
       </div>
       <div className="flex-1 p-3 space-y-3">
+        {requests.length > 0 && (
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold sm:text-2xl">
+              Requests Received
+            </h2>
+            {requests.map(({ user }) => (
+              <RequestCard key={user._id} t={t} user={user} />
+            ))}
+          </div>
+        )}
         <h2 className="text-lg font-semibold sm:text-2xl">
           Friend Recommendation
         </h2>
@@ -50,9 +65,18 @@ export async function getServerSideProps({ req }) {
         }
       }
     );
+    const received = await axios.get(
+      `${process.env.BASE_URL}/api/friends/received`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
     return {
       props: {
-        recommendations: res.data
+        recommendations: res.data,
+        requestsReceived: received.data
       }
     };
   } catch (error) {
