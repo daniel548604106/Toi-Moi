@@ -16,7 +16,13 @@ const SidebarListItem = ({ Icon, src, title, link }) => {
           onClick={() => router.push(`/${link}`)}
           className="flex hover:bg-gray-200 items-center rounded-lg p-2 sm:p-4 sm:py-3 cursor-pointer "
         >
-          <Image className="rounded-full" width={35} height={35} src={src} />
+          <Image
+            priority="true"
+            className="rounded-full"
+            width={35}
+            height={35}
+            src={src}
+          />
           <p className="text-sm sm:text-md sm:inline-flex font-medium ml-3">
             {title}
           </p>

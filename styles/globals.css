@@ -56,6 +56,22 @@ body {
   background-color: #fafafa;
 }
 
+/* Responsive Image with next Image*/
+.imageContainer {
+  width: 100%;
+}
+
+.imageContainer > div {
+  position: unset !important;
+}
+
+.imageContainer .image {
+  object-fit: contain;
+  width: 100% !important;
+  position: relative !important;
+  height: unset !important;
+}
+
 /* Loader */
 
 .loader div {

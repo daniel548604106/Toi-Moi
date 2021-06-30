@@ -3,6 +3,7 @@ import CreateRoomCard from './CreateRoomCard';
 import RoomCard from './RoomCard';
 import { VideoCameraIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
+import genderAvatar from '../../../../utils/genderAvatar';
 const Index = ({ roomList }) => {
   const [isRoomShow, setRoomShow] = useState(false);
   return (
