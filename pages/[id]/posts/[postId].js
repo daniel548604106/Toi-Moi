@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
+import LoaderSpinner from '../../../components/Global/LoaderSpinner';
+import Loader from '../../../components/Global/Loader';
 import ProfileCover from '../../../components/Post/ProfileCover';
-import Post from '../../../components/Home/Feed/Post';
-import NotificationItem from '../../../components/Post/NotificationItem';
+
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
+// Dynamic import
+const Post = dynamic(() => import('../../../components/Home/Feed/Post'), {
+  loading: () => <LoaderSpinner />
+});
+const NotificationItem = dynamic(
+  () => import('../../../components/Post/NotificationItem'),
+  {
+    loading: () => <Loader />
+  }
+);
 const PostLayout = ({ post, profile, notifications }) => {
   const router = useRouter();
   useEffect(() => {
@@ -33,16 +45,14 @@ const PostLayout = ({ post, profile, notifications }) => {
           </span>
         </div>
         <div className="overflow-y-auto flex-1">
-        {notifications.map((notification) => (
-          <NotificationItem
-            key={notification._id}
-            notification={notification}
-          />
-        ))}
+          {notifications.map((notification) => (
+            <NotificationItem
+              key={notification._id}
+              notification={notification}
+            />
+          ))}
         </div>
-       
       </div>
-     
     </div>
   );
 };

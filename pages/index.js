@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Head from 'next/head';
@@ -10,11 +11,20 @@ import Post from '../components/Home/Feed/Post';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
-import Room from '../components/Home/Feed/Room/Index';
+// import Room from '../components/Home/Feed/Room/Index';
 import genderAvatar from '../utils/genderAvatar';
-import NoPost from '../components/Home/Feed/NoPost';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
-import EndMessage from '../components/Home/Feed/EndMessage';
+// Dynamic Import
+const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
+  loading: () => <LoaderSpinner />
+});
+const Room = dynamic(() => import('../components/Home/Feed/Room/Index'), {
+  loading: () => <LoaderSpinner />
+});
+
+const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
+  loading: () => <LoaderSpinner />
+});
 export default function Home({ posts, friends }) {
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts || []);

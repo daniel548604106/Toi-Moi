@@ -41,21 +41,6 @@ const lists = () => {
     getSearchedName();
     console.log(searchedName);
   }, [searchedName]);
-  // const {
-  //   response: searched,
-  //   isLoading: isSearchedNameLoading,
-  //   error: searchedNameError
-  // } = useAxios({
-  //   method: 'get',
-  //   url: '/friends/search',
-  //   dependency: [searchedName],
-  //   body: searchedName
-  // });
-  // useEffect(() => {
-  //   if (searched !== null) {
-  //     setSearchedResult(searched);
-  //   }
-  // }, [searched]);
   useEffect(() => {
     if (friends !== null) {
       setFriendsList(friends);

@@ -1,10 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import FriendCard from '../../components/Friends/FriendCard';
+import dynamic from 'next/dynamic';
+// import FriendCard from '../../components/Friends/FriendCard';
 import RequestCard from '../../components/Friends/Requests/RequestCard';
-
+import LoaderSpinner from '../../components/Global/LoaderSpinner';
 import Sidebar from '../../components/Friends/Sidebar';
 import axios from 'axios';
 import useTranslation from 'next-translate/useTranslation';
+
+const FriendCard = dynamic(
+  () => import('../../components/Friends/FriendCard'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+
 const Index = ({ recommendations, requestsReceived }) => {
   const { t } = useTranslation('header');
   const [currentRecommendations, setCurrentRecommendations] =
