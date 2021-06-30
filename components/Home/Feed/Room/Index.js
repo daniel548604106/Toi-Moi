@@ -25,7 +25,10 @@ const Index = ({ roomList }) => {
               Create Room
             </span>
           </div>
-          <div className="flex items-center space-x-2">
+          <div
+            onClick={() => setRoomShow(true)}
+            className="flex items-center space-x-2"
+          >
             {roomList &&
               roomList.map(({ user }) => (
                 <span className="relative flex items-center" key={user._id}>
