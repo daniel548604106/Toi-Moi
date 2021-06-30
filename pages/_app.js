@@ -1,8 +1,18 @@
 import '../styles/globals.css';
-import Header from '../components/Global/Header';
+import '../styles/LoaderHeart.css';
+import '../styles/LoaderSpinner.css';
+import '../styles/LoaderBounce.css';
+import { useEffect, useState } from 'react';
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+
+// Components
+import LoaderHeart from '../components/Global/Loader/LoaderHeart';
+
+import LoaderSpinner from '../components/Global/LoaderSpinner';
+import Header from '../components/Global/Header';
 import Login from '../components/Login/Index';
 import Overlay from '../components/Global/Overlay';
 
@@ -14,7 +24,6 @@ import InputBoxModal from '../components/Home/Feed/InputBoxModal';
 import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
 import EditSummaryModal from '../components/Profile/EditSummaryModal';
 import CreateRoomModal from '../components/Home/Feed/Room/CreateRoomModal/Index';
-import router from 'next/router';
 import Cookies from 'js-cookie';
 
 // Redux Persist
@@ -27,6 +36,8 @@ let persistor = persistStore(store);
 
 const App = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
   const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
   const isLanguageOpen = useSelector((state) => state.global.isLanguageOpen);
@@ -46,10 +57,39 @@ const App = ({ Component, pageProps }) => {
     (state) => state.post.isPostInputBoxOpen
   );
 
+  // Log user out if no token is found
   const token = Cookies.get('token');
   if (!token) {
     dispatch(setUserLogout());
   }
+
+  // Set loading on router change
+  // useEffect(() => {
+  //   router.events.on('routeChangeStart', setLoading(true));
+  //   router.events.on('routeChangeComplete', setLoading(false));
+  //   // If the component is unmounted, unsubscribe
+  //   // from the event with the `off` method:
+  //   return () => {
+  //     router.events.off('routeChangeStart', setLoading(false));
+  //   };
+  // }, []);
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      setLoading(true);
+    };
+    const handleRouteChangeComplete = () => {
+      setLoading(false);
+    };
+
+    router.events.on('routeChangeStart', handleRouteChange);
+    router.events.on('routeChangeComplete', handleRouteChangeComplete);
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange);
+    };
+  }, []);
 
   const allowedRoutes = router.pathname === '/reset/password';
   const isModalOpen =
@@ -76,6 +116,11 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
+      {loading && (
+        <div className="fixed bg-black bg-opacity-20 top-0 left-0 w-screen h-screen z-50 flex items-center justify-center">
+          <LoaderHeart />
+        </div>
+      )}
       <main
         className={`${
           isModalOpen && 'overflow-hidden'

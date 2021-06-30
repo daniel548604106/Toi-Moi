@@ -16,6 +16,7 @@ const Friends = ({ friends }) => {
       <div className="grid grid-cols-3 gap-2">
         {friends.friends_preview.map((friend) => (
           <span
+            key={friend.user._id}
             onClick={() => router.push(`/${friend.user.username}`)}
             className=""
           >
