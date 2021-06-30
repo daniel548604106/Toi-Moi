@@ -33,6 +33,7 @@ const InputBox = () => {
     <div className="p-3 shadow-md font-medium rounded-xl bg-secondary text-secondary">
       <div className="flex items-center w-full space-x-2 mb-3">
         <Image
+          priority="true"
           onClick={() => router.push(`/${userInfo.username}`)}
           className="rounded-full object-cover cursor-pointer min-w-[50px]"
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}

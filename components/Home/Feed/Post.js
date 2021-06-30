@@ -134,16 +134,12 @@ const Post = ({ post }) => {
         <p className="text-sm">{post.text}</p>
       </div>
       {!isViewPostModalOpen && post.picUrl && (
-        <div
-          onClick={() => handleViewPost(post._id)}
-          className="cursor-pointer relative  w-full rounded-md  bg-black"
-        >
+        <div className="imageContainer">
           <Image
-            className="w-full object-scale-down"
             src={post.picUrl}
-            width="100%"
-            height="auto"
-            layout="responsive"
+            placeholder="blur"
+            layout="fill"
+            className="image"
           />
         </div>
       )}
