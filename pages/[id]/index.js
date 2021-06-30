@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import axios from 'axios';
 import ProfileCover from '../../components/Profile/ProfileCover';
-import Summary from '../../components/Profile/Summary';
-import Friends from '../../components/Profile/Friends';
-import Photos from '../../components/Profile/Photos';
 import TabsList from '../../components/Profile/TabsList';
-import Post from '../../components/Home/Feed/Post';
 import LoaderSpinner from '../../components/Global/LoaderSpinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import EndMessage from '../../components/Home/Feed/EndMessage';
-import {
-  apiGetProfile,
-  apiGetProfilePosts,
-  apiGetProfileFriends
-} from '../../api/index';
+import { apiGetProfilePosts, apiGetProfileFriends } from '../../api/index';
 import { useRouter } from 'next/router';
-import InputBox from '../../components/Home/Feed/InputBox';
+// Dynamic Imports
+const Friends = dynamic(() => import('../../components/Profile/Friends'), {
+  loading: () => <LoaderSpinner />
+});
+const Summary = dynamic(() => import('../../components/Profile/Summary'), {
+  loading: () => <LoaderSpinner />
+});
+const Post = dynamic(() => import('../../components/Home/Feed/Post'), {
+  loading: () => <LoaderSpinner />
+});
+const Photos = dynamic(() => import('../../components/Profile/Photos'), {
+  loading: () => <LoaderSpinner />
+});
+const InputBox = dynamic(() => import('../../components/Home/Feed/InputBox'), {
+  loading: () => <LoaderSpinner />
+});
+const EndMessage = dynamic(
+  () => import('../../components/Home/Feed/EndMessage'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+
 const Index = ({ profileData }) => {
   const router = useRouter();
   useEffect(() => {
