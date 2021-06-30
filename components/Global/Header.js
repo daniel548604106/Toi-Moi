@@ -52,7 +52,7 @@ const Header = () => {
           <Search t={t} />
         </div>
       </div>
-      <div className="fixed max-w-[700px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div className="fixed max-w-[750px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
         <HeaderIcon
           title="home"
           href="/"
@@ -104,7 +104,10 @@ const Header = () => {
             className="h-6"
           />
           <ChatIcon onClick={() => router.push('/messages')} className="h-6" />
-          <MenuIcon onClick={(e) => handleSideMenuShow(e)} className="h-6" />
+          <MenuIcon
+            onClick={(e) => handleSideMenuShow(e)}
+            className={`h-6 ${isSideMenuShow ? 'text-main' : ''}`}
+          />
         </div>
         {isSideMenuShow && (
           <div

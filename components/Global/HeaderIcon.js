@@ -10,7 +10,7 @@ const HeaderIcon = ({ Icon, active, title, href }) => {
       } cursor-pointer w-full text-gray-600  p-[10px]  h-14 flex items-center justify-center active:border-b-2 group   hover:bg-gray-100 rounded-md`}
     >
       <Icon
-        className={`h-5 sm:h-7 group-hover:text-main ${active && 'text-main'}`}
+        className={`h-5 md:h-7 group-hover:text-main ${active && 'text-main'}`}
       />
     </div>
   );

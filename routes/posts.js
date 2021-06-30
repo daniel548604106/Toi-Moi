@@ -3,6 +3,7 @@ const router = express.Router();
 const Post = require('../models/postModel');
 const User = require('../models/userModel');
 const Follower = require('../models/followerModel');
+const Friend = require('../models/friendModel');
 const authMiddleware = require('../middleware/authMiddleware');
 const { uploadPostImage } = require('../middleware/uploadMiddleware');
 const uuid = require('uuid').v4;
@@ -25,20 +26,18 @@ router.get('/', authMiddleware, async (req, res) => {
     const skips = size * (page - 1);
     const { userId } = req;
     // Since we only need the users we are following , deselect followers
-    const loggedUser = await Follower.findOne({ user: userId }).select(
-      '-followers'
-    );
-
+    // const loggedUser = await Follower.findOne({ user: userId }).select(
+    //   '-followers'
+    // );
+    const loggedUser = await Friend.findOne({ user: userId }, { friends: 1 });
+    console.log(loggedUser, 'loggedUser');
     let posts = [];
     if (currentPage === 1) {
-      if (loggedUser.following.length > 0) {
+      if (loggedUser.friends.length > 0) {
         posts = await Post.find({
           //The $in operator selects the documents where the value of a field equals any value in the specified array.
           user: {
-            $in: [
-              userId,
-              ...loggedUser.following.map((following) => following.user)
-            ]
+            $in: [userId, ...loggedUser.friends.map((friend) => friend.user)]
           }
         })
           .limit(size)
@@ -53,13 +52,10 @@ router.get('/', authMiddleware, async (req, res) => {
           .populate('comments.user');
       }
     } else {
-      if (loggedUser.following.length > 0) {
+      if (loggedUser.friends.length > 0) {
         posts = await Post.find({
           user: {
-            $in: [
-              userId,
-              ...loggedUser.following.map((following) => following.user)
-            ]
+            $in: [userId, ...loggedUser.friends.map((friend) => friend.user)]
           }
         })
           .skip(skips)
