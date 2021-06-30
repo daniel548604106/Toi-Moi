@@ -41,7 +41,6 @@ connectDB()
         if (err) throw err;
         console.log(`express server running on ${PORT}`);
       });
-    });
   })
   .catch((err) => {
     if (err) console.log(err);

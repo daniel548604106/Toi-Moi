@@ -1,6 +1,7 @@
 const nextTranslate = require('next-translate');
 
 module.exports = nextTranslate({
+  webpack5: false,
   images: {
     domains: [
       'platform-lookaside.fbsbx.com',
@@ -9,7 +10,20 @@ module.exports = nextTranslate({
       'image.flaticon.com'
     ]
   },
-
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|png)',
+        locale: false,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=9999999999, must-revalidate'
+          }
+        ]
+      }
+    ];
+  },
   env: {
     BASE_URL:
       process.env.NODE_ENV === 'production'
