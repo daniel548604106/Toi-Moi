@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import '../styles/LoaderHeart.css';
 import '../styles/LoaderSpinner.css';
 import '../styles/LoaderBounce.css';
 import { useEffect, useState } from 'react';
@@ -13,19 +12,41 @@ import { useRouter } from 'next/router';
 
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Login from '../components/Login/Index';
-import Overlay from '../components/Global/Overlay';
-const Header = dynamic(() => import('../components/Global/Header'), {
+import Header from '../components/Global/Header';
+
+const Overlay = dynamic(() => import('../components/Global/Overlay'), {
   loading: () => <LoaderSpinner />
 });
 
 // Modals
-import ViewPostModal from '../components/Global/ViewPostModal';
+const ViewPostModal = dynamic(
+  () => import('../components/Global/ViewPostModal'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+const EditSummaryModal = dynamic(
+  () => import('../components/Profile/EditSummaryModal'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+const LikesListModal = dynamic(
+  () => import('../components/Home/Feed/LikesListModal'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+const CreateRoomModal = dynamic(
+  () => import('../components/Home/Feed/Room/CreateRoomModal/Index'),
+  {
+    loading: () => <LoaderSpinner />
+  }
+);
+
 import LanguageSettingModal from '../components/Global/LanguageSettingModal';
-import LikesListModal from '../components/Home/Feed/LikesListModal';
 import InputBoxModal from '../components/Home/Feed/InputBoxModal';
 import EditProfileImageModal from '../components/Profile/EditProfileImageModal';
-import EditSummaryModal from '../components/Profile/EditSummaryModal';
-import CreateRoomModal from '../components/Home/Feed/Room/CreateRoomModal/Index';
 import Cookies from 'js-cookie';
 
 // Redux Persist
