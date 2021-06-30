@@ -32,9 +32,7 @@ const EndMessage = dynamic(
 
 const Index = ({ profileData }) => {
   const router = useRouter();
-  useEffect(() => {
-    console.log('posts', profileData);
-  }, []);
+
   const [friends, setFriends] = useState(null);
   const [profile, setProfile] = useState(profileData.profile);
   const [user, setUser] = useState(profileData.profile.user);
@@ -51,7 +49,6 @@ const Index = ({ profileData }) => {
       setPosts((prev) => [...prev, ...data]);
       if (data.length === 0) setHasMore(false);
       setCurrentPage((currentPage) => currentPage + 1);
-      console.log('hi');
     } catch (error) {
       console.log(error);
     }
@@ -59,7 +56,6 @@ const Index = ({ profileData }) => {
   const getProfileFriends = async () => {
     try {
       const { data } = await apiGetProfileFriends(router.query.id);
-      console.log(data);
       setFriends(data);
     } catch (error) {
       console.log(error);
