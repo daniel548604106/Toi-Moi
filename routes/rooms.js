@@ -1,13 +1,14 @@
 const express = require('express');
 const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
-const uuid = require('uuid')(v4);
+const uuid = require('uuid').v4;
 const Room = require('../models/roomModel');
 // Create Room
 router.post('/', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
     const { name, starting_time, icon, public } = req.body;
+    console.log(req.body);
     const room = await Room.create({
       user: userId,
       name,
@@ -29,7 +30,7 @@ router.post('/', authMiddleware, async (req, res) => {
 
 // Invite Users to Join Room
 
-router.post('/', authMiddleware, async (req, req) => {
+router.post('/', authMiddleware, async (req, res) => {
   try {
   } catch (error) {
     console.log(error);

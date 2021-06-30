@@ -8,18 +8,29 @@ import {
 } from '@heroicons/react/outline';
 import CreateRoomListItem from './CreateRoomListItem';
 import CreateRoomName from './CreateRoomName';
+import Loader from '../../../../Global/Loader';
 import { useSelector } from 'react-redux';
-const CreateRoom = ({ setRoomCreated }) => {
+import { apiPostNewRoom } from '../../../../../api/index';
+const CreateRoom = ({ setRoomCreated, setRoomCode }) => {
   const { userInfo } = useSelector((state) => state.user);
   const [createNameOpen, setCreateNameOpen] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [roomInfo, setRoomInfo] = useState({
     name: `${userInfo.name}'s room`,
     icon: '😊',
-    starting_time: 'Now',
+    starting_time: undefined,
     public: false
   });
   const handleCreateRoom = async () => {
-    setRoomCreated(true);
+    setLoading(true);
+    try {
+      const { data } = await apiPostNewRoom(roomInfo);
+      setRoomCode(data.room_code);
+      setLoading(false);
+      setRoomCreated(true);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -50,7 +61,7 @@ const CreateRoom = ({ setRoomCreated }) => {
             Icon={ClockIcon}
             RightIcon={ChevronRightIcon}
             title="時間"
-            subtitle={roomInfo.starting_time}
+            subtitle={roomInfo.starting_time ? roomInfo.starting_time : 'Now'}
           />
           <CreateRoomListItem
             Icon={UsersIcon}
@@ -61,9 +72,9 @@ const CreateRoom = ({ setRoomCreated }) => {
 
           <button
             onClick={() => handleCreateRoom()}
-            className="text-sm sm:text-md rounded-lg p-3 w-full bg-main text-white"
+            className="flex outline-none items-center justify-center text-sm sm:text-md rounded-lg p-3 w-full bg-main text-white"
           >
-            Create Room
+            {isLoading ? <Loader /> : 'Create Room'}
           </button>
         </div>
       )}

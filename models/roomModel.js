@@ -17,8 +17,7 @@ const roomSchema = new mongoose.Schema({
   },
   starting_time: {
     type: Date,
-    default: Date.now(),
-    required: true
+    default: Date.now()
   },
   public: {
     type: Boolean,
