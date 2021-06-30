@@ -15,10 +15,9 @@ import genderAvatar from '../utils/genderAvatar';
 import NoPost from '../components/Home/Feed/NoPost';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import EndMessage from '../components/Home/Feed/EndMessage';
-export default function Home({ posts, chats, friends }) {
+export default function Home({ posts, friends }) {
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
-  const [currentChats, setCurrentChats] = useState(chats);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState(null);
   const [newMessagePopup, setNewMessagePopup] = useState(false);
@@ -28,7 +27,6 @@ export default function Home({ posts, chats, friends }) {
   const getMorePosts = async () => {
     try {
       const posts = await apiGetAllPosts(currentPage);
-      console.log('new', posts.data);
       setCurrentPosts((prev) => [...prev, ...posts.data]);
       if (posts.data.length === 0) setHasMore(false);
       setCurrentPage((currentPage) => currentPage + 1);
@@ -111,7 +109,7 @@ export default function Home({ posts, chats, friends }) {
           )}
         </div>
         <div className=" w-1/2 hidden md:block ">
-          <Contacts chats={chats} />
+          <Contacts friends={friends} />
         </div>
       </main>
     </div>
@@ -124,17 +122,12 @@ export async function getServerSideProps({ req, res }) {
     const token = req.cookies.token;
     let posts, chats, friends;
     if (token) {
-      posts = await axios.get(`${process.env.BASE_URL}/api/posts?page=1`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      chats = await axios.get(`${process.env.BASE_URL}/api/chats`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
       friends = await axios.get(`${process.env.BASE_URL}/api/friends`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      posts = await axios.get(`${process.env.BASE_URL}/api/posts?page=1`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -149,7 +142,6 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         posts: posts.data,
-        chats: chats.data,
         friends: friends.data
       }
     };

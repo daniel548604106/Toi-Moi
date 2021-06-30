@@ -4,7 +4,7 @@ import { SearchIcon } from '@heroicons/react/outline';
 import Contact from './Contact';
 import useTranslation from 'next-translate/useTranslation';
 
-const Index = ({ chats }) => {
+const Index = ({ friends }) => {
   const { t } = useTranslation('common');
 
   return (
@@ -17,7 +17,8 @@ const Index = ({ chats }) => {
           <DotsHorizontalIcon className="h-6 cursor-pointer" />
         </div>
       </div>
-      {chats && chats.map((chat) => <Contact key={chat._id} chat={chat} />)}
+      {friends &&
+        friends.map(({ user }) => <Contact key={user._id} user={user} />)}
     </div>
   );
 };

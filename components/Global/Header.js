@@ -104,7 +104,10 @@ const Header = () => {
             className="h-6"
           />
           <ChatIcon onClick={() => router.push('/messages')} className="h-6" />
-          <MenuIcon onClick={(e) => handleSideMenuShow(e)} className="h-6" />
+          <MenuIcon
+            onClick={(e) => handleSideMenuShow(e)}
+            className={`h-6 ${isSideMenuShow ? 'text-main' : ''}`}
+          />
         </div>
         {isSideMenuShow && (
           <div
