@@ -7,7 +7,7 @@ import genderAvatar from '../../../../../utils/genderAvatar';
 import LoaderSpinner from '../../../../Global/LoaderSpinner';
 import router from 'next/router';
 import { toggleCreateRoomOpen } from '../../../../../redux/slices/globalSlice';
-const InviteRoom = () => {
+const InviteRoom = ({ roomCode }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
   const [friendList, setFriendList] = useState(null);
@@ -24,7 +24,7 @@ const InviteRoom = () => {
   };
   const handleJoinRoom = () => {
     dispatch(toggleCreateRoomOpen());
-    router.push(`/groupcall/2`);
+    router.push(`/groupcall/${roomCode}`);
   };
   useEffect(() => {
     getFriendList();
@@ -42,8 +42,8 @@ const InviteRoom = () => {
           <h2 className="mt-2 text-lg sm:text-xl font-semibold">
             Daniel's room
           </h2>
-          <div className="text-sm sm:text-md rounded-full bg-button  p-1 px-5 cursor-pointer">
-            sdfkjshksdhfkj
+          <div className="text-xs truncate sm:text-md rounded-full bg-button  p-1 px-5 cursor-pointer">
+            {roomCode}
           </div>
         </div>
         <div className=" text-sm sm:text-md rounded-full p-1">
@@ -68,26 +68,31 @@ const InviteRoom = () => {
       {isLoading ? (
         <LoaderSpinner />
       ) : (
-        friendList &&
-        friendList.map(({ user }) => (
-          <div
-            className="mt-2 flex items-center justify-between"
-            key={user._id}
-          >
-            <div className=" flex items-center p-2">
-              <Image
-                width={40}
-                height={40}
-                className="rounded-full cursor-pointer"
-                src={user.profileImage || genderAvatar(user.gender)}
-              />
-              <span className="ml-[10px] text-sm sm:text-md">{user.name}</span>
-            </div>
-            <button className="p-2 rounded-lg bg-main text-white text-sm sm:text-md">
-              Send
-            </button>
+        friendList && (
+          <div className="max-h-[40vh] h-auto overflow-y-auto">
+            {friendList.map(({ user }) => (
+              <div
+                className="mt-2 flex items-center justify-between"
+                key={user._id}
+              >
+                <div className=" flex items-center p-2">
+                  <Image
+                    width={40}
+                    height={40}
+                    className="rounded-full cursor-pointer"
+                    src={user.profileImage || genderAvatar(user.gender)}
+                  />
+                  <span className="ml-[10px] text-sm sm:text-md">
+                    {user.name}
+                  </span>
+                </div>
+                <button className="p-2 rounded-lg bg-main text-white text-sm sm:text-md">
+                  Send
+                </button>
+              </div>
+            ))}
           </div>
-        ))
+        )
       )}
       <button
         onClick={() => handleJoinRoom()}
