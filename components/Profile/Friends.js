@@ -2,6 +2,7 @@ import React from 'react';
 import CardLayout from './CardLayout';
 import Image from 'next/image';
 import router from 'next/router';
+import genderAvatar from '../../utils/genderAvatar';
 const Friends = ({ friends }) => {
   return (
     <CardLayout
@@ -15,6 +16,7 @@ const Friends = ({ friends }) => {
       <div className="grid grid-cols-3 gap-2">
         {friends.friends_preview.map((friend) => (
           <span
+            key={friend.user._id}
             onClick={() => router.push(`/${friend.user.username}`)}
             className=""
           >
@@ -22,7 +24,7 @@ const Friends = ({ friends }) => {
               className="rounded-md cursor-pointer "
               width={150}
               height={150}
-              src={friend.user.profileImage}
+              src={friend.user.profileImage || genderAvatar(friend.user.gender)}
             />
             <p> {friend.user.name}</p>
           </span>

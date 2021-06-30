@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
-
+import axios from 'axios';
 import io from 'socket.io-client';
 import Head from 'next/head';
-import Sidebar from '../components/Home/Sidebar/Sidebar';
 import { useSelector } from 'react-redux';
-import Feed from '../components/Home/Feed/Index';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
+
+import Sidebar from '../components/Home/Sidebar/Sidebar';
+import Post from '../components/Home/Feed/Post';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
 import Room from '../components/Home/Feed/Room/Index';
-import axios from 'axios';
 import genderAvatar from '../utils/genderAvatar';
 import NoPost from '../components/Home/Feed/NoPost';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
@@ -30,7 +30,6 @@ export default function Home({ posts, friends }) {
       setCurrentPosts((prev) => [...prev, ...posts.data]);
       if (posts.data.length === 0) setHasMore(false);
       setCurrentPage((currentPage) => currentPage + 1);
-      console.log(currentPosts);
     } catch (error) {
       console.log(error);
     }
@@ -99,7 +98,11 @@ export default function Home({ posts, friends }) {
               loader={<LoaderSpinner />}
               endMessage={<EndMessage />}
             >
-              <Feed posts={currentPosts} />
+              {currentPosts.map((post) => (
+                <div key={post._id} className="mb-[15px] ">
+                  <Post post={post} />
+                </div>
+              ))}
             </InfiniteScroll>
           )}
           {currentPosts && currentPosts.length < 10 && (

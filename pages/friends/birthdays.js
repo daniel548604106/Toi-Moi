@@ -24,7 +24,7 @@ const birthdays = ({ friends }) => {
     let list = [];
     for (let i = nextMonth; i < deadline; i++) {
       list.push({
-        month: i,
+        month: i + 1,
         birthdays: friends.filter(
           (friend) => dayjs(friend.birthday).get('month') === i
         )

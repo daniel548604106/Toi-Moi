@@ -15,7 +15,7 @@ const MonthlyBirthdays = ({ birthdays, month }) => {
       </p>
       <div className="flex items-center ">
         {birthdays.map((user) => (
-          <span key={user.username} className="group relative">
+          <span key={user.username} className="group mr-2  relative">
             <Image
               onClick={() => router.push(`/${user.username}`)}
               className="rounded-full cursor-pointer"

@@ -7,7 +7,7 @@ import genderAvatar from '../../../../utils/genderAvatar';
 const Index = ({ roomList }) => {
   const [isRoomShow, setRoomShow] = useState(false);
   return (
-    <div>
+    <div className="w-full">
       {isRoomShow ? (
         <div className="scrollbar-hide flex space-x-2 overflow-x-auto">
           <CreateRoomCard />

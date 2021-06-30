@@ -4,8 +4,8 @@ export const getProfile = (username) => {
   return request.get(`/profile/${username}`);
 };
 
-export const getProfilePosts = (username) => {
-  return request.get(`/profile/posts/${username}`);
+export const getProfilePosts = (username, currentPage) => {
+  return request.get(`/profile/posts/${username}?page=${currentPage}`);
 };
 
 export const patchProfile = ({
@@ -32,7 +32,7 @@ export const postWorkExperienceSummary = (username, experience) => {
 };
 
 export const getProfileFriends = (username) => {
-  return request.get(`/friends_preview/${username}`);
+  return request.get(`profile/friends_preview/${username}`);
 };
 
 // update profile image
