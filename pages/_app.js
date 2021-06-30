@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 
 // Components
-import LoaderHeart from '../components/Global/Loader/LoaderHeart';
 
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Header from '../components/Global/Header';
@@ -118,7 +117,7 @@ const App = ({ Component, pageProps }) => {
       {!allowedRoutes && <Header />}
       {loading && (
         <div className="fixed bg-black bg-opacity-20 top-0 left-0 w-screen h-screen z-50 flex items-center justify-center">
-          <LoaderHeart />
+          <LoaderSpinner />
         </div>
       )}
       <main
