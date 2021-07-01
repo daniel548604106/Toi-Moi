@@ -53,10 +53,10 @@ const Post = ({ post }) => {
   };
 
   const handleLikePost = async (id) => {
+    setLiked(true);
+    setLikes([...likes, { user: id }]);
     try {
       const { data } = await apiLikePost(id);
-      setLiked(true);
-      setLikes([...likes, { user: id }]);
     } catch (error) {
       console.log(error);
     }

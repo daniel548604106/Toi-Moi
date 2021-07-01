@@ -96,12 +96,13 @@ export const apiPostWorkExperienceSummary = postWorkExperienceSummary;
 import {
   postFriendRequest,
   removeFriendRequest,
-  getFriendList
+  getFriendList,
+  rejectFriendRequest
 } from './friendRequest';
 export const apiPostFriendRequest = postFriendRequest;
 export const apiRemoveFriendRequest = removeFriendRequest;
 export const apiGetFriendList = getFriendList;
-
+export const apiRejectFriendRequest = rejectFriendRequest;
 // Room
 import { postNewRoom } from './roomRequest';
 export const apiPostNewRoom = postNewRoom;

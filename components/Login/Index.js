@@ -21,6 +21,7 @@ const Login = () => {
     password: ''
   });
   const handleLoginInput = (e) => {
+    setError('');
     const { name, value } = e.target;
     setLoginInput({ ...loginInput, [name]: value });
   };
@@ -37,6 +38,7 @@ const Login = () => {
       router.push('/');
     } catch (error) {
       const errMsg = catchError(error);
+      setLoading(false);
       setError(errMsg);
     }
   };

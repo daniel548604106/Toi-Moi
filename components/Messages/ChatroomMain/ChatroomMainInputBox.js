@@ -25,12 +25,15 @@ const InputBox = ({ sendMsg, t }) => {
           <input
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
-            className="w-full rounded-full py-2  px-5 focus:outline-none bg-gray-100 text-gray-500"
+            className=" text-sm max-h-[100px] overflow-y-scroll sm:text-md w-full rounded-full py-2  px-5 focus:outline-none bg-gray-100 text-gray-500"
             placeholder={t('sendNewMessage')}
           />
         </form>
       </div>
-      <ThumbUpIcon className="h-6 text-main ml-2" />
+      <ThumbUpIcon
+        onClick={(e) => handleSubmitMessage(e, inputText)}
+        className="h-6 text-main ml-2"
+      />
     </div>
   );
 };

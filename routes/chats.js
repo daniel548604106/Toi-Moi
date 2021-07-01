@@ -7,10 +7,9 @@ const authMiddleware = require('../middleware/authMiddleware');
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
-    const user = await Chat.findOne({ user: userId }).populate(
-      'chats.messagesWith'
-    );
-
+    const user = await Chat.findOne({ user: userId })
+      .populate('chats.messagesWith')
+      .sort({ 'chats.messages.date': -1 });
     let chatsToBeSent = [];
 
     // Sending the required data

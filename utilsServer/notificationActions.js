@@ -160,6 +160,7 @@ const newFriendNotification = async ({
   hasBeenInvited
 }) => {
   try {
+    // Receiving end
     const user = await Notification.findOne({ user: userToNotifyId });
     const newNotification = {
       type: 'newFriendInvitation',
@@ -169,7 +170,17 @@ const newFriendNotification = async ({
     if (hasBeenInvited) {
       newNotification.type = 'newFriendAccepted';
     }
+    // Requesting end
+    const sender = await Notification.findOne({ user: userId });
+    if (hasBeenInvited) {
+      sender.notifications.find(
+        (notification) =>
+          notification.user.toString() === userToNotifyId.toString()
+      ).type = 'newFriendAdded';
+    }
 
+    console.log(sender, 'sender');
+    await sender.save();
     await user.notifications.unshift(newNotification);
     await user.save();
     await setNotificationToUnread(userToNotifyId);
@@ -184,6 +195,7 @@ const removeFriendNotification = async ({
   userToRemoveNotificationId
 }) => {
   try {
+    console.log(userId, userToRemoveNotificationId);
     const user = await Notification.findOne({
       user: userToRemoveNotificationId
     });
@@ -192,7 +204,7 @@ const removeFriendNotification = async ({
       (notification) =>
         (notification.type === 'newFriendInvitation' ||
           notification.type === 'newFriendAccepted') &&
-        notification.user.toString() === userId
+        notification.user.toString() === userId.toString()
     );
     console.log(notificationToRemove, 'remove');
     const indexOf = user.notifications

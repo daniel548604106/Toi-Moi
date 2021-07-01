@@ -12,6 +12,7 @@ const NotificationDropDown = ({ t }) => {
     const getNotifications = async () => {
       try {
         const { data } = await apiGetNotifications();
+        console.log(data, 'notification');
         setNotifications(data);
       } catch (error) {
         console.log(error);
@@ -19,6 +20,11 @@ const NotificationDropDown = ({ t }) => {
     };
     getNotifications();
   }, []);
+  const removeNotification = (id) => {
+    setNotifications(
+      notifications.filter((notification) => notification._id !== id)
+    );
+  };
   return (
     <div>
       <div className="flex items-center justify-between">
@@ -40,8 +46,13 @@ const NotificationDropDown = ({ t }) => {
               <CommentNotification t={t} notification={notification} />
             )}
             {(notification.type === 'newFriendAccepted' ||
-              notification.type === 'newFriendInvitation') && (
-              <FriendNotification t={t} notification={notification} />
+              'newFriendInvitation' ||
+              'newFriendAdded') && (
+              <FriendNotification
+                t={t}
+                removeNotification={removeNotification}
+                notification={notification}
+              />
             )}
           </div>
         ))
