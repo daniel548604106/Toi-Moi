@@ -97,16 +97,6 @@ const App = ({ Component, pageProps }) => {
     dispatch(setUserLogout());
   }
 
-  // Set loading on router change
-  // useEffect(() => {
-  //   router.events.on('routeChangeStart', setLoading(true));
-  //   router.events.on('routeChangeComplete', setLoading(false));
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off('routeChangeStart', setLoading(false));
-  //   };
-  // }, []);
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       setLoading(true);
