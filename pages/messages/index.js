@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { apiGetChatUserInfo, apiSearchRequest } from '../../api/index';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { ChatAlt2Icon } from '@heroicons/react/outline';
 import axios from 'axios';
 import ChatroomSidebarHeader from '../../components/Messages/ChatroomSidebar/ChatroomSidebarHeader';
 import ChatroomList from '../../components/Messages/ChatroomSidebar/ChatroomList';
@@ -10,15 +11,17 @@ import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomM
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
 import ChatroomMainInputBox from '../../components/Messages/ChatroomMain/ChatroomMainInputBox';
 import EmptyChat from '../../components/Messages/EmptyChat';
-
 import messageNotificationSound from '../../utils/messageNotificationSound';
 import genderAvatar from '../../utils/genderAvatar';
 import useTranslation from 'next-translate/useTranslation';
+import { toggleListOpen } from '../../redux/slices/messageSlice';
 
 const io = require('socket.io-client');
 
 const Index = (props) => {
   const { t } = useTranslation('messages');
+  const dispatch = useDispatch();
+  const { isListOpen } = useSelector((state) => state.message);
   const router = useRouter();
   const socket = useRef();
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -230,14 +233,27 @@ const Index = (props) => {
     }
   }, []);
   return (
-    <div className="flex bg-primary fullBodyHeight text-primary">
-      <div className="w-full hidden sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col ">
+    <div className="relative flex bg-primary   text-primary">
+      <span
+        onClick={() => dispatch(toggleListOpen())}
+        className="z-40 fixed top-[110px] left-0   p-2 rounded-r-full sm:hidden bg-main text-white"
+      >
+        <ChatAlt2Icon className="h-6" />
+      </span>
+      <div
+        className={`${
+          isListOpen
+            ? 'translate-x-0 '
+            : ' -translate-x-full transform sm:transform-none'
+        } transform transition-transform duration-100 ease-in-out w-full bg-secondary fixed z-40 h-screen overflow-y-scroll sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col `}
+      >
         <ChatroomSidebarHeader
           t={t}
           setSearchText={setSearchText}
           searchText={searchText}
           addChat={addChat}
         />
+
         <div className="flex-1 overflow-y-auto ">
           {searchResult.length > 0
             ? searchResult.map((result) => (
@@ -267,12 +283,11 @@ const Index = (props) => {
         </div>
       </div>
       {chats.length > 0 ? (
-        <div className="flex-1 flex flex-col  ">
+        <div className="pt-[53px] sm:pt-[0px] flex flex-col flex-1 sm:ml-[300px] lg:ml-[500px] top-0 fixed right-0 left-0 sm:top-[60px] bottom-0  ">
           <ChatroomMainHeader
             connectedUsers={connectedUsers}
             openChatUser={openChatUser}
           />
-
           <ChatroomMainRoom
             divRef={divRef}
             sendMsg={sendMsg}

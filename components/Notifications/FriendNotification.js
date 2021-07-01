@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { timeDiff } from '../../lib/dayjs';
 import { UsersIcon } from '@heroicons/react/outline';
@@ -6,9 +6,13 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
-import { apiPostReadSingleNotification, apiPostFriendRequest } from '../../api';
+import {
+  apiPostReadSingleNotification,
+  apiPostFriendRequest,
+  apiRejectFriendRequest
+} from '../../api';
 import genderAvatar from '../../utils/genderAvatar';
-const FriendNotification = ({ notification }) => {
+const FriendNotification = ({ notification, removeNotification }) => {
   const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
   const router = useRouter();
@@ -16,19 +20,26 @@ const FriendNotification = ({ notification }) => {
   const handleReadNotification = async (notificationId) => {
     router.push(`/${notification.user.username}`);
     try {
-      const res = await apiPostReadSingleNotification(notificationId);
-      console.log('res,', res);
+      await apiPostReadSingleNotification(notificationId);
     } catch (error) {
       console.log(error);
     }
   };
   const handleAcceptFriendRequest = async (e, username) => {
     e.stopPropagation();
-
+    setAccepted(true);
     try {
       const res = await apiPostFriendRequest(username);
-      setAccepted(true);
       console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleRejectRequest = async (e, username) => {
+    e.stopPropagation();
+    removeNotification(notification._id);
+    try {
+      await apiRejectFriendRequest(username);
     } catch (error) {
       console.log(error);
     }
@@ -37,13 +48,16 @@ const FriendNotification = ({ notification }) => {
   return (
     <div
       onClick={() => handleReadNotification(notification._id)}
-      className="group relative w-full  p-2 rounded-lg hover:bg-gray-100  cursor-pointer mb-2 flex items-center"
+      className={`${
+        isAccepted ? 'cursor-pointer' : 'cursor-none'
+      } group relative w-full  p-2 rounded-lg hover:bg-gray-100   mb-2 flex items-center`}
     >
       <div className=" flex items-center flex-1">
         <span className="relative">
           <Image
             className="rounded-full object-cover cursor-pointer"
             width={60}
+            layout="fixed"
             height={60}
             src={
               notification.user.profileImage ||
@@ -57,12 +71,13 @@ const FriendNotification = ({ notification }) => {
 
         <div className=" ml-[10px]">
           <p className="text-sm text-primary">
-            <span className="text-primary font-semibold">
+            <span className="text-primary cursor-pointer hover:underline font-semibold">
               {notification.user.name}
             </span>{' '}
-            {notification.type === 'newFriendInvitation' && isAccepted && (
-              <span>{`You are now friend with  ${notification.user.name}`}</span>
-            )}
+            {notification.type === ('newFriendInvitation' && isAccepted) ||
+              (notification.type === 'newFriendAdded' && (
+                <span>{`You are now friend with  ${notification.user.name}`}</span>
+              ))}
             {notification.type === 'newFriendInvitation' && !isAccepted && (
               <span>sent you a friend request</span>
             )}
@@ -82,11 +97,16 @@ const FriendNotification = ({ notification }) => {
                 onClick={(e) =>
                   handleAcceptFriendRequest(e, notification.user.username)
                 }
-                className=" flex items-center justify-center w-full text-xs  cursor-pointer rounded-md p-2 px-4 bg-main text-white "
+                className={`flex items-center justify-center w-full text-xs cursor-pointer   rounded-md p-2 px-4 bg-main text-white `}
               >
                 {t('confirm')}
               </div>
-              <div className=" flex items-center justify-center w-full text-xs ml-[10px] cursor-pointer rounded-md p-2 px-4 border">
+              <div
+                onClick={(e) =>
+                  handleRejectRequest(e, notification.user.username)
+                }
+                className=" flex items-center justify-center w-full text-xs ml-[10px] cursor-pointer rounded-md p-2 px-4 border"
+              >
                 {t('cancel')}
               </div>
             </div>

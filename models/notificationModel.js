@@ -14,7 +14,8 @@ const notificationSchema = new mongoose.Schema({
           'newComment',
           'newFollower',
           'newFriendInvitation',
-          'newFriendAccepted'
+          'newFriendAccepted', // newFriendAdded is only set for user who's request has been received.
+          'newFriendAdded' // newFriendAdded is only set for user that has already been invited and received the request
         ]
       },
       // The user which this notification has relation to

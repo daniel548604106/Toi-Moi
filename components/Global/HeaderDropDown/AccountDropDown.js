@@ -50,17 +50,7 @@ const AccountPopup = ({ t }) => {
         </div>
       </div>
       <hr className="my-[10px]" />
-      <div className="cursor-pointer flex justify-between items-center hover:bg-gray-100 rounded-md p-2">
-        <div className="flex items-center">
-          <span className="p-2 rounded-full bg-gray-100">
-            <CogIcon className="h-6 text-black" />
-          </span>
-          <span className="text-sm sm:text-md ml-[10px]">
-            {t('settings&privacy')}
-          </span>
-        </div>
-        <ChevronRightIcon className="h-6 text-gray-600" />
-      </div>
+
       <div
         onClick={() => dispatch(toggleLanguageOpen())}
         className="cursor-pointer flex justify-between items-center hover:bg-gray-100 rounded-md p-2"

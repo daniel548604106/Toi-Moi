@@ -10,7 +10,7 @@ import {
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import {apiPostFriendRequest,apiRemoveFriendRequest} from '../../api/index'
+import { apiPostFriendRequest, apiRemoveFriendRequest } from '../../api/index';
 let tabs = [
   {
     title: 'posts',
@@ -41,44 +41,42 @@ const hiddenTabs = [
   }
 ];
 
-
-
-const TabsList = ({ user, friends_total,friend_status }) => {
+const TabsList = ({ user, friends_total, friend_status }) => {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState(router.query.tab);
   const [visibleTabs, setVisibleTabs] = useState(tabs);
   const [moreTabs, setMoreTabs] = useState(hiddenTabs);
-  const [friendStatus, setFriendStatus] = useState(friend_status)
+  const [friendStatus, setFriendStatus] = useState(friend_status);
   const userInfo = useSelector((state) => state.user.userInfo);
   const isLoggedInUser = router.query.id === userInfo.username;
-  const handleSendFriendRequest = async() =>{
-    try{
-      setFriendStatus('friendRequested')
-      const {data} = await apiPostFriendRequest(router.query.id)
-      console.log(data)
-    }catch(error){
-      console.log(error)
+  const handleSendFriendRequest = async () => {
+    try {
+      setFriendStatus('friendRequested');
+      const { data } = await apiPostFriendRequest(router.query.id);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
-  }
-  const handleRemoveRequest = async()  =>{
-    try{
-      setFriendStatus('unfriend')
-      const {data} = await apiRemoveFriendRequest(router.query.id)
-      console.log(data)
-    }catch(error){
-      console.log(error)
+  };
+  const handleRemoveRequest = async () => {
+    try {
+      setFriendStatus('unfriend');
+      const { data } = await apiRemoveFriendRequest(router.query.id);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
 
-  const handleAcceptInvitation = async() =>{
-    try{
-      setFriendStatus('friend')
-      const {data} = await apiPostFriendRequest(router.query.id)
-      console.log(data)
-    }catch(error){
-      console.log(error)
+  const handleAcceptInvitation = async () => {
+    try {
+      setFriendStatus('friend');
+      const { data } = await apiPostFriendRequest(router.query.id);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
   useEffect(() => {
     setActiveTab(router.query.tab);
   }, [router.query.tab]);
@@ -125,37 +123,48 @@ const TabsList = ({ user, friends_total,friend_status }) => {
         </div>
       ) : (
         <div className="flex items-center  space-x-3">
-          {
-            friendStatus === 'unfriend' && 
-          <button onClick={() => handleSendFriendRequest()} className="text-xs text-black sm:text-sm flex items-center  bg-gray-100 rounded-md py-2 px-3">
-            <UserAddIcon className="h-6 mr-2" />
-            Add Friend
-          </button>
-          }
-          {
-            friendStatus === 'friendRequested'&& 
-          <button onClick={() => handleRemoveRequest()} className="text-xs sm:text-sm flex items-center  bg-gray-100 rounded-md py-2 px-3">
-            <CheckIcon className="h-6 mr-2" />
-            Request Sent
-          </button>
-          }
-          {
-
-            friendStatus === 'friendInvited'&& 
-            <button onClick={() => handleAcceptInvitation()} className="text-xs sm:text-sm flex items-center  border-main border text-main  rounded-md py-2 px-3">
+          {friendStatus === 'unfriend' && (
+            <button
+              onClick={() => handleSendFriendRequest()}
+              className="text-xs text-black sm:text-sm flex items-center  bg-gray-100 rounded-md py-2 px-3"
+            >
+              <UserAddIcon className="h-6 mr-2" />
+              Add Friend
+            </button>
+          )}
+          {friendStatus === 'friendRequested' && (
+            <button
+              onClick={() => handleRemoveRequest()}
+              className="text-xs sm:text-sm flex items-center  bg-gray-100 rounded-md py-2 px-3"
+            >
+              <CheckIcon className="h-6 mr-2" />
+              Request Sent
+            </button>
+          )}
+          {friendStatus === 'friendInvited' && (
+            <button
+              onClick={() => handleAcceptInvitation()}
+              className="text-xs sm:text-sm flex items-center  border-main border text-main  rounded-md py-2 px-3"
+            >
               <CheckIcon className="h-6 mr-2" />
               Accept Invitation
             </button>
-          }
-          {
-
-            friendStatus === 'friend'&& 
-            <button onClick={() => handleRemoveRequest()} className="text-xs sm:text-sm flex items-center  border-main border text-main  rounded-md py-2 px-3">
+          )}
+          {friendStatus === 'friend' && (
+            <button
+              onClick={() => handleRemoveRequest()}
+              className="text-xs sm:text-sm flex items-center  border-main border text-main  rounded-md py-2 px-3"
+            >
               <UsersIcon className="h-6 mr-2" />
               Friend
             </button>
+          )}
+          <button
+            onClick={() =>
+              router.push(`/messages?messageWith=${router.query.id}`)
             }
-          <button className="text-xs sm:text-sm flex items-center  bg-main text-white rounded-md px-3 py-2">
+            className="text-xs sm:text-sm flex items-center  bg-main text-white rounded-md px-3 py-2"
+          >
             <ChatAlt2Icon className="h-6 mr-2" />
             Message
           </button>
