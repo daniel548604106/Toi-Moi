@@ -3,15 +3,19 @@ import { createSlice } from '@reduxjs/toolkit';
 export const messageSlice = createSlice({
   name: 'message',
   initialState: {
-    messages: []
+    messages: [],
+    isListOpen: true
   },
   reducers: {
     setMessages: (state, payload) => {
       state.messages = payload;
+    },
+    toggleListOpen: (state) => {
+      state.isListOpen = !state.isListOpen;
     }
   }
 });
 
-export const { setMessages } = messageSlice.actions;
+export const { setMessages, toggleListOpen } = messageSlice.actions;
 
 export default messageSlice.reducer;

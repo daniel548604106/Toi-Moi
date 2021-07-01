@@ -8,6 +8,10 @@ export const removeFriendRequest = (username) => {
   return request.post(`/profile/unfriend/${username}`);
 };
 
+export const rejectFriendRequest = (username) => {
+  return request.post(`/profile/reject/${username}`);
+};
+
 export const getFriendList = () => {
   return request.get(`/friends`);
 };

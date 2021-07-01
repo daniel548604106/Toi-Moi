@@ -3,8 +3,11 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { timeDiff } from '../../../lib/dayjs';
 import genderAvatar from '../../../utils/genderAvatar';
+import { useDispatch } from 'react-redux';
+import { toggleListOpen } from '../../../redux/slices/messageSlice';
 const List = ({ chat, connectedUsers, setOpenChatUser }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const isOnline =
     connectedUsers.length > 0 &&
     connectedUsers.filter((user) => user.userId === chat.messagesWith).length >
@@ -14,6 +17,7 @@ const List = ({ chat, connectedUsers, setOpenChatUser }) => {
     router.push(`/messages?message=${chat.messagesWith}`, undefined, {
       shallow: true
     });
+    dispatch(toggleListOpen());
     setOpenChatUser({
       name: chat.name,
       profileImage: chat.profileImage || genderAvatar()

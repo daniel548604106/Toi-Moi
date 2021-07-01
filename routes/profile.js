@@ -140,7 +140,7 @@ router.post('/follow/:userToFollowId', authMiddleware, async (req, res) => {
   }
 });
 
-// Unfollow a user
+// UnFollow a user
 router.post('/unfollow/:userToUnfollowId', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
@@ -312,6 +312,39 @@ router.post('/unfriend/:username', authMiddleware, async (req, res) => {
       userToRemoveNotificationId: user._id
     });
     res.status(200).send('Request removed');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server Error');
+  }
+});
+
+// Reject friend request
+router.post('/reject/:username', authMiddleware, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const { userId } = req;
+    const user = await User.findOne({ username: username.toLowerCase() });
+    // Rejected User
+    const rejectedUser = await Friend.findOne({ user: user._id });
+    const indexOfRejected = rejectedUser.requestsSent
+      .map((sent) => sent.user.toString())
+      .indexOf(userId.toString());
+    await rejectedUser.requestsSent.splice(indexOfRejected, 1);
+    await rejectedUser.save();
+    // Rejecter
+    const rejecter = await Friend.findOne({ user: userId });
+    const index = rejecter.requestsReceived
+      .map((received) => received.user.toString())
+      .indexOf(user._id.toString());
+    await rejecter.requestsReceived.splice(index, 1);
+    await rejecter.save();
+
+    // Remove Notification for rejecter
+    await removeFriendNotification({
+      userId: user._id,
+      userToRemoveNotificationId: userId
+    });
+    res.status(200).send('Rejected successfully');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server Error');

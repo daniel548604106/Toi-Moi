@@ -52,7 +52,11 @@ const Header = () => {
           <Search t={t} />
         </div>
       </div>
-      <div className="fixed max-w-[750px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10">
+      <div
+        className={`${
+          router.pathname.includes('messages') && 'hidden'
+        } fixed max-w-[750px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10`}
+      >
         <HeaderIcon
           title="home"
           href="/"
