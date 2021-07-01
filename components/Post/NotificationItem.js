@@ -56,19 +56,19 @@ const NotificationList = ({ notification }) => {
           height={60}
         />
         {notification.type === 'newLike' && (
-          <span className="absolute bottom-1 right-0 bg-main rounded-full p-1 text-secondary">
+          <span className="absolute bottom-1 right-0 bg-main rounded-full p-1 text-white">
             <ThumbUpIcon className="h-5" />
           </span>
         )}
         {notification.type === 'newComment' && (
-          <span className="absolute bottom-1 right-0 bg-green-400 rounded-full p-1 text-secondary">
+          <span className="absolute bottom-1 right-0 bg-green-400 rounded-full p-1 text-white">
             <ChatAlt2Icon className="h-5" />
           </span>
         )}
         {(notification.type === 'newFriendAccepted' ||
           notification.type === 'newFriendInvitation') && (
-          <span className="absolute bottom-1 right-0 bg-gray-600 rounded-full p-1 text-secondary">
-            <ChatAlt2Icon className="h-5" />
+          <span className="absolute bottom-1 right-0 bg-gray-600 rounded-full p-1 text-white">
+            <UsersIcon className="h-5" />
           </span>
         )}
       </span>
