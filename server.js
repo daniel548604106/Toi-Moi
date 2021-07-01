@@ -19,6 +19,10 @@ const PORT = process.env.PORT || 3000;
 // The following dotenv config will have access to .env file , so make sure it's named as .env and not .env.local .etc
 require('dotenv').config();
 
+if (process.env.NODE_ENV === 'production') {
+  console.log = function () {};
+}
+
 connectDB()
   .then(() => {
     nextApp.prepare().then(() => {
