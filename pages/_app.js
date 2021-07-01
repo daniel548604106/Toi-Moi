@@ -3,6 +3,7 @@ import '../styles/LoaderSpinner.css';
 import '../styles/LoaderBounce.css';
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
+import Head from 'next/head';
 import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
@@ -10,7 +11,6 @@ import { useRouter } from 'next/router';
 
 // Components
 
-import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Login from '../components/Login/Index';
 import Header from '../components/Global/Header';
 
@@ -64,6 +64,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
 import { setUserLogout } from '../redux/slices/userSlice';
+import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
 
 let persistor = persistStore(store);
 
@@ -96,16 +97,6 @@ const App = ({ Component, pageProps }) => {
     dispatch(setUserLogout());
   }
 
-  // Set loading on router change
-  // useEffect(() => {
-  //   router.events.on('routeChangeStart', setLoading(true));
-  //   router.events.on('routeChangeComplete', setLoading(false));
-  //   // If the component is unmounted, unsubscribe
-  //   // from the event with the `off` method:
-  //   return () => {
-  //     router.events.off('routeChangeStart', setLoading(false));
-  //   };
-  // }, []);
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       setLoading(true);
@@ -137,6 +128,14 @@ const App = ({ Component, pageProps }) => {
   if (!isUserLoggedIn && !allowedRoutes) return <Login />;
   return (
     <>
+      <Head>
+        <title>Toi & Moi</title>
+        <meta
+          name="description"
+          content="Toi&Moi is a fullstack social platform designated to connect people from distances away, users are able to build their own profile and connect with people from around the world with realtime messaging and friend system. "
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {isModalOpen && (
         <Overlay>
           {isLikesListOpen && <LikesListModal />}
@@ -149,18 +148,20 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
-      {loading && (
-        <div className="fixed bg-black bg-opacity-20 top-0 left-0 w-screen h-screen z-50 flex items-center justify-center">
-          <LoaderSpinner />
+      {loading ? (
+        <div className="pt-[100px] text-gray-600 text-center">
+          <PostSkeletonLoader />
+          <span className="">載入中...</span>
         </div>
+      ) : (
+        <main
+          className={`${
+            isModalOpen && 'overflow-hidden'
+          } pt-[110px] md:pt-[70px] h-screen primary dark:bg-primary`}
+        >
+          <Component {...pageProps} />
+        </main>
       )}
-      <main
-        className={`${
-          isModalOpen && 'overflow-hidden'
-        } pt-[110px] md:pt-[70px] h-screen primary dark:bg-primary`}
-      >
-        <Component {...pageProps} />
-      </main>
     </>
   );
 };

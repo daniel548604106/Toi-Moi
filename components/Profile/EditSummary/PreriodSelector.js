@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
-import _ from 'lodash';
-const yearRange = _.range(2021, 1960);
-const monthRange = _.range(1, 12);
+import range from 'lodash/range';
+const yearRange = range(2021, 1960);
+const monthRange = range(1, 12);
 const PeriodSelector = ({ newExperience, setNewExperience }) => {
   const [checked, setChecked] = useState(true);
 
