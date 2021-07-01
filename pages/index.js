@@ -14,6 +14,7 @@ import genderAvatar from '../utils/genderAvatar';
 import Post from '../components/Home/Feed/Post';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Room from '../components/Home/Feed/Room/Index';
+import Stories from '../components/Home/Feed/Story/Stories';
 // Dynamic Import
 const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
   loading: () => <LoaderSpinner />
@@ -95,6 +96,7 @@ export default function Home({ posts, friends }) {
           <Sidebar />
         </div>
         <div className="space-y-5 max-w-[750px] w-full sm:px-5 sm:mx-0  xl:mx-20">
+          <Stories />
           <InputBox />
           <Room roomList={roomList} />
           {currentPosts && (
