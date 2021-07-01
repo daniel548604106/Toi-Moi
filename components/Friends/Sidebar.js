@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/outline';
 const Sidebar = () => {
   return (
-    <div className="flex w-screen sm:w-auto items-center overflow-x-auto whitespace-nowrap sm:flex-col sm:items-start p-1 sm:p-3  bg-secondary">
+    <div className="fixed left-0 w-[350px] h-screen overflow-auto pt-[60px] flex  items-center overflow-x-auto whitespace-nowrap sm:flex-col sm:items-start p-1 sm:p-3  bg-secondary">
       <h2 className=" text-lg mb-3 sm:text-2xl font-semibold hidden sm:block">
         Friend
       </h2>

@@ -13,7 +13,8 @@ import { useRouter } from 'next/router';
 
 import Login from '../components/Login/Index';
 import Header from '../components/Global/Header';
-
+import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
+import LoaderSpinner from '../components/Global/LoaderSpinner';
 const Overlay = dynamic(() => import('../components/Global/Overlay'), {
   loading: () => <LoaderSpinner />
 });
@@ -64,7 +65,6 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
 import { setUserLogout } from '../redux/slices/userSlice';
-import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
 
 let persistor = persistStore(store);
 
