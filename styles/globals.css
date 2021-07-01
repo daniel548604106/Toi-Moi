@@ -71,3 +71,114 @@ body {
   position: relative !important;
   height: unset !important;
 }
+
+/* Post Skeleton Loader*/
+.timeline-wrapper {
+  color: #141823;
+  padding: 20px;
+}
+
+.timeline-item {
+  background: #fff;
+  border: 1px solid;
+  border-color: #e5e6e9 #dfe0e4 #d0d1d5;
+  border-radius: 3px;
+  padding: 12px;
+
+  margin: 0 auto;
+  max-width: 472px;
+  min-height: 200px;
+}
+
+@keyframes placeHoldShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+.animated-background {
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHoldShimmer;
+  animation-timing-function: linear;
+  background: #f6f7f8;
+  background: -webkit-linear-gradient(
+    left,
+    #eeeeee 8%,
+    #dddddd 18%,
+    #eeeeee 33%
+  );
+  height: 96px;
+  position: relative;
+  background-size: 800px 104px;
+}
+
+.background-masker {
+  background: #fff;
+  position: absolute;
+  box-sizing: border-box;
+}
+
+.background-masker.header-top {
+  top: 0;
+  left: 40px;
+  right: 0;
+  height: 10px;
+}
+
+.background-masker.header-left,
+.background-masker.header-right {
+  top: 10px;
+  left: 40px;
+  height: 8px;
+  width: 10px;
+}
+
+.background-masker.header-bottom {
+  top: 18px;
+  left: 40px;
+  right: 0;
+  height: 6px;
+}
+
+.background-masker.subheader-left {
+  top: 24px;
+  height: 6px;
+  left: 40px;
+  width: 10px;
+}
+
+.background-masker.subheader-right {
+  height: 6px;
+  left: 230px;
+  top: 24px;
+  right: 0;
+  width: auto;
+}
+
+.background-masker.subheader-bottom {
+  top: 30px;
+  left: 40px;
+  right: 0;
+  height: 10px;
+}
+
+.background-masker.content-top {
+  top: 40px;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+
+/* .background-masker.round-thumb {
+  height: 40px;
+  width: 40px;
+  left: 0;
+  top: 0;
+  background: radial-gradient(ellipse closest-side at center, rgba(0,0,0,0) 100%, #fff);
+} */

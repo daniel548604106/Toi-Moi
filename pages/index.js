@@ -7,16 +7,20 @@ import { useSelector } from 'react-redux';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 
 import Sidebar from '../components/Home/Sidebar/Sidebar';
-import Post from '../components/Home/Feed/Post';
+// import Post from '../components/Home/Feed/Post';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
 // import Room from '../components/Home/Feed/Room/Index';
 import genderAvatar from '../utils/genderAvatar';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
+import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
 // Dynamic Import
 const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
   loading: () => <LoaderSpinner />
+});
+const Post = dynamic(() => import('../components/Home/Feed/Post'), {
+  loading: () => <PostSkeletonLoader />
 });
 const Room = dynamic(() => import('../components/Home/Feed/Room/Index'), {
   loading: () => <LoaderSpinner />

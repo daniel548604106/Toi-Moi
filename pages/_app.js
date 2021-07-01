@@ -11,7 +11,6 @@ import { useRouter } from 'next/router';
 
 // Components
 
-import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Login from '../components/Login/Index';
 import Header from '../components/Global/Header';
 
@@ -65,6 +64,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
 import { setUserLogout } from '../redux/slices/userSlice';
+import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
 
 let persistor = persistStore(store);
 
@@ -148,18 +148,20 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
-      {loading && (
-        <div className="fixed bg-black bg-opacity-20 top-0 left-0 w-screen h-screen z-50 flex items-center justify-center">
-          <LoaderSpinner />
+      {loading ? (
+        <div className="pt-[100px] text-gray-600 text-center">
+          <PostSkeletonLoader />
+          <span className="">載入中...</span>
         </div>
+      ) : (
+        <main
+          className={`${
+            isModalOpen && 'overflow-hidden'
+          } pt-[110px] md:pt-[70px] h-screen primary dark:bg-primary`}
+        >
+          <Component {...pageProps} />
+        </main>
       )}
-      <main
-        className={`${
-          isModalOpen && 'overflow-hidden'
-        } pt-[110px] md:pt-[70px] h-screen primary dark:bg-primary`}
-      >
-        <Component {...pageProps} />
-      </main>
     </>
   );
 };
