@@ -98,6 +98,7 @@ const Index = ({ profileData }) => {
             hasMore={hasMore}
             loader={<LoaderSpinner />}
             endMessage={<EndMessage />}
+            className="scrollbar-hide"
           >
             {posts.map((post) => (
               <div key={post._id} className="mb-[15px]">

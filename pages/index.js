@@ -111,6 +111,7 @@ export default function Home({ posts, friends }) {
               hasMore={hasMore}
               loader={<LoaderSpinner />}
               endMessage={<EndMessage />}
+              className="scrollbar-hide"
             >
               {currentPosts.map((post) => (
                 <div key={post._id} className="mb-[15px] ">

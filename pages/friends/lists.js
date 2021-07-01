@@ -48,16 +48,16 @@ const lists = () => {
     console.log(friends);
   }, [friends]);
   return (
-    <div className="flex flex-col sm:flex-row">
-      <div className="min-w-[300px] w-[20%]">
+    <div className="flex flex-col lg:flex-row">
+      <div>
         <Sidebar />
       </div>
       {isFriendListLoading ? (
-        <div className="flex-1 flex items-center justify-center">
+        <div className="lg:ml-[350px] flex-1 flex items-center justify-center">
           <LoaderSpinner />
         </div>
       ) : (
-        <div className="flex-1 p-3 space-y-3">
+        <div className="lg:ml-[350px] flex-1 p-3 space-y-3">
           <div className="flex mb-3 items-center justify-between">
             <h1 className="text-lg  sm:text-2xl font-semibold">All Friends</h1>
             <div className="flex shadow-lg items-center rounded-lg p-2 bg-secondary text-secondary ">

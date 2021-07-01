@@ -15,11 +15,11 @@ const Index = ({ recommendations }) => {
     setCurrentRecommendations(update);
   };
   return (
-    <div className="flex flex-col sm:flex-row">
-      <div className="min-w-[300px] w-[20%]">
+    <div className="flex flex-col  lg:flex-row">
+      <div>
         <Sidebar />
       </div>
-      <div className="flex-1 p-3 space-y-3">
+      <div className="lg:ml-[350px] flex-1 p-3 space-y-3">
         <h2 className="text-lg font-semibold sm:text-2xl">
           Friend Recommendation
         </h2>
