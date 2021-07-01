@@ -66,3 +66,5 @@ Live Demo
 
 - Problem: tailwindcss group-focus not working on mobile
 - Fix: change it to useClickAway custom hook
+- Problem: Next/Image responsive not available without setting a width or height
+- Fix: CSS Fix
