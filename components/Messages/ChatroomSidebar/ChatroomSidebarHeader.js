@@ -6,9 +6,10 @@ import {
   SearchIcon
 } from '@heroicons/react/solid';
 import Image from 'next/image';
+import { toggleListOpen } from '../../../redux/slices/messageSlice';
 import genderAvatar from '../../../utils/genderAvatar';
 import { useSelector, useDispatch } from 'react-redux';
-const Header = ({ searchText, t, setSearchText, setListOpen }) => {
+const Header = ({ searchText, t, setSearchText }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const dispatch = useDispatch();
   return (

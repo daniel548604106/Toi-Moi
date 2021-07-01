@@ -13,11 +13,14 @@ const MessageDropDownList = ({ message }) => {
         className="rounded-full cursor-pointer"
         src={message.profileImage}
         width={60}
+        layout="fixed"
         height={60}
       />
       <div className="ml-[10px]">
         <p>{message.name}</p>
-        <p className="text-gray-500">{message.lastMessage}</p>
+        <p className="text-gray-500 overflow-hidden truncate">
+          {message.lastMessage}
+        </p>
       </div>
       <span className="hidden group-hover:block  absolute top-1/2 transform -translate-y-1/2 right-4 p-2 rounded-full  bg-secondary text-secondary shadow-lg cursor-pointer">
         <DotsHorizontalIcon className="h-6" />

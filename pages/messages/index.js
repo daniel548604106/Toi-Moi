@@ -11,10 +11,10 @@ import ChatroomMainHeader from '../../components/Messages/ChatroomMain/ChatroomM
 import ChatroomMainRoom from '../../components/Messages/ChatroomMain/ChatroomMainRoom';
 import ChatroomMainInputBox from '../../components/Messages/ChatroomMain/ChatroomMainInputBox';
 import EmptyChat from '../../components/Messages/EmptyChat';
-import { toggleListOpen } from '../../redux/slices/messageSlice';
 import messageNotificationSound from '../../utils/messageNotificationSound';
 import genderAvatar from '../../utils/genderAvatar';
 import useTranslation from 'next-translate/useTranslation';
+import { toggleListOpen } from '../../redux/slices/messageSlice';
 
 const io = require('socket.io-client');
 
@@ -233,16 +233,18 @@ const Index = (props) => {
     }
   }, []);
   return (
-    <div className="relative flex bg-primary h-screen sm:pt-[60px] text-primary">
+    <div className="relative flex bg-primary   text-primary">
       <span
         onClick={() => dispatch(toggleListOpen())}
-        className="z-40 fixed top-[60px] left-0   p-2 rounded-r-full sm:hidden bg-main text-white"
+        className="z-40 fixed top-[110px] left-0   p-2 rounded-r-full sm:hidden bg-main text-white"
       >
         <ChatAlt2Icon className="h-6" />
       </span>
       <div
         className={`${
-          isListOpen ? 'translate-x-0' : '-translate-x-full'
+          isListOpen
+            ? 'translate-x-0 '
+            : ' -translate-x-full transform sm:transform-none'
         } transform transition-transform duration-100 ease-in-out w-full bg-secondary fixed z-40 h-screen overflow-y-scroll sm:flex  sm:max-w-[300px] lg:max-w-[500px] border-r-2  flex-col `}
       >
         <ChatroomSidebarHeader
@@ -281,12 +283,11 @@ const Index = (props) => {
         </div>
       </div>
       {chats.length > 0 ? (
-        <div className="flex-1 flex flex-col  ">
+        <div className="pt-[53px] sm:pt-[0px] flex flex-col flex-1 sm:ml-[300px] lg:ml-[500px] top-0 fixed right-0 left-0 sm:top-[60px] bottom-0  ">
           <ChatroomMainHeader
             connectedUsers={connectedUsers}
             openChatUser={openChatUser}
           />
-
           <ChatroomMainRoom
             divRef={divRef}
             sendMsg={sendMsg}
