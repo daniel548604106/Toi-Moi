@@ -41,13 +41,10 @@ const Header = () => {
     <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3 py-1  sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
-          <Image
+          <img
             onClick={() => router.push('/')}
-            className="cursor-pointer"
+            className="w-[40px] h-[40px] cursor-pointer"
             src="/logo.svg"
-            width={40}
-            height={40}
-            layout="fixed"
           />
           <Search t={t} />
         </div>
@@ -77,14 +74,11 @@ const Header = () => {
           onClick={() => router.push(`/${userInfo.username}`)}
           className="flex border items-center rounded-full space-x-2 hover:border-main  p-1 cursor-pointer "
         >
-          <Image
-            className="cursor-pointer object-cover mr-2 rounded-full"
-            layout="fixed"
+          <img
+            className="w-[35px] h-[35px] cursor-pointer object-cover  rounded-full"
             src={userInfo.profileImage || genderAvatar(userInfo.gender)}
-            width="35"
-            height="35"
           />
-          <p className="pr-2 text-sm  whitespace-nowrap hidden xl:block">
+          <p className="pr-2 text-sm ml-2 whitespace-nowrap hidden xl:block">
             {userInfo.name}
           </p>
         </div>

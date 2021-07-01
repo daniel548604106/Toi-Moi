@@ -21,7 +21,7 @@ const Index = ({ roomList }) => {
             className="rounded-full cursor-pointer border bg-secondary border-main text-main p-2 flex items-center"
           >
             <VideoCameraIcon className="h-6" />
-            <span className="text-sm sm:text-md whitespace-nowrap ml-[5px]">
+            <span className="text-xs sm:text-sm whitespace-nowrap ml-[5px]">
               Create Room
             </span>
           </div>
@@ -32,10 +32,8 @@ const Index = ({ roomList }) => {
             {roomList &&
               roomList.map(({ user }) => (
                 <span className="relative flex items-center" key={user._id}>
-                  <Image
-                    className="rounded-full cursor-pointer"
-                    width={50}
-                    height={50}
+                  <img
+                    className="min-w-[30px]   h-[30px] sm:w-[50px] sm:h-[50px] rounded-full cursor-pointer"
                     src={user.profileImage || genderAvatar(user.gender)}
                   />
                 </span>
