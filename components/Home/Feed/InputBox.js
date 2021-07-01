@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import Image from 'next/image';
 import { VideoCameraIcon, CameraIcon } from '@heroicons/react/solid';
 import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { useSelector, useDispatch } from 'react-redux';
@@ -32,14 +31,10 @@ const InputBox = () => {
   return (
     <div className="w-full p-3 shadow-md font-medium rounded-xl bg-secondary text-secondary">
       <div className="flex items-center w-full space-x-2 mb-3">
-        <Image
-          priority="true"
+        <img
           onClick={() => router.push(`/${userInfo.username}`)}
-          className="rounded-full object-cover cursor-pointer min-w-[50px]"
+          className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] rounded-full object-cover cursor-pointer"
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
-          height={50}
-          width={50}
-          layout="fixed"
         />
         <div
           onClick={() => dispatch(setPostInputBoxOpen(true))}
