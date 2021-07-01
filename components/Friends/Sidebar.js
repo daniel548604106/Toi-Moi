@@ -9,8 +9,8 @@ import {
 } from '@heroicons/react/outline';
 const Sidebar = () => {
   return (
-    <div className="fixed left-0 w-[350px] h-screen overflow-auto pt-[60px] flex  items-center overflow-x-auto whitespace-nowrap sm:flex-col sm:items-start p-1 sm:p-3  bg-secondary">
-      <h2 className=" text-lg mb-3 sm:text-2xl font-semibold hidden sm:block">
+    <div className="flex  w-screen scrollbar-hide   items-center overflow-x-auto lg:fixed lg:left-0  lg:w-[300px] lg:h-screen lg:overflow-y-auto lg:pt-[60px]  whitespace-nowrap lg:flex-col lg:items-start p-1 lg:p-3  bg-secondary">
+      <h2 className=" text-lg mb-3 sm:text-2xl font-semibold hidden lg:block">
         Friend
       </h2>
       <SidebarListItem link="" Icon={UsersIcon} title="Home Page" />

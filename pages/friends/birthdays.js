@@ -43,11 +43,11 @@ const birthdays = ({ friends }) => {
     getMonthlyBirthdays();
   }, [friends]);
   return (
-    <div className="flex flex-col sm:flex-row">
-      <div className="min-w-[300px] w-[20%]">
+    <div className="flex flex-col  lg:flex-row">
+      <div>
         <Sidebar />
       </div>
-      <div className="flex-1 bg-primary p-5 ">
+      <div className="lg:ml-[350px] flex-1 bg-primary p-5 ">
         {friends.length > 0 ? (
           <div className="mx-auto w-full max-w-[600px] space-y-4">
             {recentBirthdays.length > 0 && (
