@@ -107,7 +107,7 @@ const Login = () => {
           )}
           <button
             onClick={(e) => handleLogin(e)}
-            className="rounded-md outline-none flex items-center justify-center w-full text-md sm:text-lg p-2 sm:p-3 text-white bg-main text-secondary"
+            className="rounded-md focus:outline-none outline-none flex items-center justify-center w-full text-md sm:text-lg p-2 sm:p-3 text-white bg-main text-secondary"
           >
             {loading ? <Loader /> : 'Login'}
           </button>
