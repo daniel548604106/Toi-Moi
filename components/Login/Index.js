@@ -69,7 +69,7 @@ const Login = () => {
       <div className="w-full max-w-md mb-[20px] md:mb-0">
         <img
           className="w-[200px] h-[100px] sm:w-[400px] sm:h-[200px]"
-          src="/toi&moi-logo.svg"
+          src="/toi&moi-logo.webp"
           alt="logo"
         />
         <h2 className="text-md sm:text-2xl  font-semibold">
