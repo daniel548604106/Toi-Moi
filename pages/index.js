@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
@@ -57,29 +57,29 @@ export default function Home({ posts, friends }) {
     setRoomList(friends);
   }, [friends]);
 
-  useEffect(() => {
-    if (!socket.current) {
-      socket.current = io(process.env.BASE_URL);
-    }
+  // useEffect(() => {
+  //   if (!socket.current) {
+  //     socket.current = io(process.env.BASE_URL);
+  //   }
 
-    if (socket.current) {
-      // keep track of user is online
-      socket.current.emit('join', { userId: userInfo._id });
-      socket.current.on('newMsgReceived', async ({ newMessage }) => {
-        const { name, profileImage, gender } = await apiGetChatUserInfo(
-          newMessage.sender
-        );
-        if (user.newMessagePopup) {
-          setNewMessageReceived({
-            ...newMessage,
-            senderName: name,
-            senderProfileImage: profileImage || genderAvatar(gender)
-          });
-          setMessagePopup(true);
-        }
-      });
-    }
-  }, []);
+  //   if (socket.current) {
+  //     // keep track of user is online
+  //     socket.current.emit('join', { userId: userInfo._id });
+  //     socket.current.on('newMsgReceived', async ({ newMessage }) => {
+  //       const { name, profileImage, gender } = await apiGetChatUserInfo(
+  //         newMessage.sender
+  //       );
+  //       if (user.newMessagePopup) {
+  //         setNewMessageReceived({
+  //           ...newMessage,
+  //           senderName: name,
+  //           senderProfileImage: profileImage || genderAvatar(gender)
+  //         });
+  //         setMessagePopup(true);
+  //       }
+  //     });
+  //   }
+  // }, []);
 
   return (
     <div className="bg-primary text-primary">

@@ -5,7 +5,6 @@ import SidebarListItem from './SidebarListItem';
 import genderAvatar from '../../../utils/genderAvatar';
 import { useSelector } from 'react-redux';
 import router from 'next/router';
-import Image from 'next/image';
 
 const Sidebar = () => {
   const { t } = useTranslation('common');
@@ -21,10 +20,9 @@ const Sidebar = () => {
         className="flex hover:bg-gray-200 items-center rounded-lg  p-4 py-3 cursor-pointer "
         onClick={() => router.push(`/${userInfo.username}`)}
       >
-        <Image
-          width={60}
-          height={60}
-          className="sm:w-[30px] sm:h-[30px] rounded-full"
+        <img
+          alt="user profile image"
+          className="w-[30px] h-[30px] sm:w-[60px] sm:h-[60px] rounded-full"
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
         />
         <p className=" sm:inline-flex font-medium ml-3">{userInfo.name}</p>

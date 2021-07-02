@@ -19,6 +19,10 @@ const PORT = process.env.PORT || 3000;
 // The following dotenv config will have access to .env file , so make sure it's named as .env and not .env.local .etc
 require('dotenv').config();
 
+if (process.env.NODE_ENV === 'production') {
+  console.log = function () {};
+}
+
 connectDB()
   .then(() => {
     nextApp.prepare().then(() => {
@@ -63,33 +67,33 @@ const {
 
 const users = {};
 
-// Group Call Socket
-groupCallIo.on('connection', (socket) => {
-  console.log('connected!!');
+// // Group Call Socket
+// groupCallIo.on('connection', (socket) => {
+//   console.log('connected!!');
 
-  if (!users[socket.id]) {
-    users[socket.id] = socket.id;
-  }
-  console.log(users);
+//   if (!users[socket.id]) {
+//     users[socket.id] = socket.id;
+//   }
+//   console.log(users);
 
-  socket.emit('yourID', socket.id);
-  socket.emit('allUsers', users);
-  socket.on('disconnect', () => {
-    delete users[socket.id];
-  });
+//   socket.emit('yourID', socket.id);
+//   socket.emit('allUsers', users);
+//   socket.on('disconnect', () => {
+//     delete users[socket.id];
+//   });
 
-  socket.on('callUser', (data) => {
-    console.log('calling', data);
-    groupCallIo.to(data.userToCall).emit('hey', {
-      signal: data.signalData,
-      from: data.from
-    });
-  });
+//   socket.on('callUser', (data) => {
+//     console.log('calling', data);
+//     groupCallIo.to(data.userToCall).emit('hey', {
+//       signal: data.signalData,
+//       from: data.from
+//     });
+//   });
 
-  socket.on('acceptCall', (data) => {
-    groupCallIo.to(data.to).emit('callAccepted', data.signal);
-  });
-});
+//   socket.on('acceptCall', (data) => {
+//     groupCallIo.to(data.to).emit('callAccepted', data.signal);
+//   });
+// });
 
 // socket means the client user who is connected
 io.on('connection', (socket) => {
