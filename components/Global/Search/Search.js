@@ -53,8 +53,10 @@ const Search = ({ t }) => {
   };
 
   useEffect(() => {
+    getSearchHistory();
+  }, []);
+  useEffect(() => {
     if (isSearchResultShow) {
-      getSearchHistory();
       searchInputRef.current.focus();
     }
   }, [isSearchResultShow]);
