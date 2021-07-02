@@ -53,7 +53,7 @@ const Search = ({ t }) => {
   };
 
   useEffect(() => {
-    if (searchResultShow) {
+    if (isSearchResultShow) {
       getSearchHistory();
     }
   }, [searchResultShow]);
