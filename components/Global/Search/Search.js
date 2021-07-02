@@ -55,10 +55,6 @@ const Search = ({ t }) => {
   useEffect(() => {
     if (isSearchResultShow) {
       getSearchHistory();
-    }
-  }, [searchResultShow]);
-  useEffect(() => {
-    if (isSearchResultShow) {
       searchInputRef.current.focus();
     }
   }, [isSearchResultShow]);
