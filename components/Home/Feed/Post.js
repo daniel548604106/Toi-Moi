@@ -9,6 +9,7 @@ import {
   DotsHorizontalIcon
 } from '@heroicons/react/solid';
 import Image from 'next/image';
+import Avatar from '../../Global/Avatar';
 import Popup from './Popup';
 import { useSelector, useDispatch } from 'react-redux';
 import { timeDiff } from '../../../lib/dayjs';
@@ -19,12 +20,10 @@ import {
   setViewPostModalOpen,
   apiGetCurrentPost
 } from '../../../redux/slices/postSlice';
-import { useRouter } from 'next/router';
+import router from 'next/router';
 import Comment from './Comment';
-import genderAvatar from '../../../utils/genderAvatar';
 import useTranslation from 'next-translate/useTranslation';
 const Post = ({ post }) => {
-  const router = useRouter();
   const { t } = useTranslation('common');
   const userInfo = useSelector((state) => state.user.userInfo);
   const isViewPostModalOpen = useSelector(
@@ -85,22 +84,20 @@ const Post = ({ post }) => {
     dispatch(setViewPostModalOpen(true));
   };
 
-  const handleDirectToProfile = () => {
-    router.push(`/${post.user.username}`);
-  };
-
   return (
     <div className="rounded-xl shadow-md text-primary p-3 bg-secondary">
       <div className=" sm:p-3">
         <div className="flex justify-between  mb-[10px]">
           <div className="flex items-center">
-            <Image
-              onClick={() => handleDirectToProfile()}
-              className="rounded-full object-cover  cursor-pointer"
-              src={post.user.profileImage || genderAvatar(post.user.gender)}
-              width="40"
-              height="40"
-            />
+            <span>
+              <Avatar
+                width="40"
+                height="40"
+                profileImage={post.user.profileImage}
+                gender={post.user.gender}
+              />
+            </span>
+
             <div className="ml-[10px]">
               <p
                 onClick={() => handleDirectToProfile()}
@@ -215,11 +212,12 @@ const Post = ({ post }) => {
         </div>
       </div>
       <div className="p-1 flex items-center">
-        <Image
-          src={userInfo.profileImage || genderAvatar(userInfo.gender)}
-          width={30}
-          height={30}
-          className="rounded-full "
+        <Avatar
+          width="30"
+          height="30"
+          username={userInfo.username}
+          profileImage={userInfo.profileImage}
+          gender={userInfo.gender}
         />
         <form className="w-full" onSubmit={(e) => handleSubmitComment(e)}>
           <input

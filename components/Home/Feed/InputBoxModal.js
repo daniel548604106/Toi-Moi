@@ -8,7 +8,7 @@ import {
 } from '../../../redux/slices/postSlice';
 import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { apiPostNewPost } from '../../../api/index';
-import genderAvatar from '../../../utils/genderAvatar';
+import Avatar from '../../Global/Avatar';
 const InputBoxModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const imageToPost = useSelector((state) => state.post.imageToPost);
@@ -39,7 +39,7 @@ const InputBoxModal = () => {
       e.preventDefault();
       if (text === '') return;
       dispatch(setPostInputBoxOpen(false));
-      const { data } = await apiPostNewPost({ image, text, location });
+      await apiPostNewPost({ image, text, location });
       setText('');
       setImage(null);
     } catch (error) {
@@ -61,11 +61,12 @@ const InputBoxModal = () => {
       </div>
       <div className="p-3">
         <div className="flex items-center py-2">
-          <Image
-            className="rounded-full cursor-pointer"
-            src={userInfo.profileImage || genderAvatar(userInfo.gender)}
-            width={50}
-            height={50}
+          <Avatar
+            width="50"
+            height="50"
+            profileImage={userInfo.profileImage}
+            gender={userInfo.gender}
+            username={userInfo.username}
           />
           <span className="ml-[10px]">{userInfo.name}</span>
         </div>

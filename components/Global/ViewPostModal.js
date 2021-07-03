@@ -4,7 +4,6 @@ import Post from '../Home/Feed/Post';
 import { useDispatch, useSelector } from 'react-redux';
 import { setViewPostModalOpen } from '../../redux/slices/postSlice';
 import Image from 'next/image';
-import genderAvatar from '../../utils/genderAvatar';
 const ViewPostModal = () => {
   const dispatch = useDispatch();
   const post = useSelector((state) => state.post.currentPost);

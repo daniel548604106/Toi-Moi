@@ -1,23 +1,21 @@
 import React from 'react';
-import genderAvatar from '../../../utils/genderAvatar';
-import BirhdayCardLayout from './BirhdayCardLayout';
-import Image from 'next/image';
+import BirthdayCardLayout from './BirthdayCardLayout';
 import dayjs from 'dayjs';
+import Avatar from '../../Global/Avatar';
 const RecentBirthdays = ({ recentBirthdays }) => {
   return (
-    <BirhdayCardLayout title="Recent Birthdays">
+    <BirthdayCardLayout title="Recent Birthdays">
       {recentBirthdays.map((recentBirthday) => (
         <div
           className="flex p-5 items-center py-5 border-b"
           key={recentBirthday._id}
         >
-          <Image
-            width={60}
-            height={60}
-            className="rounded-full"
-            src={
-              recentBirthday.profileImage || genderAvatar(recentBirthday.gender)
-            }
+          <Avatar
+            width="60"
+            height="60"
+            username={recentBirthday.username}
+            profileImage={recentBirthday.profileImage}
+            gender={recentBirthday.gender}
           />
           <div className="flex-1 ml-[20px]">
             <p className="text-md sm:text-lg font-semibold">
@@ -38,7 +36,7 @@ const RecentBirthdays = ({ recentBirthdays }) => {
           </div>
         </div>
       ))}
-    </BirhdayCardLayout>
+    </BirthdayCardLayout>
   );
 };
 

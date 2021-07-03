@@ -12,8 +12,7 @@ import {
   ChevronDownIcon,
   HomeIcon,
   UserGroupIcon,
-  PlusIcon,
-  ViewGridIcon
+  PlusIcon
 } from '@heroicons/react/solid';
 import HeaderIcon from './HeaderIcon';
 import genderAvatar from '../../utils/genderAvatar';

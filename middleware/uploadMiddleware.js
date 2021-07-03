@@ -70,3 +70,17 @@ module.exports = {
   uploadPostImage,
   uploadProfileCoverImage
 };
+
+//    client.request(
+//   {
+//     method: 'GET',
+//     path: '/tutorial'
+//   },
+//   function (error, body, status_code, headers) {
+//     if (error) {
+//       console.log(error);
+//     }
+
+//     console.log(body);
+//   }
+// );
