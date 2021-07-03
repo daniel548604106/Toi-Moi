@@ -16,7 +16,7 @@ const ProfileCover = ({ user, profile }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const latestProfileImage = useSelector(
-    (state) => state.profile.profileData.profile.profileImage.picUrl
+    (state) => state.profile.profileData.profile.profileImage
   );
   const [isLoading, setLoading] = useState(false);
   const [isCoverImageEditable, setCoverImageEditable] = useState(false);
@@ -156,8 +156,10 @@ const ProfileCover = ({ user, profile }) => {
           <div className="absolute translate-y-[10px] bottom-0 transform left-1/2 -translate-x-1/2">
             <ProfileImage
               user={profile.user}
-              postId={profile.profileImage.postId || ''}
-              profileImage={latestProfileImage || user.profileImage}
+              postId={
+                latestProfileImage.postId || profile.profileImage.postId || ''
+              }
+              profileImage={latestProfileImage.picUrl || user.profileImage}
             />
           </div>
         </div>

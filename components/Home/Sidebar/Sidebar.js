@@ -22,7 +22,7 @@ const Sidebar = () => {
       >
         <img
           alt="user profile image"
-          className="w-[30px] h-[30px] sm:w-[60px] sm:h-[60px] rounded-full"
+          className="w-[30px] h-[30px] sm:w-[60px] sm:h-[60px] rounded-full object-cover"
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
         />
         <p className=" sm:inline-flex font-medium ml-3">{userInfo.name}</p>

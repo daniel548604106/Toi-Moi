@@ -12,7 +12,7 @@ const Avatar = ({
   return (
     <Image
       onClick={() => router.push(`/${username || ''}`)}
-      className="rounded-full  cursor-pointer"
+      className="rounded-full object-cover cursor-pointer"
       width={width}
       height={height}
       src={profileImage || genderAvatar(gender)}
