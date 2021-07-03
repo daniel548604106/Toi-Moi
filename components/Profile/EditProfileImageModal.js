@@ -15,16 +15,15 @@ const EditProfileImageModal = () => {
   const router = useRouter();
   const [text, setText] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const [profileImage, setProfileImage] = useState('');
   const profileImageToUpdate = useSelector(
     (state) => state.user.profileImageToUpdate
   );
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  const sendUpdates = async (profileImage) => {
+  const sendUpdates = async (profileImageToUpdate) => {
     try {
       const { data } = await apiPostNewPost({
-        image: profileImage,
+        image: profileImageToUpdate,
         text,
         location: '',
         type: 'profileImage'
@@ -33,7 +32,7 @@ const EditProfileImageModal = () => {
         username: router.query.id,
         profileImageDescription: text,
         profileImagePostId: data,
-        profileImage
+        profileImage: profileImageToUpdate
       });
 
       console.log('profile cover changed', res);
@@ -44,11 +43,11 @@ const EditProfileImageModal = () => {
   const handleSubmitUpdate = async () => {
     try {
       setLoading(true);
-      await sendUpdates(profileImage);
+      await sendUpdates(profileImageToUpdate);
       // Get updated user info
-      dispatch(getMyInfo());
+      await dispatch(getMyInfo());
       // Get updated user profile
-      dispatch(getProfileData(userInfo.username));
+      await dispatch(getProfileData(userInfo.username));
       setLoading(false);
       dispatch(setEditProfileImageOpen(false));
     } catch (error) {

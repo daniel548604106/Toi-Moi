@@ -15,6 +15,9 @@ import Loader from '../Global/Loader';
 const ProfileCover = ({ user, profile }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const latestProfileImage = useSelector(
+    (state) => state.profile.profileData.profile.profileImage.picUrl
+  );
   const [isLoading, setLoading] = useState(false);
   const [isCoverImageEditable, setCoverImageEditable] = useState(false);
   const [coverImage, setCoverImage] = useState(profile.profileCoverImage);
@@ -154,7 +157,7 @@ const ProfileCover = ({ user, profile }) => {
             <ProfileImage
               user={profile.user}
               postId={profile.profileImage.postId || ''}
-              profileImage={user.profileImage}
+              profileImage={latestProfileImage || user.profileImage}
             />
           </div>
         </div>
