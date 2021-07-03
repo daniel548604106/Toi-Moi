@@ -65,8 +65,8 @@ const Post = ({ post }) => {
     try {
       const { data } = await apiUnlikePost(id);
       setLiked(false);
-      let indexOf = likes.map((like) => like.user).indexOf(id);
-      setLikes(likes.splice(indexOf, 1));
+      console.log(likes);
+      setLikes(likes.filter((like) => like.user !== id));
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +97,6 @@ const Post = ({ post }) => {
                 gender={post.user.gender}
               />
             </span>
-
             <div className="ml-[10px]">
               <p
                 onClick={() => handleDirectToProfile()}
