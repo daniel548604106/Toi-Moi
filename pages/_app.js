@@ -122,7 +122,8 @@ const App = ({ Component, pageProps }) => {
     isViewPostModalOpen ||
     isEditProfileImageOpen ||
     isEditSummaryModalOpen ||
-    isCreateRoomOpen;
+    isCreateRoomOpen ||
+    isLanguageOpen;
 
   if (!isUserLoggedIn && !allowedRoutes) return <Login />;
   return (

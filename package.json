@@ -5,11 +5,13 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js -p $PORT"
+    "start": "NODE_ENV=production node server.js -p $PORT",
+    "analyze": " ANALYZE=true next build",
+    "analyze:server": " BUNDLE_ANALYZE=server next build",
+    "analyze:browser": " BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.1",
-    "@next/bundle-analyzer": "^11.0.1",
     "@reduxjs/toolkit": "^1.6.0",
     "@svgr/webpack": "^5.5.0",
     "axios": "^0.21.1",
@@ -54,6 +56,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
     "next-images": "^1.7.0",
+    "@next/bundle-analyzer": "^11.0.1",
     "nodemon": "^2.0.7",
     "postcss": "^8.3.1",
     "prettier": "^2.3.1",
