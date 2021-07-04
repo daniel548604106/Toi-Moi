@@ -86,7 +86,7 @@ const Login = () => {
             <span className="ball"></span>
             <p className="whitespace-nowrap">
               <span className="shakeHand">👋</span>{' '}
-              <span className="ml-[5px]">Hi interviewers!</span>
+              <span className="ml-[5px]">Hi Dear Guest!</span>
             </p>
           </div>
         </div>

@@ -6,6 +6,7 @@ const Profile = require('../models/profileModel');
 const Chat = require('../models/chatModel');
 const Notification = require('../models/notificationModel');
 const Search = require('../models/searchModel');
+const Saved = require('../models/savedModel');
 const Friend = require('../models/friendModel');
 const Story = require('../models/storyModel');
 const bcrypt = require('bcryptjs');
@@ -49,6 +50,16 @@ router.post('/', async (req, res) => {
         user: user._id,
         followers: [],
         following: []
+      }).save();
+    }
+
+    // Saved Model
+
+    const saved = await Saved.findOne({ user: user._id });
+    if (!saved) {
+      await new Saved({
+        user: user._id,
+        posts: []
       }).save();
     }
     // Story Model
