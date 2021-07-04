@@ -7,6 +7,7 @@ const Chat = require('../models/chatModel');
 const Notification = require('../models/notificationModel');
 const Search = require('../models/searchModel');
 const Friend = require('../models/friendModel');
+const Story = require('../models/storyModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isEmail = require('validator/lib/isEmail');
@@ -48,6 +49,14 @@ router.post('/', async (req, res) => {
         user: user._id,
         followers: [],
         following: []
+      }).save();
+    }
+    // Story Model
+    const story = await Story.findOne({ user: user._id });
+    if (!story) {
+      await new Story({
+        user: user._id,
+        stories: []
       }).save();
     }
 

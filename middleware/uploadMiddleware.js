@@ -65,8 +65,26 @@ const uploadPostImage = async (req, res, next) => {
   }
 };
 
+const uploadStoryImage = async (req, res, next) => {
+  try {
+    if (!req.body.image) return next();
+    const uploaded = await imageKit.upload({
+      file: req.body.image,
+      fileName: `story-${req.params.id}-${Date.now()}`,
+      folder: `images/stories`
+    });
+    req.body.picUrl = uploaded.url;
+    console.log('uploaded');
+    next();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
 module.exports = {
   uploadProfileImage,
   uploadPostImage,
-  uploadProfileCoverImage
+  uploadProfileCoverImage,
+  uploadStoryImage
 };

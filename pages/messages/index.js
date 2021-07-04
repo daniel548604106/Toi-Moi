@@ -15,6 +15,7 @@ import messageNotificationSound from '../../utils/messageNotificationSound';
 import genderAvatar from '../../utils/genderAvatar';
 import useTranslation from 'next-translate/useTranslation';
 import { toggleListOpen } from '../../redux/slices/messageSlice';
+import Avatar from '../../components/Global/Avatar';
 
 const io = require('socket.io-client');
 
@@ -262,12 +263,13 @@ const Index = (props) => {
                   onClick={() => addChat(result)}
                   className="flex p-2 rounded-lg hover:bg-gray-100 cursor-pointer items-center"
                 >
-                  <Image
-                    src={result.profileImage || genderAvatar(result.gender)}
-                    width={30}
-                    height={30}
-                    className="cursor-pointer rounded-full"
+                  <Avatar
+                    width="30"
+                    height="30"
+                    profileImage={result.profileImage}
+                    gender={result.gender}
                   />
+
                   <span className="ml-[10px]">{result.name}</span>
                 </div>
               ))

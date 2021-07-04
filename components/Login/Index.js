@@ -15,6 +15,7 @@ const Login = () => {
   const router = useRouter();
   const [error, setError] = useState('');
   const [isSignupOpen, setSignupOpen] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [loginInput, setLoginInput] = useState({
     email: '',
@@ -47,6 +48,7 @@ const Login = () => {
     if (userEmail) {
       setLoginInput({ ...loginInput, email: userEmail });
     }
+    setShowNotifications(true);
   }, []);
   return (
     <div className="w-full flex-col justify-center md:flex-row max-w-5xl mx-auto h-screen flex  items-center md:justify-between px-5">
@@ -66,9 +68,10 @@ const Login = () => {
           <ForgotPassword />
         </div>
       )}
+
       <div className="w-full max-w-md mb-[20px] md:mb-0">
         <img
-          className="w-[200px] h-[100px] sm:w-[400px] sm:h-[200px]"
+          className="w-[300px] mx-auto sm:mx-0 h-[100px] sm:w-[400px] sm:h-[200px]"
           src="/toi&moi-logo.svg"
           alt="logo"
         />
@@ -76,7 +79,17 @@ const Login = () => {
           Connect with friends and the world around you on Toi&Moi.
         </h2>
       </div>
-      <div className="p-3 sm:p-5 bg-white rounded-md text-center bg-secondary text-secondary shadow-md w-full max-w-[450px]">
+
+      <div className="relative p-3 sm:p-5 bg-white rounded-md text-center bg-secondary text-secondary shadow-md w-full max-w-[450px]">
+        <div className={`${showNotifications && ' hiInterviewerBg'} `}>
+          <div className="dialogue absolute  bg-white border p-2 rounded-lg">
+            <span className="ball"></span>
+            <p className="whitespace-nowrap">
+              <span className="shakeHand">👋</span>{' '}
+              <span className="ml-[5px]">Hi interviewers!</span>
+            </p>
+          </div>
+        </div>
         <form className="w-full space-y-2 sm:space-y-3">
           <div className="">
             <input

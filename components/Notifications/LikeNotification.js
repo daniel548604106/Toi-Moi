@@ -1,19 +1,16 @@
 import React from 'react';
-import Image from 'next/image';
+import router from 'next/router';
 import { timeDiff } from '../../lib/dayjs';
 import { DotsHorizontalIcon, ThumbUpIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
-import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
 import useTranslation from 'next-translate/useTranslation';
-
+import Avatar from '../Global/Avatar';
 const LikeNotification = ({ notification }) => {
   const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
-  const router = useRouter();
   const handleReadNotification = async (notificationId) => {
     router.push(`/${userInfo.username}/posts/${notification.post._id}`);
-
     try {
       const res = await apiPostReadSingleNotification(notificationId);
       console.log('res,', res);
@@ -28,11 +25,12 @@ const LikeNotification = ({ notification }) => {
     >
       <div className="flex items-center">
         <span className="relative">
-          <Image
-            className="rounded-full object-cover cursor-pointer"
-            width={60}
-            height={60}
-            src={notification.user.profileImage}
+          <Avatar
+            width="60"
+            height="60"
+            username={notification.user.username}
+            profileImage={notification.user.profileImage}
+            gender={notification.user.gender}
           />
           <span className="absolute bottom-1 right-0 rounded-full  text-white bg-main text-secondary p-1">
             <ThumbUpIcon className="h-4" />
