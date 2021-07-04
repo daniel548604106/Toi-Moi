@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   AnnotationIcon,
   ThumbUpIcon as OutlineThumbUpIcon,
@@ -11,6 +11,7 @@ import {
 import Image from 'next/image';
 import Avatar from '../../Global/Avatar';
 import Popup from './Popup';
+import useClickOutside from '../../../hooks/useClickOutside';
 import { useSelector, useDispatch } from 'react-redux';
 import { timeDiff } from '../../../lib/dayjs';
 import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
@@ -25,9 +26,16 @@ import Comment from './Comment';
 import useTranslation from 'next-translate/useTranslation';
 const Post = ({ post }) => {
   const { t } = useTranslation('common');
+  const elRef = useRef();
+  const [isPopupShow, setPopupShow] = useState(false);
+  useClickOutside(elRef, () => setPopupShow(false));
+
   const userInfo = useSelector((state) => state.user.userInfo);
   const isViewPostModalOpen = useSelector(
     (state) => state.post.isViewPostModalOpen
+  );
+  const [commentInputShow, setCommentInputShow] = useState(
+    post.comments.length > 0
   );
   const [likes, setLikes] = useState(post.likes);
   const [comments, setComments] = useState(post.comments);
@@ -120,12 +128,20 @@ const Post = ({ post }) => {
               </p>
             </div>
           </div>
-          <button className="group focus:outline-none p-2 relative rounded-full  hover:bg-gray-100">
-            <DotsHorizontalIcon className="h-5 cursor-pointer text-gray-700 " />
-            <div className="group-focus:block  hidden  z-20  absolute bottom-0 transform translate-y-full right-0 ">
-              <Popup user={post.user} postId={post._id} />
-            </div>
-          </button>
+          <div
+            ref={elRef}
+            className="focus:outline-none p-2 relative rounded-full  hover:bg-gray-100"
+          >
+            <DotsHorizontalIcon
+              onClick={() => setPopupShow(!isPopupShow)}
+              className="h-5 cursor-pointer text-gray-700 "
+            />
+            {isPopupShow && (
+              <div className="z-20  absolute bottom-0 transform translate-y-full right-0 ">
+                <Popup user={post.user} postId={post._id} />
+              </div>
+            )}
+          </div>
         </div>
         <p className="text-sm">{post.text}</p>
       </div>
@@ -197,7 +213,10 @@ const Post = ({ post }) => {
             </span>
           </div>
         )}
-        <div className="rounded-md  flex items-center justify-center p-2  hover:bg-gray-100 flex-1  cursor-pointer text-gray-400">
+        <div
+          onClick={() => setCommentInputShow(true)}
+          className="rounded-md  flex items-center justify-center p-2  hover:bg-gray-100 flex-1  cursor-pointer text-gray-400"
+        >
           <AnnotationIcon className="h-4  " />
           <span className="text-sm sm:text-md ml-[10px]">
             {t('post.comment')}
@@ -210,24 +229,26 @@ const Post = ({ post }) => {
           </span>
         </div>
       </div>
-      <div className="p-1 flex items-center">
-        <Avatar
-          width="30"
-          height="30"
-          username={userInfo.username}
-          profileImage={userInfo.profileImage}
-          gender={userInfo.gender}
-        />
-        <form className="w-full" onSubmit={(e) => handleSubmitComment(e)}>
-          <input
-            onChange={(e) => setText(e.target.value)}
-            value={text}
-            type="text"
-            placeholder={t('post.addComment')}
-            className="border focus:outline-none   text-sm ml-[10px] rounded-full w-full px-[10px] py-[10px]"
+      {commentInputShow && (
+        <div className="p-1 flex items-center">
+          <Avatar
+            width="30"
+            height="30"
+            username={userInfo.username}
+            profileImage={userInfo.profileImage}
+            gender={userInfo.gender}
           />
-        </form>
-      </div>
+          <form className="w-full" onSubmit={(e) => handleSubmitComment(e)}>
+            <input
+              onChange={(e) => setText(e.target.value)}
+              value={text}
+              type="text"
+              placeholder={t('post.addComment')}
+              className="border focus:outline-none   text-sm ml-[10px] rounded-full w-full px-[10px] py-[10px]"
+            />
+          </form>
+        </div>
+      )}
       {comments.length > 0 &&
         comments.slice(0, commentLength).map((comment) => (
           <div key={comment._id} className=" p-1 w-full">

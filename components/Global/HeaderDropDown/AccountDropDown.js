@@ -10,7 +10,7 @@ import Avatar from '../Avatar';
 import Cookies from 'js-cookie';
 
 const AccountPopup = ({ t }) => {
-  const [colorTheme, setTheme] = useDarkMode();
+  const [isDark, setIsDark] = useDarkMode();
   const userInfo = useSelector((state) => state.user.userInfo);
   const email = useSelector((state) => state.user.userInfo.email);
   const [darkModeChecked, setDarkModeChecked] = useState(false);
@@ -69,7 +69,7 @@ const AccountPopup = ({ t }) => {
             </span>
           )}
           <span className="text-sm sm:text-md ml-[10px]">
-            {colorTheme === 'light' ? t('darkMode') : t('lightMode')}
+            {isDark ? t('darkMode') : t('lightMode')}
           </span>
         </div>
         <div>
@@ -91,7 +91,7 @@ const AccountPopup = ({ t }) => {
             ref={inputRef}
             value={darkModeChecked}
             onClick={(e) => {
-              setTheme(colorTheme);
+              setIsDark(!isDark);
               setDarkModeChecked(!darkModeChecked);
             }}
           />

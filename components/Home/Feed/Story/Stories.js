@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import StoryCard from './StoryCard';
 import Image from 'next/image';
 import axios from 'axios';
+import router from 'next/router';
 import { PlusIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import genderAvatar from '../../../../utils/genderAvatar';
-import { apiUploadStory } from '../../../../api/index';
 const Stories = () => {
   const [videoFile, setVideoFile] = useState('');
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -35,10 +35,11 @@ const Stories = () => {
       console.log(error);
     }
   };
+
   return (
     <div className="flex w-full mt-2 space-x-1   overflow-hidden ">
       <div
-        onClick={() => uploadStory()}
+        onClick={() => router.push('/stories/create')}
         className="relative  flex-shrink-0   w-1/3 sm:w-1/4 2xl:w-1/5  rounded-md transition duration-75 cursor-pointer hover:opacity-80 "
       >
         <img

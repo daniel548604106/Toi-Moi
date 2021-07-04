@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Image from 'next/image';
 import {
   PlayIcon,
@@ -14,6 +14,7 @@ import {
   UserGroupIcon,
   PlusIcon
 } from '@heroicons/react/solid';
+import useClickOutside from '../../hooks/useClickOutside';
 import HeaderIcon from './HeaderIcon';
 import genderAvatar from '../../utils/genderAvatar';
 import { useSelector } from 'react-redux';
@@ -28,7 +29,10 @@ import useTranslation from 'next-translate/useTranslation';
 import Sidebar from '../Home/Sidebar/Sidebar';
 const Header = () => {
   const router = useRouter();
+  const elRef = useRef();
   const [isSideMenuShow, setSideMenuShow] = useState(false);
+  useClickOutside(elRef, () => setSideMenuShow(false));
+
   const userInfo = useSelector((state) => state.user.userInfo);
   const { t } = useTranslation('header');
   const handleSideMenuShow = (e) => {
@@ -108,6 +112,7 @@ const Header = () => {
         </div>
         {isSideMenuShow && (
           <div
+            ref={elRef}
             className={`${
               isSideMenuShow && '-translate-x-full'
             } transform ease-in-out overflow-y-auto transition-transform  delay-500  fixed left-full w-full bg-secondary text-button h-full z-40 top-[50px]`}

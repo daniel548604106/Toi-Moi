@@ -7,3 +7,7 @@ export const uploadStory = (data) => {
     }
   });
 };
+
+export const uploadStoryImage = (data) => {
+  return request.post('/stories/upload/image', data);
+};

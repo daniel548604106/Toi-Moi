@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import router from 'next/router';
 import { timeDiff } from '../../../lib/dayjs';
 import {
@@ -11,10 +11,12 @@ import { ThumbUpIcon, TrashIcon } from '@heroicons/react/solid';
 import Avatar from '../../Global/Avatar';
 const Comment = ({ setComments, comments, postId, comment, t }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
-  const isCommentLiked =
+  const [isCommentLiked, setCommentLiked] = useState(
     comment.likes.length > 0 &&
-    comment.likes.filter((like) => like.user === userInfo._id).length > 0;
+      comment.likes.filter((like) => like.user === userInfo._id).length > 0
+  );
   const handleLikeComment = async (commentId) => {
+    setCommentLiked(true);
     try {
       const { data } = await apiLikeComment(postId, commentId);
       console.log(data);
@@ -23,6 +25,7 @@ const Comment = ({ setComments, comments, postId, comment, t }) => {
     }
   };
   const handleUnlikeComment = async (commentId) => {
+    setCommentLiked(false);
     try {
       const { data } = await apiUnlikeComment(postId, commentId);
       console.log(data);
