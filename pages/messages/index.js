@@ -41,6 +41,9 @@ const Index = (props) => {
     divRef.current !== null &&
       divRef.current.scrollIntoView({ behavior: 'smooth' });
   };
+  useEffect(() => {
+    console.log(chats, 'chats');
+  }, [chats]);
 
   // This ref is for persisting the state of query string in url through re-renders because on each re-render of component , the querystring will automatically reset
   // useRef 可以在不 re-render 的狀態下更新值
@@ -69,7 +72,8 @@ const Index = (props) => {
     }
   };
 
-  const addChat = (result) => {
+  const addChat = (e, result) => {
+    e.stopPropagation();
     const alreadyInChat =
       chats.length > 0 &&
       chats.filter((chat) => chat.messagesWith === result._id).length > 0;
@@ -88,8 +92,13 @@ const Index = (props) => {
 
       console.log(openChatId);
       openChatId.current = result._id;
+      setSearchText('');
+      setSearchResult([]);
       setChats((chats) => [newChat, ...chats]);
-      router.push(`/messages?message=${result._id}`);
+      return;
+      router.push(`/messages?message=${result._id}`, undefined, {
+        shallow: true
+      });
     }
     // Clean search result
     setSearchResult([]);
@@ -260,7 +269,7 @@ const Index = (props) => {
             ? searchResult.map((result) => (
                 <div
                   key={result._id}
-                  onClick={() => addChat(result)}
+                  onClick={(e) => addChat(e, result)}
                   className="flex p-2 rounded-lg hover:bg-gray-100 cursor-pointer items-center"
                 >
                   <Avatar

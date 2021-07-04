@@ -109,7 +109,10 @@ const TabsList = ({ user, friends_total, friend_status }) => {
       </div>
       {isLoggedInUser ? (
         <div className="flex items-center  space-x-3">
-          <button className="flex items-center  bg-main text-white rounded-md px-3 py-2">
+          <button
+            onClick={() => router.push('/stories/create')}
+            className="flex items-center  bg-main text-white rounded-md px-3 py-2"
+          >
             <PlusCircleIcon className="h-6 mr-2" />
             <span className="text-xs sm:text-sm"> Add New Stories</span>
           </button>

@@ -86,6 +86,9 @@ const Post = ({ post }) => {
       console.log(res);
     });
   };
+  const handleDirectToProfile = () => {
+    router.push(`/${post.user.username}`);
+  };
 
   const handleViewPost = async (postId) => {
     await dispatch(apiGetCurrentPost(postId));
@@ -101,6 +104,7 @@ const Post = ({ post }) => {
               <Avatar
                 width="40"
                 height="40"
+                username={post.user.username}
                 profileImage={post.user.profileImage}
                 gender={post.user.gender}
               />
