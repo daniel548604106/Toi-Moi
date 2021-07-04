@@ -1,6 +1,5 @@
-import React from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import React, { useState } from 'react';
+import router from 'next/router';
 import { timeDiff } from '../../../lib/dayjs';
 import {
   apiLikeComment,
@@ -9,14 +8,15 @@ import {
 } from '../../../api/index';
 import { useSelector } from 'react-redux';
 import { ThumbUpIcon, TrashIcon } from '@heroicons/react/solid';
-import genderAvatar from '../../../utils/genderAvatar';
+import Avatar from '../../Global/Avatar';
 const Comment = ({ setComments, comments, postId, comment, t }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
-  const isCommentLiked =
+  const [isCommentLiked, setCommentLiked] = useState(
     comment.likes.length > 0 &&
-    comment.likes.filter((like) => like.user === userInfo._id).length > 0;
-  const router = useRouter();
+      comment.likes.filter((like) => like.user === userInfo._id).length > 0
+  );
   const handleLikeComment = async (commentId) => {
+    setCommentLiked(true);
     try {
       const { data } = await apiLikeComment(postId, commentId);
       console.log(data);
@@ -25,6 +25,7 @@ const Comment = ({ setComments, comments, postId, comment, t }) => {
     }
   };
   const handleUnlikeComment = async (commentId) => {
+    setCommentLiked(false);
     try {
       const { data } = await apiUnlikeComment(postId, commentId);
       console.log(data);
@@ -47,11 +48,12 @@ const Comment = ({ setComments, comments, postId, comment, t }) => {
   };
   return (
     <div className="flex  items-center">
-      <Image
-        src={comment.user.profileImage || genderAvatar(comment.user.gender)}
-        width={30}
-        height={30}
-        className="rounded-full object-cover cursor-pointer "
+      <Avatar
+        width="30"
+        height="30"
+        username={comment.user.username}
+        profileImage={comment.user.profileImage}
+        gender={comment.user.gender}
       />
       <div className=" ml-[10px]">
         <div className="flex items-center group">

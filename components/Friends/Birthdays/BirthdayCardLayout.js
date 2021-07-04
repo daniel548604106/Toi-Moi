@@ -1,6 +1,6 @@
 import React from 'react';
 
-const BirhdayCardLayout = ({ children, title }) => {
+const BirthdayCardLayout = ({ children, title }) => {
   return (
     <div className="bg-secondary  p-3 sm:p-5 rounded-lg text-secondary">
       <h2 className="text-lg sm:text-2xl font-semibold">{title}</h2>
@@ -9,4 +9,4 @@ const BirhdayCardLayout = ({ children, title }) => {
   );
 };
 
-export default BirhdayCardLayout;
+export default BirthdayCardLayout;

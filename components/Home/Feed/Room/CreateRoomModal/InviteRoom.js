@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
 import { SearchIcon } from '@heroicons/react/outline';
 import { useSelector, useDispatch } from 'react-redux';
+import { toggleCreateRoomOpen } from '../../../../../redux/slices/globalSlice';
 import { apiGetFriendList } from '../../../../../api';
-import genderAvatar from '../../../../../utils/genderAvatar';
 import LoaderSpinner from '../../../../Global/LoaderSpinner';
 import router from 'next/router';
-import { toggleCreateRoomOpen } from '../../../../../redux/slices/globalSlice';
+import Avatar from '../../../../Global/Avatar';
 const InviteRoom = ({ roomCode }) => {
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
@@ -33,11 +32,12 @@ const InviteRoom = ({ roomCode }) => {
     <div>
       <div className=" max-h-[60vh] space-y-2 overflow-y-auto">
         <div className="flex items-center justify-center flex-col">
-          <Image
-            className="rounded-full cursor-pointer"
-            width={100}
-            height={100}
-            src={userInfo.profileImage || genderAvatar(userInfo.gender)}
+          <Avatar
+            width="100"
+            height="100"
+            username={userInfo.username}
+            profileImage={userInfo.profileImage}
+            gender={userInfo.gender}
           />
           <h2 className="mt-2 text-lg sm:text-xl font-semibold">
             Daniel's room
@@ -76,11 +76,12 @@ const InviteRoom = ({ roomCode }) => {
                 key={user._id}
               >
                 <div className=" flex items-center p-2">
-                  <Image
-                    width={40}
-                    height={40}
-                    className="rounded-full cursor-pointer"
-                    src={user.profileImage || genderAvatar(user.gender)}
+                  <Avatar
+                    width="40"
+                    height="40"
+                    username={userInfo.username}
+                    profileImage={userInfo.profileImage}
+                    gender={userInfo.gender}
                   />
                   <span className="ml-[10px] text-sm sm:text-md">
                     {user.name}

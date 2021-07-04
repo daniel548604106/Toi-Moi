@@ -5,7 +5,9 @@ import ProfileCover from '../../components/Profile/ProfileCover';
 import TabsList from '../../components/Profile/TabsList';
 import LoaderSpinner from '../../components/Global/LoaderSpinner';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { setProfileData } from '../../redux/slices/profileSlice';
 import { apiGetProfilePosts, apiGetProfileFriends } from '../../api/index';
+import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 // Dynamic Imports
 const Friends = dynamic(() => import('../../components/Profile/Friends'), {
@@ -31,8 +33,8 @@ const EndMessage = dynamic(
 );
 
 const Index = ({ profileData }) => {
+  const dispatch = useDispatch();
   const router = useRouter();
-
   const [friends, setFriends] = useState(null);
   const [profile, setProfile] = useState(profileData.profile);
   const [user, setUser] = useState(profileData.profile.user);
@@ -40,6 +42,11 @@ const Index = ({ profileData }) => {
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(2);
 
+  useEffect(() => {
+    if (profileData) {
+      dispatch(setProfileData(profileData));
+    }
+  }, [profileData]);
   const getMorePosts = async () => {
     try {
       const { data } = await apiGetProfilePosts(

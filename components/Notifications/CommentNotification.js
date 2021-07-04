@@ -1,11 +1,11 @@
 import React from 'react';
-import Image from 'next/image';
 import { timeDiff } from '../../lib/dayjs';
 import { DotsHorizontalIcon, ChatAlt2Icon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { apiPostReadSingleNotification } from '../../api';
 import useTranslation from 'next-translate/useTranslation';
+import Avatar from '../Global/Avatar';
 const CommentNotification = ({ notification }) => {
   const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -28,11 +28,12 @@ const CommentNotification = ({ notification }) => {
     >
       <div className="flex items-center">
         <span className="relative">
-          <Image
-            className="rounded-full object-cover cursor-pointer"
-            width={60}
-            height={60}
-            src={notification.user.profileImage}
+          <Avatar
+            width="60"
+            height="60"
+            username={notification.user.username}
+            profileImage={notification.user.profileImage}
+            gender={notification.user.gender}
           />
           <span className="absolute bottom-1 right-0 rounded-full text-white bg-green-400 text-secondary p-1">
             <ChatAlt2Icon className="h-4" />

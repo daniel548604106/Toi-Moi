@@ -1,7 +1,6 @@
 import React from 'react';
-import Image from 'next/image';
 import router from 'next/router';
-import genderAvatar from '../../../utils/genderAvatar';
+import Avatar from '../../Global/Avatar';
 
 const RequestCard = ({ user, t }) => {
   return (
@@ -13,12 +12,12 @@ const RequestCard = ({ user, t }) => {
         onClick={() => router.push(`/${user.username}`)}
         className="p-2 sm:p-3 flex items-center"
       >
-        <Image
-          className="rounded-full cursor-pointer"
-          width={50}
-          height={50}
-          layout="fixed"
-          src={user.profileImage || genderAvatar(user.gender)}
+        <Avatar
+          width="50"
+          height="50"
+          username={user.username}
+          profileImage={user.profileImage}
+          gender={user.gender}
         />
         <div className=" truncate whitespace-nowrap flex-1 ml-[10px] flex items-center justify-between">
           <p className="hover:underline cursor-pointer truncate">{user.name}</p>

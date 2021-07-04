@@ -1,11 +1,9 @@
 import React from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import router from 'next/router';
 import { UsersIcon, ChatAlt2Icon, ThumbUpIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
-import genderAvatar from '../../utils/genderAvatar';
+import Avatar from '../Global/Avatar';
 const NotificationList = ({ notification }) => {
-  const router = useRouter();
   const userInfo = useSelector((state) => state.user.userInfo);
   const notificationMessage = (type) => {
     switch (type) {
@@ -46,14 +44,12 @@ const NotificationList = ({ notification }) => {
       className="p-2 flex items-center hover:bg-gray-100 rounded-md cursor-pointer"
     >
       <span className="relative">
-        <Image
-          className="rounded-full object-cover"
-          src={
-            notification.user.profileImage ||
-            genderAvatar(notification.user.gender)
-          }
-          width={60}
-          height={60}
+        <Avatar
+          width="60"
+          height="60"
+          username={notification.user.username}
+          profileImage={notification.user.profileImage}
+          gender={notification.user.gender}
         />
         {notification.type === 'newLike' && (
           <span className="absolute bottom-1 right-0 bg-main rounded-full p-1 text-white">

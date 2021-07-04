@@ -27,6 +27,7 @@ connectDB()
   .then(() => {
     nextApp.prepare().then(() => {
       //routes
+      app.use('/api/stories', require('./routes/stories'));
       app.use('/api/profile', require('./routes/profile'));
       app.use('/api/me', require('./routes/me'));
       app.use('/api/notifications', require('./routes/notifications'));

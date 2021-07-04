@@ -106,3 +106,8 @@ export const apiRejectFriendRequest = rejectFriendRequest;
 // Room
 import { postNewRoom } from './roomRequest';
 export const apiPostNewRoom = postNewRoom;
+
+// Story
+import { uploadStory, uploadStoryImage } from './storyRequest';
+export const apiUploadStory = uploadStory;
+export const apiUploadStoryImage = uploadStoryImage;

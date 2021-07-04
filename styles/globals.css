@@ -56,6 +56,40 @@ body {
   background-color: #fafafa;
 }
 
+/* Say Hi Notifications */
+
+.hiInterviewerBg {
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateY(-150%);
+  animation-name: expansion;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  transition: all ease-in;
+  transition-duration: 0.3;
+}
+
+.dialogue {
+  animation-name: shakeHand;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  transition: all ease-in;
+  transition-duration: 1s;
+  transform: rotate(345deg) translateY(-120%) translateX(-100%);
+  top: 0;
+  right: 0;
+}
+@keyframes shakeHand {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+}
+
 /* Responsive Image with next Image*/
 .imageContainer {
   width: 100%;
@@ -174,11 +208,3 @@ body {
   right: 0;
   height: 20px;
 }
-
-/* .background-masker.round-thumb {
-  height: 40px;
-  width: 40px;
-  left: 0;
-  top: 0;
-  background: radial-gradient(ellipse closest-side at center, rgba(0,0,0,0) 100%, #fff);
-} */

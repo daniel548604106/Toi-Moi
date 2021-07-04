@@ -5,10 +5,9 @@ import {
   setEditProfileImageOpen,
   getMyInfo
 } from '../../redux/slices/userSlice';
-import { getProfileData } from '../../redux/slices/profileSlice.js';
 import Loader from '../Global/Loader';
-import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
+import Image from 'next/dist/client/image';
+import { getProfileData } from '../../redux/slices/profileSlice.js';
 import { useRouter } from 'next/router';
 import { apiPatchProfileImage, apiPostNewPost } from '../../api/index';
 const EditProfileImageModal = () => {
@@ -16,16 +15,15 @@ const EditProfileImageModal = () => {
   const router = useRouter();
   const [text, setText] = useState('');
   const [isLoading, setLoading] = useState(false);
-  const [profileImage, setProfileImage] = useState('');
   const profileImageToUpdate = useSelector(
     (state) => state.user.profileImageToUpdate
   );
   const userInfo = useSelector((state) => state.user.userInfo);
 
-  const sendUpdates = async (profileImage) => {
+  const sendUpdates = async (profileImageToUpdate) => {
     try {
       const { data } = await apiPostNewPost({
-        image: profileImage,
+        image: profileImageToUpdate,
         text,
         location: '',
         type: 'profileImage'
@@ -34,7 +32,7 @@ const EditProfileImageModal = () => {
         username: router.query.id,
         profileImageDescription: text,
         profileImagePostId: data,
-        profileImage
+        profileImage: profileImageToUpdate
       });
 
       console.log('profile cover changed', res);
@@ -45,32 +43,17 @@ const EditProfileImageModal = () => {
   const handleSubmitUpdate = async () => {
     try {
       setLoading(true);
-      await sendUpdates(profileImage);
+      await sendUpdates(profileImageToUpdate);
       // Get updated user info
-      dispatch(getMyInfo());
+      await dispatch(getMyInfo());
       // Get updated user profile
-      dispatch(getProfileData(userInfo.username));
+      await dispatch(getProfileData(userInfo.username));
       setLoading(false);
       dispatch(setEditProfileImageOpen(false));
     } catch (error) {
       console.log(error);
     }
   };
-  const cropperRef = useRef(null);
-  const onCrop = () => {
-    const imageElement = cropperRef?.current;
-    const cropper = imageElement?.cropper;
-    setProfileImage(cropper.getCroppedCanvas().toDataURL());
-    // sendUpdates(cropper.getCroppedCanvas().toDataURL());
-    // console.log(cropper.getCroppedCanvas().toDataURL());
-  };
-
-  useEffect(() => {
-    return () => {
-      onCrop();
-    };
-  }, []);
-
   return (
     <div className="rounded-lg relative max-w-[600px] w-full bg-secondary text-secondary shadow-xl">
       <span
@@ -89,16 +72,12 @@ const EditProfileImageModal = () => {
           className="border p-2 rounded-md focus:outline-none focus:border-main w-full"
           placeholder="Description"
         ></textarea>
-        <div className="p-3 relative w-full h-[500px] ">
+        <div className="p-3 relative   mx-auto w-[300px] min-h-[300px] sm:h-[500px] sm:w-[500px] ">
           {profileImageToUpdate && (
-            <Cropper
+            <Image
+              layout="fill"
+              className=" object-cover rounded-md"
               src={profileImageToUpdate}
-              style={{ height: 400, width: '100%' }}
-              // Cropper.js options
-              initialAspectRatio={16 / 9}
-              guides={false}
-              crop={onCrop}
-              ref={cropperRef}
             />
           )}
         </div>
@@ -112,7 +91,7 @@ const EditProfileImageModal = () => {
         </button>
         <button
           onClick={() => handleSubmitUpdate()}
-          className="rounded-md flex items-center justify-center p-2 text-sm px-4 bg-main text-secondary ml-[10px]"
+          className="rounded-md flex items-center justify-center p-2 text-sm px-4 bg-main text-white ml-[10px]"
         >
           {isLoading ? <Loader /> : 'Save'}
         </button>

@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import Image from 'next/image';
 import { timeDiff } from '../../lib/dayjs';
 import { UsersIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import useTranslation from 'next-translate/useTranslation';
-
 import {
   apiPostReadSingleNotification,
   apiPostFriendRequest,
   apiRejectFriendRequest
 } from '../../api';
-import genderAvatar from '../../utils/genderAvatar';
+import Avatar from '../Global/Avatar';
+import useTranslation from 'next-translate/useTranslation';
+
 const FriendNotification = ({ notification, removeNotification }) => {
   const { t } = useTranslation('header');
   const userInfo = useSelector((state) => state.user.userInfo);
@@ -54,15 +53,11 @@ const FriendNotification = ({ notification, removeNotification }) => {
     >
       <div className=" flex items-center flex-1">
         <span className="relative">
-          <Image
-            className="rounded-full object-cover cursor-pointer"
-            width={60}
-            layout="fixed"
-            height={60}
-            src={
-              notification.user.profileImage ||
-              genderAvatar(notification.user.gender)
-            }
+          <Avatar
+            width="60"
+            height="60"
+            gender={notification.user.gender}
+            profileImage={notification.user.profileImage}
           />
           <span className="absolute bottom-1 right-0 bg-gray-800  rounded-full p-1">
             <UsersIcon className="h-4 text-white" />

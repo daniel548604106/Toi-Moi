@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../../components/Friends/Sidebar';
 import useAxios from '../../hooks/useAxios';
-import genderAvatar from '../../utils/genderAvatar';
-import Image from 'next/image';
 import { SearchIcon } from '@heroicons/react/outline';
 import LoaderSpinner from '../../components/Global/LoaderSpinner';
 import EmptyFriendList from '../../components/Friends/EmptyFriendList';
 import router from 'next/router';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Avatar from '../../components/Global/Avatar';
 const lists = () => {
   const [friendsList, setFriendsList] = useState(null);
   const [searchedResult, setSearchedResult] = useState(null);
@@ -77,11 +76,12 @@ const lists = () => {
                 key={user._id}
                 className="p-3 cursor-pointer text-secondary hover:shadow-lg bg-secondary rounded-lg shadow-md flex items-center"
               >
-                <Image
-                  className="rounded-full cursor-pointer"
-                  width={50}
-                  height={50}
-                  src={user.profileImage || genderAvatar(user.gender)}
+                <Avatar
+                  width="50"
+                  height="50"
+                  username={user.username}
+                  profileImage={user.profileImage}
+                  gender={user.gender}
                 />
                 <p className="ml-[10px]">{user.name}</p>
               </span>

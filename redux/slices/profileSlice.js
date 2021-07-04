@@ -4,7 +4,7 @@ export const getProfileData = createAsyncThunk(
   'post/getProfile',
   async (username, thunkAPI) => {
     const response = await apiGetProfile(username);
-    console.log(response);
+    console.log(response, 'from redux');
     return response.data;
   }
 );
@@ -18,18 +18,22 @@ export const profileSlice = createSlice({
   reducers: {
     setSummaryModalShow: (state, { payload }) => {
       state.isEditSummaryModalOpen = payload;
+    },
+    setProfileData: (state, { payload }) => {
+      state.profileData = payload;
     }
   },
   extraReducers: {
     // Add reducers for additional action types here, and handle loading state as needed
-    [getProfileData.fulfilled]: (state, action) => {
+    [getProfileData.fulfilled]: (state, { payload }) => {
       // Add likes to the state array
-      state.profileData = action.payload;
+      console.log('dispatch from redux', payload);
+      state.profileData = payload;
     }
   }
 });
 
 // Action creators are generated for each case reducer function
-export const { setSummaryModalShow } = profileSlice.actions;
+export const { setSummaryModalShow, setProfileData } = profileSlice.actions;
 
 export default profileSlice.reducer;

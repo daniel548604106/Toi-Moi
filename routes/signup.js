@@ -7,6 +7,7 @@ const Friend = require('../models/friendModel');
 const Follower = require('../models/followerModel');
 const Chat = require('../models/chatModel');
 const Search = require('../models/searchModel');
+const Story = require('../models/storyModel');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const isEmail = require('validator/lib/isEmail');
@@ -107,6 +108,12 @@ router.post('/', async (req, res) => {
     };
 
     await new Profile(profileFields).save();
+
+    // Story Model
+    await new Story({
+      user: user._id,
+      stories: []
+    }).save();
 
     // Follower Model
     await new Follower({

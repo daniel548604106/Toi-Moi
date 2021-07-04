@@ -16,6 +16,7 @@ import {
 import storage from 'redux-persist/lib/storage';
 import globalReducer from './slices/globalSlice';
 import userReducer from './slices/userSlice';
+import storyReducer from './slices/storySlice';
 import postReducer from './slices/postSlice';
 import messageReducer from './slices/messageSlice';
 import profileReducer from './slices/profileSlice';
@@ -24,6 +25,7 @@ const reducers = combineReducers({
   global: globalReducer,
   post: postReducer,
   message: messageReducer,
+  story: storyReducer,
   profile: profileReducer
 });
 
@@ -31,7 +33,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blackList: ['user']
+  whitelist: ['user']
 };
 
 const _persistedReducer = persistReducer(persistConfig, reducers);
