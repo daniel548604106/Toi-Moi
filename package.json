@@ -38,6 +38,7 @@
     "redux": "^4.1.0",
     "redux-persist": "^6.0.0",
     "simple-peer": "^9.11.0",
+    "@next/bundle-analyzer": "^11.0.1",
     "sitemap": "^7.0.0",
     "socket.io": "^4.1.2",
     "socket.io-client": "^4.1.2",
@@ -48,7 +49,6 @@
     "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@next/bundle-analyzer": "^11.0.1",
     "autoprefixer": "^10.2.6",
     "eslint": "^7.28.0",
     "eslint-config-next": "^11.0.1",
