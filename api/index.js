@@ -111,3 +111,14 @@ export const apiPostNewRoom = postNewRoom;
 import { uploadStory, uploadStoryImage } from './storyRequest';
 export const apiUploadStory = uploadStory;
 export const apiUploadStoryImage = uploadStoryImage;
+
+// Saved
+
+import {
+  postNewSavedPost,
+  getSavedPosts,
+  deleteSavedPost
+} from './savedRequest';
+export const apiPostNewSavedPost = postNewSavedPost;
+export const apiGetSavedPosts = getSavedPosts;
+export const apiDeleteSavedPost = deleteSavedPost;
