@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import catchError from '../../lib/catchError';
 import Cookie from 'js-cookie';
 import Signup from '../Signup/Index';
+import { XIcon, ClipboardIcon } from '@heroicons/react/outline';
 import Image from 'next/image';
 import ForgotPassword from '../ForgotPassword/Index';
 import Loader from '../Global/Loader';
@@ -29,7 +30,8 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    if (loginInput.account === '' || loginInput.password === '') return;
+    if (loginInput.account === '' || loginInput.password === '')
+      return setError('Email and password required!');
     try {
       setLoading(true);
       const { data } = await apiPostLogin(loginInput);
@@ -68,6 +70,26 @@ const Login = () => {
           <ForgotPassword />
         </div>
       )}
+      <div className="fixed z-50 bottom-3 right-2  border p-3 pr-5 rounded-lg bg-white">
+        <XIcon className="absolute top-2 right-2 h-6" />
+        <p className="text-sm sm:text-md font-semibold">
+          💫 If you're an interviewer, please use the following credentials for
+          login.
+        </p>
+        <div className="mt-2 ">
+          <p className="text-sm sm:text-md">Account :</p>
+          <p className="flex items-center text-gray-600 text-sm sm:text-md">
+            <ClipboardIcon className="h-4 mr-2" />
+            <span>interviewer@gmail.com</span>{' '}
+          </p>
+        </div>
+        <div className="mt-2 ">
+          <p className="text-sm sm:text-md">Password :</p>{' '}
+          <p className="flex items-center text-gray-600 text-sm sm:text-md">
+            <ClipboardIcon className="h-4 mr-2" /> <span> dearinterviewer</span>
+          </p>
+        </div>
+      </div>
 
       <div className="w-full max-w-md mb-[20px] md:mb-0">
         <img
@@ -86,7 +108,7 @@ const Login = () => {
             <span className="ball"></span>
             <p className="whitespace-nowrap">
               <span className="shakeHand">👋</span>{' '}
-              <span className="ml-[5px]">Hi Dear Guest!</span>
+              <span className="ml-[5px]">Hi there!</span>
             </p>
           </div>
         </div>
@@ -99,7 +121,7 @@ const Login = () => {
               id="account"
               value={loginInput.email}
               type="email"
-              placeholder="Account"
+              placeholder="Email"
             />
           </div>
           <div className="">
