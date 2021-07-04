@@ -44,7 +44,7 @@ const Sidebar = () => {
         title={t('sidebar.groups')}
       />
       <SidebarListItem
-        link="bookmark"
+        link="saved"
         src="/icons/bookmark.png"
         title={t('sidebar.saved')}
       />

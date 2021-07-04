@@ -59,7 +59,7 @@ const AccountPopup = ({ t }) => {
       </div>
       <div className="flex items-center justify-between  p-2">
         <div className="flex items-center ">
-          {darkModeChecked ? (
+          {!darkModeChecked ? (
             <span className="p-2 rounded-full bg-gray-100">
               <MoonIcon className="h-6 text-black" />
             </span>
@@ -76,12 +76,12 @@ const AccountPopup = ({ t }) => {
           <span
             onClick={() => inputRef.current.click()}
             className={`rounded-full w-[70px] h-[40px]  p-2  flex items-center ${
-              darkModeChecked ? 'bg-gray-700' : 'bg-white border'
+              !darkModeChecked ? 'bg-gray-700' : 'bg-white border'
             }`}
           >
             <span
               className={` rounded-full transition-all transform duration-200 ease-in-out bg-white w-[25px] h-[25px]
-             ${darkModeChecked ? ' bg-white translate-x-full' : 'bg-gray-700'}
+             ${!darkModeChecked ? ' bg-white translate-x-full' : 'bg-gray-700'}
           `}
             ></span>
           </span>

@@ -30,6 +30,7 @@ connectDB()
       app.use('/api/stories', require('./routes/stories'));
       app.use('/api/profile', require('./routes/profile'));
       app.use('/api/me', require('./routes/me'));
+      app.use('/api/saved', require('./routes/saved'));
       app.use('/api/notifications', require('./routes/notifications'));
       app.use('/api/login', require('./routes/login'));
       app.use('/api/signup', require('./routes/signup'));

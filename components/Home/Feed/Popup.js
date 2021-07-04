@@ -2,12 +2,25 @@ import React from 'react';
 import { TrashIcon, BookmarkIcon } from '@heroicons/react/outline';
 import { apiDeletePost } from '../../../api/index';
 import { useSelector } from 'react-redux';
+import { apiPostNewSavedPost } from '../../../api/index';
 import router from 'next/router';
 const Popup = ({ postId, user }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const handleDeletePost = async () => {
     try {
       const { data } = await apiDeletePost(postId);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleSavePost = async () => {
+    try {
+      const { data } = await apiPostNewSavedPost({
+        type: 'post',
+        postId,
+        publisherId: user._id
+      });
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -26,7 +39,10 @@ const Popup = ({ postId, user }) => {
           </span>
         </div>
       )}
-      <div className="rounded-md flex items-center hover:bg-gray-100 py-2 px-3">
+      <div
+        onClick={() => handleSavePost()}
+        className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
+      >
         <BookmarkIcon className="h-6" />
         <span className="ml-[10px] text-sm whitespace-nowrap">Save post</span>
       </div>
