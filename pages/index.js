@@ -23,8 +23,9 @@ const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
 const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
   loading: () => <LoaderSpinner />
 });
-export default function Home({ posts, friends, stories }) {
+export default function Home({ posts, friends }) {
   const [hasMore, setHasMore] = useState(true);
+  // const [currentStories, setCurrentStories] = useState(null);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState(null);
@@ -45,6 +46,9 @@ export default function Home({ posts, friends, stories }) {
 
   const socket = useRef();
 
+  // useEffect(() => {
+  //   setCurrentStories(stories);
+  // }, [stories]);
   useEffect(() => {
     setCurrentPosts(posts);
     // Stop loading for more if there's no data at first
@@ -145,11 +149,11 @@ export async function getServerSideProps({ req, res }) {
           Authorization: `Bearer ${token}`
         }
       });
-      stories = await axios.get(`${process.env.BASE_URL}/api/stories`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      // stories = await axios.get(`${process.env.BASE_URL}/api/stories`, {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // });
     }
 
     if (!posts.data) {
@@ -160,8 +164,8 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         posts: posts.data,
-        friends: friends.data,
-        stories: stories.data
+        friends: friends.data
+        // stories: stories.data
       }
     };
   } catch (error) {

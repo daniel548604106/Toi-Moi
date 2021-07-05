@@ -4,7 +4,6 @@ const Story = require('../models/storyModel');
 const { uploadStoryImage } = require('../middleware/uploadMiddleware');
 const Vimeo = require('vimeo').Vimeo;
 const authMiddleware = require('../middleware/authMiddleware');
-const { default: Stories } = require('../components/Home/Feed/Story/Stories');
 
 const vimeo_account = new Vimeo(
   process.env.VIMEO_CLIENT_ID,
@@ -43,8 +42,10 @@ router.post(
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
-    const user = await Story.findOne({ user: userId });
-    res.status(200).json(user.stories);
+    const { stories } = await Story.findOne({ user: userId });
+
+    console.log(stories);
+    res.status(200).json(stories);
   } catch (error) {
     console.log(error);
   }
