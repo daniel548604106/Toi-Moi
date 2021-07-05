@@ -12,26 +12,19 @@ const storySchema = new mongoose.Schema(
           type: Date,
           default: Date.now()
         },
-        images: [
+        image: {
+          type: String,
+          required: true
+        },
+        type: {
+          type: String,
+          enum: ['video', 'image', 'text']
+        },
+
+        taggedUsers: [
           {
-            image: {
-              type: String,
-              required: true
-            }
-          },
-          {
-            type: {
-              type: String,
-              enum: ['video', 'image', 'text']
-            }
-          },
-          {
-            taggedUsers: [
-              {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User'
-              }
-            ]
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
           }
         ]
       }

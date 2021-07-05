@@ -114,9 +114,10 @@ import { postNewRoom } from './roomRequest';
 export const apiPostNewRoom = postNewRoom;
 
 // Story
-import { uploadStory, uploadStoryImage } from './storyRequest';
+import { uploadStory, uploadStoryImage, getStories } from './storyRequest';
 export const apiUploadStory = uploadStory;
 export const apiUploadStoryImage = uploadStoryImage;
+export const apiGetStories = getStories;
 
 // Saved
 
