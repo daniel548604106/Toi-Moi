@@ -503,5 +503,36 @@ router.post('/:username/work_experience', authMiddleware, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+// Add Education Experience
+router.post('/:username/education', authMiddleware, async (req, res) => {
+  try {
+    const { userId } = req;
+    const { username } = req.params;
+    const { experience } = req.body;
+    const user = await Profile.findOne({ user: userId }).populate('user');
+    if (user.user.username !== username)
+      return res.status(401).send('Unauthorized');
+
+    user.summary.education.unshift(experience);
+    await user.save();
+    res.status(200).json(user.summary);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
+
+// Get Summary
+router.get('/summary/:username', authMiddleware, async (req, res) => {
+  try {
+    const { username } = req.params;
+    const user = await User.findOne({ username });
+    const { summary } = await Profile.findOne({ user: user._id });
+    res.status(200).json(summary);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;

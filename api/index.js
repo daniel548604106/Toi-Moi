@@ -82,17 +82,21 @@ import {
   patchProfileBio,
   getProfileFriends,
   patchProfileSummary,
-  postWorkExperienceSummary
+  postWorkExperienceSummary,
+  postEducationSummary,
+  getProfileSummary
 } from './profileRequest';
 
 export const apiGetProfilePosts = getProfilePosts;
 export const apiGetProfile = getProfile;
-export const apiPatchProfile = patchProfile;
+export const apiGetProfileSummary = getProfileSummary;
 export const apiGetProfileFriends = getProfileFriends;
+export const apiPatchProfile = patchProfile;
 export const apiPatchProfileImage = patchProfileImage;
 export const apiPatchProfileBio = patchProfileBio;
 export const apiPatchProfileSummary = patchProfileSummary;
 export const apiPostWorkExperienceSummary = postWorkExperienceSummary;
+export const apiPostEducationSummary = postEducationSummary;
 // Friend
 
 import {

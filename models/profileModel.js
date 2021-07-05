@@ -66,8 +66,32 @@ const ProfileSchema = new mongoose.Schema(
           faculty_name: {
             type: String
           },
+          degree: {
+            type: String,
+            enum: ['bachelor', 'master', 'doctorate']
+          },
+          major: {
+            type: String
+          },
+          minor: {
+            type: String
+          },
           still_studying: {
             type: Boolean
+          },
+          period: {
+            start_year: {
+              type: String
+            },
+            start_month: {
+              type: String
+            },
+            end_year: {
+              type: String
+            },
+            end_month: {
+              type: String
+            }
           },
           set_public: {
             type: Boolean,

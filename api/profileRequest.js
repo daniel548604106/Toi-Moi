@@ -31,12 +31,18 @@ export const patchProfileSummary = (username) => {
   return request.patch(`/profile/${username}/summary`);
 };
 
+// Add Work Experience
 export const postWorkExperienceSummary = (username, experience) => {
   return request.post(`/profile/${username}/work_experience`, { experience });
 };
 
+// Add Education
+export const postEducationSummary = (username, experience) => {
+  return request.post(`/profile/${username}/education`, { experience });
+};
+
 export const getProfileFriends = (username) => {
-  return request.get(`profile/friends_preview/${username}`);
+  return request.get(`/profile/friends_preview/${username}`);
 };
 
 // update profile image
@@ -51,4 +57,9 @@ export const patchProfileImage = ({
     profileImagePostId,
     profileImage
   });
+};
+
+// Get Profile Summary
+export const getProfileSummary = (username) => {
+  return request.get(`/profile/summary/${username}`);
 };
