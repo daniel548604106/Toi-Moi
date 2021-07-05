@@ -6,8 +6,9 @@ import router from 'next/router';
 import { PlusIcon } from '@heroicons/react/outline';
 import { useSelector } from 'react-redux';
 import genderAvatar from '../../../../utils/genderAvatar';
-const Stories = () => {
+const Stories = ({ stories }) => {
   const [videoFile, setVideoFile] = useState('');
+
   const userInfo = useSelector((state) => state.user.userInfo);
   const uploadStory = async () => {
     try {
@@ -86,8 +87,8 @@ const Stories = () => {
         <StoryCard
           key={story.name}
           name={story.name}
-          src={story.src}
-          profile={story.profile}
+          src={story.image}
+          // profile={story.profile}
         />
       ))} */}
     </div>

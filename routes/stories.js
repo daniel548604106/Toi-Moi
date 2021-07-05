@@ -42,10 +42,9 @@ router.post(
 router.get('/', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
-    const { stories } = await Story.findOne({ user: userId });
+    const user = await Story.findOne({ user: userId }).populate('user');
 
-    console.log(stories);
-    res.status(200).json(stories);
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
   }
