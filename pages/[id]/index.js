@@ -103,7 +103,7 @@ const Index = ({ profileData }) => {
         <ProfileCover profile={profile} user={user} />
       </div>
       {friends && (
-        <div className="bg-secondary text-secondary sm:sticky sm:top-[60px] border-b z-40">
+        <div className="bg-secondary text-secondary sm:sticky sm:top-[60px] border-b z-30">
           <div className=" max-w-7xl mx-auto bg-secondary text-secondary self-start ">
             <TabsList
               friend_status={friends.friend_status}
@@ -114,7 +114,7 @@ const Index = ({ profileData }) => {
         </div>
       )}
       <main className="max-w-7xl mx-auto p-4  flex-col lg:flex-row  flex justify-center">
-        <div className="w-full md:mr-[10px] sticky z-30 bottom-0  self-end">
+        <div className="w-full md:mr-[10px] sticky z-20 bottom-0  self-end">
           <Summary summary={summary} />
           <Photos />
           {friends && <Friends friends={friends} />}

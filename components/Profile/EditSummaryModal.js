@@ -9,7 +9,7 @@ import WorkExperienceInputBox from './EditSummary/WorkExperienceInputBox';
 import CurrentCityInputBox from './EditSummary/CurrentCityInputBox';
 import EducationInputBox from './EditSummary/EducationInputBox';
 import SummaryListItem from './EditSummary/SummaryListItem';
-import { BriefcaseIcon } from '@heroicons/react/outline';
+import { AcademicCapIcon, BriefcaseIcon } from '@heroicons/react/outline';
 const EditSummaryModal = () => {
   const dispatch = useDispatch();
   const [activeBox, setActiveBox] = useState(0);
@@ -65,15 +65,25 @@ const EditSummaryModal = () => {
           {activeBox === 2 ? (
             <EducationInputBox setActiveBox={setActiveBox} />
           ) : (
-            <div onClick={() => handleSetActive(2)}>
-              <AddNewButton title="Add New Education" />
+            <div>
+              {summaryData.education.map(({ _id, school_name, major }) => (
+                <SummaryListItem
+                  key={_id}
+                  Icon={AcademicCapIcon}
+                  school_name={school_name}
+                  major={major}
+                />
+              ))}
+              <div onClick={() => handleSetActive(2)}>
+                <AddNewButton title="Add New Education" />
+              </div>
             </div>
           )}
         </div>
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Current City</h2>
           {activeBox === 3 ? (
-            <CurrentCityInputBox />
+            <CurrentCityInputBox setActiveBox={setActiveBox} />
           ) : (
             <div onClick={() => handleSetActive(3)}>
               <AddNewButton title="Add Current City" />
