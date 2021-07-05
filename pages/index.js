@@ -23,8 +23,9 @@ const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
 const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
   loading: () => <LoaderSpinner />
 });
-export default function Home({ posts, friends }) {
+export default function Home({ posts, friends, stories }) {
   const [hasMore, setHasMore] = useState(true);
+  // const [currentStories, setCurrentStories] = useState(null);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState(null);
@@ -45,6 +46,9 @@ export default function Home({ posts, friends }) {
 
   const socket = useRef();
 
+  // useEffect(() => {
+  //   setCurrentStories(stories);
+  // }, [stories]);
   useEffect(() => {
     setCurrentPosts(posts);
     // Stop loading for more if there's no data at first
@@ -96,7 +100,7 @@ export default function Home({ posts, friends }) {
           <Sidebar />
         </div>
         <div className="space-y-5 max-w-[750px] w-full sm:px-5 sm:mx-0  xl:mx-20">
-          <Stories />
+          <Stories stories={stories} />
           <InputBox />
           <Room roomList={roomList} />
           {currentPosts && (
@@ -133,7 +137,7 @@ export async function getServerSideProps({ req, res }) {
   try {
     // get server side cookies
     const token = req.cookies.token;
-    let posts, chats, friends;
+    let posts, chats, friends, stories;
     if (token) {
       friends = await axios.get(`${process.env.BASE_URL}/api/friends`, {
         headers: {
@@ -141,6 +145,11 @@ export async function getServerSideProps({ req, res }) {
         }
       });
       posts = await axios.get(`${process.env.BASE_URL}/api/posts?page=1`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      stories = await axios.get(`${process.env.BASE_URL}/api/stories`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -155,7 +164,8 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         posts: posts.data,
-        friends: friends.data
+        friends: friends.data,
+        stories: stories.data
       }
     };
   } catch (error) {

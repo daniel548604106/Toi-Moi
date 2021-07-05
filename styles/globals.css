@@ -38,7 +38,6 @@
 }
 
 input:focus {
-  border: 1px solid #f7797d;
   outline: none;
 }
 
