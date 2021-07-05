@@ -25,7 +25,7 @@ const DropDownMenuIcon = ({ Icon, children, title }) => {
     }
   };
   return (
-    <button className=" cursor-default group focus:outline-none">
+    <button className="cursor-none cursor-default group focus:outline-none">
       {title === 'Notification' && unreadNotification && (
         <div className="relative">
           <p className="z-50 absolute text-white flex items-center justify-center top-0 transform -translate-y-1/2 right-0 w-[20px] h-[20px] text-xs rounded-full bg-red-400">

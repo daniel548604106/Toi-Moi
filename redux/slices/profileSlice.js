@@ -13,7 +13,8 @@ export const profileSlice = createSlice({
   name: 'post',
   initialState: {
     profileData: null,
-    isEditSummaryModalOpen: false
+    isEditSummaryModalOpen: false,
+    summaryData: null
   },
   reducers: {
     setSummaryModalShow: (state, { payload }) => {
@@ -21,6 +22,9 @@ export const profileSlice = createSlice({
     },
     setProfileData: (state, { payload }) => {
       state.profileData = payload;
+    },
+    setSummaryData: (state, { payload }) => {
+      state.summaryData = payload;
     }
   },
   extraReducers: {
@@ -34,6 +38,7 @@ export const profileSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setSummaryModalShow, setProfileData } = profileSlice.actions;
+export const { setSummaryModalShow, setProfileData, setSummaryData } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;
