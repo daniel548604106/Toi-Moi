@@ -55,19 +55,41 @@ router.get('/:username', authMiddleware, async (req, res) => {
 router.get('/posts/:username', authMiddleware, async (req, res) => {
   try {
     const { username } = req.params;
-    const page = Number(req.query.page) || 1;
+    console.log(req.query.page);
+    const page = Number(req.query.page - 1) || 1;
     const size = 5;
     const skips = size * (page - 1);
 
     const user = await User.findOne({ username: username.toLowerCase() });
+    console.log('user', user);
+    let posts;
     if (!user) return res.status(404).send('User not found');
-    const posts = await Post.find({ user: user._id })
-      .sort({ createdAt: -1 })
-      .populate('user')
-      .populate('comments.user')
-      .limit(size)
-      .skip(skips);
+    if (page === 1) {
+      posts = await Post.find({
+        //The $in operator selects the documents where the value of a field equals any value in the specified array.
+        user: {
+          $in: [user._id]
+        }
+      })
+        .limit(size)
+        .sort({ createdAt: -1 })
+        .populate('user')
+        .populate('comments.user');
+    } else {
+      posts = await Post.find({
+        //The $in operator selects the documents where the value of a field equals any value in the specified array.
+        user: {
+          $in: [user._id]
+        }
+      })
+        .limit(size)
+        .skip(skips)
+        .sort({ createdAt: -1 })
+        .populate('user')
+        .populate('comments.user');
 
+      console.log(posts, 'posts');
+    }
     if (!posts) return res.status(404).send('Posts not found');
     return res.status(200).json(posts);
   } catch (error) {
