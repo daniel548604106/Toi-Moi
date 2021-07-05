@@ -37,7 +37,12 @@
   --color-text-accent: #2b6cb0;
 }
 
-button {
+input:focus {
+  border: 1px solid #f7797d;
+  outline: none;
+}
+
+button:focus {
   outline: none;
 }
 

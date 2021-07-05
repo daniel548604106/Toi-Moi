@@ -50,11 +50,11 @@ const WorkExperienceInputBox = ({ setActiveBox }) => {
       company_name
     } = newExperience;
 
-    if (company_name === '') return setAvailable(false);
+    if (!company_name) return setAvailable(false);
     if (!start_year || !start_month) return setAvailable(false);
     if (!still_working && (!end_year || !end_month)) return setAvailable(false);
     setAvailable(true);
-  }, [newExperience]);
+  }, [{ ...newExperience }]);
 
   return (
     <div className="">
@@ -89,15 +89,18 @@ const WorkExperienceInputBox = ({ setActiveBox }) => {
         />
       </form>
       <PeriodSelector
+        status="working"
         setNewExperience={setNewExperience}
         newExperience={newExperience}
       />
       <div className="my-5 flex items-center">
         <button
           onClick={() => handleSave()}
-          className={`rounded-md  bg-gray-100 p-2 w-full flex items-center justify-center ${
-            available && 'bg-main text-secondary cursor-pointer'
-          }  ${!available && 'cursor-not-allowed'}`}
+          className={`rounded-md   p-2 w-full flex items-center justify-center ${
+            available
+              ? 'bg-main text-white cursor-pointer'
+              : 'bg-gray-100 text-secondary cursor-not-allowed'
+          }`}
         >
           {isLoading ? <Loader /> : 'Save'}
         </button>

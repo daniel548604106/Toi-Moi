@@ -4,9 +4,17 @@ import axios from 'axios';
 import ProfileCover from '../../components/Profile/ProfileCover';
 import TabsList from '../../components/Profile/TabsList';
 import LoaderSpinner from '../../components/Global/LoaderSpinner';
+import router from 'next/router';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { setProfileData } from '../../redux/slices/profileSlice';
-import { apiGetProfilePosts, apiGetProfileFriends } from '../../api/index';
+import {
+  setProfileData,
+  setSummaryData
+} from '../../redux/slices/profileSlice';
+import {
+  apiGetProfilePosts,
+  apiGetProfileFriends,
+  apiGetProfileSummary
+} from '../../api/index';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 // Dynamic Imports
@@ -35,9 +43,12 @@ const EndMessage = dynamic(
 const Index = ({ profileData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const summaryData = useSelector((state) => state.profile.summaryData);
+
   const [friends, setFriends] = useState(null);
   const [profile, setProfile] = useState(profileData.profile);
   const [user, setUser] = useState(profileData.profile.user);
+  const [summary, setSummary] = useState(summaryData);
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(2);
@@ -69,10 +80,22 @@ const Index = ({ profileData }) => {
       console.log(error);
     }
   };
+  const getProfileSummary = async () => {
+    try {
+      const { data } = await apiGetProfileSummary(router.query.id);
+      dispatch(setSummaryData(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
-    getMorePosts();
+    getProfileSummary();
     getProfileFriends();
+    getMorePosts();
   }, []);
+  useEffect(() => {
+    setSummary(summaryData);
+  }, [summaryData]);
 
   return (
     <div className=" bg-primary text-primary">
@@ -80,7 +103,7 @@ const Index = ({ profileData }) => {
         <ProfileCover profile={profile} user={user} />
       </div>
       {friends && (
-        <div className="bg-secondary text-secondary sm:sticky sm:top-[60px] border-b z-30">
+        <div className="bg-secondary text-secondary sm:sticky sm:top-[60px] border-b z-40">
           <div className=" max-w-7xl mx-auto bg-secondary text-secondary self-start ">
             <TabsList
               friend_status={friends.friend_status}
@@ -91,8 +114,8 @@ const Index = ({ profileData }) => {
         </div>
       )}
       <main className="max-w-7xl mx-auto p-4  flex-col lg:flex-row  flex justify-center">
-        <div className="w-full md:mr-[10px] sticky bottom-0  self-end">
-          <Summary />
+        <div className="w-full md:mr-[10px] sticky z-30 bottom-0  self-end">
+          <Summary summary={summary} />
           <Photos />
           {friends && <Friends friends={friends} />}
         </div>

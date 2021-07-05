@@ -3,7 +3,7 @@ import { ChevronDownIcon } from '@heroicons/react/solid';
 import range from 'lodash/range';
 const yearRange = range(2021, 1960);
 const monthRange = range(1, 12);
-const PeriodSelector = ({ newExperience, setNewExperience }) => {
+const PeriodSelector = ({ newExperience, setNewExperience, status }) => {
   const [checked, setChecked] = useState(true);
 
   // Start
@@ -15,7 +15,7 @@ const PeriodSelector = ({ newExperience, setNewExperience }) => {
   const [endMonth, setEndMonth] = useState('');
 
   useEffect(() => {
-    setNewExperience({ ...newExperience, still_working: checked });
+    setNewExperience({ ...newExperience, [`still_${status}`]: checked });
   }, [checked]);
   useEffect(() => {
     setNewExperience({
@@ -41,7 +41,7 @@ const PeriodSelector = ({ newExperience, setNewExperience }) => {
             className="w-[20px] h-[20px]"
           />
           <p className="ml-[10px] font-semibold text-sm">
-            Currently working here
+            Currently {status} here
           </p>
         </div>
       </div>

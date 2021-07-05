@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import AddNewButton from './EditSummary/AddNewButton';
 import { XIcon } from '@heroicons/react/solid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSummaryModalShow } from '../../redux/slices/profileSlice';
 import HomeTownInputBox from './EditSummary/HomeTownInputBox';
 import RelationshipStatusInputBox from './EditSummary/RelationshipStatusInputBox';
 import WorkExperienceInputBox from './EditSummary/WorkExperienceInputBox';
 import CurrentCityInputBox from './EditSummary/CurrentCityInputBox';
 import EducationInputBox from './EditSummary/EducationInputBox';
+import SummaryListItem from './EditSummary/SummaryListItem';
+import { BriefcaseIcon } from '@heroicons/react/outline';
 const EditSummaryModal = () => {
   const dispatch = useDispatch();
   const [activeBox, setActiveBox] = useState(0);
   const handleSetActive = (idx) => {
     setActiveBox(idx);
   };
+  const { summaryData } = useSelector((state) => state.profile);
 
   return (
-    <div className="relative bg-secondary text-secondary rounded-md flex flex-col  w-full max-w-[600px] max-h-screen  sm:max-h-[70vh] h-full">
+    <div className=" relative bg-secondary text-secondary rounded-md flex flex-col  w-full max-w-[600px] max-h-screen  sm:max-h-[70vh] h-full">
       <div className="flex p-3 border-b items-center justify-center">
         <h2 className="text-xl font-semibold">Edit Summary</h2>
       </div>
@@ -33,19 +36,34 @@ const EditSummaryModal = () => {
           </p>
         </div>
         <div className="my-2">
-          <h2 className="my-1 text-xl font-semibold">Work Experience</h2>
+          <h2 className="my-1 space-y-2 text-xl font-semibold">
+            Work Experience
+          </h2>
+
           {activeBox === 1 ? (
             <WorkExperienceInputBox setActiveBox={setActiveBox} />
           ) : (
-            <div onClick={() => handleSetActive(1)}>
-              <AddNewButton title="Add New Work Location" />
+            <div>
+              {summaryData.work_experience.map(
+                ({ _id, job_title, company_name }) => (
+                  <SummaryListItem
+                    key={_id}
+                    Icon={BriefcaseIcon}
+                    job_title={job_title}
+                    company_name={company_name}
+                  />
+                )
+              )}
+              <div onClick={() => handleSetActive(1)}>
+                <AddNewButton title="Add New Work Location" />
+              </div>
             </div>
           )}
         </div>
         <div className="my-2">
           <h2 className="my-1 text-xl font-semibold">Education</h2>
           {activeBox === 2 ? (
-            <EducationInputBox />
+            <EducationInputBox setActiveBox={setActiveBox} />
           ) : (
             <div onClick={() => handleSetActive(2)}>
               <AddNewButton title="Add New Education" />
