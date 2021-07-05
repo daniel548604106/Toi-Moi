@@ -124,9 +124,9 @@ const Post = ({ post }) => {
                 )}
               </p>
               <p className="text-xs text-gray-600 hover:underline cursor-pointer">
-                {timeDiff(post.updatedAt).split(' ')[0]}
+                {timeDiff(post.createdAt).split(' ')[0]}
                 <span className={router.locale === 'zh-tw' ? 'mx-0' : 'mx-1'}>
-                  {t(timeDiff(post.updatedAt).split(' ')[1])}
+                  {t(timeDiff(post.createdAt).split(' ')[1])}
                 </span>
                 {t('ago')}
               </p>
