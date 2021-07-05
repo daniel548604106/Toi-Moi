@@ -64,7 +64,7 @@ const Index = ({ profileData }) => {
         profile.user.username,
         currentPage
       );
-      console.log(data);
+      console.log(data, 'posts');
       setPosts((prev) => [...prev, ...data]);
       if (data.length === 0) setHasMore(false);
       setCurrentPage((currentPage) => currentPage + 1);
