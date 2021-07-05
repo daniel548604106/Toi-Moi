@@ -8,6 +8,9 @@ export const uploadStory = (data) => {
   });
 };
 
+export const getStories = () => {
+  return request.get('/stories');
+};
 export const uploadStoryImage = (data) => {
   return request.post('/stories/upload/image', data);
 };

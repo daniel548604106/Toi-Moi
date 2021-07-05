@@ -4,6 +4,8 @@
   "lightMode": "明亮模式",
   "darkMode": "暗黑模式",
   "logOut": "登出",
+  "am": "上午",
+  "pm": "下午",
   "checkOutYourProfile": "查看你的個人檔案",
   "searchMessenger": "搜尋 Messenger",
   "viewAllInMessenger": "到 Messenger 查看全部",

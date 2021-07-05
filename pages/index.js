@@ -23,7 +23,7 @@ const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
 const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
   loading: () => <LoaderSpinner />
 });
-export default function Home({ posts, friends }) {
+export default function Home({ posts, friends, stories }) {
   const [hasMore, setHasMore] = useState(true);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
@@ -96,7 +96,7 @@ export default function Home({ posts, friends }) {
           <Sidebar />
         </div>
         <div className="space-y-5 max-w-[750px] w-full sm:px-5 sm:mx-0  xl:mx-20">
-          <Stories />
+          {/* <Stories stories={stories} /> */}
           <InputBox />
           <Room roomList={roomList} />
           {currentPosts && (
@@ -145,6 +145,11 @@ export async function getServerSideProps({ req, res }) {
           Authorization: `Bearer ${token}`
         }
       });
+      stories = await axios.get(`${process.env.BASE_URL}/api/stories`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
     }
 
     if (!posts.data) {
@@ -155,7 +160,8 @@ export async function getServerSideProps({ req, res }) {
     return {
       props: {
         posts: posts.data,
-        friends: friends.data
+        friends: friends.data,
+        stories: stories.data
       }
     };
   } catch (error) {

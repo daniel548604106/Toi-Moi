@@ -2,14 +2,23 @@ import React, { useRef, useState } from 'react';
 import { XIcon, TranslateIcon, PhotographIcon } from '@heroicons/react/outline';
 import Image from 'next/dist/client/image';
 import Avatar from '../../components/Global/Avatar';
+import dynamic from 'next/dynamic';
 import { useSelector } from 'react-redux';
 import router from 'next/router';
-import Preview from '../../components/Stories/Preview';
+// import Preview from '../../components/Stories/Preview';
 import { backgroundSelections } from '../../utils/storyOptions';
+import { apiUploadStoryImage } from '../../api';
+
+const Preview = dynamic(() => import('../../components/Stories/Preview'), {
+  ssr: false
+});
 
 const Create = () => {
+  const stageRef = useRef(null);
   const inputRef = useRef(null);
+  const [isLoading, setLoading] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
+  const [text, setText] = useState('');
 
   const [storyInfo, setStoryInfo] = useState({
     type: '',
@@ -33,6 +42,37 @@ const Create = () => {
       }));
     };
   };
+
+  const handleReset = () => {
+    setStoryInfo({
+      type: '',
+      image: ''
+    });
+  };
+
+  // const handleUploadStory = () => {
+  //   const uri = stageRef.current.toDataURL();
+  //   console.log(uri);
+  // };
+  const handleUploadStory = async () => {
+    const canvasImage = stageRef.current.toDataURL();
+    setLoading(true);
+    try {
+      const { data } = await apiUploadStoryImage({
+        image: canvasImage,
+        type: storyInfo.type,
+        taggedUsers: []
+      });
+      setLoading(false);
+      router.push('/');
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+    // we also can save uri as file
+    // downloadURI(uri, 'stage.png');
+  };
+
   return (
     <div className="flex h-screen fixed top-0 left-0 w-full">
       <div className="relative p-2 space-y-3 sm:p-3 w-[400px] bg-secondary shadow-lg">
@@ -65,6 +105,7 @@ const Create = () => {
         <div>
           <textarea
             placeholder="type"
+            onChange={(e) => setText(e.target.value)}
             className="border w-full rounded-lg p-2 min-h-[200px]"
           />
           <button className="mb-3 group text-left  focus:outline-none w-full relative border rounded-lg p-2 cursor-pointer">
@@ -96,17 +137,28 @@ const Create = () => {
           </div>
         </div>
         <div className="flex items-center absolute bottom-0 left-0 w-full border p-3">
-          <button className="rounded-lg shadow-lg mr-[10px] p-3 px-5 text-sm sm:text-md">
+          <button
+            onClick={() => handleReset()}
+            className="rounded-lg shadow-lg mr-[10px] p-3 px-5 text-sm sm:text-md"
+          >
             捨棄
           </button>
-          <button className="flex-1 rounded-lg shadow-lg p-3 text-sm sm:text-md bg-main text-white">
+          <button
+            onClick={() => handleUploadStory()}
+            className="flex-1 rounded-lg shadow-lg p-3 text-sm sm:text-md bg-main text-white"
+          >
             分享到限時動態
           </button>
         </div>
       </div>
       <div className="flex-1 bg-gray-100 flex items-center justify-center">
         {storyInfo.type ? (
-          <Preview storyInfo={storyInfo} selectedIdx={selectedIdx} />
+          <Preview
+            text={text}
+            stageRef={stageRef}
+            storyInfo={storyInfo}
+            selectedIdx={selectedIdx}
+          />
         ) : (
           <div className="flex items-center">
             <div
