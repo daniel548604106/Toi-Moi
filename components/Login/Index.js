@@ -19,8 +19,8 @@ const Login = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [isForgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const [loginInput, setLoginInput] = useState({
-    email: '',
-    password: ''
+    email: 'interviewer@gmail.com',
+    password: 'dearinterviewer'
   });
   const handleLoginInput = (e) => {
     setError('');
@@ -70,12 +70,18 @@ const Login = () => {
           <ForgotPassword />
         </div>
       )}
-      <div className="fixed z-50 bottom-3 right-2  border p-3 pr-5 rounded-lg bg-white">
+      {/* <div className="fixed z-50 bottom-3 right-2  border p-3 pr-5 rounded-lg bg-white">
         <XIcon className="absolute top-2 right-2 h-6" />
         <p className="text-sm sm:text-md font-semibold">
           💫 If you're an interviewer, please use the following credentials for
           login.
         </p>
+        <Image
+          className="absolute right-0 bottom-2"
+          src="/logo.svg"
+          width={60}
+          height={60}
+        />
         <div className="mt-2 ">
           <p className="text-sm sm:text-md">Account :</p>
           <p className="flex items-center text-gray-600 text-sm sm:text-md">
@@ -89,7 +95,7 @@ const Login = () => {
             <ClipboardIcon className="h-4 mr-2" /> <span> dearinterviewer</span>
           </p>
         </div>
-      </div>
+      </div> */}
 
       <div className="w-full max-w-md mb-[20px] md:mb-0">
         <img
@@ -102,7 +108,7 @@ const Login = () => {
         </h2>
       </div>
 
-      <div className="relative p-3 sm:p-5 bg-white rounded-md text-center bg-secondary text-secondary shadow-md w-full max-w-[450px]">
+      <div className="relative p-3 sm:p-5 bg-white rounded-md text-center bg-secondary text-black shadow-md w-full max-w-[450px]">
         <div className={`${showNotifications && ' hiInterviewerBg'} `}>
           <div className="dialogue absolute  bg-white border p-2 rounded-lg">
             <span className="ball"></span>
@@ -117,7 +123,7 @@ const Login = () => {
             <input
               name="email"
               onChange={(e) => handleLoginInput(e)}
-              className="w-full text-md  block mt-2 p-3 sm:text-lg rounded-md border"
+              className="w-full text-md text-black  block mt-2 p-3 sm:text-lg rounded-md border"
               id="account"
               value={loginInput.email}
               type="email"
@@ -128,7 +134,7 @@ const Login = () => {
             <input
               name="password"
               onChange={(e) => handleLoginInput(e)}
-              className="block  text-md w-full mt-2 p-3 sm:text-lg rounded-md border"
+              className="block  text-md w-full text-black mt-2 p-3 sm:text-lg rounded-md border"
               id="password"
               type="password"
               value={loginInput.password}

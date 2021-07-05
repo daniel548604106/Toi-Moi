@@ -79,6 +79,7 @@ import {
   getProfile,
   patchProfile,
   patchProfileImage,
+  patchProfileBio,
   getProfileFriends,
   patchProfileSummary,
   postWorkExperienceSummary
@@ -89,6 +90,7 @@ export const apiGetProfile = getProfile;
 export const apiPatchProfile = patchProfile;
 export const apiGetProfileFriends = getProfileFriends;
 export const apiPatchProfileImage = patchProfileImage;
+export const apiPatchProfileBio = patchProfileBio;
 export const apiPatchProfileSummary = patchProfileSummary;
 export const apiPostWorkExperienceSummary = postWorkExperienceSummary;
 // Friend

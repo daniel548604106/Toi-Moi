@@ -23,6 +23,10 @@ export const patchProfile = ({
   });
 };
 
+export const patchProfileBio = ({ username, bio }) => {
+  return request.patch(`/profile/${username}`, { bio });
+};
+
 export const patchProfileSummary = (username) => {
   return request.patch(`/profile/${username}/summary`);
 };

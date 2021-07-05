@@ -171,7 +171,6 @@ const ProfileCover = ({ user, profile }) => {
             originalBio={profile.bio}
             bio={bio}
             setBio={setBio}
-            sendUpdates={sendUpdates}
           />
           <hr className="my-2" />
         </div>
