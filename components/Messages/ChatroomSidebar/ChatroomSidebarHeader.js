@@ -5,7 +5,7 @@ import {
   ChatAlt2Icon,
   SearchIcon
 } from '@heroicons/react/solid';
-import Image from 'next/image';
+import Avatar from '../../Global/Avatar';
 import { toggleListOpen } from '../../../redux/slices/messageSlice';
 import genderAvatar from '../../../utils/genderAvatar';
 import { useSelector, useDispatch } from 'react-redux';
@@ -15,11 +15,12 @@ const Header = ({ searchText, t, setSearchText }) => {
   return (
     <div className="text-primary bg-primary  p-3">
       <div className="flex relative items-center justify-between mb-3">
-        <Image
-          src={userInfo.profileImage || genderAvatar(userInfo.gender)}
-          width={40}
-          height={40}
-          className="rounded-full cursor-pointer"
+        <Avatar
+          profileImage={userInfo.profileImage}
+          gender={userInfo.gender}
+          width="40"
+          height="40"
+          username={userInfo.username}
         />
         <h2 className="text-lg sm:text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-semibold ">
           Messenger

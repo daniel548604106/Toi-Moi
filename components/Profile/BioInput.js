@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-
-const BioInput = ({ isEditable, bio, originalBio, setBio, sendUpdates }) => {
+import { apiPatchProfileBio } from '../../api';
+import { useSelector } from 'react-redux';
+const BioInput = ({ isEditable, bio, originalBio, setBio }) => {
   const [bioInputOpen, setBioInputOpen] = useState(false);
   const [bioLengthLeft, setBioLengthLeft] = useState(80);
+  const { username } = useSelector((state) => state.user.userInfo);
 
   const [disable, setDisable] = useState(false);
 
-  const handleSendBio = () => {
+  const handleSendBio = async () => {
     if (disable) return;
     setBioInputOpen(false);
-    sendUpdates(bio);
+    try {
+      const { data } = await apiPatchProfileBio({ username, bio });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancelChanges = () => {

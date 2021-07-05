@@ -21,7 +21,7 @@ const Friends = ({ friends }) => {
             className=""
           >
             <Image
-              className="rounded-md cursor-pointer "
+              className="rounded-md object-cover cursor-pointer "
               width={150}
               height={150}
               src={friend.user.profileImage || genderAvatar(friend.user.gender)}
