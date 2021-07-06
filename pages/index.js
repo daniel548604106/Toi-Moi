@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
-// import io from 'socket.io-client';
+import io from 'socket.io-client';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
@@ -10,7 +10,6 @@ import Sidebar from '../components/Home/Sidebar/Sidebar';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
-import genderAvatar from '../utils/genderAvatar';
 import Post from '../components/Home/Feed/Post';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Room from '../components/Home/Feed/Room/Index';
@@ -23,13 +22,17 @@ const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
 const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
   loading: () => <LoaderSpinner />
 });
+
+const MessagePopup = dynamic(() =>
+  import('../components/Home/Contacts/MessagePopup')
+);
 export default function Home({ posts, friends, stories }) {
   const [hasMore, setHasMore] = useState(true);
   // const [currentStories, setCurrentStories] = useState(null);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
-  const [newMessageReceived, setNewMessageReceived] = useState(null);
-  const [newMessagePopup, setNewMessagePopup] = useState(false);
+  const [newMessageReceived, setNewMessageReceived] = useState([]);
+  const [newMessagePopup, setNewMessagePopup] = useState([]);
   const { userInfo } = useSelector((state) => state.user);
   const [roomList, setRoomList] = useState(friends);
 
@@ -58,32 +61,47 @@ export default function Home({ posts, friends, stories }) {
   }, [posts]);
 
   useEffect(() => {
+    console.log(newMessagePopup);
+  }, [newMessagePopup]);
+  useEffect(() => console.log(newMessageReceived), [newMessageReceived]);
+  useEffect(() => {
     setRoomList(friends);
   }, [friends]);
 
-  // useEffect(() => {
-  //   if (!socket.current) {
-  //     socket.current = io(process.env.BASE_URL);
-  //   }
-
-  //   if (socket.current) {
-  //     // keep track of user is online
-  //     socket.current.emit('join', { userId: userInfo._id });
-  //     socket.current.on('newMsgReceived', async ({ newMessage }) => {
-  //       const { name, profileImage, gender } = await apiGetChatUserInfo(
-  //         newMessage.sender
-  //       );
-  //       if (user.newMessagePopup) {
-  //         setNewMessageReceived({
-  //           ...newMessage,
-  //           senderName: name,
-  //           senderProfileImage: profileImage || genderAvatar(gender)
-  //         });
-  //         setMessagePopup(true);
-  //       }
-  //     });
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (!socket.current) {
+      // connect to socket
+      socket.current = io(process.env.BASE_URL);
+      if (socket.current) {
+        // keep track of users online
+        socket.current.emit('join', { userId: userInfo._id });
+        socket.current.on('newMsgReceived', async ({ newMessage }) => {
+          console.log('received new message', newMessage);
+          const {
+            data: { name, profileImage, gender }
+          } = await apiGetChatUserInfo(newMessage.sender);
+          if (userInfo.newMessagePopup) {
+            setNewMessageReceived((newMessageReceived) => [
+              ...newMessageReceived,
+              {
+                ...newMessage,
+                senderName: name,
+                profileImage,
+                gender
+              }
+            ]);
+          }
+        });
+      }
+    }
+    // when  unmount from the DOM, the Socket.Io connection remains active, so better clean this up
+    return () => {
+      if (socket.current) {
+        socket.current.disconnect();
+        socket.current.off();
+      }
+    };
+  });
 
   return (
     <div className="bg-primary text-primary">
@@ -128,6 +146,19 @@ export default function Home({ posts, friends, stories }) {
         <div className=" w-1/2 hidden md:block ">
           <Contacts friends={friends} />
         </div>
+        {newMessageReceived.length > 0 &&
+          newMessageReceived.map((received, idx) => (
+            <div className="fixed  bottom-0 right-0 justify-end flex  w-full flex-row-reverse items-center">
+              <MessagePopup
+                received={received}
+                socket={socket}
+                isActive={newMessagePopup.includes(idx)}
+                setNewMessagePopup={setNewMessagePopup}
+                newMessagePopup={newMessagePopup}
+                idx={idx}
+              />
+            </div>
+          ))}
       </main>
     </div>
   );

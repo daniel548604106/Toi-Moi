@@ -125,6 +125,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', async ({ userId, messageSentTo, msg }) => {
+    console.log(userId, messageSentTo, msg);
     const { newMessage, error } = await sendMessage(userId, messageSentTo, msg);
     // check if user is online, if he is , then we'll directly send the message to the user
     console.log('before');

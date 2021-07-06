@@ -34,10 +34,11 @@ router.get('/:id', authMiddleware, async (req, res) => {
   try {
     const { userId } = req;
     const user = await Chat.findOne({ user: userId });
-    const messages = user.chats.filter(
-      (chat) => chat.messagesWith === req.params.id
+    const { messages } = user.chats.find(
+      (chat) => chat.messagesWith.toString() === req.params.id.toString()
     );
     console.log(messages);
+    res.status(200).json(messages);
   } catch (error) {
     console.log(error);
   }
@@ -46,8 +47,9 @@ router.get('/:id', authMiddleware, async (req, res) => {
 router.get('/userInfo/:senderId', authMiddleware, async (req, res) => {
   try {
     const { senderId } = req.params;
-    const { name, profileImage } = await User.findById(senderId);
-    res.status(200).json({ name, profileImage });
+    const { name, profileImage, gender } = await User.findById(senderId);
+    console.log(name, profileImage, 'senderINfo');
+    res.status(200).json({ name, profileImage, gender });
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');
