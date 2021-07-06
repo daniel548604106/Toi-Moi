@@ -8,7 +8,6 @@ const loadMessages = async (userId, messagesWith) => {
     const chat = user.chats.find((chat) => {
       return chat.messagesWith._id.toString() === messagesWith;
     });
-    console.log('chats!!', chat);
     if (!chat) return { error: 'No chat found' };
     return { chat };
   } catch (error) {
