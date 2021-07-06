@@ -8,7 +8,9 @@ const MessagePopup = ({
   idx,
   setNewMessagePopup,
   newMessagePopup,
-  socket,
+  handleSubmitMessage,
+  scrollToBottom,
+  divRef,
   received
 }) => {
   const [messages, setMessages] = useState([]);
@@ -27,6 +29,12 @@ const MessagePopup = ({
       newMessageReceived.filter((received) => received.senderId !== id)
     );
   };
+
+  const handleSendMsg = (e) => {
+    e.preventDefault();
+    handleSubmitMessage(received.sender, newMessage);
+    setNewMessage('');
+  };
   const getChat = async () => {
     try {
       const { data } = await apiGetChat(received.sender);
@@ -36,30 +44,14 @@ const MessagePopup = ({
       console.log(error);
     }
   };
+  useEffect(() => {
+    messages.length > 0 && scrollToBottom(divRef);
+  }, [messages]);
 
   useEffect(() => {
     getChat();
   }, [isActive]);
 
-  const handleSubmitMessage = (e) => {
-    e.preventDefault();
-    if (socket.current) {
-      socket.current.emit('sendMessage', {
-        userId: userInfo._id,
-        messageSentTo: received.sender,
-        msg: newMessage
-      });
-      setMessages((messages) => [
-        ...messages,
-        {
-          userId: userInfo._id,
-          messageSentTo: received.sender,
-          msg: newMessage
-        }
-      ]);
-    }
-    setNewMessage('');
-  };
   return (
     <div className="w-[300px] border rounded-t-lg bg-secondary">
       <div
@@ -76,7 +68,10 @@ const MessagePopup = ({
               messages.map((message) =>
                 userInfo._id !== message.sender ? (
                   <div className="flex items-center flex-wrap mb-2 ">
-                    <p className="max-w-[200px] text-sm sm:text-md p-2 border rounded-lg">
+                    <p
+                      ref={divRef}
+                      className="max-w-[200px] text-sm sm:text-md p-2 border rounded-lg"
+                    >
                       {message.msg}
                     </p>
                   </div>
@@ -91,7 +86,7 @@ const MessagePopup = ({
           </div>
           <div className="p-2 flex items-center ">
             <form
-              onSubmit={(e) => handleSubmitMessage(e)}
+              onSubmit={(e) => handleSendMsg(e)}
               className=" w-full mr-2 flex items-center rounded-full border p-1 bg-secondary"
             >
               <input

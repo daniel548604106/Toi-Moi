@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import Head from 'next/head';
 import { useSelector } from 'react-redux';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
-
+import messageNotificationSound from '../utils/messageNotificationSound';
 import Sidebar from '../components/Home/Sidebar/Sidebar';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -28,14 +28,20 @@ const MessagePopup = dynamic(() =>
 );
 export default function Home({ posts, friends, stories }) {
   const [hasMore, setHasMore] = useState(true);
+  const { userInfo } = useSelector((state) => state.user);
+  const socket = useRef();
+  const divRef = useRef(null);
+
   // const [currentStories, setCurrentStories] = useState(null);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState([]);
   const [newMessagePopup, setNewMessagePopup] = useState([]);
-  const { userInfo } = useSelector((state) => state.user);
   const [roomList, setRoomList] = useState(friends);
-
+  const scrollToBottom = (divRef) => {
+    divRef.current !== null &&
+      divRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
   const getMorePosts = async () => {
     try {
       const posts = await apiGetAllPosts(currentPage);
@@ -46,8 +52,6 @@ export default function Home({ posts, friends, stories }) {
       console.log(error);
     }
   };
-
-  const socket = useRef();
 
   // useEffect(() => {
   //   setCurrentStories(stories);
@@ -63,10 +67,19 @@ export default function Home({ posts, friends, stories }) {
   useEffect(() => {
     console.log(newMessagePopup);
   }, [newMessagePopup]);
-  useEffect(() => console.log(newMessageReceived), [newMessageReceived]);
   useEffect(() => {
     setRoomList(friends);
   }, [friends]);
+
+  const handleSubmitMessage = (sender, msg) => {
+    if (socket.current) {
+      socket.current.emit('sendMessage', {
+        userId: userInfo._id,
+        messageSentTo: sender,
+        msg
+      });
+    }
+  };
 
   useEffect(() => {
     if (!socket.current) {
@@ -90,6 +103,7 @@ export default function Home({ posts, friends, stories }) {
                 gender
               }
             ]);
+            messageNotificationSound(name);
           }
         });
       }
@@ -150,8 +164,10 @@ export default function Home({ posts, friends, stories }) {
           newMessageReceived.map((received, idx) => (
             <div className="fixed  bottom-0 right-0 justify-end flex  w-full flex-row-reverse items-center">
               <MessagePopup
+                scrollToBottom={scrollToBottom}
+                divRef={divRef}
                 received={received}
-                socket={socket}
+                handleSubmitMessage={handleSubmitMessage}
                 isActive={newMessagePopup.includes(idx)}
                 setNewMessagePopup={setNewMessagePopup}
                 newMessagePopup={newMessagePopup}

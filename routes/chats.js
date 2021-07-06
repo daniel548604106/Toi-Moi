@@ -37,7 +37,7 @@ router.get('/:id', authMiddleware, async (req, res) => {
     const { messages } = user.chats.find(
       (chat) => chat.messagesWith.toString() === req.params.id.toString()
     );
-    console.log(messages);
+    // console.log(messages);
     res.status(200).json(messages);
   } catch (error) {
     console.log(error);
