@@ -108,13 +108,6 @@ export default function Home({ posts, friends, stories }) {
         });
       }
     }
-    // when  unmount from the DOM, the Socket.Io connection remains active, so better clean this up
-    return () => {
-      if (socket.current) {
-        socket.current.disconnect();
-        socket.current.off();
-      }
-    };
   });
 
   return (
