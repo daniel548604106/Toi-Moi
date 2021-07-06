@@ -8,6 +8,8 @@ const MessagePopup = ({
   idx,
   setNewMessagePopup,
   newMessagePopup,
+  newMessageReceived,
+  setNewMessageReceived,
   handleSubmitMessage,
   scrollToBottom,
   divRef,
@@ -26,19 +28,27 @@ const MessagePopup = ({
 
   const handleRemoveMessageReceived = () => {
     setNewMessageReceived(
-      newMessageReceived.filter((received) => received.senderId !== id)
+      newMessageReceived.filter((message) => message.sender !== received.sender)
     );
   };
 
   const handleSendMsg = (e) => {
     e.preventDefault();
+    setMessages((messages) => [
+      ...messages,
+      {
+        date: Date.now(),
+        msg: newMessage,
+        receiver: received.sender,
+        sender: userInfo._id
+      }
+    ]);
     handleSubmitMessage(received.sender, newMessage);
     setNewMessage('');
   };
   const getChat = async () => {
     try {
       const { data } = await apiGetChat(received.sender);
-      console.log(data, 'messages');
       setMessages(data);
     } catch (error) {
       console.log(error);

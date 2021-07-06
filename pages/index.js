@@ -65,8 +65,8 @@ export default function Home({ posts, friends, stories }) {
   }, [posts]);
 
   useEffect(() => {
-    console.log(newMessagePopup);
-  }, [newMessagePopup]);
+    console.log(newMessageReceived);
+  }, [newMessageReceived]);
   useEffect(() => {
     setRoomList(friends);
   }, [friends]);
@@ -94,15 +94,20 @@ export default function Home({ posts, friends, stories }) {
             data: { name, profileImage, gender }
           } = await apiGetChatUserInfo(newMessage.sender);
           if (userInfo.newMessagePopup) {
-            setNewMessageReceived((newMessageReceived) => [
-              ...newMessageReceived,
-              {
-                ...newMessage,
-                senderName: name,
-                profileImage,
-                gender
-              }
-            ]);
+            let receivedUserNames = [];
+            if (!receivedUserNames.includes(newMessage.sender)) {
+              setNewMessageReceived((newMessageReceived) => [
+                ...newMessageReceived,
+                {
+                  ...newMessage,
+                  senderName: name,
+                  profileImage,
+                  gender
+                }
+              ]);
+              receivedUserNames.push(newMessage.sender);
+            }
+            console.log(receivedUserNames, 'names');
             messageNotificationSound(name);
           }
         });
@@ -160,6 +165,8 @@ export default function Home({ posts, friends, stories }) {
                 scrollToBottom={scrollToBottom}
                 divRef={divRef}
                 received={received}
+                newMessageReceived={newMessageReceived}
+                setNewMessageReceived={setNewMessageReceived}
                 handleSubmitMessage={handleSubmitMessage}
                 isActive={newMessagePopup.includes(idx)}
                 setNewMessagePopup={setNewMessagePopup}
