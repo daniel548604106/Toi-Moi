@@ -93,21 +93,18 @@ export default function Home({ posts, friends, stories }) {
           const {
             data: { name, profileImage, gender }
           } = await apiGetChatUserInfo(newMessage.sender);
+
           if (userInfo.newMessagePopup) {
-            let receivedUserNames = [];
-            if (!receivedUserNames.includes(newMessage.sender)) {
-              setNewMessageReceived((newMessageReceived) => [
-                ...newMessageReceived,
-                {
-                  ...newMessage,
-                  senderName: name,
-                  profileImage,
-                  gender
-                }
-              ]);
-              receivedUserNames.push(newMessage.sender);
-            }
-            console.log(receivedUserNames, 'names');
+            setNewMessageReceived((newMessageReceived) => [
+              ...newMessageReceived,
+              {
+                ...newMessage,
+                senderName: name,
+                profileImage,
+                gender
+              }
+            ]);
+
             messageNotificationSound(name);
           }
         });
