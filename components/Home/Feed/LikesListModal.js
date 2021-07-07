@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { XIcon, ThumbUpIcon, UserAddIcon } from '@heroicons/react/solid';
 import { useSelector, useDispatch } from 'react-redux';
 import Image from 'next/image';
@@ -6,16 +6,25 @@ import { setLikesListOpen } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
 const LikesListModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
-  const likesList = useSelector((state) => state.post.likesList);
+  const { likesList } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const router = useRouter();
+  const handleDirectToProfile = (like) => {
+    dispatch(setLikesListOpen(false));
+    router.push(`/${like.user.username}`);
+  };
+  useEffect(() => {
+    console.log(likesList);
+  }, [likesList]);
 
   return (
     <div className="rounded-lg relative bg-secondary text-secondary w-full max-w-[600px]   p-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           <ThumbUpIcon className="h-6 text-main cursor-pointer" />
-          <span className="ml-[5px] text-sm text-gray-600">2</span>
+          <span className="ml-[5px] text-sm text-gray-600">
+            {likesList.length}
+          </span>
         </div>
         <span
           onClick={() => dispatch(setLikesListOpen(false))}
@@ -29,7 +38,7 @@ const LikesListModal = () => {
         {likesList.length > 0 &&
           likesList.map((like) => (
             <div
-              onClick={() => router.push(`/${like.user.username}`)}
+              onClick={() => handleDirectToProfile(like)}
               key={like._id}
               className="flex items-center justify-between p-2"
             >

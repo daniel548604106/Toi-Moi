@@ -301,7 +301,6 @@ const Index = (props) => {
           />
           <ChatroomMainRoom
             divRef={divRef}
-            sendMsg={sendMsg}
             socket={socket.current}
             user={userInfo}
             receiverProfileImage={openChatUser.profileImage}
