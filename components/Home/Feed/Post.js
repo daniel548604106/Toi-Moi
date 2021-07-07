@@ -82,9 +82,7 @@ const Post = ({ post }) => {
 
   const handleLikesListOpen = (postId) => {
     dispatch(setLikesListOpen(true));
-    dispatch(apiGetLikesList(postId)).then((res) => {
-      console.log(res);
-    });
+    dispatch(apiGetLikesList(postId));
   };
   const handleDirectToProfile = () => {
     router.push(`/${post.user.username}`);

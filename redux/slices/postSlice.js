@@ -5,13 +5,13 @@ export const apiGetLikesList = createAsyncThunk(
   'post/getLikesList',
   async (id, thunkAPI) => {
     const response = await request.get(`/posts/like/${id}`);
-    console.log(response);
+    console.log(response.data);
     return response.data;
   }
 );
 
 export const apiGetCurrentPost = createAsyncThunk(
-  'post/getLikesList',
+  'post/getCurrentPost',
   async (id, thunkAPI) => {
     const response = await request.get(`/posts/${id}`);
     console.log(response);
@@ -53,11 +53,12 @@ export const postSlice = createSlice({
     // Add reducers for additional action types here, and handle loading state as needed
     [apiGetLikesList.fulfilled]: (state, action) => {
       // Add likes to the state array
+      console.log('extra', action.payload);
       state.likesList = action.payload;
-    },
-    [apiGetCurrentPost.fulfilled]: (state, action) => {
-      state.currentPost = action.payload;
     }
+    // [apiGetCurrentPost.fulfilled]: (state, action) => {
+    //   state.currentPost = action.payload;
+    // }
   }
 });
 
