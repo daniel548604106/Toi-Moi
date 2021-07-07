@@ -48,8 +48,8 @@ const ProfileImage = ({ postId, user, profileImage }) => {
     >
       <Image
         onClick={(e) => handleViewCurrentProfile(e)}
-        className={`${profileImage && 'cursor-pointer'} 
-       object-cover   cursor-default sm:w-[100px] sm:h-[100px]   rounded-full`}
+        className={`${profileImage ? 'cursor-pointer' : 'cursor-default'} 
+       object-cover   sm:w-[100px] sm:h-[100px]   rounded-full`}
         src={profileImage || genderAvatar(user.gender)}
         layout="fill"
       />
