@@ -55,10 +55,10 @@ export const postSlice = createSlice({
       // Add likes to the state array
       console.log('extra', action.payload);
       state.likesList = action.payload;
+    },
+    [apiGetCurrentPost.fulfilled]: (state, action) => {
+      state.currentPost = action.payload;
     }
-    // [apiGetCurrentPost.fulfilled]: (state, action) => {
-    //   state.currentPost = action.payload;
-    // }
   }
 });
 
