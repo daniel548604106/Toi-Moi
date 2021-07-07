@@ -45,9 +45,10 @@ const NotificationDropDown = ({ t }) => {
             {notification.type === 'newComment' && (
               <CommentNotification t={t} notification={notification} />
             )}
-            {(notification.type === 'newFriendAccepted' ||
-              'newFriendInvitation' ||
-              'newFriendAdded') && (
+            {notification.type ===
+              ('newFriendAccepted' ||
+                'newFriendInvitation' ||
+                'newFriendAdded') && (
               <FriendNotification
                 t={t}
                 removeNotification={removeNotification}
