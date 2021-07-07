@@ -6,6 +6,7 @@ const Avatar = ({
   width = 60,
   height = 60,
   profileImage,
+  layout = 'intrinsic',
   username,
   gender = 'other'
 }) => {
@@ -14,6 +15,7 @@ const Avatar = ({
       onClick={() => router.push(`/${username || ''}`)}
       className="rounded-full object-cover cursor-pointer avatarFallback "
       width={width}
+      layout={layout}
       height={height}
       src={profileImage || genderAvatar(gender)}
     />

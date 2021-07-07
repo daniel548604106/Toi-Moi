@@ -41,10 +41,10 @@ const Stories = ({ stories }) => {
     <div className="flex w-full mt-2 space-x-1   overflow-hidden ">
       <div
         onClick={() => router.push('/stories/create')}
-        className="relative  flex-shrink-0   w-1/3 sm:w-1/4 2xl:w-1/5  rounded-md transition duration-75 cursor-pointer hover:opacity-80 "
+        className="relative  flex-shrink-0 bg-secondary   w-1/3 sm:w-1/4 2xl:w-1/5  rounded-md transition duration-75 cursor-pointer hover:opacity-80 "
       >
         <img
-          className="h-30 sm:h-44 w-full relative object-cover rounded-3xl rounded-b-none"
+          className="h-30 sm:h-44 w-full bg-secondary relative object-cover rounded-3xl rounded-b-none"
           src={userInfo.profileImage || genderAvatar(userInfo.gender)}
         />
         <div className="relative text-sm sm:text-md px-1 py-5 rounded-b-3xl text-center bg-secondary text-secondary">
