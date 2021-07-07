@@ -19,7 +19,8 @@ import {
   setLikesListOpen,
   apiGetLikesList,
   setViewPostModalOpen,
-  apiGetCurrentPost
+  apiGetCurrentPost,
+  getSavedPosts
 } from '../../../redux/slices/postSlice';
 import router from 'next/router';
 import Comment from './Comment';
@@ -59,6 +60,10 @@ const Post = ({ post }) => {
     }
   };
 
+  const handleTogglePopup = () => {
+    dispatch(getSavedPosts());
+    setPopupShow(!isPopupShow);
+  };
   const handleLikePost = async (id) => {
     setLiked(true);
     setLikes([...likes, { user: id }]);
@@ -135,7 +140,7 @@ const Post = ({ post }) => {
             className="focus:outline-none p-2 relative rounded-full  hover:bg-gray-100"
           >
             <DotsHorizontalIcon
-              onClick={() => setPopupShow(!isPopupShow)}
+              onClick={() => handleTogglePopup()}
               className="h-5 cursor-pointer text-gray-700 "
             />
             {isPopupShow && (
