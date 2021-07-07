@@ -44,7 +44,6 @@ const Index = ({ profileData }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const summaryData = useSelector((state) => state.profile.summaryData);
-
   const [friends, setFriends] = useState(null);
   const [profile, setProfile] = useState(profileData.profile);
   const [user, setUser] = useState(profileData.profile.user);

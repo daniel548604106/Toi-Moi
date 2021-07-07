@@ -1,9 +1,17 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { apiGetMyInfo } from '../../api/index';
+import { apiGetMyInfo, apiGetFriendList } from '../../api/index';
 export const getMyInfo = createAsyncThunk(
   'get/getMyInfo',
   async (id, thunkAPI) => {
     const response = await apiGetMyInfo();
+    console.log(response);
+    return response.data;
+  }
+);
+export const getFriendList = createAsyncThunk(
+  'get/getFriendList',
+  async (id, thunkAPI) => {
+    const response = await apiGetFriendList();
     console.log(response);
     return response.data;
   }
@@ -15,6 +23,7 @@ export const userSlice = createSlice({
     isUserLoggedIn: false,
     userInfo: {},
     notifications: [],
+    friendsList: [],
     isEditProfileImageOpen: false,
     profileImageToUpdate: ''
   },
@@ -43,6 +52,10 @@ export const userSlice = createSlice({
   extraReducers: {
     // Add reducers for additional action types here, and handle loading state as needed
     [getMyInfo.fulfilled]: (state, action) => {
+      // Add likes to the state array
+      state.userInfo = action.payload;
+    },
+    [getFriendList.fulfilled]: (state, action) => {
       // Add likes to the state array
       state.userInfo = action.payload;
     }

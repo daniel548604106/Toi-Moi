@@ -9,15 +9,13 @@ const Avatar = ({
   username,
   gender = 'other'
 }) => {
-  const [src, setSrc] = useState('/images/other.png');
   return (
     <Image
       onClick={() => router.push(`/${username || ''}`)}
-      className="rounded-full object-cover cursor-pointer"
+      className="rounded-full object-cover cursor-pointer avatarFallback "
       width={width}
       height={height}
-      src={src}
-      onLoad={() => setSrc(profileImage || genderAvatar(gender))}
+      src={profileImage || genderAvatar(gender)}
     />
   );
 };
