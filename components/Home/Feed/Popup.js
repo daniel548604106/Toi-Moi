@@ -31,7 +31,7 @@ const Popup = ({ postId, user }) => {
       {user.username === userInfo.username && (
         <div
           onClick={() => handleDeletePost()}
-          className="rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
+          className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
         >
           <TrashIcon className="h-6" />
           <span className="ml-[10px] text-sm whitespace-nowrap">

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { apiGetSavedPosts } from '../../api';
 import SavedCard from '../../components/Saved/SavedCard';
+import Image from 'next/image';
 const Index = () => {
   const [savedPosts, setSavedPosts] = useState(null);
   const handleGetSavedPosts = async () => {
@@ -22,22 +23,30 @@ const Index = () => {
     console.log(savedPosts);
   }, [savedPosts]);
   return (
-    <div className="w-full max-w-[600px] mx-auto py-3 sm:py-10">
-      <h2 className="text-lg sm:text-2xl font-semibold">Saved Posts</h2>
+    <div className="w-full max-w-[600px] mx-auto py-3 sm:py-10 ">
       {savedPosts?.length > 0 ? (
         <div>
-          {savedPosts.map((post) => (
-            <SavedCard
-              key={post._id}
-              post={post.post}
-              type={post.type}
-              handleRemoveSavedPost={handleRemoveSavedPost}
-              publisher={post.publisher}
-            />
-          ))}
+          <h2 className="text-lg sm:text-2xl font-semibold">Saved Posts</h2>
+          <div>
+            {savedPosts.map((post) => (
+              <SavedCard
+                key={post._id}
+                post={post.post}
+                type={post.type}
+                handleRemoveSavedPost={handleRemoveSavedPost}
+                publisher={post.publisher}
+              />
+            ))}
+          </div>
         </div>
       ) : (
-        <div>No Saved Post</div>
+        <div className="mt-[60px] w-full flex  flex-col items-center justify-center">
+          <Image src="/images/empty-bookmark.svg" width="100" height="100" />
+          <h2 className="text-lg sm:text-2xl font-semibold mt-5">
+            {' '}
+            No Saved Post
+          </h2>
+        </div>
       )}
     </div>
   );

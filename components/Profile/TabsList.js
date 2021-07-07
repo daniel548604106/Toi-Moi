@@ -163,9 +163,7 @@ const TabsList = ({ user, friends_total, friend_status }) => {
             </button>
           )}
           <button
-            onClick={() =>
-              router.push(`/messages?messageWith=${router.query.id}`)
-            }
+            onClick={() => router.push(`/messages?messageWith=${user._id}`)}
             className="text-xs sm:text-sm flex items-center  bg-main text-white rounded-md px-3 py-2"
           >
             <ChatAlt2Icon className="h-6 mr-2" />

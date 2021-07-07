@@ -153,15 +153,6 @@ const Post = ({ post }) => {
           className="imageContainer cursor-pointer"
         >
           <Image
-            placeholder={() => (
-              <div
-                style={{
-                  backgroundColor: 'red',
-                  height: '100px',
-                  width: '100%'
-                }}
-              />
-            )}
             src={post.picUrl}
             layout="fill"
             className="image rounded-lg "
