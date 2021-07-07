@@ -16,6 +16,12 @@
       min-height: calc(100vh - 130px);
     }
   }
+  .avatarFallback {
+    background-image: url('../public/images/other.png');
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+  }
 }
 
 .dark {

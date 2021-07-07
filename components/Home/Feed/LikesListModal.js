@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { XIcon, ThumbUpIcon, UserAddIcon } from '@heroicons/react/solid';
 import { useSelector, useDispatch } from 'react-redux';
-import Image from 'next/image';
 import { setLikesListOpen } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
+import Avatar from '../../Global/Avatar';
 const LikesListModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const { likesList } = useSelector((state) => state.post);
@@ -38,21 +38,23 @@ const LikesListModal = () => {
         {likesList.length > 0 &&
           likesList.map((like) => (
             <div
-              onClick={() => handleDirectToProfile(like)}
               key={like._id}
               className="flex items-center justify-between p-2"
             >
-              <div className="flex items-center">
+              <div
+                onClick={() => handleDirectToProfile(like)}
+                className="flex items-center"
+              >
                 <span className="relative">
-                  <Image
-                    src={like.user.profileImage}
+                  <Avatar
+                    profileImage={like.user.profileImage}
+                    gender={like.user.gender}
+                    username={like.user.username}
                     width={50}
                     height={50}
-                    layout="fixed"
-                    className="rounded-full cursor-pointer "
                   />
                   <span className="absolute bottom-[5px] right-0 p-1 rounded-full bg-main">
-                    <ThumbUpIcon className="h-2 text-secondary " />
+                    <ThumbUpIcon className="h-2 text-white " />
                   </span>
                 </span>
                 <span className="ml-[15px] cursor-pointer hover:underline">
