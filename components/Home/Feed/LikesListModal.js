@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setLikesListOpen } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
 import Avatar from '../../Global/Avatar';
+import LoaderSpinner from '../../Global/LoaderSpinner';
 const LikesListModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const { likesList } = useSelector((state) => state.post);
@@ -35,7 +36,7 @@ const LikesListModal = () => {
       </div>
       <hr className="my-[10px]" />
       <div className="h-full max-h-[50vh] overflow-y-auto">
-        {likesList.length > 0 &&
+        {likesList.length > 0 ? (
           likesList.map((like) => (
             <div
               key={like._id}
@@ -68,7 +69,12 @@ const LikesListModal = () => {
                 </button>
               )}
             </div>
-          ))}
+          ))
+        ) : (
+          <div>
+            <LoaderSpinner />
+          </div>
+        )}
       </div>
     </div>
   );
