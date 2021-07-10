@@ -67,6 +67,8 @@ const {
   setMessageToUnread
 } = require('./utilsServer/messageActions');
 
+const { likePost, unlikePost } = require('./utilsServer/likeOrUnlikePost');
+
 const users = {};
 
 // // Group Call Socket
@@ -112,6 +114,20 @@ io.on('connection', (socket) => {
         users: users.filter((user) => user.userId !== userId)
       });
     }, 10000);
+  });
+
+  socket.on('likePost', async ({ postId, userId }) => {
+    const { success, error } = await likePost(postId, userId);
+    if (success) {
+      socket.emit('postLiked');
+    }
+  });
+  socket.on('unlikePost', async ({ postId, userId }) => {
+    console.log('unlike', postId, userId);
+    const { success, error } = await unlikePost(postId, userId);
+    if (success) {
+      socket.emit('postUnliked');
+    }
   });
 
   socket.on('loadMessages', async ({ userId, messagesWith }) => {

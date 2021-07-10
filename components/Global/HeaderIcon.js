@@ -1,7 +1,9 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-const HeaderIcon = ({ Icon, active, title, href }) => {
+const HeaderIcon = ({ Icon, title, href }) => {
   const router = useRouter();
+  const active = router.pathname.includes(href);
+
   return (
     <div
       onClick={() => router.push(`${href}`)}

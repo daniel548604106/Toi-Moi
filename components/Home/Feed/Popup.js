@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { TrashIcon, BookmarkIcon } from '@heroicons/react/outline';
+import { BookmarkIcon as SolidBookmarkIcon } from '@heroicons/react/solid';
 import { apiDeletePost } from '../../../api/index';
 import { useSelector } from 'react-redux';
-import { apiPostNewSavedPost } from '../../../api/index';
+import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../api/index';
 import router from 'next/router';
 const Popup = ({ postId, user }) => {
+  const { savedPosts } = useSelector((state) => state.post);
   const userInfo = useSelector((state) => state.user.userInfo);
+  const [isSaved, setSaved] = useState(
+    savedPosts.map((saved) => saved.post._id).includes(postId)
+  );
+  useEffect(() => {
+    console.log(savedPosts);
+  }, [savedPosts]);
   const handleDeletePost = async () => {
     try {
       const { data } = await apiDeletePost(postId);
@@ -16,18 +24,24 @@ const Popup = ({ postId, user }) => {
   };
   const handleSavePost = async () => {
     try {
-      const { data } = await apiPostNewSavedPost({
-        type: 'post',
-        postId,
-        publisherId: user._id
-      });
-      console.log(data);
+      if (isSaved) {
+        await apiDeleteSavedPost(postId);
+      } else {
+        const { data } = await apiPostNewSavedPost({
+          type: 'post',
+          postId,
+          publisherId: user._id
+        });
+        console.log(data);
+      }
+
+      setSaved(!isSaved);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <div className="shadow-lg p-3 w-[300px] rounded-md  bg-secondary text-secondary">
+    <div className="shadow-lg p-2  rounded-md  bg-secondary text-secondary">
       {user.username === userInfo.username && (
         <div
           onClick={() => handleDeletePost()}
@@ -41,10 +55,18 @@ const Popup = ({ postId, user }) => {
       )}
       <div
         onClick={() => handleSavePost()}
-        className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
+        className={`cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3  ${
+          isSaved && 'text-main'
+        }`}
       >
-        <BookmarkIcon className="h-6" />
-        <span className="ml-[10px] text-sm whitespace-nowrap">Save post</span>
+        {isSaved ? (
+          <SolidBookmarkIcon className="h-6" />
+        ) : (
+          <BookmarkIcon className="h-6" />
+        )}
+        <span className={`ml-[10px] text-sm whitespace-nowrap`}>
+          {isSaved ? 'Saved' : 'Save post'}
+        </span>
       </div>
     </div>
   );

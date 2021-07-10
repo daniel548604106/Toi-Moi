@@ -4,7 +4,8 @@ import {
   PlayIcon,
   FlagIcon,
   ShoppingCartIcon,
-  MenuIcon
+  MenuIcon,
+  BookmarkAltIcon
 } from '@heroicons/react/outline';
 import {
   BellIcon,
@@ -57,13 +58,8 @@ const Header = () => {
           router.pathname.includes('messages') && 'hidden'
         } fixed max-w-[750px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10`}
       >
-        <HeaderIcon
-          title="home"
-          href="/"
-          active={router.pathname === '/'}
-          Icon={HomeIcon}
-        />
-        <HeaderIcon title="flag" Icon={FlagIcon} />
+        <HeaderIcon title="home" href="/" Icon={HomeIcon} />
+        <HeaderIcon href="/saved" title="saved" Icon={BookmarkAltIcon} />
         <HeaderIcon title="watch" href="/watch/view/all" Icon={PlayIcon} />
         <HeaderIcon
           title="marketplace"

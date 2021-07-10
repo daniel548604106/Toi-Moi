@@ -141,7 +141,7 @@ export default function Home({ posts, friends, stories }) {
             >
               {currentPosts.map((post) => (
                 <div key={post._id} className="mb-[15px] ">
-                  <Post post={post} />
+                  <Post post={post} socket={socket}/>
                 </div>
               ))}
             </InfiniteScroll>
