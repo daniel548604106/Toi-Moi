@@ -15,8 +15,6 @@ import Login from '../components/Login/Index';
 import Header from '../components/Global/Header';
 import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
-import Notification from '../components/Global/Notification';
-import { setNotification } from '../redux/slices/globalSlice';
 const Overlay = dynamic(() => import('../components/Global/Overlay'), {
   loading: () => <LoaderSpinner />
 });
@@ -74,29 +72,30 @@ const App = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const { isUserLoggedIn, isEditProfileImageOpen } = useSelector(
-    (state) => state.user
+  const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
+  const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
+  const isLanguageOpen = useSelector((state) => state.global.isLanguageOpen);
+  const isEditProfileImageOpen = useSelector(
+    (state) => state.user.isEditProfileImageOpen
   );
-  const { isLanguageOpen, notification, isCreateRoomOpen } = useSelector(
-    (state) => state.global
+  const isCreateRoomOpen = useSelector(
+    (state) => state.global.isCreateRoomOpen
   );
-
   const isEditSummaryModalOpen = useSelector(
     (state) => state.profile.isEditSummaryModalOpen
   );
-  const { isViewPostModalOpen, isLikesListOpen, isPostInputBoxOpen } =
-    useSelector((state) => state.post);
+  const isViewPostModalOpen = useSelector(
+    (state) => state.post.isViewPostModalOpen
+  );
+  const isPostInputBoxOpen = useSelector(
+    (state) => state.post.isPostInputBoxOpen
+  );
 
   // Log user out if no token is found
   const token = Cookies.get('token');
   if (!token) {
     dispatch(setUserLogout());
   }
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(setNotification(''));
-    }, 3000);
-  }, [notification]);
 
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
@@ -168,7 +167,6 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
-      {notification && <Notification notification={notification} />}
       {loading ? (
         <div className="pt-[100px] text-gray-600 text-center">
           <PostSkeletonLoader />

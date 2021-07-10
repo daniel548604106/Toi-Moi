@@ -109,6 +109,9 @@ io.on('connection', (socket) => {
     console.log(users);
 
     // Sending back all the users other than the logged in user who has made the connection
+    socket.emit('connectedUsers', {
+      users: users.filter((user) => user.userId !== userId)
+    });
     setInterval(() => {
       socket.emit('connectedUsers', {
         users: users.filter((user) => user.userId !== userId)

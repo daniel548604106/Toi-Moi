@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../api/index';
 import router from 'next/router';
 import { setNotification } from '../../../redux/slices/globalSlice';
+import { getSavedPosts } from '../../../redux/slices/postSlice';
 const Popup = ({ setPopupShow, postId, user, deletePost }) => {
   const dispatch = useDispatch();
   const { savedPosts } = useSelector((state) => state.post);
@@ -41,6 +42,7 @@ const Popup = ({ setPopupShow, postId, user, deletePost }) => {
         dispatch(setNotification('Post saved'));
         console.log(data);
       }
+      dispatch(getSavedPosts());
 
       setSaved(!isSaved);
     } catch (error) {
