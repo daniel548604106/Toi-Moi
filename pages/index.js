@@ -40,6 +40,7 @@ export default function Home({ posts, friends, stories }) {
 
   // const [currentStories, setCurrentStories] = useState(null);
   const [newNotification, setNewNotification] = useState(null);
+  const [connectedUsers, setConnectedUsers] = useState([]);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState([]);
@@ -99,6 +100,9 @@ export default function Home({ posts, friends, stories }) {
       if (socket.current) {
         // keep track of users online
         socket.current.emit('join', { userId: userInfo._id });
+        socket.current.on('connectedUsers', ({ users }) => {
+          setConnectedUsers(users);
+        });
         socket.current.on('newMsgReceived', async ({ newMessage }) => {
           console.log('received new message', newMessage);
           const {
@@ -184,7 +188,7 @@ export default function Home({ posts, friends, stories }) {
           )}
         </div>
         <div className=" w-1/2 hidden md:block ">
-          <Contacts friends={friends} />
+          <Contacts connectedUsers={connectedUsers} friends={friends} />
         </div>
         {newMessageReceived.length > 0 &&
           newMessageReceived.map((received, idx) => (

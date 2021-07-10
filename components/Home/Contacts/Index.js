@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { DotsHorizontalIcon, VideoCameraIcon } from '@heroicons/react/solid';
 import { SearchIcon } from '@heroicons/react/outline';
 import Contact from './Contact';
 import useTranslation from 'next-translate/useTranslation';
 
-const Index = ({ friends }) => {
+const Index = ({ friends, connectedUsers }) => {
   const { t } = useTranslation('common');
-
+  const sortedContacts = useMemo(() => {
+    return friends?.sort((a, b) => {
+      return connectedUsers.map((users) => users.userId).includes(a.user._id)
+        ? -1
+        : 1;
+    });
+  }, [connectedUsers]);
   return (
     <div className=" p-2 sticky top-[80px]">
       <div className="flex justify-between items-center mb-5 text-gray-500">
@@ -17,8 +23,10 @@ const Index = ({ friends }) => {
           <DotsHorizontalIcon className="h-6 cursor-pointer" />
         </div>
       </div>
-      {friends &&
-        friends.map(({ user }) => <Contact key={user._id} user={user} />)}
+      {sortedContacts &&
+        sortedContacts.map(({ user }) => (
+          <Contact connectedUsers={connectedUsers} key={user._id} user={user} />
+        ))}
     </div>
   );
 };
