@@ -22,7 +22,6 @@ import {
   apiGetCurrentPost,
   getSavedPosts
 } from '../../../redux/slices/postSlice';
-import { setUnreadNotification } from '../../../redux/slices/userSlice';
 import router from 'next/router';
 import Comment from './Comment';
 import useTranslation from 'next-translate/useTranslation';
@@ -60,19 +59,6 @@ const Post = ({ post, socket }) => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on(
-        'newNotificationReceived',
-        ({ profileImage, postByUserId, username, name }) => {
-          // update notification
-          console.log('newnotification123');
-          dispatch(setUnreadNotification(true));
-        }
-      );
-    }
-  }, []);
 
   const handleTogglePopup = () => {
     dispatch(getSavedPosts());
