@@ -102,6 +102,7 @@ export default function Home({ posts, friends, stories }) {
         socket.current.emit('join', { userId: userInfo._id });
         socket.current.on('connectedUsers', ({ users }) => {
           setConnectedUsers(users);
+          console.log(connectedUsers, users, 'users');
         });
         socket.current.on('newMsgReceived', async ({ newMessage }) => {
           console.log('received new message', newMessage);
@@ -137,6 +138,12 @@ export default function Home({ posts, friends, stories }) {
         );
       }
     }
+    return () => {
+      if (socket.current) {
+        socket.current.emit('disconnected');
+        socket.current.off();
+      }
+    };
   });
 
   return (
