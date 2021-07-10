@@ -10,9 +10,11 @@ const DropDownMenuIcon = ({ Icon, children, title }) => {
   const [unreadNotification, setUnreadNotification] = useState(
     userInfo.unreadNotification
   );
+
   useEffect(() => {
+    setUnreadNotification(userInfo.unreadNotification);
     console.log(unreadNotification, 'notification');
-  }, [unreadNotification]);
+  }, [userInfo]);
   const handleReadNotification = async () => {
     try {
       setMenuOpen(!isMenuOpen);

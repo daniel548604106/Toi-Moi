@@ -67,11 +67,12 @@ const Post = ({ post, socket }) => {
         'newNotificationReceived',
         ({ profileImage, postByUserId, username, name }) => {
           // update notification
-          setUnreadNotification(true);
+          console.log('newnotification123');
+          dispatch(setUnreadNotification(true));
         }
       );
     }
-  });
+  }, []);
 
   const handleTogglePopup = () => {
     dispatch(getSavedPosts());
