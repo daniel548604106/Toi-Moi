@@ -9,11 +9,16 @@ import {
 import { EmojiHappyIcon } from '@heroicons/react/outline';
 import { apiPostNewPost } from '../../../api/index';
 import Avatar from '../../Global/Avatar';
+import Loader from '../../Global/Loader';
+import useNotify from '../../../hooks/useNotify';
+import { setNotification } from '../../../redux/slices/globalSlice';
 const InputBoxModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const imageToPost = useSelector((state) => state.post.imageToPost);
   const dispatch = useDispatch();
   const [text, setText] = useState('');
+  const { isShow } = useNotify('');
+  const [isLoading, setLoading] = useState(false);
   const [image, setImage] = useState(imageToPost || '');
   const [location, setLocation] = useState('');
 
@@ -38,10 +43,13 @@ const InputBoxModal = () => {
     try {
       e.preventDefault();
       if (text === '') return;
-      dispatch(setPostInputBoxOpen(false));
+      setLoading(true);
       await apiPostNewPost({ image, text, location });
       setText('');
+      setLoading(false);
       setImage(null);
+      dispatch(setPostInputBoxOpen(false));
+      dispatch(setNotification('Post sent!'));
     } catch (error) {
       console.log(error);
     }
@@ -108,11 +116,11 @@ const InputBoxModal = () => {
         </div>
         <button
           onClick={(e) => sendPost(e)}
-          className={`mt-[10px] mb-10  text-sm  cursor-default rounded-lg w-full py-3  ${
+          className={`mt-[10px]  mb-10 flex items-center justify-center  text-sm  cursor-default rounded-lg w-full py-3  ${
             text ? 'bg-main text-white  cursor-pointer' : 'bg-gray-100'
           } `}
         >
-          Post
+          {isLoading ? <Loader /> : 'Post'}
         </button>
       </div>
     </div>

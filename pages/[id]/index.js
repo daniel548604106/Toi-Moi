@@ -71,6 +71,10 @@ const Index = ({ profileData }) => {
       console.log(error);
     }
   };
+
+  const deletePost = (postId) => {
+    setPosts(posts.filter((post) => post._id !== postId));
+  };
   const getProfileFriends = async () => {
     try {
       const { data } = await apiGetProfileFriends(router.query.id);
@@ -132,7 +136,7 @@ const Index = ({ profileData }) => {
           >
             {posts.map((post) => (
               <div key={post._id} className="mb-[15px]">
-                <Post post={post} />
+                <Post deletePost={deletePost} post={post} />
               </div>
             ))}
           </InfiniteScroll>

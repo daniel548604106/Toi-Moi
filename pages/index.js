@@ -60,6 +60,10 @@ export default function Home({ posts, friends, stories }) {
     }
   };
 
+  const deletePost = (postId) => {
+    setCurrentPosts(currentPosts.filter((post) => post._id !== postId));
+  };
+
   // useEffect(() => {
   //   setCurrentStories(stories);
   // }, [stories]);
@@ -168,7 +172,7 @@ export default function Home({ posts, friends, stories }) {
             >
               {currentPosts.map((post) => (
                 <div key={post._id} className="mb-[15px] ">
-                  <Post post={post} socket={socket} />
+                  <Post deletePost={deletePost} post={post} socket={socket} />
                 </div>
               ))}
             </InfiniteScroll>
