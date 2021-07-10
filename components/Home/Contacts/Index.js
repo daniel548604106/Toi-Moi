@@ -26,7 +26,6 @@ const Index = ({ friends, connectedUsers }) => {
           <VideoCameraIcon className="h-6 cursor-pointer" />
           <DotsHorizontalIcon className="h-6 cursor-pointer" />
         </div>
-        {console.log('render')}
       </div>
       {sortedContacts &&
         sortedContacts.map(({ user }) => (

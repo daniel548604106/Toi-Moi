@@ -8,7 +8,6 @@ const Contact = ({ user, connectedUsers }) => {
           className="w-[40px] object-cover h-[40px] rounded-full"
           src={user.profileImage || genderAvatar(user.gender)}
         />
-        {console.log(connectedUsers, 'map')}
         {connectedUsers.map((users) => users.userId).includes(user._id) && (
           <div className="absolute bottom-[5px] right-0 bg-green-400 w-2 h-2 rounded-full z-40"></div>
         )}
