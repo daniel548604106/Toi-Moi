@@ -131,7 +131,7 @@ io.on('connection', (socket) => {
             name,
             profileImage,
             username,
-            postByUserId
+            postId
           });
         }
       }

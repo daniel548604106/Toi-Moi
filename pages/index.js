@@ -118,14 +118,13 @@ export default function Home({ posts, friends, stories }) {
 
         socket.current.on(
           'newNotificationReceived',
-          ({ profileImage, postByUserId, username, name }) => {
+          ({ profileImage, postId, username, name }) => {
             // update notification
-            console.log('newnotification123');
             dispatch(setUnreadNotification(true));
-            setNewNotification({ profileImage, postByUserId, username, name });
+            setNewNotification({ profileImage, postId, username, name });
             setTimeout(() => {
               setNewNotification(null);
-            }, 3000);
+            }, 5000);
           }
         );
       }
@@ -145,7 +144,10 @@ export default function Home({ posts, friends, stories }) {
       <main className=" w-full relative flex justify-between p-3">
         {newNotification && (
           <div className="fixed z-50 bottom-4 right-4">
-            <PostNotification newNotification={newNotification} />
+            <PostNotification
+              setNewNotification={setNewNotification}
+              newNotification={newNotification}
+            />
           </div>
         )}
         <div className="w-1/2 hidden lg:block">

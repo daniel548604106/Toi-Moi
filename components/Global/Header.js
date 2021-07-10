@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import {
   PlayIcon,
@@ -18,7 +18,7 @@ import {
 import useClickOutside from '../../hooks/useClickOutside';
 import HeaderIcon from './HeaderIcon';
 import genderAvatar from '../../utils/genderAvatar';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
 import AccountDropDown from './HeaderDropDown/AccountDropDown';
 import DropDownMenuIcon from './DropDownMenuIcon';
@@ -28,13 +28,15 @@ import Search from './Search/Search';
 import NotificationDropDown from './HeaderDropDown/NotificationDropDown';
 import useTranslation from 'next-translate/useTranslation';
 import Sidebar from '../Home/Sidebar/Sidebar';
+import { setUnreadNotification } from '../../redux/slices/userSlice';
 const Header = () => {
   const router = useRouter();
   const elRef = useRef();
+  const dispatch = useDispatch();
   const [isSideMenuShow, setSideMenuShow] = useState(false);
   useClickOutside(elRef, () => setSideMenuShow(false));
+  const { userInfo } = useSelector((state) => state.user);
 
-  const userInfo = useSelector((state) => state.user.userInfo);
   const { t } = useTranslation('header');
   const handleSideMenuShow = (e) => {
     e.stopPropagation();
@@ -96,10 +98,18 @@ const Header = () => {
           </DropDownMenuIcon>
         </div>
         <div className="flex items-center space-x-3 md:hidden">
-          <BellIcon
-            onClick={() => router.push('/notifications')}
-            className="h-6"
-          />
+          <span className="relative">
+            <BellIcon
+              onClick={() => router.push('/notifications')}
+              className="h-6"
+            />
+            {userInfo.unreadNotification && (
+              <div
+                onClick={() => dispatch(setUnreadNotification(false))}
+                className="w-[5px] h-[5px] absolute top-[3px] right-1 rounded-full bg-main"
+              ></div>
+            )}
+          </span>
           <ChatIcon onClick={() => router.push('/messages')} className="h-6" />
           <MenuIcon
             onClick={(e) => handleSideMenuShow(e)}
