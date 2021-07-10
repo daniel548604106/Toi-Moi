@@ -58,14 +58,16 @@ const LikesListModal = () => {
                     <ThumbUpIcon className="h-2 text-white " />
                   </span>
                 </span>
-                <span className="ml-[15px] cursor-pointer hover:underline">
+                <span className="ml-[15px] cursor-pointer text-xs sm:text-md truncate overflow-hidden hover:underline">
                   {like.user.name}
                 </span>
               </div>
               {like.user._id !== userInfo._id && (
                 <button className="rounded-md p-2 px-3 flex items-center bg-gray-200">
                   <UserAddIcon className="h-6" />
-                  <span className="ml-[5px]">Add friend</span>
+                  <span className="ml-[5px] text-xs sm:text-md">
+                    Add friend
+                  </span>
                 </button>
               )}
             </div>

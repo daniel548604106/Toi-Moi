@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Head from 'next/head';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 import messageNotificationSound from '../utils/messageNotificationSound';
 import Sidebar from '../components/Home/Sidebar/Sidebar';
@@ -14,6 +14,8 @@ import Post from '../components/Home/Feed/Post';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Room from '../components/Home/Feed/Room/Index';
 import Stories from '../components/Home/Feed/Story/Stories';
+import { setUnreadNotification } from '../redux/slices/userSlice';
+
 // Dynamic Import
 const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
   loading: () => <LoaderSpinner />
@@ -26,13 +28,18 @@ const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
 const MessagePopup = dynamic(() =>
   import('../components/Home/Contacts/MessagePopup')
 );
+const PostNotification = dynamic(() =>
+  import('../components/Home/PostNotification')
+);
 export default function Home({ posts, friends, stories }) {
+  const dispatch = useDispatch();
   const [hasMore, setHasMore] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
   const socket = useRef();
   const divRef = useRef(null);
 
   // const [currentStories, setCurrentStories] = useState(null);
+  const [newNotification, setNewNotification] = useState(null);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState([]);
@@ -108,6 +115,18 @@ export default function Home({ posts, friends, stories }) {
             messageNotificationSound(name);
           }
         });
+
+        socket.current.on(
+          'newNotificationReceived',
+          ({ profileImage, postId, username, name }) => {
+            // update notification
+            dispatch(setUnreadNotification(true));
+            setNewNotification({ profileImage, postId, username, name });
+            setTimeout(() => {
+              setNewNotification(null);
+            }, 5000);
+          }
+        );
       }
     }
   });
@@ -123,6 +142,14 @@ export default function Home({ posts, friends, stories }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className=" w-full relative flex justify-between p-3">
+        {newNotification && (
+          <div className="fixed z-50 bottom-4 right-4">
+            <PostNotification
+              setNewNotification={setNewNotification}
+              newNotification={newNotification}
+            />
+          </div>
+        )}
         <div className="w-1/2 hidden lg:block">
           <Sidebar />
         </div>
@@ -141,7 +168,7 @@ export default function Home({ posts, friends, stories }) {
             >
               {currentPosts.map((post) => (
                 <div key={post._id} className="mb-[15px] ">
-                  <Post post={post} socket={socket}/>
+                  <Post post={post} socket={socket} />
                 </div>
               ))}
             </InfiniteScroll>

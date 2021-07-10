@@ -126,11 +126,12 @@ io.on('connection', (socket) => {
         const receiverSocket = findConnectedUsers(postByUserId);
         if (receiverSocket) {
           // Send data to particular user using io.to
+          console.log('isOnline', receiverSocket);
           io.to(receiverSocket.socketId).emit('newNotificationReceived', {
             name,
             profileImage,
             username,
-            postByUserId
+            postId
           });
         }
       }

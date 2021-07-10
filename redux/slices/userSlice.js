@@ -43,7 +43,7 @@ export const userSlice = createSlice({
       state.isEditProfileImageOpen = payload;
     },
     setUnreadNotification: (state, { payload }) => {
-      state.userInfo.unreadNotification = payload;
+      state.userInfo = { ...state.userInfo, unreadNotification: payload };
     },
     setProfileImageToUpdate: (state, { payload }) => {
       if (payload === false) {
