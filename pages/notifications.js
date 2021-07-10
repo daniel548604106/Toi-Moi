@@ -38,7 +38,8 @@ const Index = ({ notifications }) => {
                   <CommentNotification notification={notification} />
                 )}
                 {(notification.type === 'newFriendAccepted' ||
-                  notification.type === 'newFriendInvitation') && (
+                  notification.type === 'newFriendInvitation' ||
+                  notification.type === 'newFriendAdded') && (
                   <FriendNotification notification={notification} />
                 )}
               </div>

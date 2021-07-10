@@ -3,11 +3,14 @@ const Notification = require('../models/notificationModel');
 
 const setNotificationToUnread = async (userId) => {
   try {
+    console.log('called');
     const user = await User.findById(userId);
     if (!user.unreadNotification) {
       user.unreadNotification = true;
       await user.save();
+      console.log(user, '1');
     }
+    console.log(user, '2');
   } catch (error) {
     console.log(error);
     res.status(500).send('Server Error');
@@ -35,7 +38,9 @@ const newLikeNotification = async (userId, postId, userToNotifyId) => {
 
 const removeLikeNotification = async (userId, postId, userToNotifyId) => {
   try {
-    const userToRemoveNotification = await Notification.find(userToNotifyId);
+    const userToRemoveNotification = await Notification.findOne({
+      user: userToNotifyId
+    });
     const notificationToRemove = userToRemoveNotification.notifications.find(
       (notification) =>
         notification.type === 'newLike' &&

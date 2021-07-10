@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { apiPostReadNotifications } from '../../api/index';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,9 @@ const DropDownMenuIcon = ({ Icon, children, title }) => {
   const [unreadNotification, setUnreadNotification] = useState(
     userInfo.unreadNotification
   );
+  useEffect(() => {
+    console.log(unreadNotification, 'notification');
+  }, [unreadNotification]);
   const handleReadNotification = async () => {
     try {
       setMenuOpen(!isMenuOpen);
