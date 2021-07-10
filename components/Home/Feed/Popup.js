@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { TrashIcon, BookmarkIcon } from '@heroicons/react/outline';
 import { BookmarkIcon as SolidBookmarkIcon } from '@heroicons/react/solid';
 import { apiDeletePost } from '../../../api/index';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../api/index';
 import router from 'next/router';
-const Popup = ({ postId, user }) => {
+import { setNotification } from '../../../redux/slices/globalSlice';
+const Popup = ({ setPopupShow, postId, user, deletePost }) => {
+  const dispatch = useDispatch();
   const { savedPosts } = useSelector((state) => state.post);
   const userInfo = useSelector((state) => state.user.userInfo);
   const [isSaved, setSaved] = useState(
@@ -19,6 +21,8 @@ const Popup = ({ postId, user }) => {
       const { data } = await apiDeletePost(postId);
       // dispatch(getSavedPosts())
       console.log(data);
+      deletePost(postId);
+      dispatch(setNotification('Post deleted'));
     } catch (error) {
       console.log(error);
     }
@@ -27,12 +31,14 @@ const Popup = ({ postId, user }) => {
     try {
       if (isSaved) {
         await apiDeleteSavedPost(postId);
+        dispatch(setNotification('Remove saved post'));
       } else {
         const { data } = await apiPostNewSavedPost({
           type: 'post',
           postId,
           publisherId: user._id
         });
+        dispatch(setNotification('Post saved'));
         console.log(data);
       }
 
@@ -42,7 +48,10 @@ const Popup = ({ postId, user }) => {
     }
   };
   return (
-    <div className="shadow-lg p-2  rounded-md  bg-secondary text-secondary">
+    <div
+      onClick={() => setPopupShow(false)}
+      className="shadow-lg p-2  rounded-md  bg-secondary text-secondary"
+    >
       {user.username === userInfo.username && (
         <div
           onClick={() => handleDeletePost()}

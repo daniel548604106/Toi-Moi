@@ -25,7 +25,8 @@ import {
 import router from 'next/router';
 import Comment from './Comment';
 import useTranslation from 'next-translate/useTranslation';
-const Post = ({ post, socket }) => {
+import { setNotification } from '../../../redux/slices/globalSlice';
+const Post = ({ post, socket, deletePost }) => {
   const { t } = useTranslation('common');
   const elRef = useRef();
   const [isPopupShow, setPopupShow] = useState(false);
@@ -55,6 +56,7 @@ const Post = ({ post, socket }) => {
       const newComment = data;
       setComments((comments) => [newComment, ...comments]);
       setText('');
+      dispatch(setNotification('Comment posted!'));
     } catch (error) {
       console.log(error);
     }
@@ -168,7 +170,12 @@ const Post = ({ post, socket }) => {
             />
             {isPopupShow && (
               <div className="z-20  absolute bottom-0 transform translate-y-full right-0 ">
-                <Popup user={post.user} postId={post._id} />
+                <Popup
+                  setPopupShow={setPopupShow}
+                  deletePost={deletePost}
+                  user={post.user}
+                  postId={post._id}
+                />
               </div>
             )}
           </div>
