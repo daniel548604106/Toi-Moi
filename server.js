@@ -117,9 +117,23 @@ io.on('connection', (socket) => {
   });
 
   socket.on('likePost', async ({ postId, userId }) => {
-    const { success, error } = await likePost(postId, userId);
+    const { success, error, profileImage, name, username, postByUserId } =
+      await likePost(postId, userId);
     if (success) {
       socket.emit('postLiked');
+      if (postByUserId !== userId) {
+        // Check if user is online
+        const receiverSocket = findConnectedUsers(postByUserId);
+        if (receiverSocket) {
+          // Send data to particular user using io.to
+          io.to(receiverSocket.socketId).emit('newNotificationReceived', {
+            name,
+            profileImage,
+            username,
+            postByUserId
+          });
+        }
+      }
     }
   });
   socket.on('unlikePost', async ({ postId, userId }) => {

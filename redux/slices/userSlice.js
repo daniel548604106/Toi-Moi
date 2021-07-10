@@ -42,6 +42,9 @@ export const userSlice = createSlice({
     setEditProfileImageOpen: (state, { payload }) => {
       state.isEditProfileImageOpen = payload;
     },
+    setUnreadNotification: (state, { payload }) => {
+      state.userInfo.unreadNotification = payload;
+    },
     setProfileImageToUpdate: (state, { payload }) => {
       if (payload === false) {
         state.profileImageToUpdate = '';
@@ -67,7 +70,8 @@ export const {
   setUserLogin,
   setUserLogout,
   setEditProfileImageOpen,
-  setProfileImageToUpdate
+  setProfileImageToUpdate,
+  setUnreadNotification
 } = userSlice.actions;
 
 export default userSlice.reducer;

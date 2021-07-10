@@ -18,7 +18,17 @@ const likePost = async (postId, userId) => {
     if (post.user.toString() !== userId) {
       await newLikeNotification(userId, postId, post.user.toString());
     }
-    return { success: true };
+
+    const user = await User.findById(userId);
+
+    const { profileImage, name, username } = user;
+    return {
+      success: true,
+      profileImage,
+      name,
+      username,
+      postByUserId: post.user.toString()
+    };
   } catch (error) {
     console.log(error);
     return { error: 'Server error' };
