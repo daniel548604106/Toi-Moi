@@ -12,11 +12,12 @@ const Popup = ({ postId, user }) => {
     savedPosts.map((saved) => saved.post._id).includes(postId)
   );
   useEffect(() => {
-    console.log(savedPosts);
+    console.log(savedPosts, isSaved, 'saved');
   }, [savedPosts]);
   const handleDeletePost = async () => {
     try {
       const { data } = await apiDeletePost(postId);
+      // dispatch(getSavedPosts())
       console.log(data);
     } catch (error) {
       console.log(error);
