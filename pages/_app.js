@@ -75,30 +75,35 @@ const App = ({ Component, pageProps }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
-
-  const { isLikesListOpen, isPostInputBoxOpen, isViewPostModalOpen } =
-    useSelector((state) => state.post);
-  const { isLanguageOpen, notification, isCreateRoomOpen } = useSelector(
-    (state) => state.global
+  const { isLikesListOpen } = useSelector((state) => state.post);
+  const { isLanguageOpen, notification } = useSelector((state) => state.global);
+  const isEditProfileImageOpen = useSelector(
+    (state) => state.user.isEditProfileImageOpen
   );
-  const { isEditProfileImageOpen } = useSelector((state) => state.user);
-
-  const { isEditSummaryModalOpen } = useSelector((state) => state.profile);
+  const isCreateRoomOpen = useSelector(
+    (state) => state.global.isCreateRoomOpen
+  );
+  const isEditSummaryModalOpen = useSelector(
+    (state) => state.profile.isEditSummaryModalOpen
+  );
+  const isViewPostModalOpen = useSelector(
+    (state) => state.post.isViewPostModalOpen
+  );
+  const isPostInputBoxOpen = useSelector(
+    (state) => state.post.isPostInputBoxOpen
+  );
 
   // Log user out if no token is found
   const token = Cookies.get('token');
   if (!token) {
     dispatch(setUserLogout());
   }
-
-  // Notification
   useEffect(() => {
     setTimeout(() => {
       dispatch(setNotification(''));
     }, 5000);
   }, [notification]);
 
-  // Default router change fallback
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       setLoading(true);
@@ -177,7 +182,7 @@ const App = ({ Component, pageProps }) => {
         </div>
       ) : (
         <main
-          className={` ${
+          className={`${isModalOpen && 'overflow-hidden'} ${
             router.pathname.includes('messages') ? 'pt-64px' : 'pt-[110px]'
           }  md:pt-[64px] h-screen primary dark:bg-primary`}
         >
