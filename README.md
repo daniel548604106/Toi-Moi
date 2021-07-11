@@ -70,3 +70,4 @@ Live Demo
 - Fix: CSS Fix
 - Problem: react-konva outputs Must use import to load ES Module [error]
 - Fix: The problem lies in SSR, as react-konva doesn't support SSR , so instead of importing react-konva in a page component, wrap it inside a regular component, and use dynamic import with SSR:false .
+- Unlimited Rerender when trying to destructure redux state 
