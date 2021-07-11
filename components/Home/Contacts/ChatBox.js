@@ -1,17 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { XIcon } from '@heroicons/react/outline';
 import { ThumbUpIcon } from '@heroicons/react/solid';
 import { apiGetChat } from '../../../api/index';
 import { useSelector, useDispatch } from 'react-redux';
 import Avatar from '../../Global/Avatar';
 import { removeFromChatBoxList } from '../../../redux/slices/messageSlice';
-const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
+const ChatBox = ({
+  handleSubmitMessage,
+  newMessageReceived,
+  connectedUsers,
+  user
+}) => {
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isChatBoxOpen, setChatBoxOpen] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
+  const scrollToRef = useRef();
 
+  const scrollToBottom = () => {
+    scrollToRef.current !== null &&
+      scrollToRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
   const handleRemoveChatBox = () => {
     dispatch(removeFromChatBoxList(user));
   };
@@ -40,12 +50,19 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
     }
   };
   useEffect(() => {
-    messages.length > 0 && scrollToBottom(divRef);
+    messages.length > 0 && scrollToBottom(scrollToRef);
   }, [messages]);
 
   useEffect(() => {
     getChat();
   }, [isChatBoxOpen]);
+
+  useEffect(() => {
+    if (newMessageReceived.sender === user._id) {
+      setMessages((messages) => [...messages, newMessageReceived]);
+      scrollToBottom();
+    }
+  }, [newMessageReceived]);
 
   return (
     <div className="w-[300px] border rounded-t-lg bg-secondary">
@@ -53,7 +70,12 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
         onClick={() => setChatBoxOpen(!isChatBoxOpen)}
         className="flex items-center cursor-pointer justify-between p-2 rounded-t-lg bg-main text-white"
       >
-        <span>{user.name}</span>
+        <div className="flex items-center space-x-2">
+          <span>{user.name}</span>
+          {connectedUsers.map((users) => users.userId).includes(user._id) && (
+            <div className="w-[5px] h-[5px] rounded-full bg-green-300"></div>
+          )}
+        </div>
         <XIcon onClick={() => handleRemoveChatBox()} className="h-6" />
       </div>
       {isChatBoxOpen && (
@@ -61,7 +83,7 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
           <div className={`h-[350px] overflow-y-auto border p-2`}>
             {messages.length > 0 &&
               messages.map((message) => (
-                <div key={message.sender._id}>
+                <div key={message.date}>
                   {userInfo._id !== message.sender ? (
                     <div className="flex items-center flex-wrap mb-2 ">
                       <Avatar
@@ -70,7 +92,7 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
                         height={30}
                       />
                       <p
-                        ref={divRef}
+                        ref={scrollToRef}
                         className="ml-2 max-w-[200px] text-sm sm:text-md p-2 border rounded-lg"
                       >
                         {message.msg}
@@ -78,7 +100,10 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
                     </div>
                   ) : (
                     <div className="flex items-center flex-wrap mb-2 justify-end ">
-                      <p className="max-w-[200px]  bg-main text-white text-sm sm:text-md p-2 border rounded-lg">
+                      <p
+                        ref={scrollToRef}
+                        className="max-w-[200px]  bg-main text-white text-sm sm:text-md p-2 border rounded-lg"
+                      >
                         {message.msg}
                       </p>
                     </div>
@@ -92,9 +117,8 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
               className=" w-full mr-2 flex items-center rounded-full border p-1 bg-secondary"
             >
               <input
-                className="text-xs sm:text-sm rounded-lg w-full bg-secondary"
+                className="text-xs sm:text-sm px-1 rounded-lg w-full bg-secondary"
                 type="text"
-                className="px-1"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="write something.."

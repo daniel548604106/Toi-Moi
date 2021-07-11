@@ -68,9 +68,9 @@ router.get('/chat/:id', authMiddleware, async (req, res) => {
 router.get('/userInfo/:senderId', authMiddleware, async (req, res) => {
   try {
     const { senderId } = req.params;
-    const { name, profileImage, gender } = await User.findById(senderId);
-    console.log(name, profileImage, 'senderINfo');
-    res.status(200).json({ name, profileImage, gender });
+    const user = await User.findById(senderId);
+    // console.log(name, profileImage, 'senderINfo');
+    res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.status(500).send('Server error');

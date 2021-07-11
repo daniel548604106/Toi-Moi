@@ -15,6 +15,7 @@ import Stories from '../components/Home/Feed/Story/Stories';
 import { setUnreadNotification } from '../redux/slices/userSlice';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 import { useSelector, useDispatch } from 'react-redux';
+import { addToChatBoxList } from '../redux/slices/messageSlice';
 
 // Dynamic Import
 const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
@@ -34,7 +35,6 @@ export default function Home({ posts, friends, stories }) {
   const [hasMore, setHasMore] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
   const socket = useRef();
-  const divRef = useRef(null);
 
   const { openChatBoxList } = useSelector((state) => state.message);
   // const [currentStories, setCurrentStories] = useState(null);
@@ -42,12 +42,9 @@ export default function Home({ posts, friends, stories }) {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
-  const [newMessageReceived, setNewMessageReceived] = useState([]);
+  const [newMessageReceived, setNewMessageReceived] = useState({});
   const [roomList, setRoomList] = useState(friends);
-  const scrollToBottom = (divRef) => {
-    divRef.current !== null &&
-      divRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
+
   const getMorePosts = async () => {
     try {
       const posts = await apiGetAllPosts(currentPage);
@@ -100,26 +97,17 @@ export default function Home({ posts, friends, stories }) {
         socket.current.emit('join', { userId: userInfo._id });
         socket.current.on('connectedUsers', ({ users }) => {
           setConnectedUsers(users);
-          console.log(connectedUsers, users, 'users');
         });
         socket.current.on('newMsgReceived', async ({ newMessage }) => {
           console.log('received new message', newMessage);
-          const {
-            data: { name, profileImage, gender }
-          } = await apiGetChatUserInfo(newMessage.sender);
+          const { data } = await apiGetChatUserInfo(newMessage.sender);
+          console.log(data, 'data');
+          // Add To ChatBox
+          dispatch(addToChatBoxList(data));
 
           if (userInfo.newMessagePopup) {
-            setNewMessageReceived((newMessageReceived) => [
-              ...newMessageReceived,
-              {
-                ...newMessage,
-                senderName: name,
-                profileImage,
-                gender
-              }
-            ]);
-
-            messageNotificationSound(name);
+            setNewMessageReceived(newMessage);
+            messageNotificationSound(data.name);
           }
         });
 
@@ -142,7 +130,7 @@ export default function Home({ posts, friends, stories }) {
         socket.current.off();
       }
     };
-  });
+  }, []);
 
   return (
     <div className="bg-primary text-primary">
@@ -200,9 +188,9 @@ export default function Home({ posts, friends, stories }) {
             openChatBoxList.map((user, idx) => (
               <div className="mr-3">
                 <ChatBox
-                  scrollToBottom={scrollToBottom}
-                  divRef={divRef}
+                  connectedUsers={connectedUsers}
                   user={user}
+                  newMessageReceived={newMessageReceived}
                   handleSubmitMessage={handleSubmitMessage}
                   idx={idx}
                 />
