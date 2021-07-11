@@ -3,8 +3,6 @@ import dynamic from 'next/dynamic';
 import axios from 'axios';
 import io from 'socket.io-client';
 import Head from 'next/head';
-import { useSelector, useDispatch } from 'react-redux';
-import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 import messageNotificationSound from '../utils/messageNotificationSound';
 import Sidebar from '../components/Home/Sidebar/Sidebar';
 import Contacts from '../components/Home/Contacts/Index';
@@ -15,6 +13,8 @@ import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Room from '../components/Home/Feed/Room/Index';
 import Stories from '../components/Home/Feed/Story/Stories';
 import { setUnreadNotification } from '../redux/slices/userSlice';
+import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
+import { useSelector, useDispatch } from 'react-redux';
 
 // Dynamic Import
 const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
@@ -25,9 +25,7 @@ const NoPost = dynamic(() => import('../components/Home/Feed/NoPost'), {
   loading: () => <LoaderSpinner />
 });
 
-const MessagePopup = dynamic(() =>
-  import('../components/Home/Contacts/MessagePopup')
-);
+const ChatBox = dynamic(() => import('../components/Home/Contacts/ChatBox'));
 const PostNotification = dynamic(() =>
   import('../components/Home/PostNotification')
 );
@@ -38,13 +36,13 @@ export default function Home({ posts, friends, stories }) {
   const socket = useRef();
   const divRef = useRef(null);
 
+  const { openChatBoxList } = useSelector((state) => state.message);
   // const [currentStories, setCurrentStories] = useState(null);
   const [newNotification, setNewNotification] = useState(null);
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState([]);
-  const [newMessagePopup, setNewMessagePopup] = useState([]);
   const [roomList, setRoomList] = useState(friends);
   const scrollToBottom = (divRef) => {
     divRef.current !== null &&
@@ -197,23 +195,20 @@ export default function Home({ posts, friends, stories }) {
         <div className=" w-1/2 hidden md:block ">
           <Contacts connectedUsers={connectedUsers} friends={friends} />
         </div>
-        {newMessageReceived.length > 0 &&
-          newMessageReceived.map((received, idx) => (
-            <div className="fixed  bottom-0 right-0 justify-end flex  w-full flex-row-reverse items-center">
-              <MessagePopup
-                scrollToBottom={scrollToBottom}
-                divRef={divRef}
-                received={received}
-                newMessageReceived={newMessageReceived}
-                setNewMessageReceived={setNewMessageReceived}
-                handleSubmitMessage={handleSubmitMessage}
-                isActive={newMessagePopup.includes(idx)}
-                setNewMessagePopup={setNewMessagePopup}
-                newMessagePopup={newMessagePopup}
-                idx={idx}
-              />
-            </div>
-          ))}
+        <div className="fixed bottom-0 right-0  flex  w-full flex-row-reverse items-center">
+          {openChatBoxList.length > 0 &&
+            openChatBoxList.map((user, idx) => (
+              <div className="mr-3">
+                <ChatBox
+                  scrollToBottom={scrollToBottom}
+                  divRef={divRef}
+                  user={user}
+                  handleSubmitMessage={handleSubmitMessage}
+                  idx={idx}
+                />
+              </div>
+            ))}
+        </div>
       </main>
     </div>
   );

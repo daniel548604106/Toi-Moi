@@ -101,7 +101,7 @@ const App = ({ Component, pageProps }) => {
   useEffect(() => {
     setTimeout(() => {
       dispatch(setNotification(''));
-    }, 5000);
+    }, 3000);
   }, [notification]);
 
   useEffect(() => {

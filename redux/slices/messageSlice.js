@@ -4,7 +4,8 @@ export const messageSlice = createSlice({
   name: 'message',
   initialState: {
     messages: [],
-    isListOpen: true
+    isListOpen: true,
+    openChatBoxList: []
   },
   reducers: {
     setMessages: (state, payload) => {
@@ -12,10 +13,23 @@ export const messageSlice = createSlice({
     },
     toggleListOpen: (state) => {
       state.isListOpen = !state.isListOpen;
+    },
+    addToChatBoxList: (state, { payload }) => {
+      state.openChatBoxList = [...state.openChatBoxList, payload];
+    },
+    removeFromChatBoxList: (state, { payload }) => {
+      state.openChatBoxList = state.openChatBoxList.filter(
+        (list) => list._id !== payload._id
+      );
     }
   }
 });
 
-export const { setMessages, toggleListOpen } = messageSlice.actions;
+export const {
+  setMessages,
+  toggleListOpen,
+  addToChatBoxList,
+  removeFromChatBoxList
+} = messageSlice.actions;
 
 export default messageSlice.reducer;

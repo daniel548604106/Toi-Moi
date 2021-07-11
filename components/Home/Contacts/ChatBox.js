@@ -2,34 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { XIcon } from '@heroicons/react/outline';
 import { ThumbUpIcon } from '@heroicons/react/solid';
 import { apiGetChat } from '../../../api/index';
-import { useSelector } from 'react-redux';
-const MessagePopup = ({
-  isActive,
-  idx,
-  setNewMessagePopup,
-  newMessagePopup,
-  newMessageReceived,
-  setNewMessageReceived,
-  handleSubmitMessage,
-  scrollToBottom,
-  divRef,
-  received
-}) => {
+import { useSelector, useDispatch } from 'react-redux';
+import Avatar from '../../Global/Avatar';
+import { removeFromChatBoxList } from '../../../redux/slices/messageSlice';
+const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
+  const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const [isChatBoxOpen, setChatBoxOpen] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
-  const handleSetMessagePopup = () => {
-    if (newMessagePopup.includes(idx)) {
-      setNewMessagePopup(newMessagePopup.filter((index) => index !== idx));
-    } else {
-      setNewMessagePopup((newMessagePopup) => [...newMessagePopup, idx]);
-    }
-  };
 
-  const handleRemoveMessageReceived = () => {
-    setNewMessageReceived(
-      newMessageReceived.filter((message) => message.sender !== received.sender)
-    );
+  const handleRemoveChatBox = () => {
+    dispatch(removeFromChatBoxList(user));
   };
 
   const handleSendMsg = (e) => {
@@ -48,7 +32,8 @@ const MessagePopup = ({
   };
   const getChat = async () => {
     try {
-      const { data } = await apiGetChat(received.sender);
+      const { data } = await apiGetChat(user._id);
+      console.log(data);
       setMessages(data);
     } catch (error) {
       console.log(error);
@@ -60,39 +45,46 @@ const MessagePopup = ({
 
   useEffect(() => {
     getChat();
-  }, [isActive]);
+  }, [isChatBoxOpen]);
 
   return (
     <div className="w-[300px] border rounded-t-lg bg-secondary">
       <div
-        onClick={() => handleSetMessagePopup()}
+        onClick={() => setChatBoxOpen(!isChatBoxOpen)}
         className="flex items-center cursor-pointer justify-between p-2 rounded-t-lg bg-main text-white"
       >
-        <span>{received.senderName}</span>
-        <XIcon onClick={() => handleRemoveMessageReceived()} className="h-6" />
+        <span>{user.name}</span>
+        <XIcon onClick={() => handleRemoveChatBox()} className="h-6" />
       </div>
-      {isActive && (
+      {isChatBoxOpen && (
         <div>
           <div className={`h-[350px] overflow-y-auto border p-2`}>
             {messages.length > 0 &&
-              messages.map((message) =>
-                userInfo._id !== message.sender ? (
-                  <div className="flex items-center flex-wrap mb-2 ">
-                    <p
-                      ref={divRef}
-                      className="max-w-[200px] text-sm sm:text-md p-2 border rounded-lg"
-                    >
-                      {message.msg}
-                    </p>
-                  </div>
-                ) : (
-                  <div className="flex items-center flex-wrap mb-2 justify-end ">
-                    <p className="max-w-[200px]  bg-main text-white text-sm sm:text-md p-2 border rounded-lg">
-                      {message.msg}
-                    </p>
-                  </div>
-                )
-              )}
+              messages.map((message) => (
+                <div key={message.sender._id}>
+                  {userInfo._id !== message.sender ? (
+                    <div className="flex items-center flex-wrap mb-2 ">
+                      <Avatar
+                        profileImage={user.profileImage}
+                        width={30}
+                        height={30}
+                      />
+                      <p
+                        ref={divRef}
+                        className="ml-2 max-w-[200px] text-sm sm:text-md p-2 border rounded-lg"
+                      >
+                        {message.msg}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="flex items-center flex-wrap mb-2 justify-end ">
+                      <p className="max-w-[200px]  bg-main text-white text-sm sm:text-md p-2 border rounded-lg">
+                        {message.msg}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ))}
           </div>
           <div className="p-2 flex items-center ">
             <form
@@ -116,4 +108,4 @@ const MessagePopup = ({
   );
 };
 
-export default MessagePopup;
+export default ChatBox;
