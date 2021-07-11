@@ -15,6 +15,7 @@ import Stories from '../components/Home/Feed/Story/Stories';
 import { setUnreadNotification } from '../redux/slices/userSlice';
 import { apiGetChatUserInfo, apiGetAllPosts } from '../api';
 import { useSelector, useDispatch } from 'react-redux';
+import { addToChatBoxList } from '../redux/slices/messageSlice';
 
 // Dynamic Import
 const EndMessage = dynamic(() => import('../components/Home/Feed/EndMessage'), {
@@ -41,7 +42,7 @@ export default function Home({ posts, friends, stories }) {
   const [connectedUsers, setConnectedUsers] = useState([]);
   const [currentPosts, setCurrentPosts] = useState(posts || []);
   const [currentPage, setCurrentPage] = useState(2);
-  const [newMessageReceived, setNewMessageReceived] = useState([]);
+  const [newMessageReceived, setNewMessageReceived] = useState({});
   const [roomList, setRoomList] = useState(friends);
 
   const getMorePosts = async () => {
@@ -99,22 +100,14 @@ export default function Home({ posts, friends, stories }) {
         });
         socket.current.on('newMsgReceived', async ({ newMessage }) => {
           console.log('received new message', newMessage);
-          const {
-            data: { name, profileImage, gender }
-          } = await apiGetChatUserInfo(newMessage.sender);
+          const { data } = await apiGetChatUserInfo(newMessage.sender);
+          console.log(data, 'data');
+          // Add To ChatBox
+          dispatch(addToChatBoxList(data));
 
           if (userInfo.newMessagePopup) {
-            setNewMessageReceived((newMessageReceived) => [
-              ...newMessageReceived,
-              {
-                ...newMessage,
-                senderName: name,
-                profileImage,
-                gender
-              }
-            ]);
-
-            messageNotificationSound(name);
+            setNewMessageReceived(newMessage);
+            messageNotificationSound(data.name);
           }
         });
 
@@ -197,6 +190,7 @@ export default function Home({ posts, friends, stories }) {
                 <ChatBox
                   connectedUsers={connectedUsers}
                   user={user}
+                  newMessageReceived={newMessageReceived}
                   handleSubmitMessage={handleSubmitMessage}
                   idx={idx}
                 />

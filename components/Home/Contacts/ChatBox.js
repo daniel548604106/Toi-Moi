@@ -5,14 +5,20 @@ import { apiGetChat } from '../../../api/index';
 import { useSelector, useDispatch } from 'react-redux';
 import Avatar from '../../Global/Avatar';
 import { removeFromChatBoxList } from '../../../redux/slices/messageSlice';
-const ChatBox = ({ handleSubmitMessage, connectedUsers, user }) => {
+const ChatBox = ({
+  handleSubmitMessage,
+  newMessageReceived,
+  connectedUsers,
+  user
+}) => {
   const dispatch = useDispatch();
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isChatBoxOpen, setChatBoxOpen] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
   const scrollToRef = useRef();
-  const scrollToBottom = (scrollToRef) => {
+
+  const scrollToBottom = () => {
     scrollToRef.current !== null &&
       scrollToRef.current.scrollIntoView({ behavior: 'smooth' });
   };
@@ -51,6 +57,13 @@ const ChatBox = ({ handleSubmitMessage, connectedUsers, user }) => {
     getChat();
   }, [isChatBoxOpen]);
 
+  useEffect(() => {
+    if (newMessageReceived.sender === user._id) {
+      setMessages((messages) => [...messages, newMessageReceived]);
+      scrollToBottom();
+    }
+  }, [newMessageReceived]);
+
   return (
     <div className="w-[300px] border rounded-t-lg bg-secondary">
       <div
@@ -70,7 +83,7 @@ const ChatBox = ({ handleSubmitMessage, connectedUsers, user }) => {
           <div className={`h-[350px] overflow-y-auto border p-2`}>
             {messages.length > 0 &&
               messages.map((message) => (
-                <div key={message.sender._id}>
+                <div key={message.date}>
                   {userInfo._id !== message.sender ? (
                     <div className="flex items-center flex-wrap mb-2 ">
                       <Avatar
@@ -87,7 +100,10 @@ const ChatBox = ({ handleSubmitMessage, connectedUsers, user }) => {
                     </div>
                   ) : (
                     <div className="flex items-center flex-wrap mb-2 justify-end ">
-                      <p className="max-w-[200px]  bg-main text-white text-sm sm:text-md p-2 border rounded-lg">
+                      <p
+                        ref={scrollToRef}
+                        className="max-w-[200px]  bg-main text-white text-sm sm:text-md p-2 border rounded-lg"
+                      >
                         {message.msg}
                       </p>
                     </div>
@@ -101,9 +117,8 @@ const ChatBox = ({ handleSubmitMessage, connectedUsers, user }) => {
               className=" w-full mr-2 flex items-center rounded-full border p-1 bg-secondary"
             >
               <input
-                className="text-xs sm:text-sm rounded-lg w-full bg-secondary"
+                className="text-xs sm:text-sm px-1 rounded-lg w-full bg-secondary"
                 type="text"
-                className="px-1"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="write something.."
