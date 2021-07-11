@@ -182,7 +182,7 @@ const App = ({ Component, pageProps }) => {
         </div>
       ) : (
         <main
-          className={`${isModalOpen && 'overflow-hidden'} ${
+          className={`${
             router.pathname.includes('messages') ? 'pt-64px' : 'pt-[110px]'
           }  md:pt-[64px] h-screen primary dark:bg-primary`}
         >

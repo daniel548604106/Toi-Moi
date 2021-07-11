@@ -195,7 +195,7 @@ export default function Home({ posts, friends, stories }) {
         <div className=" w-1/2 hidden md:block ">
           <Contacts connectedUsers={connectedUsers} friends={friends} />
         </div>
-        <div className="fixed bottom-0 right-0  flex  w-full flex-row-reverse items-center">
+        <div className="fixed bottom-0 right-0  flex  w-full flex-row-reverse items-end">
           {openChatBoxList.length > 0 &&
             openChatBoxList.map((user, idx) => (
               <div className="mr-3">
