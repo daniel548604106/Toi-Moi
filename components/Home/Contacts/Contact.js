@@ -1,8 +1,17 @@
 import React from 'react';
 import genderAvatar from '../../../utils/genderAvatar';
+import { useDispatch } from 'react-redux';
+import { addToChatBoxList } from '../../../redux/slices/messageSlice';
 const Contact = ({ user, connectedUsers }) => {
+  const dispatch = useDispatch();
+  const handleOpenChatBox = () => {
+    dispatch(addToChatBoxList(user));
+  };
   return (
-    <div className="mb-2 flex items-center space-x-3 py-1 px-3 rounded-md  hover:bg-gray-200 cursor-pointer">
+    <div
+      onClick={() => handleOpenChatBox()}
+      className="mb-2 flex items-center space-x-3 py-1 px-3 rounded-md  hover:bg-gray-200 cursor-pointer"
+    >
       <span className="relative flex items-center">
         <img
           className="w-[40px] object-cover h-[40px] rounded-full"
