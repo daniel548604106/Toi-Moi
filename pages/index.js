@@ -34,7 +34,6 @@ export default function Home({ posts, friends, stories }) {
   const [hasMore, setHasMore] = useState(true);
   const { userInfo } = useSelector((state) => state.user);
   const socket = useRef();
-  const divRef = useRef(null);
 
   const { openChatBoxList } = useSelector((state) => state.message);
   // const [currentStories, setCurrentStories] = useState(null);
@@ -44,10 +43,7 @@ export default function Home({ posts, friends, stories }) {
   const [currentPage, setCurrentPage] = useState(2);
   const [newMessageReceived, setNewMessageReceived] = useState([]);
   const [roomList, setRoomList] = useState(friends);
-  const scrollToBottom = (divRef) => {
-    divRef.current !== null &&
-      divRef.current.scrollIntoView({ behavior: 'smooth' });
-  };
+
   const getMorePosts = async () => {
     try {
       const posts = await apiGetAllPosts(currentPage);
@@ -100,7 +96,6 @@ export default function Home({ posts, friends, stories }) {
         socket.current.emit('join', { userId: userInfo._id });
         socket.current.on('connectedUsers', ({ users }) => {
           setConnectedUsers(users);
-          console.log(connectedUsers, users, 'users');
         });
         socket.current.on('newMsgReceived', async ({ newMessage }) => {
           console.log('received new message', newMessage);
@@ -142,7 +137,7 @@ export default function Home({ posts, friends, stories }) {
         socket.current.off();
       }
     };
-  });
+  }, []);
 
   return (
     <div className="bg-primary text-primary">
@@ -200,8 +195,7 @@ export default function Home({ posts, friends, stories }) {
             openChatBoxList.map((user, idx) => (
               <div className="mr-3">
                 <ChatBox
-                  scrollToBottom={scrollToBottom}
-                  divRef={divRef}
+                  connectedUsers={connectedUsers}
                   user={user}
                   handleSubmitMessage={handleSubmitMessage}
                   idx={idx}

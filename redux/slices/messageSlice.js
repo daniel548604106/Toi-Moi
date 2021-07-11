@@ -15,7 +15,11 @@ export const messageSlice = createSlice({
       state.isListOpen = !state.isListOpen;
     },
     addToChatBoxList: (state, { payload }) => {
-      state.openChatBoxList = [...state.openChatBoxList, payload];
+      if (
+        !state.openChatBoxList.map((list) => list._id).includes(payload._id)
+      ) {
+        state.openChatBoxList = [...state.openChatBoxList, payload];
+      }
     },
     removeFromChatBoxList: (state, { payload }) => {
       state.openChatBoxList = state.openChatBoxList.filter(
