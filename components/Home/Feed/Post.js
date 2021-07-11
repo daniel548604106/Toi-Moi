@@ -47,6 +47,7 @@ const Post = ({ post, socket, deletePost }) => {
   );
   const [text, setText] = useState('');
   const [commentLength, setCommentLength] = useState(2);
+  const [showMore, setShowMore] = useState(post.text.length > 100);
   const dispatch = useDispatch();
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -180,7 +181,19 @@ const Post = ({ post, socket, deletePost }) => {
             )}
           </div>
         </div>
-        <p className="text-sm">{post.text}</p>
+        <div>
+          <p className={`${showMore && 'line-clamp-3'} text-sm mb-2`}>
+            {post.text}
+          </p>
+          {showMore && (
+            <span
+              onClick={() => setShowMore(false)}
+              className="flex items-center justify-end text-xs text-main"
+            >
+              Read More
+            </span>
+          )}
+        </div>
       </div>
       {!isViewPostModalOpen && post.picUrl && (
         <div
