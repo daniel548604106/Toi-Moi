@@ -15,6 +15,8 @@ import Login from '../components/Login/Index';
 import Header from '../components/Global/Header';
 import PostSkeletonLoader from '../components/Global/Loader/PostSkeletonLoader';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
+import Notification from '../components/Global/Notification';
+import { setNotification } from '../redux/slices/globalSlice';
 const Overlay = dynamic(() => import('../components/Global/Overlay'), {
   loading: () => <LoaderSpinner />
 });
@@ -73,23 +75,15 @@ const App = ({ Component, pageProps }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const isUserLoggedIn = useSelector((state) => state.user.isUserLoggedIn);
-  const isLikesListOpen = useSelector((state) => state.post.isLikesListOpen);
-  const isLanguageOpen = useSelector((state) => state.global.isLanguageOpen);
-  const isEditProfileImageOpen = useSelector(
-    (state) => state.user.isEditProfileImageOpen
+
+  const { isLikesListOpen, isPostInputBoxOpen, isViewPostModalOpen } =
+    useSelector((state) => state.post);
+  const { isLanguageOpen, notification, isCreateRoomOpen } = useSelector(
+    (state) => state.global
   );
-  const isCreateRoomOpen = useSelector(
-    (state) => state.global.isCreateRoomOpen
-  );
-  const isEditSummaryModalOpen = useSelector(
-    (state) => state.profile.isEditSummaryModalOpen
-  );
-  const isViewPostModalOpen = useSelector(
-    (state) => state.post.isViewPostModalOpen
-  );
-  const isPostInputBoxOpen = useSelector(
-    (state) => state.post.isPostInputBoxOpen
-  );
+  const { isEditProfileImageOpen } = useSelector((state) => state.user);
+
+  const { isEditSummaryModalOpen } = useSelector((state) => state.profile);
 
   // Log user out if no token is found
   const token = Cookies.get('token');
@@ -97,6 +91,14 @@ const App = ({ Component, pageProps }) => {
     dispatch(setUserLogout());
   }
 
+  // Notification
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(setNotification(''));
+    }, 5000);
+  }, [notification]);
+
+  // Default router change fallback
   useEffect(() => {
     const handleRouteChange = (url, { shallow }) => {
       setLoading(true);
@@ -167,6 +169,7 @@ const App = ({ Component, pageProps }) => {
         </Overlay>
       )}
       {!allowedRoutes && <Header />}
+      {notification && <Notification notification={notification} />}
       {loading ? (
         <div className="pt-[100px] text-gray-600 text-center">
           <PostSkeletonLoader />
@@ -174,7 +177,7 @@ const App = ({ Component, pageProps }) => {
         </div>
       ) : (
         <main
-          className={`${isModalOpen && 'overflow-hidden'} ${
+          className={` ${
             router.pathname.includes('messages') ? 'pt-64px' : 'pt-[110px]'
           }  md:pt-[64px] h-screen primary dark:bg-primary`}
         >
