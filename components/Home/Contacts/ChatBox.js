@@ -23,11 +23,11 @@ const ChatBox = ({ handleSubmitMessage, scrollToBottom, user, divRef }) => {
       {
         date: Date.now(),
         msg: newMessage,
-        receiver: received.sender,
+        receiver: user._id,
         sender: userInfo._id
       }
     ]);
-    handleSubmitMessage(received.sender, newMessage);
+    handleSubmitMessage(user._id, newMessage);
     setNewMessage('');
   };
   const getChat = async () => {
