@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import axios from 'axios';
 import ProfileCover from '../../components/Profile/ProfileCover';
 import TabsList from '../../components/Profile/TabsList';
 import LoaderSpinner from '../../components/Global/LoaderSpinner';
 import router from 'next/router';
+import io from 'socket.io-client';
+
 import InfiniteScroll from 'react-infinite-scroll-component';
 import {
   setProfileData,
@@ -51,7 +53,13 @@ const Index = ({ profileData }) => {
   const [posts, setPosts] = useState([]);
   const [hasMore, setHasMore] = useState(true);
   const [currentPage, setCurrentPage] = useState(2);
-
+  const socket = useRef();
+  useEffect(() => {
+    if (!socket.current) {
+      // connect to socket
+      socket.current = io(process.env.BASE_URL);
+    }
+  }, []);
   useEffect(() => {
     if (profileData) {
       dispatch(setProfileData(profileData));
@@ -136,7 +144,7 @@ const Index = ({ profileData }) => {
           >
             {posts.map((post) => (
               <div key={post._id} className="mb-[15px]">
-                <Post deletePost={deletePost} post={post} />
+                <Post socket={socket} deletePost={deletePost} post={post} />
               </div>
             ))}
           </InfiniteScroll>

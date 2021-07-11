@@ -33,7 +33,7 @@ const SearchBox = ({ setSearchOpen }) => {
           onChange={(e) => setSearchText(e.target.value)}
           type="text"
           placeholder="Search Name"
-          className="text-xs sm:text-sm bg-secondary"
+          className="text-xs w-full sm:text-sm bg-secondary"
         />
       </div>
       {searchText ? (
@@ -73,7 +73,7 @@ const SearchBox = ({ setSearchOpen }) => {
           )}
         </div>
       ) : (
-        <div className="p-3 text-center">No Search Result</div>
+        <div className="p-3 text-center">Who are you searching for?</div>
       )}
     </div>
   );
