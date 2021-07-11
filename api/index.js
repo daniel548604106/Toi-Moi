@@ -32,12 +32,17 @@ export const apiPostSignup = postSignup;
 export const apiPostLogin = postLogin;
 
 // Chats
-import { getChats, getChat, getChatUserInfo } from './chatRequest';
+import {
+  getChats,
+  getChat,
+  getChatUserInfo,
+  getSearchedChats
+} from './chatRequest';
 
 export const apiGetChats = getChats;
 export const apiGetChat = getChat;
 export const apiGetChatUserInfo = getChatUserInfo;
-
+export const apiGetSearchedChats = getSearchedChats;
 // Posts
 
 import {

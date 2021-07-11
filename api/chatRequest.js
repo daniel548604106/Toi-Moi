@@ -5,9 +5,13 @@ export const getChats = () => {
 };
 
 export const getChat = (id) => {
-  return request.get(`/chats/${id}`);
+  return request.get(`/chats/chat/${id}`);
 };
 
 export const getChatUserInfo = (senderId) => {
   return request.get(`/chats/userInfo/${senderId}`);
+};
+
+export const getSearchedChats = (searchText) => {
+  return request.get(`/chats/search/${searchText}`);
 };
