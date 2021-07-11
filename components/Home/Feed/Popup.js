@@ -43,7 +43,6 @@ const Popup = ({ setPopupShow, postId, user, deletePost }) => {
         console.log(data);
       }
       dispatch(getSavedPosts());
-
       setSaved(!isSaved);
     } catch (error) {
       console.log(error);
