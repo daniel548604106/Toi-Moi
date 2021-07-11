@@ -23,7 +23,7 @@ const Index = () => {
     console.log(savedPosts);
   }, [savedPosts]);
   return (
-    <div className="w-full max-w-[600px] mx-auto py-3 sm:py-10 ">
+    <div className="w-full p-2 max-w-[600px] mx-auto py-3 sm:py-10 ">
       {savedPosts?.length > 0 ? (
         <div>
           <h2 className="text-lg sm:text-2xl font-semibold">Saved Posts</h2>
