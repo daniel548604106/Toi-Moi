@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { SearchIcon, XIcon } from '@heroicons/react/outline';
 import LoaderSpinner from '../../Global/LoaderSpinner';
 import { apiGetSearchedChats } from '../../../api';
+import { useDispatch } from 'react-redux';
 import Avatar from '../../Global/Avatar';
+import { addToChatBoxList } from '../../../redux/slices/messageSlice';
 const SearchBox = ({ setSearchOpen }) => {
+  const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
+  const handleAddToChatBox = (user) => {
+    dispatch(addToChatBoxList(user));
+    setSearchOpen(false);
+  };
   useEffect(() => {
     const getSearchedContact = async () => {
       try {
@@ -43,8 +50,9 @@ const SearchBox = ({ setSearchOpen }) => {
               {searchResult.length > 0 &&
                 searchResult.map(({ user }) => (
                   <div
+                    onClick={() => handleAddToChatBox(user)}
                     key={user._id}
-                    className="flex p-2 items-center space-x-2"
+                    className="flex cursor-pointer p-2 items-center space-x-2"
                   >
                     <Avatar
                       width={30}
