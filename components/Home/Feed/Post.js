@@ -30,8 +30,9 @@ import { setNotification } from '../../../redux/slices/globalSlice';
 const Post = ({ post, socket, deletePost }) => {
   const { t } = useTranslation('common');
   const elRef = useRef();
-  const [isPopupShow, setPopupShow] = useState(false);
   useClickOutside(elRef, () => setPopupShow(false));
+  const [isPopupShow, setPopupShow] = useState(false);
+  const [isEditable, setEditable] = useState(false);
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const isViewPostModalOpen = useSelector(
@@ -183,19 +184,23 @@ const Post = ({ post, socket, deletePost }) => {
             )}
           </div>
         </div>
-        <div>
-          <p className={`${showMore && 'line-clamp-3'} text-sm mb-2`}>
-            {post.text}
-          </p>
-          {showMore && (
-            <span
-              onClick={() => setShowMore(false)}
-              className="flex items-center justify-end text-xs text-main"
-            >
-              Read More
-            </span>
-          )}
-        </div>
+        {isEditable ? (
+          <textarea type="text" />
+        ) : (
+          <div>
+            <p className={`${showMore && 'line-clamp-3'} text-sm mb-2`}>
+              {post.text}
+            </p>
+            {showMore && (
+              <span
+                onClick={() => setShowMore(false)}
+                className="flex cursor-pointer items-center justify-end text-xs text-main"
+              >
+                {t('post.readMore')}
+              </span>
+            )}
+          </div>
+        )}
       </div>
       {!isViewPostModalOpen && post.picUrl && (
         <div

@@ -92,7 +92,7 @@ const Header = () => {
         } fixed max-w-[750px] flex items-center top-[50px] bg-secondary text-secondary left-0    w-full md:static  flex-grow sm:px-5 sm:mx-0 xl:px-10`}
       >
         {menuTabs.map((tab, idx) => (
-          <HeaderIcon {...tab} />
+          <HeaderIcon key={tab.title} {...tab} />
         ))}
       </div>
       <div className="w-1/2  relative flex justify-end items-center space-x-1 sm:space-x-2 ">

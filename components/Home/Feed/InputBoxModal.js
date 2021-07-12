@@ -56,6 +56,9 @@ const InputBoxModal = () => {
   };
   useEffect(() => {
     setImage(imageToPost);
+    return () => {
+      setImage(imageToPost);
+    };
   }, [imageToPost]);
 
   return (
