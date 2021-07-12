@@ -12,7 +12,7 @@ export const getFriendList = createAsyncThunk(
   'get/getFriendList',
   async (id, thunkAPI) => {
     const response = await apiGetFriendList();
-    console.log(response);
+    console.log(response, 'friendlist');
     return response.data;
   }
 );
@@ -59,8 +59,9 @@ export const userSlice = createSlice({
       state.userInfo = action.payload;
     },
     [getFriendList.fulfilled]: (state, action) => {
+      console.log(action.payload, 'extra');
       // Add likes to the state array
-      state.userInfo = action.payload;
+      state.friendsList = action.payload.map((item) => item.user);
     }
   }
 });

@@ -2,7 +2,9 @@ import React from 'react';
 import { useRouter } from 'next/router';
 const HeaderIcon = ({ Icon, title, href }) => {
   const router = useRouter();
-  const active = router.pathname.includes(href);
+  const active =
+    (router.pathname === '/' && title === 'home') ||
+    router.pathname.includes(title);
 
   return (
     <div

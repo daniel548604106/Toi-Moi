@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { TrashIcon, BookmarkIcon } from '@heroicons/react/outline';
+import {
+  TrashIcon,
+  BookmarkIcon,
+  PencilAltIcon
+} from '@heroicons/react/outline';
 import { BookmarkIcon as SolidBookmarkIcon } from '@heroicons/react/solid';
 import { apiDeletePost } from '../../../api/index';
 import { useSelector, useDispatch } from 'react-redux';
 import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../api/index';
-import router from 'next/router';
 import { setNotification } from '../../../redux/slices/globalSlice';
 import { getSavedPosts } from '../../../redux/slices/postSlice';
 const Popup = ({ setPopupShow, postId, user, deletePost }) => {
@@ -28,6 +31,7 @@ const Popup = ({ setPopupShow, postId, user, deletePost }) => {
       console.log(error);
     }
   };
+
   const handleSavePost = async () => {
     try {
       if (isSaved) {
@@ -49,37 +53,48 @@ const Popup = ({ setPopupShow, postId, user, deletePost }) => {
     }
   };
   return (
-    <div
+    <ul
       onClick={() => setPopupShow(false)}
-      className="shadow-lg p-2  rounded-md  bg-secondary text-secondary"
+      className="shadow-lg p-2 text-xs sm:text-sm  rounded-md  bg-secondary text-secondary"
     >
       {user.username === userInfo.username && (
-        <div
-          onClick={() => handleDeletePost()}
-          className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
-        >
-          <TrashIcon className="h-6" />
-          <span className="ml-[10px] text-sm whitespace-nowrap">
-            Move to trash can
-          </span>
-        </div>
+        <>
+          <li
+            onClick={() => setEditable(true)}
+            className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
+          >
+            <PencilAltIcon className="h-5" />
+            <span className="ml-[10px] text-sm whitespace-nowrap">
+              Edit Post
+            </span>
+          </li>
+          <li
+            onClick={() => handleDeletePost()}
+            className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
+          >
+            <TrashIcon className="h-5" />
+            <span className="ml-[10px] text-sm whitespace-nowrap">
+              Move to trash can
+            </span>
+          </li>
+        </>
       )}
-      <div
+      <li
         onClick={() => handleSavePost()}
         className={`cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3  ${
           isSaved && 'text-main'
         }`}
       >
         {isSaved ? (
-          <SolidBookmarkIcon className="h-6" />
+          <SolidBookmarkIcon className="h-5" />
         ) : (
-          <BookmarkIcon className="h-6" />
+          <BookmarkIcon className="h-5" />
         )}
         <span className={`ml-[10px] text-sm whitespace-nowrap`}>
           {isSaved ? 'Saved' : 'Save post'}
         </span>
-      </div>
-    </div>
+      </li>
+    </ul>
   );
 };
 

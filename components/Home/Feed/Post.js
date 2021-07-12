@@ -15,6 +15,7 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { useSelector, useDispatch } from 'react-redux';
 import { timeDiff } from '../../../lib/dayjs';
 import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
+import { getFriendList } from '../../../redux/slices/userSlice';
 import {
   setLikesListOpen,
   apiGetLikesList,
@@ -29,8 +30,9 @@ import { setNotification } from '../../../redux/slices/globalSlice';
 const Post = ({ post, socket, deletePost }) => {
   const { t } = useTranslation('common');
   const elRef = useRef();
-  const [isPopupShow, setPopupShow] = useState(false);
   useClickOutside(elRef, () => setPopupShow(false));
+  const [isPopupShow, setPopupShow] = useState(false);
+  const [isEditable, setEditable] = useState(false);
 
   const userInfo = useSelector((state) => state.user.userInfo);
   const isViewPostModalOpen = useSelector(
@@ -47,6 +49,7 @@ const Post = ({ post, socket, deletePost }) => {
   );
   const [text, setText] = useState('');
   const [commentLength, setCommentLength] = useState(2);
+  const [showMore, setShowMore] = useState(post.text.length > 100);
   const dispatch = useDispatch();
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -112,6 +115,7 @@ const Post = ({ post, socket, deletePost }) => {
 
   const handleLikesListOpen = (postId) => {
     dispatch(setLikesListOpen(true));
+    dispatch(getFriendList());
     dispatch(apiGetLikesList(postId));
   };
   const handleDirectToProfile = () => {
@@ -180,7 +184,23 @@ const Post = ({ post, socket, deletePost }) => {
             )}
           </div>
         </div>
-        <p className="text-sm">{post.text}</p>
+        {isEditable ? (
+          <textarea type="text" />
+        ) : (
+          <div>
+            <p className={`${showMore && 'line-clamp-3'} text-sm mb-2`}>
+              {post.text}
+            </p>
+            {showMore && (
+              <span
+                onClick={() => setShowMore(false)}
+                className="flex cursor-pointer items-center justify-end text-xs text-main"
+              >
+                {t('post.readMore')}
+              </span>
+            )}
+          </div>
+        )}
       </div>
       {!isViewPostModalOpen && post.picUrl && (
         <div

@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
-import { XIcon, ThumbUpIcon, UserAddIcon } from '@heroicons/react/solid';
+import {
+  XIcon,
+  ThumbUpIcon,
+  UserAddIcon,
+  UserIcon
+} from '@heroicons/react/solid';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLikesListOpen } from '../../../redux/slices/postSlice';
 import { useRouter } from 'next/router';
@@ -8,6 +13,7 @@ import LoaderSpinner from '../../Global/LoaderSpinner';
 const LikesListModal = () => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const { likesList } = useSelector((state) => state.post);
+  const friendsList = useSelector((state) => state.user.friendsList);
   const dispatch = useDispatch();
   const router = useRouter();
   const handleDirectToProfile = (like) => {
@@ -16,6 +22,7 @@ const LikesListModal = () => {
   };
   useEffect(() => {
     console.log(likesList);
+    console.log(friendsList);
   }, [likesList]);
 
   return (
@@ -62,12 +69,21 @@ const LikesListModal = () => {
                   {like.user.name}
                 </span>
               </div>
-              {like.user._id !== userInfo._id && (
-                <button className="rounded-md p-2 px-3 flex items-center bg-gray-200">
-                  <UserAddIcon className="h-6" />
-                  <span className="ml-[5px] text-xs sm:text-md">
-                    Add friend
-                  </span>
+              {like.user._id !== userInfo._id &&
+                !friendsList
+                  .map((user) => user._id)
+                  .includes(like.user._id) && (
+                  <button className="rounded-md p-2 px-3 flex items-center bg-gray-200">
+                    <UserAddIcon className="h-6" />
+                    <span className="ml-[5px] text-xs sm:text-md">
+                      Add friend
+                    </span>
+                  </button>
+                )}
+              {friendsList.map((user) => user._id).includes(like.user._id) && (
+                <button className="rounded-md p-2 px-3 flex items-center bg-main text-white">
+                  <UserIcon className="h-6" />
+                  <span className="ml-[5px] text-xs sm:text-md">Friend</span>
                 </button>
               )}
             </div>

@@ -183,8 +183,8 @@ const App = ({ Component, pageProps }) => {
       ) : (
         <main
           className={`${
-            router.pathname.includes('messages') ? 'pt-64px' : 'pt-[110px]'
-          }  md:pt-[64px] h-screen primary dark:bg-primary`}
+            router.pathname.includes('messages') ? 'pt-56px' : 'pt-[110px]'
+          }  md:pt-[56px] h-screen primary dark:bg-primary`}
         >
           <Component {...pageProps} />
         </main>

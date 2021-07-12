@@ -29,11 +29,42 @@ import NotificationDropDown from './HeaderDropDown/NotificationDropDown';
 import useTranslation from 'next-translate/useTranslation';
 import Sidebar from '../Home/Sidebar/Sidebar';
 import { setUnreadNotification } from '../../redux/slices/userSlice';
+const menuTabs = [
+  {
+    title: 'home',
+    href: '/',
+    Icon: HomeIcon
+  },
+  {
+    title: 'saved',
+    href: '/saved',
+    Icon: BookmarkAltIcon
+  },
+  {
+    title: 'watch',
+    href: '/watch/view/all',
+    Icon: PlayIcon
+  },
+  {
+    title: 'marketplace',
+    href: '/marketplace/browse/all',
+    Icon: ShoppingCartIcon
+  },
+  {
+    title: 'groups',
+    href: '/groups/feed',
+    Icon: UserGroupIcon
+  }
+];
 const Header = () => {
   const router = useRouter();
   const elRef = useRef();
   const dispatch = useDispatch();
   const [isSideMenuShow, setSideMenuShow] = useState(false);
+
+  useEffect(() => {
+    console.log(router.pathname);
+  }, [router.pathname]);
   useClickOutside(elRef, () => setSideMenuShow(false));
   const { userInfo } = useSelector((state) => state.user);
 
@@ -44,7 +75,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3 py-1  sm:px-5 ">
+    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3  sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <img
@@ -58,17 +89,11 @@ const Header = () => {
       <div
         className={`${
           router.pathname.includes('messages') && 'hidden'
-        } fixed max-w-[750px] top-[50px] bg-secondary text-secondary left-0 flex   w-full md:static items-center flex-grow sm:px-5 sm:mx-0 xl:px-10`}
+        } fixed max-w-[750px] flex items-center top-[50px] bg-secondary text-secondary left-0    w-full md:static  flex-grow sm:px-5 sm:mx-0 xl:px-10`}
       >
-        <HeaderIcon title="home" href="/" Icon={HomeIcon} />
-        <HeaderIcon href="/saved" title="saved" Icon={BookmarkAltIcon} />
-        <HeaderIcon title="watch" href="/watch/view/all" Icon={PlayIcon} />
-        <HeaderIcon
-          title="marketplace"
-          href="/marketplace/browse/all"
-          Icon={ShoppingCartIcon}
-        />
-        <HeaderIcon title="groups" href="/groups/feed" Icon={UserGroupIcon} />
+        {menuTabs.map((tab, idx) => (
+          <HeaderIcon key={tab.title} {...tab} />
+        ))}
       </div>
       <div className="w-1/2  relative flex justify-end items-center space-x-1 sm:space-x-2 ">
         <div
