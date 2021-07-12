@@ -75,7 +75,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3  sm:px-5 ">
+    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3 py-1 sm:py-0  sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <img
