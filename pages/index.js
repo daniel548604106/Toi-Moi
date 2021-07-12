@@ -135,7 +135,7 @@ export default function Home({ posts, friends, stories }) {
   return (
     <div className="bg-primary text-primary">
       <Head>
-        <title>Toi & Moi</title>
+        <title> Toi & Moi | {userInfo.name}</title>
         <meta
           name="description"
           content="Toi&Moi is a fullstack social platform designated to connect people from distances away, users are able to build their own profile and connect with people from around the world with realtime messaging and friend system. "

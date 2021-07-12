@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../api/index';
 import { setNotification } from '../../../redux/slices/globalSlice';
 import { getSavedPosts } from '../../../redux/slices/postSlice';
-const Popup = ({ setPopupShow, postId, user, deletePost }) => {
+const Popup = ({ setPopupShow, setEditable, postId, user, deletePost }) => {
   const dispatch = useDispatch();
   const { savedPosts } = useSelector((state) => state.post);
   const userInfo = useSelector((state) => state.user.userInfo);
