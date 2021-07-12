@@ -15,6 +15,7 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import { useSelector, useDispatch } from 'react-redux';
 import { timeDiff } from '../../../lib/dayjs';
 import { apiCommentPost, apiLikePost, apiUnlikePost } from '../../../api/index';
+import { getFriendList } from '../../../redux/slices/userSlice';
 import {
   setLikesListOpen,
   apiGetLikesList,
@@ -113,6 +114,7 @@ const Post = ({ post, socket, deletePost }) => {
 
   const handleLikesListOpen = (postId) => {
     dispatch(setLikesListOpen(true));
+    dispatch(getFriendList());
     dispatch(apiGetLikesList(postId));
   };
   const handleDirectToProfile = () => {
