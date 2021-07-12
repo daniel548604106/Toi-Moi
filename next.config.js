@@ -34,7 +34,8 @@ module.exports = withBundleAnalyzer(
           : 'http://localhost:3000',
       VIMEO_ACCESS_TOKEN: process.env.VIMEO_ACCESS_TOKEN,
       VIMEO_CLIENT_SECRET: process.env.VIMEO_CLIENT_SECRET,
-      VIMEO_CLIENT_ID: process.env.VIMEO_CLIENT_ID
+      VIMEO_CLIENT_ID: process.env.VIMEO_CLIENT_ID,
+      NEXT_PUBLIC_GOOGLE_ANALYTICS: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS
     },
     webpack(config) {
       config.module.rules.push({

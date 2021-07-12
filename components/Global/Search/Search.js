@@ -8,6 +8,7 @@ import {
 import SearchListItem from './SearchListItem';
 import SearchHistoryItem from './SearchHistoryItem';
 import router from 'next/router';
+import * as ga from '../../../lib/ga';
 const Search = ({ t }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
@@ -42,6 +43,12 @@ const Search = ({ t }) => {
     router.push(`/search/top?q=${searchText}`);
     setSearchText('');
     setSearchResultShow(false);
+    ga.event({
+      action: 'search',
+      params: {
+        search_term: router.query.q
+      }
+    });
     try {
       const res = await apiPostKeywordSearch(searchText);
       await getSearchHistory();

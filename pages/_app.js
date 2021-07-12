@@ -8,6 +8,7 @@ import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
+import * as ga from '../lib/ga';
 
 // Components
 
@@ -98,6 +99,15 @@ const App = ({ Component, pageProps }) => {
   if (!token) {
     dispatch(setUserLogout());
   }
+
+  const handleRouteChange = (url, { shallow }) => {
+    ga.pageView(url);
+    setLoading(true);
+  };
+  const handleRouteChangeComplete = () => {
+    setLoading(false);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       dispatch(setNotification(''));
@@ -105,13 +115,6 @@ const App = ({ Component, pageProps }) => {
   }, [notification]);
 
   useEffect(() => {
-    const handleRouteChange = (url, { shallow }) => {
-      setLoading(true);
-    };
-    const handleRouteChangeComplete = () => {
-      setLoading(false);
-    };
-
     router.events.on('routeChangeStart', handleRouteChange);
     router.events.on('routeChangeComplete', handleRouteChangeComplete);
 
