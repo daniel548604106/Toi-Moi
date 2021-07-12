@@ -8,7 +8,7 @@ import {
 import SearchListItem from './SearchListItem';
 import SearchHistoryItem from './SearchHistoryItem';
 import router from 'next/router';
-import * as ga from '../../../lib/ga';
+import * as ga from '../../../lib/gtag';
 const Search = ({ t }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResult, setSearchResult] = useState(null);
@@ -45,9 +45,9 @@ const Search = ({ t }) => {
     setSearchResultShow(false);
     ga.event({
       action: 'search',
-      params: {
-        search_term: router.query.q
-      }
+      category: 'search',
+      label: 'keywords',
+      value: searchText
     });
     try {
       const res = await apiPostKeywordSearch(searchText);
