@@ -5,11 +5,11 @@ import {
   PencilAltIcon
 } from '@heroicons/react/outline';
 import { BookmarkIcon as SolidBookmarkIcon } from '@heroicons/react/solid';
-import { apiDeletePost } from '../../../api/index';
+import { apiDeletePost } from '../../../../api/index';
 import { useSelector, useDispatch } from 'react-redux';
-import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../api/index';
-import { setNotification } from '../../../redux/slices/globalSlice';
-import { getSavedPosts } from '../../../redux/slices/postSlice';
+import { apiPostNewSavedPost, apiDeleteSavedPost } from '../../../../api/index';
+import { setNotification } from '../../../../redux/slices/globalSlice';
+import { getSavedPosts } from '../../../../redux/slices/postSlice';
 const Popup = ({ setPopupShow, setEditable, postId, user, deletePost }) => {
   const dispatch = useDispatch();
   const { savedPosts } = useSelector((state) => state.post);
@@ -17,9 +17,7 @@ const Popup = ({ setPopupShow, setEditable, postId, user, deletePost }) => {
   const [isSaved, setSaved] = useState(
     savedPosts.map((saved) => saved.post._id).includes(postId)
   );
-  useEffect(() => {
-    console.log(savedPosts, isSaved, 'saved');
-  }, [savedPosts]);
+
   const handleDeletePost = async () => {
     try {
       const { data } = await apiDeletePost(postId);
@@ -27,9 +25,15 @@ const Popup = ({ setPopupShow, setEditable, postId, user, deletePost }) => {
       console.log(data);
       deletePost(postId);
       dispatch(setNotification('Post deleted'));
+      setPopupShow(false);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleEditPost = () => {
+    setEditable(true);
+    setPopupShow(false);
   };
 
   const handleSavePost = async () => {
@@ -47,20 +51,18 @@ const Popup = ({ setPopupShow, setEditable, postId, user, deletePost }) => {
         console.log(data);
       }
       dispatch(getSavedPosts());
+      setPopupShow(false);
       setSaved(!isSaved);
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <ul
-      onClick={() => setPopupShow(false)}
-      className="shadow-lg p-2 text-xs sm:text-sm  rounded-md  bg-secondary text-secondary"
-    >
+    <ul className="shadow-lg p-2 text-xs sm:text-sm  rounded-md  bg-secondary text-secondary">
       {user.username === userInfo.username && (
         <>
           <li
-            onClick={() => setEditable(true)}
+            onClick={() => handleEditPost()}
             className="cursor-pointer rounded-md flex items-center hover:bg-gray-100 py-2 px-3"
           >
             <PencilAltIcon className="h-5" />

@@ -26,7 +26,7 @@ const Friends = dynamic(() => import('../../components/Profile/Friends'), {
 const Summary = dynamic(() => import('../../components/Profile/Summary'), {
   loading: () => <LoaderSpinner />
 });
-const Post = dynamic(() => import('../../components/Home/Feed/Post'), {
+const Post = dynamic(() => import('../../components/Home/Feed/Post/Post'), {
   loading: () => <LoaderSpinner />
 });
 const Photos = dynamic(() => import('../../components/Profile/Photos'), {

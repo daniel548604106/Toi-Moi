@@ -9,7 +9,7 @@ import ProfileCover from '../../../components/Post/ProfileCover';
 
 import { DotsHorizontalIcon } from '@heroicons/react/outline';
 // Dynamic import
-const Post = dynamic(() => import('../../../components/Home/Feed/Post'), {
+const Post = dynamic(() => import('../../../components/Home/Feed/Post/Post'), {
   loading: () => <LoaderSpinner />
 });
 const NotificationItem = dynamic(

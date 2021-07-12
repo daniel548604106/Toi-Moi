@@ -8,7 +8,7 @@ import Sidebar from '../components/Home/Sidebar/Sidebar';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
-import Post from '../components/Home/Feed/Post';
+import Post from '../components/Home/Feed/Post/Post';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Room from '../components/Home/Feed/Room/Index';
 import Stories from '../components/Home/Feed/Story/Stories';

@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
-import Avatar from '../../Global/Avatar';
+import Avatar from '../../../Global/Avatar';
 import router from 'next/router';
-import { timeDiff } from '../../../lib/dayjs';
+import { timeDiff } from '../../../../lib/dayjs';
 import { DotsHorizontalIcon } from '@heroicons/react/solid';
 import { useDispatch } from 'react-redux';
-import { getSavedPosts } from '../../../redux/slices/postSlice';
+import { getSavedPosts } from '../../../../redux/slices/postSlice';
 import useTranslation from 'next-translate/useTranslation';
-import useClickOutside from '../../../hooks/useClickOutside';
+import useClickOutside from '../../../../hooks/useClickOutside';
 import Popup from './Popup';
 const PostHeader = ({ post, setEditable, deletePost }) => {
   const { t } = useTranslation('common');

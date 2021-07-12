@@ -11,6 +11,10 @@ export const getAllPosts = (currentPage) => {
   return request.get(`/posts?page=${currentPage}`);
 };
 
+export const updatePost = (id, text) => {
+  return request.patch(`/posts/${id}`, { text });
+};
+
 export const getPost = (id) => {
   return request.get(`/posts/${id}`);
 };

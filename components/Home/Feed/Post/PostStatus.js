@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import {
   setLikesListOpen,
   apiGetLikesList
-} from '../../../redux/slices/postSlice';
-import { getFriendList } from '../../../redux/slices/userSlice';
+} from '../../../../redux/slices/postSlice';
+import { getFriendList } from '../../../../redux/slices/userSlice';
 import useTranslation from 'next-translate/useTranslation';
 const PostStatus = ({
   likes,

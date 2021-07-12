@@ -6,7 +6,7 @@ import {
 } from '@heroicons/react/outline';
 import { ThumbUpIcon as SolidThumbUpIcon } from '@heroicons/react/solid';
 import { useSelector, useDispatch } from 'react-redux';
-import { apiLikePost, apiUnlikePost } from '../../../api/index';
+import { apiLikePost, apiUnlikePost } from '../../../../api/index';
 import useTranslation from 'next-translate/useTranslation';
 
 const PostActions = ({ socket, likes, setCommentShow, post, setLikes }) => {

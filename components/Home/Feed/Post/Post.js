@@ -22,7 +22,11 @@ const Post = ({ post, socket, deletePost }) => {
         post={post}
         deletePost={deletePost}
       />
-      <PostContent isEditable={isEditable} post={post} />
+      <PostContent
+        setEditable={setEditable}
+        isEditable={isEditable}
+        post={post}
+      />
       <PostStatus
         setCommentShow={setCommentShow}
         isCommentShow={isCommentShow}
