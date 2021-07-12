@@ -144,6 +144,7 @@ router.patch('/:postId', authMiddleware, async (req, res) => {
     const { userId } = req;
     const { postId } = req.params;
     const { text } = req.body;
+    console.log(text);
     const post = await Post.findById(postId);
     if (post.user.toString() !== userId)
       return res.status(401).send('Not authorized');

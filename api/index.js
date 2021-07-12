@@ -47,6 +47,7 @@ export const apiGetSearchedChats = getSearchedChats;
 
 import {
   postNewPost,
+  updatePost,
   getPost,
   deletePost,
   getAllPosts,
@@ -68,7 +69,7 @@ export const apiUnlikePost = unlikePost;
 export const apiLikeComment = likeComment;
 export const apiUnlikeComment = unlikeComment;
 export const apiDeleteComment = deleteComment;
-
+export const apiUpdatePost = updatePost;
 // Notifications
 import {
   getNotifications,

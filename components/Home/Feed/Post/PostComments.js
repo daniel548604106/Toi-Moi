@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import router from 'next/router';
-import { timeDiff } from '../../../lib/dayjs';
+import { timeDiff } from '../../../../lib/dayjs';
 import {
   apiLikeComment,
   apiUnlikeComment,
   apiDeleteComment
-} from '../../../api/index';
+} from '../../../../api/index';
 import { useSelector } from 'react-redux';
 import { ThumbUpIcon, TrashIcon } from '@heroicons/react/solid';
-import Avatar from '../../Global/Avatar';
+import Avatar from '../../../Global/Avatar';
 const Comment = ({ setComments, comments, postId, comment, t }) => {
   const userInfo = useSelector((state) => state.user.userInfo);
   const [isCommentLiked, setCommentLiked] = useState(

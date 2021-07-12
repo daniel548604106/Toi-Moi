@@ -8,7 +8,7 @@ import Sidebar from '../components/Home/Sidebar/Sidebar';
 import Contacts from '../components/Home/Contacts/Index';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import InputBox from '../components/Home/Feed/InputBox';
-import Post from '../components/Home/Feed/Post';
+import Post from '../components/Home/Feed/Post/Post';
 import LoaderSpinner from '../components/Global/LoaderSpinner';
 import Room from '../components/Home/Feed/Room/Index';
 import Stories from '../components/Home/Feed/Story/Stories';
@@ -135,7 +135,7 @@ export default function Home({ posts, friends, stories }) {
   return (
     <div className="bg-primary text-primary">
       <Head>
-        <title>Toi & Moi</title>
+        <title> Toi & Moi | {userInfo.name}</title>
         <meta
           name="description"
           content="Toi&Moi is a fullstack social platform designated to connect people from distances away, users are able to build their own profile and connect with people from around the world with realtime messaging and friend system. "

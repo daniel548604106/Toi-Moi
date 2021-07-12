@@ -51,9 +51,6 @@ const LikeNotification = ({ notification }) => {
         </div>
       </div>
       <div className="flex items-center">
-        <div className="hidden group-hover:block rounded-full cursor-pointer bg-secondary text-secondary  border p-2">
-          <DotsHorizontalIcon className="h-6 " />
-        </div>
         {!notification.isNotificationRead && (
           <div className="rounded-full ml-[10px] w-[8px] h-[8px] bg-main"></div>
         )}{' '}
