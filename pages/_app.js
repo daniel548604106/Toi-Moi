@@ -8,7 +8,7 @@ import { store } from '../redux/store';
 import { Provider } from 'react-redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/router';
-import * as ga from '../lib/ga';
+import * as ga from '../lib/gtag';
 
 // Components
 
@@ -123,6 +123,24 @@ const App = ({ Component, pageProps }) => {
     return () => {
       router.events.off('routeChangeStart', handleRouteChange);
     };
+  }, []);
+
+  // Track user geolocation
+
+  useEffect(() => {
+    const successfulLookup = (position) => {
+      const { latitude, longitude } = position.coords;
+      ga.event({
+        action: 'send',
+        category: 'geolocation',
+        label: 'geolocation',
+        value: `${(latitude, longitude)}`
+      });
+    };
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(successfulLookup, console.log);
+    }
   }, []);
 
   const allowedRoutes = router.pathname === '/reset/password';

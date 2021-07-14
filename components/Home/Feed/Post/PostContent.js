@@ -9,6 +9,7 @@ import useTranslation from 'next-translate/useTranslation';
 import Loader from '../../../Global/Loader';
 import { setNotification } from '../../../../redux/slices/globalSlice';
 import { apiUpdatePost } from '../../../../api';
+import * as ga from '../../../../lib/gtag';
 const PostContent = ({ post, isEditable, setEditable }) => {
   const [showMore, setShowMore] = useState(post.text?.length > 150);
   const [latestText, setLatestText] = useState(post.text || '');
@@ -22,6 +23,12 @@ const PostContent = ({ post, isEditable, setEditable }) => {
     (state) => state.post.isViewPostModalOpen
   );
   const handleViewPost = async (postId) => {
+    ga.event({
+      action: 'click',
+      category: 'post',
+      label: 'post',
+      value: postId
+    });
     await dispatch(apiGetCurrentPost(postId));
     dispatch(setViewPostModalOpen(true));
   };

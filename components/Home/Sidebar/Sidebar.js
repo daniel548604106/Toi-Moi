@@ -35,7 +35,7 @@ const Sidebar = () => {
       />
       <SidebarListItem
         src="/icons/marketplace.png"
-        link="marketplace"
+        link="marketplace/browse/all"
         title={t('sidebar.marketPlace')}
       />
       <SidebarListItem

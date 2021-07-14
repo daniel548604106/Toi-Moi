@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Head from 'next/head';
 import Image from 'next/image';
 import { apiGetChatUserInfo, apiSearchRequest } from '../../api/index';
 import { useRouter } from 'next/router';
@@ -244,6 +245,9 @@ const Index = (props) => {
   }, []);
   return (
     <div className="relative flex bg-primary   text-primary">
+      <Head>
+        <title>{`${userInfo.name}`} | Messages</title>
+      </Head>
       <span
         onClick={() => dispatch(toggleListOpen())}
         className="z-40 fixed top-[110px] left-0   p-2 rounded-r-full sm:hidden bg-main text-white"
