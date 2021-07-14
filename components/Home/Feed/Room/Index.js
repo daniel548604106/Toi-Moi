@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import CreateRoomCard from './CreateRoomCard';
 import RoomCard from './RoomCard';
 import { VideoCameraIcon } from '@heroicons/react/outline';
-import Image from 'next/image';
 import genderAvatar from '../../../../utils/genderAvatar';
+import Avatar from '../../../Global/Avatar';
 const Index = ({ roomList }) => {
   const [isRoomShow, setRoomShow] = useState(false);
   return (
@@ -27,17 +27,19 @@ const Index = ({ roomList }) => {
           </div>
           <div
             onClick={() => setRoomShow(true)}
-            className="flex items-center space-x-2"
+            className="w-full flex items-center flex-shrink-0 whitespace-nowrap overflow-x-auto space-x-2"
           >
-            {roomList &&
-              roomList.map(({ user }) => (
-                <span className="relative flex items-center" key={user._id}>
-                  <img
-                    className="min-w-[30px]   h-[30px] sm:w-[50px] sm:h-[50px] rounded-full cursor-pointer"
-                    src={user.profileImage || genderAvatar(user.gender)}
-                  />
-                </span>
-              ))}
+            {roomList?.map(({ user }) => (
+              <span className="space-x-2">
+                <Avatar
+                  key={user._id}
+                  width={40}
+                  height={40}
+                  className="w-[30px] h-[30px] sm:w-[50px] sm:h-[50px] rounded-full cursor-pointer"
+                  profileImage={user.profileImage || genderAvatar(user.gender)}
+                />
+              </span>
+            ))}
           </div>
         </div>
       )}

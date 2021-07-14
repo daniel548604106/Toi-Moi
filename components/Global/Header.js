@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
 import {
   PlayIcon,
-  FlagIcon,
   ShoppingCartIcon,
   MenuIcon,
   BookmarkAltIcon
@@ -75,7 +73,7 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3 py-1 sm:py-0  sm:px-5 ">
+    <div className="flex items-center fixed left-0 right-0 top-0 bg-secondary text-secondary z-40 shadow-md px-3 py-1 md:py-0  sm:px-5 ">
       <div className="w-1/2">
         <div className="flex space-x-2 items-center ">
           <img
@@ -101,7 +99,7 @@ const Header = () => {
           className="flex border items-center rounded-full space-x-2 hover:border-main  p-1 cursor-pointer "
         >
           <img
-            className="w-[35px] h-[35px] cursor-pointer object-cover  rounded-full"
+            className="min-w-[35px] h-[35px] cursor-pointer object-cover  rounded-full"
             src={userInfo.profileImage || genderAvatar(userInfo.gender)}
           />
           <p className="pr-2 text-sm ml-2 whitespace-nowrap hidden xl:block">

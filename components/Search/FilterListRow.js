@@ -5,6 +5,7 @@ const FilterListRow = ({ filterList }) => {
     <div className="flex items-center overflow-x-auto bg-secondary text-secondary border px-3">
       {filterList.map((list) => (
         <span
+          key={list}
           onClick={() =>
             router.push(`/search/${list.param}?q=${router.query.q}`)
           }
