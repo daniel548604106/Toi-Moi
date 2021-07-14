@@ -134,7 +134,7 @@ const App = ({ Component, pageProps }) => {
         action: 'send',
         category: 'geolocation',
         label: 'geolocation',
-        value: `${(latitude, longitude)}`
+        value: [latitude, longitude]
       });
     };
 
