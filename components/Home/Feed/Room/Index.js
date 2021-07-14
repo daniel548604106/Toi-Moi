@@ -30,7 +30,7 @@ const Index = ({ roomList }) => {
             className="w-full flex items-center flex-shrink-0 whitespace-nowrap overflow-x-auto space-x-2"
           >
             {roomList?.map(({ user }) => (
-              <span className="space-x-2">
+              <span key={user._id} className="space-x-2">
                 <Avatar
                   key={user._id}
                   width={40}

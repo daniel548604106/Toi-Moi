@@ -71,6 +71,9 @@ import { setUserLogout } from '../redux/slices/userSlice';
 
 let persistor = persistStore(store);
 
+// Disable Console.logs
+if (process.env.NODE_ENV !== 'development') console.log = () => {};
+
 const App = ({ Component, pageProps }) => {
   const dispatch = useDispatch();
   const router = useRouter();
