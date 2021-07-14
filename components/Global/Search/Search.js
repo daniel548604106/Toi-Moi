@@ -52,7 +52,6 @@ const Search = ({ t }) => {
     try {
       const res = await apiPostKeywordSearch(searchText);
       await getSearchHistory();
-
       console.log(res);
     } catch (error) {
       console.log(error);

@@ -1,11 +1,16 @@
 import router from 'next/router';
-import React from 'react';
+import React, { useRef } from 'react';
 
 const SidebarListItem = ({ Icon, title, link }) => {
   const active = router.pathname.includes(link);
+  const btnRef = useRef(null);
+  const handleClick = (e) => {
+    router.push(`/friends/${link}`, undefined, { shallow: true });
+    console.log('clicked');
+  };
   return (
     <div
-      onClick={() => router.push(`/friends/${link}`)}
+      onClick={(e) => handleClick(e)}
       className={`flex items-center p-3 py-2 cursor-pointer ${
         active && 'text-main'
       }`}
